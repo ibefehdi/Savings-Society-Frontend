@@ -1,0 +1,8 @@
+.menu-item{
+    padding: 1rem 0rem !important;
+}
+.sidebar{
+    background-color: white !important;
+    height: 100vh;
+    border:none
+}
