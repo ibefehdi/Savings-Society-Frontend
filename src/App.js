@@ -1,20 +1,34 @@
 import './App.css';
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import { CssBaseline, ThemeProvider, Box } from "@mui/material";
 import { theme } from "./theme"
 import axiosInstance from './constants/axiosInstance';
 import DashboardSidebar from './components/DashboardSidebar';
-import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+
 import Login from './pages/Login';
+import Cookies from 'js-cookie'; // Import js-cookie
+
+import { useEffect, useState } from 'react';
+import Layout from './pages/Layout';
 function App() {
-  const menuItems = [
-    { name: 'Home', icon: <HomeOutlinedIcon />, path: "/" },
-    { name: 'Reports', icon: <AssessmentOutlinedIcon />, path: "/reports" },
-  ];
+
+  const [authenticated, setAuthenticated] = useState(false);
+  useEffect(() => {
+    const token = Cookies.get('token');
+    if (token) {
+      setAuthenticated(true);
+
+    }
+  }, []);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Login />
+      {authenticated ? (
+        <div >
+          {authenticated && <Layout />}
+        </div>
+      ) : (
+        <Login />
+      )}
     </ThemeProvider>
   );
 }

@@ -1,0 +1,28 @@
+/* Base styles */
+.flex-container {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.content {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-left: 2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+   
+    .content {
+        margin-left: 0;
+        margin-top: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    
+    .content {
+        margin: 0; /* Remove margin to use full screen width */
+    }
+}

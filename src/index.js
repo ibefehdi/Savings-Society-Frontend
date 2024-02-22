@@ -7,18 +7,26 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import DashboardSidebar from './components/DashboardSidebar';
+import Layout from './pages/Layout';
+import Home from './pages/Home';
+import Reports from './pages/Reports';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />
+    element: <Layout />,
+    children: [
+      { index: true, element: <Home /> }, 
+      { path: 'reports', element: <Reports /> },
+       
+    ]
   },
   {
     path: "*",
-    element: <App />
+    element: <Layout> <div>Not found </div> </Layout>
   }
 ]);
+
 root.render(
   <React.StrictMode>
     <RouterProvider router={router} />
