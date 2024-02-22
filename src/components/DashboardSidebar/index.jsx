@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar'; // Updated imports
+import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import "./DashboardSidebar.css"
+import { Link } from 'react-router-dom';
 const DashboardSidebar = ({ menuItems }) => {
     const [collapsed, setCollapsed] = useState(false);
 
@@ -15,17 +16,12 @@ const DashboardSidebar = ({ menuItems }) => {
         <Sidebar collapsed={collapsed} backgroundColor='white' className='sidebar'>
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: "space-between", height: "100%" }}>
                 <Menu>
-                    {menuItems?.map(menuItem => (<MenuItem className='menu-item' icon={menuItem.icon}>{menuItem.name} </MenuItem>)
-
-                    )}
-
-
+                    {menuItems?.map(menuItem => (<MenuItem className='menu-item' component={<Link to={menuItem.path} />} icon={menuItem.icon}>{menuItem.name} </MenuItem>))}
                 </Menu>
 
                 <div style={{ padding: "10px" }}>
                     <Menu>
                         <MenuItem>Home </MenuItem>
-                        <MenuItem> Calendar </MenuItem>
                     </Menu>
                 </div>
 

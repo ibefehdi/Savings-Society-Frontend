@@ -137,6 +137,24 @@ const theme = createTheme({
             fontFamily: "Inter, Source Sans Pro, sans-serif",
             fontSize: 14,
         },
+        heading1: {
+            fontFamily: "Inter, Source Sans Pro, sans-serif",
+            fontSize: "1.875rem",
+            fontWeight: 600,
+            lineHeight: "2.375rem",
+            textAlign: "center",
+            padding: 10
+        },
+        heading2: {
+            fontFamily: "Inter, Source Sans Pro, sans-serif",
+            fontSize: "1rem",
+            fontWeight: 400,
+            lineHeight: "1.5rem",
+            textAlign: "center",
+            padding: 10
+
+
+        }
     },
 });
 
