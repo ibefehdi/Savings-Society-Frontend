@@ -1,8 +1,13 @@
 .menu-item{
     padding: 1rem 0rem !important;
 }
-.sidebar{
+.sidebar {
     background-color: white !important;
     height: 100vh;
-    border:none
-}
+    border:none;
+   }
+   @media (max-width: 480px) {
+    .dashboard-sidebar {
+        width: 100%; /* Adjust the sidebar to take full width and act as a top bar */
+        display: none; /* or you can hide it */
+    }}

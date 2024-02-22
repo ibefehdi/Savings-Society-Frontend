@@ -20,9 +20,7 @@ const DashboardSidebar = ({ menuItems }) => {
                 </Menu>
 
                 <div style={{ padding: "10px" }}>
-                    <Menu>
-                        <MenuItem>Home </MenuItem>
-                    </Menu>
+                    
                 </div>
 
             </div>
