@@ -9,16 +9,19 @@ import {
 } from "react-router-dom";
 import Layout from './pages/Layout';
 import Home from './pages/Home';
-import Reports from './pages/Reports';
+import Users from './pages/Users';
+import Shareholders from './pages/Shareholders';
+// import EditUser from './pages/EditUser';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
     children: [
-      { index: true, element: <Home /> }, 
-      { path: 'reports', element: <Reports /> },
-       
+      { index: true, element: <Home /> },
+      { path: 'Users', element: <Users /> },
+      { path: 'Shareholders', element: <Shareholders /> }
+      // { path: 'edit-user/:userId', element: <EditUser /> }
     ]
   },
   {
