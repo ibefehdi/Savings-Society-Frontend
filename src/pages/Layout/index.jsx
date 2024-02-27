@@ -8,12 +8,13 @@ import Topbar from '../../components/Topbar';
 const Layout = () => {
     const menuItems = [
         { name: 'Home', icon: <HomeOutlinedIcon />, path: "/" },
-        { name: 'Reports', icon: <AssessmentOutlinedIcon />, path: "/reports" },
+        { name: 'Users', icon: <AssessmentOutlinedIcon />, path: "/Users" },
+        { name: 'Shareholders', icon: <AssessmentOutlinedIcon />, path: "/Shareholders" }
     ];
     return (
         <div className="app-container">
             <Topbar />
-            <div className="flex-container"> {/* Flex container */}
+            <div className="flex-container"> 
                 <DashboardSidebar menuItems={menuItems} />
                 <div className="content">
                     <Outlet />

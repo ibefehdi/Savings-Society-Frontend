@@ -8,8 +8,9 @@ import {
 } from "@mui/material";
 import { theme } from "../../theme";
 import PersonIcon from "@mui/icons-material/Person";
+import Cookies from 'js-cookie';
 
-const Topbar = ({ onLogout }) => {
+const Topbar = () => {
     const theme = useTheme();
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -23,7 +24,9 @@ const Topbar = ({ onLogout }) => {
     };
 
     const handleMenuLogout = () => {
-        onLogout();
+        Cookies.remove('token');
+        sessionStorage.removeItem('token');
+
         handleClose();
     };
 
