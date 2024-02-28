@@ -11,6 +11,7 @@ import Login from './pages/Login';
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { theme } from "./theme"
 import ShareConfiguration from './pages/ShareConfiguration';
+import ShareholderDetails from './pages/ShareholderDetails';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -28,6 +29,10 @@ function App() {
         { index: true, element: <Home /> },
         { path: 'Users', element: <Users /> },
         { path: 'Shareholders', element: <Shareholders /> },
+        {
+          path: 'Shareholders/:id', 
+          element: <ShareholderDetails /> 
+        },
         { path: 'Financial/Share', element: <ShareConfiguration /> }
       ] : [],
     },

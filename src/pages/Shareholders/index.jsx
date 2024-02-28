@@ -1,24 +1,37 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Button from '@mui/material/Button';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+
 import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import FormGroup from '@mui/material/FormGroup';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
 import { useFetch } from '../../hooks/useFetch';
 import { DataGrid } from '@mui/x-data-grid';
+
 import AddShareholderModal from './AddShareholderModal';
+import { useNavigate } from 'react-router-dom';
+
+const ViewButton = ({ id }) => {
+  const navigate = useNavigate(); // Use the hook
+
+  return (
+    <IconButton onClick={() => navigate(`/Shareholders/${id}`)}>
+      <VisibilityIcon />
+    </IconButton>
+  );
+};
 
 const Shareholders = () => {
   const [pageNo, setPageNo] = useState(1)
   const [pageSize, setPageSize] = useState(10)
   const { data, fetchData, count } = useFetch('/shareholders', pageNo, pageSize);
+  const navigate = useNavigate();
   const [userData, setUserdata] = useState(JSON.parse(sessionStorage.getItem('userDetails')))
   const [permissions, setPermissions] = useState(userData?.permissions)
   const columns = [
@@ -138,11 +151,8 @@ const Shareholders = () => {
       sortable: false,
       width: 55,
       renderCell: (params) => {
-        return (
-          <IconButton onClick={() => {  }}>
-            <VisibilityIcon />
-          </IconButton>
-        );
+        return <ViewButton id={params.id} />;
+
       },
     }] : [])
 
@@ -150,16 +160,27 @@ const Shareholders = () => {
   ];
   useEffect(() => {
     fetchData();
-    console.log("This is a user data", userData);
-    console.log("This is a Permissions", permissions);
-    console.log(permissions?.shareholder?.create)
-  }, [fetchData, userData, permissions])
+  }, [fetchData, pageNo, pageSize]);
   const [open, setOpen] = useState(false);
+  const handlePageChange = (newPage) => {
+    setPageNo(newPage + 1);
 
+  };
+
+  const handlePageSizeChange = (event) => {
+    setPageSize(event.target.value);
+    setPageNo(1); // Reset to the first page when the size changes
+    setPaginationModel({ ...paginationModel, pageSize: event.target.value });
+  };
   const handleOpen = () => {
     setOpen(true);
 
   }
+  const [paginationModel, setPaginationModel] = useState({
+    pageSize: pageSize,
+    page: pageNo,
+  });
+
   return (
     <React.Fragment>
       <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
@@ -167,7 +188,8 @@ const Shareholders = () => {
       </Box>
       <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
         <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
-          <Typography variant="h5" component="h2" sx={{
+
+          <Typography variant="h3" component="h2" sx={{
             fontStyle: 'normal', // Sets the font style
             fontWeight: 600,
             lineHeight: '1.875rem', flexGrow: 1,
@@ -175,22 +197,26 @@ const Shareholders = () => {
           }}>
             Shareholder Management
           </Typography>
+          <Select value={pageSize} onChange={handlePageSizeChange} sx={{ mr: '1rem' }}>
+            <MenuItem value={10}>10 per page</MenuItem>
+            <MenuItem value={25}>25 per page</MenuItem>
+            <MenuItem value={50}>50 per page</MenuItem>
+          </Select>
           {permissions?.shareholder?.create && (<Button variant='contained' onClick={() => { handleOpen() }}>Add</Button>)}
         </Box>
+
         <DataGrid
           rows={data}
           columns={columns}
-          page={pageNo}
-
-          getRowId={(row) => row._id}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: pageSize,
-              },
-            },
+          paginationModel={paginationModel}
+          onPaginationModelChange={(newModel) => {
+            setPageNo(newModel.page + 1);
+            setPaginationModel(newModel);
           }}
-          pageSizeOptions={[10]}
+          getRowId={(row) => row._id}
+
+          rowCount={count}
+          paginationMode="server"
           sx={{
             backgroundColor: '#FFF',
             padding: '1rem',
@@ -217,10 +243,10 @@ const Shareholders = () => {
               fontSize: '0.875rem'
             },
           }}
-          disableRowSelectionOnClick
-          onPageChange={(newPage) => setPageNo(newPage)}
 
         />
+
+
 
       </Box>
       <AddShareholderModal open={open} setOpen={setOpen} fetchData={fetchData} />
