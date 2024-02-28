@@ -1,34 +1,46 @@
-import './App.css';
-import { CssBaseline, ThemeProvider, Box } from "@mui/material";
-import { theme } from "./theme"
-import axiosInstance from './constants/axiosInstance';
-import DashboardSidebar from './components/DashboardSidebar';
-
-import Login from './pages/Login';
+import React, { useEffect, useState } from 'react';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Cookies from 'js-cookie'; // Import js-cookie
 
-import { useEffect, useState } from 'react';
 import Layout from './pages/Layout';
-function App() {
+import Home from './pages/Home';
+import Users from './pages/Users';
+import Shareholders from './pages/Shareholders';
+import Login from './pages/Login';
 
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { theme } from "./theme"
+import ShareConfiguration from './pages/ShareConfiguration';
+
+function App() {
   const [authenticated, setAuthenticated] = useState(false);
+
   useEffect(() => {
     const token = Cookies.get('token');
-    if (token) {
-      setAuthenticated(true);
-
-    }
+    setAuthenticated(!!token);
   }, []);
+
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: authenticated ? <Layout /> : <Login />,
+      children: authenticated ? [
+        { index: true, element: <Home /> },
+        { path: 'Users', element: <Users /> },
+        { path: 'Shareholders', element: <Shareholders /> },
+        { path: 'Financial/Share', element: <ShareConfiguration /> }
+      ] : [],
+    },
+    {
+      path: "*",
+      element: <Layout><div>Not found</div></Layout>
+    }
+  ]);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      {authenticated ? (
-        <div >
-          {authenticated && <Layout />}
-        </div>
-      ) : (
-        <Login />
-      )}
+      <RouterProvider router={router} />
     </ThemeProvider>
   );
 }

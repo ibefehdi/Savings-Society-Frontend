@@ -2,38 +2,22 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import {
-  BrowserRouter,
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-import Layout from './pages/Layout';
-import Home from './pages/Home';
-import Users from './pages/Users';
-import Shareholders from './pages/Shareholders';
-// import EditUser from './pages/EditUser';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from './redux/store';
+import { Provider } from 'react-redux';
+
+// Assuming you're using React 18 or newer with the new root API.
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Layout />,
-    children: [
-      { index: true, element: <Home /> },
-      { path: 'Users', element: <Users /> },
-      { path: 'Shareholders', element: <Shareholders /> }
-      // { path: 'edit-user/:userId', element: <EditUser /> }
-    ]
-  },
-  {
-    path: "*",
-    element: <Layout> <div>Not found </div> </Layout>
-  }
-]);
 
 root.render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </PersistGate>
+  </Provider>
 
 
 );
+

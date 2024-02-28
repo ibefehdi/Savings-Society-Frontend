@@ -6,6 +6,9 @@ import logo from '../../assets/logo.png';
 import { useForm } from "react-hook-form"
 import axiosInstance from '../../constants/axiosInstance';
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from 'react-router-dom';
+import { setUserDetails } from '../../redux/reducers';
+import { useDispatch } from 'react-redux';
 
 const Login = () => {
     const {
@@ -15,15 +18,21 @@ const Login = () => {
         formState: { errors },
     } = useForm()
     const [inputError, setInputError] = useState({ username: false, password: false, customError: "" });
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const onSubmit = async (data) => {
         try {
             const response = await axiosInstance.post('users/signin', data);
             const decoded = jwtDecode(response?.data?.token);
             console.log(response);
-            console.log(decoded);
+            console.log("This is the userDetails", decoded);
             sessionStorage.setItem('token', response?.data?.token);
             console.log("This is the cookie: ", document?.cookie)
+            sessionStorage.setItem('userDetails', JSON.stringify(decoded));
+            dispatch(setUserDetails(decoded))
+            navigate('/', { replace: true });
+            window.location.reload();
             setInputError({ username: false, password: false });
         } catch (err) {
             console.log(err.response.data);
