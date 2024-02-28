@@ -32,7 +32,9 @@ const style = {
     pb: 3,
 };
 const Users = () => {
-    const { data, fetchData, count } = useFetch('/users', 1, 10)
+    const [pageNo, setPageNo] = useState(1)
+    const [pageSize, setPageSize] = useState(10)
+    const { data, fetchData, count } = useFetch('/users', pageNo, pageSize)
     const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
     const [userToDelete, setUserToDelete] = useState(null);
 
@@ -94,10 +96,20 @@ const Users = () => {
     const handleClose = () => {
         setOpen(false);
     };
- 
+
     useEffect(() => {
         fetchData();
-    }, [fetchData]);
+    }, [fetchData, pageNo, pageSize]);
+    const handlePageSizeChange = (event) => {
+        setPageSize(event.target.value);
+        setPageNo(1); // Reset to the first page when the size changes
+        setPaginationModel({ ...paginationModel, pageSize: event.target.value });
+    };
+    const [paginationModel, setPaginationModel] = useState({
+        pageSize: pageSize,
+        page: pageNo,
+    });
+
     const onSubmit = async (formData) => {
         // Convert permissions to boolean values if needed
         const convertPermissionsToBoolean = (permissions) => {
@@ -296,7 +308,7 @@ const Users = () => {
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem' }}>
                 <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
 
-                    <Typography variant="h5" component="h2" sx={{
+                    <Typography variant="h3" component="h2" sx={{
                         fontStyle: 'normal', // Sets the font style
                         fontWeight: 600, // Sets the font weight
                         lineHeight: '1.875rem', flexGrow: 1,
@@ -310,14 +322,10 @@ const Users = () => {
                     rows={data}
                     columns={columns}
                     getRowId={(row) => row._id}
-                    initialState={{
-                        pagination: {
-                            paginationModel: {
-                                pageSize: 5,
-                            },
-                        },
+                    onPaginationModelChange={(newModel) => {
+                        setPageNo(newModel.page + 1);
+                        setPaginationModel(newModel);
                     }}
-                    pageSizeOptions={[5]}
                     sx={{
                         backgroundColor: '#FFF',
                         padding: '1rem',

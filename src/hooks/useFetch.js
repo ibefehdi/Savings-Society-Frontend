@@ -7,11 +7,11 @@ export const useFetch = (url, pageNo, resultsPerPage) => {
     const [count, setCount] = useState();
     const fetchData = useCallback(() => {
         setLoading(true)
-        axiosInstance.get(`${url}?page=${pageNo}&perPage=${resultsPerPage}`)
+        axiosInstance.get(`${url}?page=${pageNo}&resultsPerPage=${resultsPerPage}`)
             .then(res => {
                 setData(res?.data?.data)
                 setCount(res?.data?.count)
-                console.log(`this is the full url${url}?page=${pageNo}&perPage=${resultsPerPage}`)
+                console.log(`this is the full url${url}?page=${pageNo}&resultsPerPage=${resultsPerPage}`)
             })
             .catch(error => {
                 console.error("There was an error!", error)
