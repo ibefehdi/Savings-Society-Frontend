@@ -16,11 +16,21 @@ const DashboardSidebar = ({ menuItems }) => {
         <Sidebar collapsed={collapsed} backgroundColor='white' className='sidebar'>
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: "space-between", height: "100%" }}>
                 <Menu>
-                    {menuItems?.map(menuItem => (<MenuItem className='menu-item' component={<Link to={menuItem.path} />} icon={menuItem.icon}>{menuItem.name} </MenuItem>))}
+                    {menuItems?.map(menuItem => menuItem.subMenus ? (
+                        <SubMenu label={menuItem.name} icon={menuItem.icon}>
+                            {menuItem.subMenus.map(sub => (
+                                <MenuItem component={<Link to={sub.path} />}>{sub.name}</MenuItem>
+                            ))}
+                        </SubMenu>
+                    ) : (
+                        <MenuItem component={<Link to={menuItem.path} />} icon={menuItem.icon}>
+                            {menuItem.name}
+                        </MenuItem>
+                    ))}
                 </Menu>
 
                 <div style={{ padding: "10px" }}>
-                    
+
                 </div>
 
             </div>

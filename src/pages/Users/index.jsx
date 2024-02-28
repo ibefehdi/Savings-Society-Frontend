@@ -38,7 +38,6 @@ const Users = () => {
 
     let navigate = useNavigate()
     const [open, setOpen] = useState(false);
-    const [editOpen, setEditOpen] = useState(false);
     const [editMode, setEditMode] = useState(false); // New state for edit mode
     const [currentUser, setCurrentUser] = useState(null);
     const [missingFields, setMissingFields] = useState([]);

@@ -9,10 +9,11 @@ import {
 import { theme } from "../../theme";
 import PersonIcon from "@mui/icons-material/Person";
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 const Topbar = () => {
     const theme = useTheme();
-
+    const navigate = useNavigate()
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
@@ -26,6 +27,9 @@ const Topbar = () => {
     const handleMenuLogout = () => {
         Cookies.remove('token');
         sessionStorage.removeItem('token');
+        sessionStorage.removeItem('userDetails');
+        navigate('/', { replace: true });
+        window.location.reload();
 
         handleClose();
     };
