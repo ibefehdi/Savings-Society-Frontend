@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -15,37 +15,70 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '10rem',
+    width: '8rem',
     bgcolor: 'background.paper',
     boxShadow: 24,
     pt: 2,
     px: 4,
     pb: 3,
 };
-const AddShareholderModal = ({ open, setOpen, fetchData }) => {
-    const userData = JSON.parse(sessionStorage.getItem('userDetails') || '{}');
-
-    const { register, handleSubmit, setValue, control, formState: { errors } } = useForm();
-
+const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
+    const adminData = JSON.parse(sessionStorage.getItem('userDetails') || '{}');
+    const [shareholderDetails, setShareholderDetails] = useState();
+    const { register, handleSubmit, setValue, control, reset, formState: { errors } } = useForm();
+    const [permissions, setPermissions] = useState(adminData?.permissions)
     useEffect(() => {
-        // Set the adminId from userData if available
-        if (userData.id) {
-            setValue('adminId', [{ admin: userData.id }]);
-        }
-    }, [userData.id, setValue]);
+        const fetchShareholderDetails = async () => {
+            try {
+                const response = await axiosInstance.get(`shareholder/${id}`);
+                const shareholderData = response?.data?.shareholder;
+                setShareholderDetails(shareholderData);
+                reset({
+                    fName: shareholderData?.fName,
+                    lName: shareholderData?.lName,
+                    civilId: shareholderData?.civilId,
+                    email: shareholderData?.email,
+                    ibanNumber: shareholderData?.ibanNumber,
+                    block: shareholderData?.address?.block,
+                    street: shareholderData?.address?.street,
+                    city: shareholderData?.address?.city,
+                    house: shareholderData?.address?.house,
+                    status: shareholderData?.status,
+                    membershipStatus: shareholderData?.membershipStatus,
+                    dob: shareholderData?.DOB.split("T")[0],
+                    poBox: shareholderData?.poBox,
+                    area: shareholderDetails?.Area,
+                    zipCode: shareholderDetails?.zipCode,
+                    country: shareholderData?.Country
+                });
+            } catch (error) {
+                console.error("Failed to fetch shareholder details:", error);
+            }
+        };
+
+        fetchShareholderDetails();
+    }, [id]);
+
+
+
     const handleClose = () => {
         setOpen(false)
         fetchData();
     }
     const onSubmit = async (data) => {
         try {
-            await axiosInstance.post('/shareholder', data);
+            const updatedData = { ...data, adminId: adminData?.id }
+            await axiosInstance.put(`/shareholder/${id}`, updatedData);
             handleClose();
         } catch (error) {
             console.error('Error posting shareholder data:', error);
         }
     };
-
+    if (!permissions?.shareholder?.edit) {
+        return <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
+            <Typography variant='h2'>You Don't Have Permission To View This Information</Typography>
+        </Box>;
+    }
     return (
         <Modal
             open={open}
@@ -61,7 +94,7 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                 component="form" onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off">
                 <Grid container spacing={2}> {/* Adjust the spacing as needed */}
                     {/* Column 1 */}
-                    <Grid item xs={12} sm={6} md={4}>
+                    <Grid item xs={12} sm={6} md={6}>
                         <Typography variant="h6">
                             Shareholder Details
                         </Typography>
@@ -84,17 +117,37 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                                         labelId="status-label"
                                         label="Status"
                                     >
-                                        <MenuItem value={0}>Active</MenuItem>
-                                        <MenuItem value={1}>Inactive</MenuItem>
-                                        <MenuItem value={2}>Death</MenuItem>
+                                        <MenuItem value={"0"}>Active</MenuItem>
+                                        <MenuItem value={"1"}>Inactive</MenuItem>
+                                        <MenuItem value={"2"}>Death</MenuItem>
                                     </Select>
                                 )}
                             />
                             {errors.status && <FormHelperText>Status is required</FormHelperText>}
                         </FormControl>
+                        <FormControl fullWidth error={!!errors.status} margin="normal">
+                            <InputLabel id="status-label">Status</InputLabel>
+                            <Controller
+                                name="membershipStatus"
+                                control={control}
+                                rules={{ required: true }}
+                                defaultValue=""
+                                render={({ field }) => (
+                                    <Select
+                                        {...field}
+                                        labelId="status-label"
+                                        label="Membership Status"
+                                    >
+                                        <MenuItem value={"0"}>Active</MenuItem>
+                                        <MenuItem value={"1"}>Inactive</MenuItem>
+                                    </Select>
+                                )}
+                            />
+                            {errors.status && <FormHelperText>Membership Status is required</FormHelperText>}
+                        </FormControl>
                     </Grid>
                     {/* Column 2 */}
-                    <Grid item xs={12} sm={6} md={4}>
+                    <Grid item xs={12} sm={6} md={6}>
                         <Typography variant="h6">
                             Address
                         </Typography>
@@ -107,7 +160,7 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                         <TextField margin="normal" fullWidth label="Zip Code" {...register('zipCode')} />
                         <TextField margin="normal" fullWidth label="Country" {...register('country', { required: true })} error={!!errors.country} helperText={errors.country ? 'Country is required' : ''} />
                     </Grid>
-                    {/* Column 3 */}
+                    {/* Column 3
                     <Grid item xs={12} sm={6} md={4}>
                         <Typography variant="h6">
                             Investment
@@ -116,19 +169,18 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                         <TextField margin="normal" fullWidth label="Share Initial Price" type="number" {...register('shareInitialPrice', { required: true })} error={!!errors.shareInitialPrice} helperText={errors.shareInitialPrice ? 'Share Initial Price is required' : ''} />
                         <TextField margin="normal" fullWidth label="Share Amount" type="number" {...register('shareAmount', { required: true })} error={!!errors.shareAmount} helperText={errors.shareAmount ? 'Share Amount is required' : ''} />
 
-                    </Grid>
+                    </Grid> */}
                     {/* <Grid item xs={12} sm={6} md={3}>
                       
                     </Grid> */}
                 </Grid>
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-                    Submit
+                    Edit
                 </Button>
             </Box>
         </Modal>
 
     );
-};
+}
 
-
-export default AddShareholderModal
+export default EditShareholderModal

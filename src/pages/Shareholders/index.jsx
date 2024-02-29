@@ -3,34 +3,45 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Button from '@mui/material/Button';
-
 import Typography from '@mui/material/Typography';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormHelperText from '@mui/material/FormHelperText';
-import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-
 import { useFetch } from '../../hooks/useFetch';
 import { DataGrid } from '@mui/x-data-grid';
-
 import AddShareholderModal from './AddShareholderModal';
 import { useNavigate } from 'react-router-dom';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import EditShareholderModal from './EditShareholderModal';
+const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
+  const navigate = useNavigate();
 
-const ViewButton = ({ id }) => {
-  const navigate = useNavigate(); // Use the hook
+  const handleEditClick = () => {
+    setSelectedShareholderId(id); // Set the selected shareholder ID
+    setEditOpen(true); // Open the edit modal
+  };
 
   return (
-    <IconButton onClick={() => navigate(`/Shareholders/${id}`)}>
-      <VisibilityIcon />
-    </IconButton>
+    <div>
+      {edit ? (
+        <IconButton onClick={handleEditClick}>
+          <ModeEditIcon />
+        </IconButton>
+      ) : (
+        <IconButton onClick={() => navigate(`/Shareholders/${id}`)}>
+          <VisibilityIcon />
+        </IconButton>
+      )}
+    </div>
   );
 };
+
 
 const Shareholders = () => {
   const [pageNo, setPageNo] = useState(1)
   const [pageSize, setPageSize] = useState(10)
   const { data, fetchData, count } = useFetch('/shareholders', pageNo, pageSize);
+  const [selectedShareholderId, setSelectedShareholderId] = useState(null);
+
   const navigate = useNavigate();
   const [userData, setUserdata] = useState(JSON.parse(sessionStorage.getItem('userDetails')))
   const [permissions, setPermissions] = useState(userData?.permissions)
@@ -154,18 +165,25 @@ const Shareholders = () => {
         return <ViewButton id={params.id} />;
 
       },
-    }] : [])
+    }] : []),
+    ...(permissions?.shareholder?.edit ? [{
+      field: 'edit',
+      headerName: 'Edit',
+      sortable: false,
+      width: 55,
+      renderCell: (params) => {
+        return <ViewButton id={params.id} edit={true} setEditOpen={setEditOpen} setSelectedShareholderId={setSelectedShareholderId} />;
 
+      },
+    }] : [])
 
   ];
   useEffect(() => {
     fetchData();
   }, [fetchData, pageNo, pageSize]);
   const [open, setOpen] = useState(false);
-  const handlePageChange = (newPage) => {
-    setPageNo(newPage + 1);
 
-  };
+  const [editOpen, setEditOpen] = useState(false);
 
   const handlePageSizeChange = (event) => {
     setPageSize(event.target.value);
@@ -176,6 +194,7 @@ const Shareholders = () => {
     setOpen(true);
 
   }
+  useEffect(() => { console.log(selectedShareholderId); }, [selectedShareholderId])
   const [paginationModel, setPaginationModel] = useState({
     pageSize: pageSize,
     page: pageNo,
@@ -184,11 +203,7 @@ const Shareholders = () => {
   return (
     <React.Fragment>
       <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
-        Test
-      </Box>
-      <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
         <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
-
           <Typography variant="h3" component="h2" sx={{
             fontStyle: 'normal', // Sets the font style
             fontWeight: 600,
@@ -204,7 +219,6 @@ const Shareholders = () => {
           </Select>
           {permissions?.shareholder?.create && (<Button variant='contained' onClick={() => { handleOpen() }}>Add</Button>)}
         </Box>
-
         <DataGrid
           rows={data}
           columns={columns}
@@ -214,7 +228,6 @@ const Shareholders = () => {
             setPaginationModel(newModel);
           }}
           getRowId={(row) => row._id}
-
           rowCount={count}
           paginationMode="server"
           sx={{
@@ -243,13 +256,10 @@ const Shareholders = () => {
               fontSize: '0.875rem'
             },
           }}
-
         />
-
-
-
       </Box>
       <AddShareholderModal open={open} setOpen={setOpen} fetchData={fetchData} />
+      <EditShareholderModal open={editOpen} setOpen={setEditOpen} fetchData={fetchData} id={selectedShareholderId} />
     </React.Fragment>)
 }
 
