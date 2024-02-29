@@ -10,6 +10,7 @@ import { theme } from "../../theme";
 import PersonIcon from "@mui/icons-material/Person";
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
+import logo from '../../assets/logo.png';
 
 const Topbar = () => {
     const theme = useTheme();
@@ -36,13 +37,11 @@ const Topbar = () => {
 
     return (
         <Box display={"flex"} justifyContent={"space-between"} p={2}>
-            <Box
-                display={"flex"}
-                backgroundColor={"#FFF"}
-                borderRadius={"3px"}
-            ></Box>
+            {/* Add the logo to the left side */}
+            <Box display={"flex"} alignItems={"center"}>
+                <img src={logo} alt="Logo" style={{ width: 40, height: 40, marginRight: 10 }} />     
+            </Box>
             <Box display={"flex"}>
-
                 <IconButton onClick={handleClick}>
                     <PersonIcon />
                 </IconButton>
