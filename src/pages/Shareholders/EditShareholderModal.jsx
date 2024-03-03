@@ -47,6 +47,7 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
                     membershipStatus: shareholderData?.membershipStatus,
                     dob: shareholderData?.DOB.split("T")[0],
                     poBox: shareholderData?.poBox,
+                    mobileNumber: shareholderData?.mobileNumber,
                     area: shareholderDetails?.Area,
                     zipCode: shareholderDetails?.zipCode,
                     country: shareholderData?.Country
@@ -92,7 +93,7 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
                 width: '80rem',
             }}
                 component="form" onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off">
-                <Grid container spacing={2}> {/* Adjust the spacing as needed */}
+                <Grid container spacing={2}>
                     {/* Column 1 */}
                     <Grid item xs={12} sm={6} md={6}>
                         <Typography variant="h6">
@@ -102,6 +103,7 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
                         <TextField margin="normal" fullWidth label="Last Name" {...register('lName', { required: true })} error={!!errors.lName} helperText={errors.lName ? 'Last Name is required' : ''} />
                         <TextField margin="normal" fullWidth label="Civil ID" {...register('civilId', { required: true })} error={!!errors.civilId} helperText={errors.civilId ? 'Civil ID is required' : ''} />
                         <TextField margin="normal" fullWidth label="Email" {...register('email', { required: true })} error={!!errors.email} helperText={errors.email ? 'Email is required' : ''} />
+                        <TextField margin="normal" fullWidth label="Phone Number" {...register('mobileNumber', { required: true })} error={!!errors.mobileNumber} helperText={errors.mobileNumber ? 'Phone Number is required' : ''} />
                         <TextField margin="normal" fullWidth label="IBAN Number" {...register('ibanNumber', { required: true })} error={!!errors.ibanNumber} helperText={errors.ibanNumber ? 'IBAN Number is required' : ''} />
                         <TextField margin="normal" fullWidth type="date"  {...register('dob', { required: true })} error={!!errors.dob} helperText={errors.dob ? 'Date of Birth is required' : ''} />
                         <FormControl fullWidth error={!!errors.status} margin="normal">

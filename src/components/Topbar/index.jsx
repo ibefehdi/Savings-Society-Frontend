@@ -37,9 +37,8 @@ const Topbar = () => {
 
     return (
         <Box display={"flex"} justifyContent={"space-between"} p={2}>
-            {/* Add the logo to the left side */}
             <Box display={"flex"} alignItems={"center"}>
-                <img src={logo} alt="Logo" style={{ width: 40, height: 40, marginRight: 10 }} />     
+                <img src={logo} alt="Logo" style={{ width: 40, height: 40, marginRight: 10 }} />
             </Box>
             <Box display={"flex"}>
                 <IconButton onClick={handleClick}>

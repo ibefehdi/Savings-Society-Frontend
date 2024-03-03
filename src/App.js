@@ -12,6 +12,9 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { theme } from "./theme"
 import ShareConfiguration from './pages/ShareConfiguration';
 import ShareholderDetails from './pages/ShareholderDetails';
+import SavingsConfiguration from './pages/SavingsConfiguration';
+import SavingsWithdrawalPage from './pages/Withdrawals/SavingsWithdrawalPage';
+import SharesWithdrawalPage from './pages/Withdrawals/SharesWithdrawalPage';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -30,11 +33,18 @@ function App() {
         { path: 'Users', element: <Users /> },
         { path: 'Shareholders', element: <Shareholders /> },
         {
-          path: 'Shareholders/:id', 
-          element: <ShareholderDetails /> 
+          path: 'Shareholders/:id',
+          element: <ShareholderDetails />
         },
-        { path: 'Financial/Share', element: <ShareConfiguration /> }
+        { path: 'Financial/Share', element: <ShareConfiguration /> },
+        { path: 'Financial/Savings', element: <SavingsConfiguration /> },
+        { path: 'Withdrawal/Savings', element: <SavingsWithdrawalPage /> },
+        { path: 'Withdrawal/Shares', element: <SharesWithdrawalPage /> }
       ] : [],
+    },
+    {
+      path: "printsavingswithdrawal/:id",
+      element: <ShareholderDetails />
     },
     {
       path: "*",

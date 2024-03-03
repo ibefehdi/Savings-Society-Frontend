@@ -16,8 +16,8 @@ const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
   const navigate = useNavigate();
 
   const handleEditClick = () => {
-    setSelectedShareholderId(id); // Set the selected shareholder ID
-    setEditOpen(true); // Open the edit modal
+    setSelectedShareholderId(id); 
+    setEditOpen(true); 
   };
 
   return (
@@ -112,19 +112,19 @@ const Shareholders = () => {
       }
     },
     {
-      field: 'savings',
+      field: 'initialInvestment',
       headerName: 'Initial Investment',
       flex: 1,
       renderCell: (params) => {
-        return params.value && params.value.initialAmount.toFixed(3);
+        return params.row.savings && params.row.savings.initialAmount.toFixed(3);
       }
     },
     {
-      field: 'savings',
+      field: 'currentAmount',
       headerName: 'Current Amount',
       flex: 1,
       renderCell: (params) => {
-        return params.value && params.value.currentAmount.toFixed(3)
+        return params.row.savings && params.row.savings.currentAmount.toFixed(3);
       }
     },
     {
@@ -194,7 +194,7 @@ const Shareholders = () => {
     setOpen(true);
 
   }
-  useEffect(() => { console.log(selectedShareholderId); }, [selectedShareholderId])
+
   const [paginationModel, setPaginationModel] = useState({
     pageSize: pageSize,
     page: pageNo,
@@ -212,7 +212,7 @@ const Shareholders = () => {
           }}>
             Shareholder Management
           </Typography>
-          <Select value={pageSize} onChange={handlePageSizeChange} sx={{ mr: '1rem' }}>
+          <Select value={pageSize} onChange={handlePageSizeChange} sx={{ ml: '1rem', mr: '1rem' }}>
             <MenuItem value={10}>10 per page</MenuItem>
             <MenuItem value={25}>25 per page</MenuItem>
             <MenuItem value={50}>50 per page</MenuItem>
