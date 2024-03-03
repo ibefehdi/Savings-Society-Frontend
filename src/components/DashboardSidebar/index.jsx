@@ -4,6 +4,7 @@ import "./DashboardSidebar.css"
 import { Link } from 'react-router-dom';
 const DashboardSidebar = ({ menuItems }) => {
     const [collapsed, setCollapsed] = useState(false);
+    const [sidebarHeight, setSidebarHeight] = useState('calc(100vh - 0px)'); // Initial state
 
     useEffect(() => {
         const handleResize = () => setCollapsed(window.innerWidth < 768);
@@ -28,10 +29,10 @@ const DashboardSidebar = ({ menuItems }) => {
                         </MenuItem>
                     ))}
                 </Menu>
-
+                {/* 
                 <div style={{ padding: "10px" }}>
 
-                </div>
+                </div> */}
 
             </div>
         </Sidebar>

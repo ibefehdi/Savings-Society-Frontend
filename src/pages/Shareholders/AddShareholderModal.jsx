@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -9,6 +9,8 @@ import TextField from '@mui/material/TextField';
 import { useForm, Controller } from 'react-hook-form';
 import axiosInstance from '../../constants/axiosInstance';
 import { MenuItem, FormControl, Select, FormHelperText, InputLabel } from '@mui/material';
+import MoneyForm from '../../printablePages/MoneyForm';
+import { useReactToPrint } from 'react-to-print';
 
 const style = {
     position: 'absolute',
@@ -45,7 +47,11 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
             console.error('Error posting shareholder data:', error);
         }
     };
+    const componentRef = useRef();
 
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+    });
     return (
         <Modal
             open={open}
@@ -69,6 +75,7 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                         <TextField margin="normal" fullWidth label="Last Name" {...register('lName', { required: true })} error={!!errors.lName} helperText={errors.lName ? 'Last Name is required' : ''} />
                         <TextField margin="normal" fullWidth label="Civil ID" {...register('civilId', { required: true })} error={!!errors.civilId} helperText={errors.civilId ? 'Civil ID is required' : ''} />
                         <TextField margin="normal" fullWidth label="Email" {...register('email', { required: true })} error={!!errors.email} helperText={errors.email ? 'Email is required' : ''} />
+                        <TextField margin="normal" fullWidth label="Phone Number" {...register('mobileNumber', { required: true })} error={!!errors.mobileNumber} helperText={errors.mobileNumber ? 'Phone Number is required' : ''} />
                         <TextField margin="normal" fullWidth label="IBAN Number" {...register('ibanNumber', { required: true })} error={!!errors.ibanNumber} helperText={errors.ibanNumber ? 'IBAN Number is required' : ''} />
                         <TextField margin="normal" fullWidth type="date"  {...register('dob', { required: true })} error={!!errors.dob} helperText={errors.dob ? 'Date of Birth is required' : ''} />
                         <FormControl fullWidth error={!!errors.status} margin="normal">
@@ -121,8 +128,15 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                       
                     </Grid> */}
                 </Grid>
+                <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0 }}>
+                    <MoneyForm ref={componentRef} />
+                </Box>
+
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
                     Submit
+                </Button>
+                <Button onClick={handlePrint} sx={{ mt: 3, mb: 2 }}>
+                    Print
                 </Button>
             </Box>
         </Modal>
