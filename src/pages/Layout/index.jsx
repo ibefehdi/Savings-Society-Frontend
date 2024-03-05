@@ -5,7 +5,8 @@ import RecentActorsOutlinedIcon from '@mui/icons-material/RecentActorsOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
-import { Outlet } from 'react-router-dom'; // Import Outlet
+import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
+import { Outlet } from 'react-router-dom';
 import "./Layout.css"
 import Topbar from '../../components/Topbar';
 const Layout = () => {
@@ -13,6 +14,14 @@ const Layout = () => {
         { name: 'Home', icon: <HomeOutlinedIcon />, path: "/" },
         { name: 'Users', icon: <GroupOutlinedIcon />, path: "/Users" },
         { name: 'Shareholders', icon: <RecentActorsOutlinedIcon />, path: "/Shareholders" },
+        {
+            name: 'Deposits',
+            icon: <LocalAtmIcon />,
+            subMenus: [
+                { name: 'Share', path: "/Deposit/Shares" },
+                { name: 'Savings', path: "/Deposit/Savings" }
+            ]
+        },
         {
             name: 'Withdrawals',
             icon: <LocalAtmIcon />,
@@ -27,6 +36,16 @@ const Layout = () => {
             subMenus: [
                 { name: 'Share', path: "/Financial/Share" },
                 { name: 'Savings', path: "/Financial/Savings" }
+            ]
+        },
+        {
+            name: 'Print Forms',
+            icon: <FileCopyOutlinedIcon />,
+            subMenus: [
+                { name: 'Receipt Voucher', path: "/Forms/ReceiptVoucher" },
+                { name: 'Withdrawal Form', path: "/Forms/WithdrawalForm" },
+                { name: 'Deposit Form', path: "/Forms/DepositForm" },
+
             ]
         },
 
