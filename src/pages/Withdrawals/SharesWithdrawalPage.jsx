@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useReactToPrint } from 'react-to-print';
 
 import { useFetch } from '../../hooks/useFetch';
 import { DataGrid } from '@mui/x-data-grid';
@@ -10,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import axiosInstance from '../../constants/axiosInstance';
+import WithdrawalForm from '../../printablePages/WithdrawalForm';
 
 
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
@@ -217,6 +219,11 @@ const SharesWithdrawalPage = () => {
             </DialogActions>
         </Dialog>
     );
+    const componentRef = useRef();
+
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+    });
     return (
         <React.Fragment>
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
@@ -229,6 +236,11 @@ const SharesWithdrawalPage = () => {
                     }}>
                         Savings Withdrawal
                     </Typography>
+                    <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0 }}>
+                        <WithdrawalForm ref={componentRef} />
+                    </Box>
+
+                    <Button variant='contained' onClick={() => { handlePrint() }}>Print Form</Button>
                 </Box>
                 <DataGrid
                     rows={data}

@@ -9,9 +9,8 @@ import { useFetch } from '../../hooks/useFetch';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import axiosInstance from '../../constants/axiosInstance';
-import WithdrawalForm from '../../printablePages/WithdrawalForm';
+import DepositForm from './DepositForm';
+import AddBalanceForm from '../../printablePages/AddBalanceForm';
 
 
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
@@ -30,7 +29,7 @@ const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
 
     );
 };
-const SavingsWithdrawalPage = () => {
+const SharesDepositPage = () => {
     const [pageNo, setPageNo] = useState(1)
     const [pageSize, setPageSize] = useState(10)
     const { data, fetchData, count } = useFetch('/shareholders', pageNo, pageSize);
@@ -64,10 +63,9 @@ const SavingsWithdrawalPage = () => {
                 // Parse the date string from params.value
                 const date = new Date(params.value);
 
-                // Extract day, month, and year
                 const day = date.getDate().toString().padStart(2, '0');
-                const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
-                const year = date.getFullYear().toString(); // Get last two digits of year
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                const year = date.getFullYear().toString();
 
                 // Formatted date string in "DD/MM/YY" format
                 const formattedDate = `${day}/${month}/${year}`;
@@ -80,7 +78,6 @@ const SavingsWithdrawalPage = () => {
             field: 'civilId',
             headerName: 'Civil ID',
             flex: 1,
-
         },
 
         {
@@ -178,51 +175,11 @@ const SavingsWithdrawalPage = () => {
         setEditOpen(false);
         setSelectedShareholderId(null)
     }
-    const confirmWithdraw = async () => {
-        if (selectedShareholderId) {
-            try {
-                const response = await axiosInstance.post(`/shareholder/withdrawsavings/${selectedShareholderId}`, { adminId: adminId });
-                //console.log("response: " + JSON.stringify(response));
-                // Close dialog and refresh data or any additional state updates
-                setEditOpen(false);
-                setSelectedShareholderId(null);
-                navigate(response?.data?.response?.link)
-                fetchData(); // Assuming you have a fetchData function to refresh the list
-            } catch (error) {
-                console.error("Deletion error:", error);
-                setEditOpen(false);
-                setSelectedShareholderId(null);
-            }
-        }
-    };
-    const ConfirmWithdrawDialog = () => (
-        <Dialog
-            open={editOpen}
-            onClose={handleCloseConfirmDialog}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-        >
-            <DialogTitle id="alert-dialog-title">{"Confirm Deletion"}</DialogTitle>
-            <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                    Are you sure you want to withdraw savings for this user?
-                </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={handleCloseConfirmDialog} color="primary">
-                    Cancel
-                </Button>
-                <Button onClick={confirmWithdraw} color="primary" autoFocus>
-                    Confirm
-                </Button>
-            </DialogActions>
-        </Dialog>
-    );
-    const componentRef = useRef();
 
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
     });
+    const componentRef = useRef()
     return (
         <React.Fragment>
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
@@ -233,16 +190,14 @@ const SavingsWithdrawalPage = () => {
                         lineHeight: '1.875rem', flexGrow: 1,
                         marginLeft: '1.2rem'
                     }}>
-                        Savings Withdrawal
+                        Shares Deposit
                     </Typography>
                     <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0 }}>
-                        <WithdrawalForm ref={componentRef} />
+                        <AddBalanceForm ref={componentRef} />
                     </Box>
 
                     <Button variant='contained' onClick={() => { handlePrint() }}>Print Form</Button>
                 </Box>
-
-
                 <DataGrid
                     rows={data}
                     columns={columns}
@@ -282,10 +237,10 @@ const SavingsWithdrawalPage = () => {
                     }}
                 />
             </Box>
-            <ConfirmWithdrawDialog />
+            <DepositForm id={selectedShareholderId} open={editOpen} setOpen={setEditOpen} shares={true} fetchData={fetchData} />
         </React.Fragment>
 
     )
 }
 
-export default SavingsWithdrawalPage
+export default SharesDepositPage

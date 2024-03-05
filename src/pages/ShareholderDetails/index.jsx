@@ -143,15 +143,10 @@ const ShareholderDetails = () => {
                             <Table>
                                 <TableBody>
                                     <DetailRow label={<Typography variant="h5" sx={{ fontWeight: '600' }}>Shares</Typography>} />
-                                    {shareholderDetails?.share?.map(share => (
-                                        <div key={share._id}>
-                                            <DetailRow label="Share Amount" value={share.amount} />
-                                            <DetailRow label="Initial Amount Paid" value={share.initialAmount} />
-                                            <DetailRow label="Current Amount " value={share.currentAmount.toFixed(3)} />
-                                            <DetailRow label="Investment Date" value={FormatDate(share.date)} />
-
-                                        </div>
-                                    ))}
+                                    <DetailRow label="Share Amount" value={shareholderDetails.share.amount} />
+                                    <DetailRow label="Initial Amount Paid" value={shareholderDetails.share.initialAmount} />
+                                    <DetailRow label="Current Amount " value={shareholderDetails.share.currentAmount.toFixed(3)} />
+                                    <DetailRow label="Investment Date" value={FormatDate(shareholderDetails.share.date)} />
                                 </TableBody>
                             </Table>
                         </Box>

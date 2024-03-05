@@ -15,6 +15,12 @@ import ShareholderDetails from './pages/ShareholderDetails';
 import SavingsConfiguration from './pages/SavingsConfiguration';
 import SavingsWithdrawalPage from './pages/Withdrawals/SavingsWithdrawalPage';
 import SharesWithdrawalPage from './pages/Withdrawals/SharesWithdrawalPage';
+import SavingsDepositPage from './pages/Deposits/SavingsDepositPage';
+import SharesDepositPage from './pages/Deposits/SharesDepositPage';
+import MoneyForm from './printablePages/MoneyForm';
+import ReceiptVoucher from './pages/ReceiptVoucher';
+import WithdrawalFormPage from './pages/WithdrawalFormPage';
+import DepositFormPage from './pages/DepositFormPage';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -32,14 +38,17 @@ function App() {
         { index: true, element: <Home /> },
         { path: 'Users', element: <Users /> },
         { path: 'Shareholders', element: <Shareholders /> },
-        {
-          path: 'Shareholders/:id',
-          element: <ShareholderDetails />
-        },
+        { path: 'Shareholders/:id', element: <ShareholderDetails /> },
         { path: 'Financial/Share', element: <ShareConfiguration /> },
         { path: 'Financial/Savings', element: <SavingsConfiguration /> },
         { path: 'Withdrawal/Savings', element: <SavingsWithdrawalPage /> },
-        { path: 'Withdrawal/Shares', element: <SharesWithdrawalPage /> }
+        { path: 'Withdrawal/Shares', element: <SharesWithdrawalPage /> },
+        { path: 'Deposit/Savings', element: <SavingsDepositPage /> },
+        { path: 'Deposit/Shares', element: <SharesDepositPage /> },
+        { path: 'Forms/ReceiptVoucher', element: <ReceiptVoucher /> },
+        { path: 'Forms/WithdrawalForm', element: <WithdrawalFormPage /> },
+        { path: 'Forms/DepositForm', element: <DepositFormPage /> },
+
       ] : [],
     },
     {

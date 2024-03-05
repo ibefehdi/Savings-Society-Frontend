@@ -11,6 +11,8 @@ import axiosInstance from '../../constants/axiosInstance';
 import { MenuItem, FormControl, Select, FormHelperText, InputLabel } from '@mui/material';
 import MoneyForm from '../../printablePages/MoneyForm';
 import { useReactToPrint } from 'react-to-print';
+import AddBalanceForm from '../../printablePages/AddBalanceForm';
+import WithdrawalForm from '../../printablePages/WithdrawalForm';
 
 const style = {
     position: 'absolute',
