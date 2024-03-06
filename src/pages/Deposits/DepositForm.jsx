@@ -9,6 +9,7 @@ import TextField from '@mui/material/TextField';
 import { useForm, Controller } from 'react-hook-form';
 import axiosInstance from '../../constants/axiosInstance';
 import { MenuItem, FormControl, Select, FormHelperText, InputLabel } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -69,7 +70,7 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
         setTotalAmount((currentAmount + additionAmount).toFixed(3));
     }, [shareholderDetails, newAmount]);
 
-
+    const { t } = useTranslation();
 
     return (
         <Modal
@@ -88,14 +89,14 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                     id="currentAmount"
                     margin='normal'
                     fullWidth
-                    label="Current Amount"
+                    label={t('current_amount')}
                     value={shareholderDetails?.currentAmount?.toFixed(3)}
                     disabled
                 />                <TextField
                     id="newAmount"
                     margin="normal"
                     fullWidth
-                    label="Required Addition"
+                    label={t('required_addition')}
                     {...register('newAmount', { required: true })}
                     error={!!errors.newAmount}
                     helperText={errors.newAmount ? 'This is required' : ''}
@@ -103,7 +104,7 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                 <TextField
                     margin="normal"
                     fullWidth
-                    label="Amount After Addition"
+                    label={t('amount_after_addition')}
                     value={totalAmount}
                     disabled
                 />

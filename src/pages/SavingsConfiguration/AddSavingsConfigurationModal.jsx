@@ -9,6 +9,7 @@ import TextField from '@mui/material/TextField';
 import { useForm, Controller } from 'react-hook-form';
 import axiosInstance from '../../constants/axiosInstance';
 import { MenuItem, FormControl, Select, FormHelperText, InputLabel } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -44,6 +45,7 @@ const AddSavingsConfigurationModal = ({ open, year, setOpen, fetchData, editMode
             console.error('Error posting shareholder data:', error);
         }
     };
+    const { t } = useTranslation();
     return (
         <Modal
             open={open}
@@ -65,7 +67,7 @@ const AddSavingsConfigurationModal = ({ open, year, setOpen, fetchData, editMode
                         <TextField
                             margin="normal"
                             fullWidth
-                            label="Year"
+                            label={t('year')}
                             onChange={onChange}
                             value={value}
                             disabled={editMode}
@@ -74,7 +76,7 @@ const AddSavingsConfigurationModal = ({ open, year, setOpen, fetchData, editMode
                         />
                     )}
                 />
-                <TextField margin="normal" fullWidth label="Share Percentage" {...register('individualSharePercentage', { required: true })} error={!!errors.lName} helperText={errors.lName ? 'Last Name is required' : ''} />
+                <TextField margin="normal" fullWidth label={t('savings_percentage')} {...register('individualSharePercentage', { required: true })} error={!!errors.lName} helperText={errors.lName ? 'Last Name is required' : ''} />
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
                     {editMode ? `Edit` : "Submit"}
                 </Button>

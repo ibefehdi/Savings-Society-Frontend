@@ -14,8 +14,10 @@ import FormGroup from '@mui/material/FormGroup';
 import { useFetch } from '../../hooks/useFetch';
 import { DataGrid } from '@mui/x-data-grid';
 import AddShareConfigurationModal from './AddShareConfigurationModal';
+import { useTranslation } from 'react-i18next';
 const ShareConfiguration = () => {
-    const [pageNo, setPageNo] = useState(1)
+    const [pageNo, setPageNo] = useState(1);
+    const { t } = useTranslation();
     const [pageSize, setPageSize] = useState(10)
     const [editMode, setEditMode] = useState(false);
     const [shareConfigId, setShareConfigId] = useState();
@@ -36,7 +38,7 @@ const ShareConfiguration = () => {
         },
         {
             field: 'edit',
-            headerName: "Edit",
+            headerName: t('edit'),
             flex: 1,
             width: 55,
             renderCell: (params) => {

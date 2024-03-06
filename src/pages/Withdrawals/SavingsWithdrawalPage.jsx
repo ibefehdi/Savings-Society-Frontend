@@ -12,6 +12,7 @@ import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import axiosInstance from '../../constants/axiosInstance';
 import WithdrawalForm from '../../printablePages/WithdrawalForm';
+import { useTranslation } from 'react-i18next';
 
 
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
@@ -39,26 +40,27 @@ const SavingsWithdrawalPage = () => {
     const navigate = useNavigate();
     const [userData, setUserdata] = useState(JSON.parse(sessionStorage.getItem('userDetails')))
     const [admin, setAdmin] = useState(userData?.isAdmin)
-    const [adminId, setAdminId] = useState(userData?.id)
+    const [adminId, setAdminId] = useState(userData?.id);
+    const { t } = useTranslation()
     const columns = [
         {
             field: 'serial',
-            headerName: 'serial',
+            headerName: t('serial'),
             flex: 1,
         },
         {
             field: 'fName',
-            headerName: 'First name',
+            headerName: t('first_name'),
             flex: 1,
         },
         {
             field: 'lName',
-            headerName: 'Last name',
+            headerName: t('last_name'),
             flex: 1,
         },
         {
             field: 'DOB',
-            headerName: 'Date of Birth',
+            headerName: t('date_of_birth'),
             flex: 1,
             renderCell: (params) => {
                 // Parse the date string from params.value
@@ -78,24 +80,24 @@ const SavingsWithdrawalPage = () => {
         },
         {
             field: 'civilId',
-            headerName: 'Civil ID',
+            headerName: t('civil_id'),
             flex: 1,
 
         },
 
         {
             field: 'ibanNumber',
-            headerName: 'IBAN',
+            headerName: t('iban'),
             flex: 1,
         },
         {
             field: 'mobileNumber',
-            headerName: 'Phone Number',
+            headerName: t('phone_number'),
             flex: 1,
         },
         {
             field: 'address',
-            headerName: 'Address',
+            headerName: t('address'),
             flex: 1,
             renderCell: (params) => {
                 const { block, street, house, avenue, city } = params.value;
@@ -104,7 +106,7 @@ const SavingsWithdrawalPage = () => {
         },
         {
             field: 'initialInvestment',
-            headerName: 'Initial Investment',
+            headerName: t('initial_investment'),
             flex: 1,
             renderCell: (params) => {
                 return params.row.savings && params.row.savings.initialAmount.toFixed(3);
@@ -112,7 +114,7 @@ const SavingsWithdrawalPage = () => {
         },
         {
             field: 'currentAmount',
-            headerName: 'Current Amount',
+            headerName: t('current_amount'),
             flex: 1,
             renderCell: (params) => {
                 return params.row.savings && params.row.savings.currentAmount.toFixed(3);
@@ -120,7 +122,7 @@ const SavingsWithdrawalPage = () => {
         },
         {
             field: 'membershipStatus',
-            headerName: 'Membership Status',
+            headerName: t('membership_status'),
             flex: 1,
             renderCell: (params) => {
                 if (params.value === 0) {
@@ -133,7 +135,7 @@ const SavingsWithdrawalPage = () => {
         },
         {
             field: 'status',
-            headerName: 'Status',
+            headerName: t('status'),
             flex: 1,
             renderCell: (params) => {
                 if (params.value === 0) {
@@ -148,8 +150,8 @@ const SavingsWithdrawalPage = () => {
             }
         },
         ...(admin ? [{
-            field: 'withdraw',
-            headerName: 'Withdraw',
+            field: 'deposit',
+            headerName: t('withdrawal'),
             sortable: false,
             width: 55,
             renderCell: (params) => {
@@ -169,7 +171,7 @@ const SavingsWithdrawalPage = () => {
 
     useEffect(() => {
         fetchData();
-    }, [fetchData, pageNo, pageSize]);
+    }, []);
     const [paginationModel, setPaginationModel] = useState({
         pageSize: pageSize,
         page: pageNo,
@@ -186,8 +188,8 @@ const SavingsWithdrawalPage = () => {
                 // Close dialog and refresh data or any additional state updates
                 setEditOpen(false);
                 setSelectedShareholderId(null);
-                navigate(response?.data?.response?.link)
-                fetchData(); // Assuming you have a fetchData function to refresh the list
+
+
             } catch (error) {
                 console.error("Deletion error:", error);
                 setEditOpen(false);
@@ -233,13 +235,13 @@ const SavingsWithdrawalPage = () => {
                         lineHeight: '1.875rem', flexGrow: 1,
                         marginLeft: '1.2rem'
                     }}>
-                        Savings Withdrawal
+                        {t('saving_withdrawal')}
                     </Typography>
                     <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0 }}>
                         <WithdrawalForm ref={componentRef} />
                     </Box>
 
-                    <Button variant='contained' onClick={() => { handlePrint() }}>Print Form</Button>
+                    <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
                 </Box>
 
 

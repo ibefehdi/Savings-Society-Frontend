@@ -121,6 +121,7 @@ const formStyles = {
     width: "100%",
     margin: "auto",
     padding: "20px",
+    border: '1px solid black'
 };
 
 const headingStyles = {

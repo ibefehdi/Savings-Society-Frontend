@@ -143,7 +143,8 @@ const theme = createTheme({
             fontWeight: 600,
             lineHeight: "2.375rem",
             textAlign: "center",
-            padding: 10
+            padding: 10,
+            minHeight: "2.375rem"
         },
         heading2: {
             fontFamily: "Inter, Source Sans Pro, sans-serif",
@@ -151,7 +152,8 @@ const theme = createTheme({
             fontWeight: 400,
             lineHeight: "1.5rem",
             textAlign: "center",
-            padding: 10
+            padding: 10,
+            minHeight: "1.5rem"
 
 
         }

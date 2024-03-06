@@ -5,6 +5,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
 import { useFetch } from '../../hooks/useFetch';
 import { DataGrid } from '@mui/x-data-grid';
@@ -12,12 +13,14 @@ import AddShareholderModal from './AddShareholderModal';
 import { useNavigate } from 'react-router-dom';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import EditShareholderModal from './EditShareholderModal';
+import { useTranslation } from 'react-i18next';
+import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
   const navigate = useNavigate();
 
   const handleEditClick = () => {
-    setSelectedShareholderId(id); 
-    setEditOpen(true); 
+    setSelectedShareholderId(id);
+    setEditOpen(true);
   };
 
   return (
@@ -39,31 +42,39 @@ const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
 const Shareholders = () => {
   const [pageNo, setPageNo] = useState(1)
   const [pageSize, setPageSize] = useState(10)
-  const { data, fetchData, count } = useFetch('/shareholders', pageNo, pageSize);
+  const [filters, setFilters] = useState({
+    fName: '',
+    lName: '',
+    status: '',
+    membershipStatus: '',
+    civilId: '',
+    serial: ''
+  });
+  const { data, fetchData, count } = useFetch('/shareholders', pageNo, pageSize, filters);
   const [selectedShareholderId, setSelectedShareholderId] = useState(null);
-
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [userData, setUserdata] = useState(JSON.parse(sessionStorage.getItem('userDetails')))
   const [permissions, setPermissions] = useState(userData?.permissions)
   const columns = [
     {
       field: 'serial',
-      headerName: 'serial',
+      headerName: t('serial'),
       flex: 1,
     },
     {
       field: 'fName',
-      headerName: 'First name',
+      headerName: t('first_name'),
       flex: 1,
     },
     {
       field: 'lName',
-      headerName: 'Last name',
+      headerName: t('last_name'),
       flex: 1,
     },
     {
       field: 'DOB',
-      headerName: 'Date of Birth',
+      headerName: t('date_of_birth'),
       flex: 1,
       renderCell: (params) => {
         // Parse the date string from params.value
@@ -83,28 +94,28 @@ const Shareholders = () => {
     },
     {
       field: 'civilId',
-      headerName: 'Civil ID',
+      headerName: t('civil_id'),
       flex: 1,
 
     },
     {
       field: 'email',
-      headerName: 'Email',
+      headerName: t('email'),
       flex: 1,
     },
     {
       field: 'ibanNumber',
-      headerName: 'IBAN',
+      headerName: t('iban'),
       flex: 1,
     },
     {
       field: 'mobileNumber',
-      headerName: 'Phone Number',
+      headerName: t('phone_number'),
       flex: 1,
     },
     {
       field: 'address',
-      headerName: 'Address',
+      headerName: t('address'),
       flex: 1,
       renderCell: (params) => {
         const { block, street, house, avenue, city } = params.value;
@@ -113,7 +124,7 @@ const Shareholders = () => {
     },
     {
       field: 'initialInvestment',
-      headerName: 'Initial Investment',
+      headerName: t('initial_investment'),
       flex: 1,
       renderCell: (params) => {
         return params.row.savings && params.row.savings.initialAmount.toFixed(3);
@@ -121,7 +132,7 @@ const Shareholders = () => {
     },
     {
       field: 'currentAmount',
-      headerName: 'Current Amount',
+      headerName: t('current_amount'),
       flex: 1,
       renderCell: (params) => {
         return params.row.savings && params.row.savings.currentAmount.toFixed(3);
@@ -129,36 +140,36 @@ const Shareholders = () => {
     },
     {
       field: 'membershipStatus',
-      headerName: 'Membership Status',
+      headerName: t('membership_status'),
       flex: 1,
       renderCell: (params) => {
         if (params.value === 0) {
-          return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>Active</Typography>
+          return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
         }
         else if (params.value === 1) {
-          return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>Inactive</Typography>
+          return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
         }
       }
     },
     {
       field: 'status',
-      headerName: 'Status',
+      headerName: t('status'),
       flex: 1,
       renderCell: (params) => {
         if (params.value === 0) {
-          return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>Active</Typography>
+          return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
         }
         else if (params.value === 1) {
-          return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>Inactive</Typography>
+          return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
         }
         else if (params.value === 2) {
-          return <Typography sx={{ color: '#DA3E33', fontWeight: 600 }}>Death</Typography>
+          return <Typography sx={{ color: '#DA3E33', fontWeight: 600 }}>{t('death')}</Typography>
         }
       }
     },
     ...(permissions?.shareholder?.view ? [{
       field: 'view',
-      headerName: 'View',
+      headerName: t('view'),
       sortable: false,
       width: 55,
       renderCell: (params) => {
@@ -168,7 +179,7 @@ const Shareholders = () => {
     }] : []),
     ...(permissions?.shareholder?.edit ? [{
       field: 'edit',
-      headerName: 'Edit',
+      headerName: t('edit'),
       sortable: false,
       width: 55,
       renderCell: (params) => {
@@ -194,15 +205,87 @@ const Shareholders = () => {
     setOpen(true);
 
   }
-
   const [paginationModel, setPaginationModel] = useState({
     pageSize: pageSize,
     page: pageNo,
   });
+  const [showFilters, setShowFilters] = useState(false);
+  const toggleFilters = () => {
+    setShowFilters(!showFilters);
+  };
 
   return (
     <React.Fragment>
+      <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto' }}>
+        <FilterListOutlinedIcon /> {t('filter')}
+      </Button>
+      {showFilters && (<Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
+        <TextField
+          label={t('serial')}
+          variant="outlined"
+          value={filters.serial}
+          onChange={(e) => setFilters({ ...filters, serial: e.target.value })}
+          fullWidth
+          autoComplete='off'
+        />
+        <TextField
+          label={t('first_name')}
+          variant="outlined"
+          value={filters.fName}
+          onChange={(e) => setFilters({ ...filters, fName: e.target.value })}
+          fullWidth
+          autoComplete='off'
+
+        />
+        <TextField
+          label={t('last_name')}
+          variant="outlined"
+          value={filters.lName}
+          onChange={(e) => setFilters({ ...filters, lName: e.target.value })}
+          fullWidth
+          autoComplete='off'
+
+        />
+        <TextField
+          label={t('civil_id')}
+          variant="outlined"
+          value={filters.civilId}
+          onChange={(e) => setFilters({ ...filters, civilId: e.target.value })}
+          fullWidth
+          autoComplete='off'
+
+        />
+        <TextField
+          label={t('status')}
+          variant="outlined"
+          select
+          value={filters.status}
+          onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+          fullWidth
+          autoComplete='off'
+
+        >
+          {/* Replace these with your actual status options */}
+          <MenuItem value={0}>{t('active')}</MenuItem>
+          <MenuItem value={1}>{t('inactive')}</MenuItem>
+          <MenuItem value={2}>{t('death')}</MenuItem>
+        </TextField>
+        <TextField
+          label={t('membership_status')}
+          variant="outlined"
+          select
+          value={filters.membershipStatus}
+          onChange={(e) => setFilters({ ...filters, membershipStatus: e.target.value })}
+          fullWidth
+          autoComplete='off'
+        >
+          <MenuItem value={0}>{t('active')}</MenuItem>
+          <MenuItem value={1}>{t('inactive')}</MenuItem>
+        </TextField>
+      </Box>)}
       <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
+
+
         <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
           <Typography variant="h3" component="h2" sx={{
             fontStyle: 'normal', // Sets the font style
@@ -210,14 +293,14 @@ const Shareholders = () => {
             lineHeight: '1.875rem', flexGrow: 1,
             marginLeft: '1.2rem'
           }}>
-            Shareholder Management
+            {t('shareholders')}
           </Typography>
           <Select value={pageSize} onChange={handlePageSizeChange} sx={{ ml: '1rem', mr: '1rem' }}>
             <MenuItem value={10}>10 per page</MenuItem>
             <MenuItem value={25}>25 per page</MenuItem>
             <MenuItem value={50}>50 per page</MenuItem>
           </Select>
-          {permissions?.shareholder?.create && (<Button variant='contained' onClick={() => { handleOpen() }}>Add</Button>)}
+          {permissions?.shareholder?.create && (<Button variant='contained' onClick={() => { handleOpen() }}>{t('add')}</Button>)}
         </Box>
         <DataGrid
           rows={data}

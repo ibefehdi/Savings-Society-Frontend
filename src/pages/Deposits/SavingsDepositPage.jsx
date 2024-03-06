@@ -13,6 +13,7 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } 
 import axiosInstance from '../../constants/axiosInstance';
 import DepositForm from './DepositForm';
 import AddBalanceForm from '../../printablePages/AddBalanceForm';
+import { useTranslation } from 'react-i18next';
 
 
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
@@ -36,7 +37,7 @@ const SavingsDepositPage = () => {
     const [pageSize, setPageSize] = useState(10)
     const { data, fetchData, count } = useFetch('/shareholders', pageNo, pageSize);
     const [selectedShareholderId, setSelectedShareholderId] = useState(null);
-
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [userData, setUserdata] = useState(JSON.parse(sessionStorage.getItem('userDetails')))
     const [admin, setAdmin] = useState(userData?.isAdmin)
@@ -44,22 +45,22 @@ const SavingsDepositPage = () => {
     const columns = [
         {
             field: 'serial',
-            headerName: 'serial',
+            headerName: t('serial'),
             flex: 1,
         },
         {
             field: 'fName',
-            headerName: 'First name',
+            headerName: t('first_name'),
             flex: 1,
         },
         {
             field: 'lName',
-            headerName: 'Last name',
+            headerName: t('last_name'),
             flex: 1,
         },
         {
             field: 'DOB',
-            headerName: 'Date of Birth',
+            headerName: t('date_of_birth'),
             flex: 1,
             renderCell: (params) => {
                 // Parse the date string from params.value
@@ -79,24 +80,24 @@ const SavingsDepositPage = () => {
         },
         {
             field: 'civilId',
-            headerName: 'Civil ID',
+            headerName: t('civil_id'),
             flex: 1,
 
         },
 
         {
             field: 'ibanNumber',
-            headerName: 'IBAN',
+            headerName: t('iban'),
             flex: 1,
         },
         {
             field: 'mobileNumber',
-            headerName: 'Phone Number',
+            headerName: t('phone_number'),
             flex: 1,
         },
         {
             field: 'address',
-            headerName: 'Address',
+            headerName: t('address'),
             flex: 1,
             renderCell: (params) => {
                 const { block, street, house, avenue, city } = params.value;
@@ -105,7 +106,7 @@ const SavingsDepositPage = () => {
         },
         {
             field: 'initialInvestment',
-            headerName: 'Initial Investment',
+            headerName: t('initial_investment'),
             flex: 1,
             renderCell: (params) => {
                 return params.row.savings && params.row.savings.initialAmount.toFixed(3);
@@ -113,7 +114,7 @@ const SavingsDepositPage = () => {
         },
         {
             field: 'currentAmount',
-            headerName: 'Current Amount',
+            headerName: t('current_amount'),
             flex: 1,
             renderCell: (params) => {
                 return params.row.savings && params.row.savings.currentAmount.toFixed(3);
@@ -121,7 +122,7 @@ const SavingsDepositPage = () => {
         },
         {
             field: 'membershipStatus',
-            headerName: 'Membership Status',
+            headerName: t('membership_status'),
             flex: 1,
             renderCell: (params) => {
                 if (params.value === 0) {
@@ -134,7 +135,7 @@ const SavingsDepositPage = () => {
         },
         {
             field: 'status',
-            headerName: 'Status',
+            headerName: t('status'),
             flex: 1,
             renderCell: (params) => {
                 if (params.value === 0) {
@@ -149,8 +150,8 @@ const SavingsDepositPage = () => {
             }
         },
         ...(admin ? [{
-            field: 'withdraw',
-            headerName: 'Withdraw',
+            field: 'deposit',
+            headerName: t('deposit'),
             sortable: false,
             width: 55,
             renderCell: (params) => {
@@ -199,7 +200,7 @@ const SavingsDepositPage = () => {
                         <AddBalanceForm ref={componentRef} />
                     </Box>
 
-                    <Button variant='contained' onClick={() => { handlePrint() }}>Print Form</Button>
+                    <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
                 </Box>
                 <DataGrid
                     rows={data}
