@@ -7,44 +7,48 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { Outlet } from 'react-router-dom';
+
 import "./Layout.css"
 import Topbar from '../../components/Topbar';
+import { useTranslation } from 'react-i18next';
 const Layout = () => {
+    const { i18n, t } = useTranslation();
+
     const menuItems = [
-        { name: 'Home', icon: <HomeOutlinedIcon />, path: "/" },
-        { name: 'Users', icon: <GroupOutlinedIcon />, path: "/Users" },
-        { name: 'Shareholders', icon: <RecentActorsOutlinedIcon />, path: "/Shareholders" },
+        { name: t('home'), icon: <HomeOutlinedIcon />, path: "/" },
+        { name: t('users'), icon: <GroupOutlinedIcon />, path: "/Users" },
+        { name: t('shareholders'), icon: <RecentActorsOutlinedIcon />, path: "/Shareholders" },
         {
-            name: 'Deposits',
+            name: t('deposits'),
             icon: <LocalAtmIcon />,
             subMenus: [
-                { name: 'Share', path: "/Deposit/Shares" },
-                { name: 'Savings', path: "/Deposit/Savings" }
+                { name: t('share'), path: "/Deposit/Shares" },
+                { name: t('savings'), path: "/Deposit/Savings" }
             ]
         },
         {
-            name: 'Withdrawals',
+            name: t('withdrawals'),
             icon: <LocalAtmIcon />,
             subMenus: [
-                { name: 'Share', path: "/Withdrawal/Shares" },
-                { name: 'Savings', path: "/Withdrawal/Savings" }
+                { name: t('share'), path: "/Withdrawal/Shares" },
+                { name: t('savings'), path: "/Withdrawal/Savings" }
             ]
         },
         {
-            name: 'Financial Configuration',
+            name: t('financial_configuration'),
             icon: <SettingsOutlinedIcon />,
             subMenus: [
-                { name: 'Share', path: "/Financial/Share" },
-                { name: 'Savings', path: "/Financial/Savings" }
+                { name: t('share'), path: "/Financial/Share" },
+                { name: t('savings'), path: "/Financial/Savings" }
             ]
         },
         {
-            name: 'Print Forms',
+            name: t('print_forms'),
             icon: <FileCopyOutlinedIcon />,
             subMenus: [
-                { name: 'Receipt Voucher', path: "/Forms/ReceiptVoucher" },
-                { name: 'Withdrawal Form', path: "/Forms/WithdrawalForm" },
-                { name: 'Deposit Form', path: "/Forms/DepositForm" },
+                { name: t('receipt_voucher'), path: "/Forms/ReceiptVoucher" },
+                { name: t('withdrawal_form'), path: "/Forms/WithdrawalForm" },
+                { name: t('deposit_form'), path: "/Forms/DepositForm" },
 
             ]
         },

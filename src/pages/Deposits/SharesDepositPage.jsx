@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import DepositForm from './DepositForm';
 import AddBalanceForm from '../../printablePages/AddBalanceForm';
+import { useTranslation } from 'react-i18next';
 
 
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
@@ -39,33 +40,35 @@ const SharesDepositPage = () => {
     const [userData, setUserdata] = useState(JSON.parse(sessionStorage.getItem('userDetails')))
     const [admin, setAdmin] = useState(userData?.isAdmin)
     const [adminId, setAdminId] = useState(userData?.id)
+    const { t } = useTranslation();
     const columns = [
         {
             field: 'serial',
-            headerName: 'serial',
+            headerName: t('serial'),
             flex: 1,
         },
         {
             field: 'fName',
-            headerName: 'First name',
+            headerName: t('first_name'),
             flex: 1,
         },
         {
             field: 'lName',
-            headerName: 'Last name',
+            headerName: t('last_name'),
             flex: 1,
         },
         {
             field: 'DOB',
-            headerName: 'Date of Birth',
+            headerName: t('date_of_birth'),
             flex: 1,
             renderCell: (params) => {
                 // Parse the date string from params.value
                 const date = new Date(params.value);
 
+                // Extract day, month, and year
                 const day = date.getDate().toString().padStart(2, '0');
-                const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                const year = date.getFullYear().toString();
+                const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+                const year = date.getFullYear().toString(); // Get last two digits of year
 
                 // Formatted date string in "DD/MM/YY" format
                 const formattedDate = `${day}/${month}/${year}`;
@@ -76,23 +79,24 @@ const SharesDepositPage = () => {
         },
         {
             field: 'civilId',
-            headerName: 'Civil ID',
+            headerName: t('civil_id'),
             flex: 1,
+
         },
 
         {
             field: 'ibanNumber',
-            headerName: 'IBAN',
+            headerName: t('iban'),
             flex: 1,
         },
         {
             field: 'mobileNumber',
-            headerName: 'Phone Number',
+            headerName: t('phone_number'),
             flex: 1,
         },
         {
             field: 'address',
-            headerName: 'Address',
+            headerName: t('address'),
             flex: 1,
             renderCell: (params) => {
                 const { block, street, house, avenue, city } = params.value;
@@ -101,7 +105,7 @@ const SharesDepositPage = () => {
         },
         {
             field: 'initialInvestment',
-            headerName: 'Initial Investment',
+            headerName: t('initial_investment'),
             flex: 1,
             renderCell: (params) => {
                 return params.row.savings && params.row.savings.initialAmount.toFixed(3);
@@ -109,7 +113,7 @@ const SharesDepositPage = () => {
         },
         {
             field: 'currentAmount',
-            headerName: 'Current Amount',
+            headerName: t('current_amount'),
             flex: 1,
             renderCell: (params) => {
                 return params.row.savings && params.row.savings.currentAmount.toFixed(3);
@@ -117,7 +121,7 @@ const SharesDepositPage = () => {
         },
         {
             field: 'membershipStatus',
-            headerName: 'Membership Status',
+            headerName: t('membership_status'),
             flex: 1,
             renderCell: (params) => {
                 if (params.value === 0) {
@@ -130,7 +134,7 @@ const SharesDepositPage = () => {
         },
         {
             field: 'status',
-            headerName: 'Status',
+            headerName: t('status'),
             flex: 1,
             renderCell: (params) => {
                 if (params.value === 0) {
@@ -145,8 +149,8 @@ const SharesDepositPage = () => {
             }
         },
         ...(admin ? [{
-            field: 'withdraw',
-            headerName: 'Withdraw',
+            field: 'deposit',
+            headerName: t('deposit'),
             sortable: false,
             width: 55,
             renderCell: (params) => {
@@ -196,7 +200,7 @@ const SharesDepositPage = () => {
                         <AddBalanceForm ref={componentRef} />
                     </Box>
 
-                    <Button variant='contained' onClick={() => { handlePrint() }}>Print Form</Button>
+                    <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
                 </Box>
                 <DataGrid
                     rows={data}

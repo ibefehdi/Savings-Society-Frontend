@@ -9,9 +9,10 @@ import Typography from '@mui/material/Typography';
 import { useReactToPrint } from 'react-to-print';
 
 import MoneyForm from '../../printablePages/MoneyForm';
+import { useTranslation } from 'react-i18next';
 const ReceiptVoucher = () => {
     const componentRef = useRef();
-
+    const { t } = useTranslation();
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
     });
@@ -25,13 +26,13 @@ const ReceiptVoucher = () => {
                         lineHeight: '1.875rem', flexGrow: 1,
                         marginLeft: '1.2rem'
                     }}>
-                        Receipt Voucher
+                        {t('receipt_voucher')}
                     </Typography>
                     <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0 }}>
 
                     </Box>
 
-                    <Button variant='contained' onClick={() => { handlePrint() }}>Print Form</Button>
+                    <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
                 </Box>
                 <MoneyForm ref={componentRef} />
             </Box>

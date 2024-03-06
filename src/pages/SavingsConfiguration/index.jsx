@@ -14,9 +14,11 @@ import FormGroup from '@mui/material/FormGroup';
 import { useFetch } from '../../hooks/useFetch';
 import { DataGrid } from '@mui/x-data-grid';
 import AddSavingsConfigurationModal from './AddSavingsConfigurationModal';
+import { useTranslation } from 'react-i18next';
 const SavingsConfiguration = () => {
     const [pageNo, setPageNo] = useState(1)
     const [pageSize, setPageSize] = useState(10)
+    const { t } = useTranslation();
     const [editMode, setEditMode] = useState(false);
     const [shareConfigId, setShareConfigId] = useState();
     const { data, fetchData, count } = useFetch('/savingconfigs', pageNo, pageSize);
@@ -36,7 +38,7 @@ const SavingsConfiguration = () => {
         },
         {
             field: 'edit',
-            headerName: "Edit",
+            headerName: t('edit'),
             flex: 1,
             width: 55,
             renderCell: (params) => {

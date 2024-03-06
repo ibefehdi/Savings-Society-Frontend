@@ -9,6 +9,7 @@ import TextField from '@mui/material/TextField';
 import { useForm, Controller } from 'react-hook-form';
 import axiosInstance from '../../constants/axiosInstance';
 import { MenuItem, FormControl, Select, FormHelperText, InputLabel } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -26,13 +27,15 @@ const AddShareConfigurationModal = ({ open, year, setOpen, fetchData, editMode, 
         fetchData();
         setEditMode(false);
     }
+    const { t } = useTranslation();
+
     const onSubmit = async (data) => {
         try {
             if (editMode) {
 
                 await axiosInstance.put(`shareconfig/${shareConfigId}`, data);
                 reset({
-                    year: year, 
+                    year: year,
                 });
             } else {
                 await axiosInstance.post('/createshareconfig', data);
@@ -65,7 +68,7 @@ const AddShareConfigurationModal = ({ open, year, setOpen, fetchData, editMode, 
                         <TextField
                             margin="normal"
                             fullWidth
-                            label="Year"
+                            label={t('year')}
                             onChange={onChange}
                             value={value}
                             disabled={editMode}
@@ -74,7 +77,7 @@ const AddShareConfigurationModal = ({ open, year, setOpen, fetchData, editMode, 
                         />
                     )}
                 />
-                <TextField margin="normal" fullWidth label="Share Percentage" {...register('individualSharePercentage', { required: true })} error={!!errors.lName} helperText={errors.lName ? 'Last Name is required' : ''} />
+                <TextField margin="normal" fullWidth label={t("share_percentage")} {...register('individualSharePercentage', { required: true })} error={!!errors.lName} helperText={errors.lName ? 'Last Name is required' : ''} />
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
                     {editMode ? `Edit` : "Submit"}
                 </Button>

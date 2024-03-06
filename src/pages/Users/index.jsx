@@ -19,6 +19,7 @@ import {
 } from "react-router-dom";
 import { useForm, Controller } from 'react-hook-form';
 import axiosInstance from '../../constants/axiosInstance';
+import { useTranslation } from 'react-i18next';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -37,6 +38,7 @@ const Users = () => {
     const { data, fetchData, count } = useFetch('/users', pageNo, pageSize)
     const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
     const [userToDelete, setUserToDelete] = useState(null);
+    const { t } = useTranslation();
 
     let navigate = useNavigate()
     const [open, setOpen] = useState(false);
@@ -166,32 +168,32 @@ const Users = () => {
     const columns = [
         {
             field: 'fName',
-            headerName: 'First name',
+            headerName: t('first_name'),
             width: 150,
         },
         {
             field: 'lName',
-            headerName: 'Last name',
+            headerName: t('last_name'),
             width: 150,
         },
         {
             field: 'username',
-            headerName: 'Username',
+            headerName: t('username'),
             width: 150,
         },
         {
             field: 'email',
-            headerName: 'Email',
+            headerName: t('email'),
             width: 150,
         },
         {
             field: 'phoneNo',
-            headerName: 'Phone Number',
+            headerName: t('phone_number'),
             width: 150,
         },
         {
             field: 'permissions.shareholder',
-            headerName: 'Shareholder Permissions',
+            headerName: t('shareholder_permissions'),
             width: 250, // Adjusted width to accommodate permissions text
             renderCell: (params) => {
                 // Directly accessing the nested permissions for 'shareholder' or 'user'
@@ -212,7 +214,7 @@ const Users = () => {
         },
         {
             field: 'permissions.user',
-            headerName: 'User Permissions',
+            headerName: t('user_permissions'),
             width: 250, // Adjusted width to accommodate permissions text
             renderCell: (params) => {
                 // Directly accessing the nested permissions for 'shareholder' or 'user'
@@ -233,7 +235,7 @@ const Users = () => {
         },
         {
             field: 'isAdmin',
-            headerName: 'Admin',
+            headerName: t('admin'),
             width: 55,
             renderCell: (params) => {
                 return (
@@ -251,7 +253,7 @@ const Users = () => {
         },
         {
             field: 'edit',
-            headerName: 'Edit',
+            headerName: t('edit'),
             sortable: false,
             width: 55,
             renderCell: (params) => {
@@ -268,7 +270,7 @@ const Users = () => {
         },
         {
             field: 'delete',
-            headerName: 'Delete',
+            headerName: t('delete'),
             sortable: false,
             width: 55,
             renderCell: (params) => {
@@ -314,9 +316,9 @@ const Users = () => {
                         lineHeight: '1.875rem', flexGrow: 1,
                         marginLeft: '1.2rem'
                     }}>
-                        User Management
+                        {t('users')}
                     </Typography>
-                    <Button variant='contained' onClick={() => { setMissingFields([]); setEditMode(false); handleOpen() }}>Add</Button>
+                    <Button variant='contained' onClick={() => { setMissingFields([]); setEditMode(false); handleOpen() }}>{t('add')}</Button>
                 </Box>
                 <DataGrid
                     rows={data}

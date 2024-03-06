@@ -8,9 +8,11 @@ import Typography from '@mui/material/Typography';
 
 import { useReactToPrint } from 'react-to-print';
 import AddBalanceForm from '../../printablePages/AddBalanceForm';
+import { useTranslation } from 'react-i18next';
 
 const DepositFormPage = () => {
     const componentRef = useRef();
+    const { t } = useTranslation();
 
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
@@ -25,13 +27,13 @@ const DepositFormPage = () => {
                         lineHeight: '1.875rem', flexGrow: 1,
                         marginLeft: '1.2rem'
                     }}>
-                        Deposit Form
+                        {t("deposit_form")}
                     </Typography>
                     <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0 }}>
 
                     </Box>
 
-                    <Button variant='contained' onClick={() => { handlePrint() }}>Print Form</Button>
+                    <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
                 </Box>
                 <AddBalanceForm ref={componentRef} />
             </Box>
