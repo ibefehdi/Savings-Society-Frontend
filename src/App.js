@@ -27,6 +27,8 @@ function App() {
 
   useEffect(() => {
     const token = Cookies.get('token');
+    console.log("this is the token: " + token);
+    console.log("This is the authenticated state", authenticated);
     setAuthenticated(!!token);
   }, []);
 
