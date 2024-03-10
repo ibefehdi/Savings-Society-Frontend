@@ -4,12 +4,13 @@ import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useReactToPrint } from 'react-to-print';
+import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
 
 import { useFetch } from '../../hooks/useFetch';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, MenuItem, TextField } from '@mui/material';
 import axiosInstance from '../../constants/axiosInstance';
 import WithdrawalForm from '../../printablePages/WithdrawalForm';
 import { useTranslation } from 'react-i18next';
@@ -34,9 +35,16 @@ const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
 const SavingsWithdrawalPage = () => {
     const [pageNo, setPageNo] = useState(1)
     const [pageSize, setPageSize] = useState(10)
-    const { data, fetchData, count } = useFetch('/shareholders', pageNo, pageSize);
     const [selectedShareholderId, setSelectedShareholderId] = useState(null);
-
+    const [filters, setFilters] = useState({
+        fName: '',
+        lName: '',
+        status: '',
+        membershipStatus: '',
+        civilId: '',
+        serial: ''
+    });
+    const { data, fetchData, count } = useFetch('/shareholders', pageNo, pageSize, filters);
     const navigate = useNavigate();
     const [userData, setUserdata] = useState(JSON.parse(sessionStorage.getItem('userDetails')))
     const [admin, setAdmin] = useState(userData?.isAdmin)
@@ -180,6 +188,10 @@ const SavingsWithdrawalPage = () => {
         setEditOpen(false);
         setSelectedShareholderId(null)
     }
+    const [showFilters, setShowFilters] = useState(false);
+    const toggleFilters = () => {
+        setShowFilters(!showFilters);
+    };
     const confirmWithdraw = async () => {
         if (selectedShareholderId) {
             try {
@@ -227,6 +239,73 @@ const SavingsWithdrawalPage = () => {
     });
     return (
         <React.Fragment>
+            <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto' }}>
+                <FilterListOutlinedIcon /> {t('filter')}
+            </Button>
+            {showFilters && (<Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
+                <TextField
+                    label={t('serial')}
+                    variant="outlined"
+                    value={filters.serial}
+                    onChange={(e) => setFilters({ ...filters, serial: e.target.value })}
+                    fullWidth
+                    autoComplete='off'
+                />
+                <TextField
+                    label={t('first_name')}
+                    variant="outlined"
+                    value={filters.fName}
+                    onChange={(e) => setFilters({ ...filters, fName: e.target.value })}
+                    fullWidth
+                    autoComplete='off'
+
+                />
+                <TextField
+                    label={t('last_name')}
+                    variant="outlined"
+                    value={filters.lName}
+                    onChange={(e) => setFilters({ ...filters, lName: e.target.value })}
+                    fullWidth
+                    autoComplete='off'
+
+                />
+                <TextField
+                    label={t('civil_id')}
+                    variant="outlined"
+                    value={filters.civilId}
+                    onChange={(e) => setFilters({ ...filters, civilId: e.target.value })}
+                    fullWidth
+                    autoComplete='off'
+
+                />
+                <TextField
+                    label={t('status')}
+                    variant="outlined"
+                    select
+                    value={filters.status}
+                    onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+                    fullWidth
+                    autoComplete='off'
+
+                >
+                    {/* Replace these with your actual status options */}
+                    <MenuItem value={0}>{t('active')}</MenuItem>
+                    <MenuItem value={1}>{t('inactive')}</MenuItem>
+                    <MenuItem value={2}>{t('death')}</MenuItem>
+                </TextField>
+                <TextField
+                    label={t('membership_status')}
+                    variant="outlined"
+                    select
+                    value={filters.membershipStatus}
+                    onChange={(e) => setFilters({ ...filters, membershipStatus: e.target.value })}
+                    fullWidth
+                    autoComplete='off'
+                >
+                    <MenuItem value={0}>{t('active')}</MenuItem>
+                    <MenuItem value={1}>{t('inactive')}</MenuItem>
+                </TextField>
+            </Box>)}
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
                 <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
                     <Typography variant="h3" component="h2" sx={{
@@ -235,7 +314,7 @@ const SavingsWithdrawalPage = () => {
                         lineHeight: '1.875rem', flexGrow: 1,
                         marginLeft: '1.2rem'
                     }}>
-                        {t('saving_withdrawal')}
+                        {t('savings_withdrawal')}
                     </Typography>
                     <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0 }}>
                         <WithdrawalForm ref={componentRef} />

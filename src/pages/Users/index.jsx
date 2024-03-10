@@ -377,7 +377,7 @@ const Users = () => {
                         <Grid item xs={12} md={6}>
                             <TextField
                                 id="fName"
-                                label="First Name"
+                                label={t('first_name')}
                                 variant="outlined"
                                 fullWidth
                                 autoComplete='off'
@@ -389,7 +389,7 @@ const Users = () => {
                             />
                             <TextField
                                 id="lName"
-                                label="Last Name"
+                                label={t('last_name')}
                                 variant="outlined"
                                 fullWidth
                                 autoComplete='off'
@@ -401,7 +401,7 @@ const Users = () => {
                             />
                             <TextField
                                 id="Username"
-                                label="Username"
+                                label={t('username')}
                                 variant="outlined"
                                 fullWidth
                                 autoComplete='off'
@@ -413,7 +413,7 @@ const Users = () => {
                             />
                             <TextField
                                 id="Password"
-                                label="Password"
+                                label={t('password')}
                                 variant="outlined"
                                 fullWidth
                                 {...register("password")}
@@ -424,7 +424,7 @@ const Users = () => {
                             />
                             <TextField
                                 id="Email"
-                                label="Email (Optional)"
+                                label={t('email')}
                                 variant="outlined"
                                 fullWidth
                                 {...register("email")}
@@ -435,7 +435,7 @@ const Users = () => {
                             />
                             <TextField
                                 id="PhoneNo"
-                                label="Phone Number (Optional)"
+                                label={t('phone_number')}
                                 variant="outlined"
                                 fullWidth
                                 {...register("phoneNo")}
@@ -446,7 +446,7 @@ const Users = () => {
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>
-                            <Typography variant='h6' sx={{ mb: 2 }}>Permissions</Typography>
+                            <Typography variant='h6' sx={{ mb: 2 }}>{t('permissions')}</Typography>
                             {/* Shareholder Permissions */}
                             <Typography variant='subtitle1'>Shareholder Permissions</Typography>
                             <FormGroup>
