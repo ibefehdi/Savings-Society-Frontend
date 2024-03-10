@@ -17,10 +17,10 @@ import SavingsWithdrawalPage from './pages/Withdrawals/SavingsWithdrawalPage';
 import SharesWithdrawalPage from './pages/Withdrawals/SharesWithdrawalPage';
 import SavingsDepositPage from './pages/Deposits/SavingsDepositPage';
 import SharesDepositPage from './pages/Deposits/SharesDepositPage';
-import MoneyForm from './printablePages/MoneyForm';
 import ReceiptVoucher from './pages/ReceiptVoucher';
 import WithdrawalFormPage from './pages/WithdrawalFormPage';
 import DepositFormPage from './pages/DepositFormPage';
+import Amanat from './pages/Amanat';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -48,6 +48,7 @@ function App() {
         { path: 'Forms/ReceiptVoucher', element: <ReceiptVoucher /> },
         { path: 'Forms/WithdrawalForm', element: <WithdrawalFormPage /> },
         { path: 'Forms/DepositForm', element: <DepositFormPage /> },
+        { path: 'Amanat', element: <Amanat /> }
 
       ] : [],
     },

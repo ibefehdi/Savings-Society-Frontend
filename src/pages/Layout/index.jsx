@@ -7,7 +7,7 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { Outlet } from 'react-router-dom';
-
+import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined';
 import "./Layout.css"
 import Topbar from '../../components/Topbar';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +18,7 @@ const Layout = () => {
         { name: t('home'), icon: <HomeOutlinedIcon />, path: "/" },
         { name: t('users'), icon: <GroupOutlinedIcon />, path: "/Users" },
         { name: t('shareholders'), icon: <RecentActorsOutlinedIcon />, path: "/Shareholders" },
+
         {
             name: t('deposits'),
             icon: <LocalAtmIcon />,
@@ -34,6 +35,7 @@ const Layout = () => {
                 { name: t('savings'), path: "/Withdrawal/Savings" }
             ]
         },
+        { name: t('amanat'), icon: <HandshakeOutlinedIcon />, path: "/Amanat" },
         {
             name: t('financial_configuration'),
             icon: <SettingsOutlinedIcon />,
@@ -52,6 +54,7 @@ const Layout = () => {
 
             ]
         },
+
 
     ];
     return (
