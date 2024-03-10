@@ -44,7 +44,7 @@ const Login = () => {
             sessionStorage.setItem('userDetails', JSON.stringify(decoded));
             dispatch(setUserDetails(decoded))
             navigate('/', { replace: true });
-            window.location.reload();
+            
             setInputError({ username: false, password: false });
         } catch (err) {
             console.log(err.response.data);
