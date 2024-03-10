@@ -24,9 +24,10 @@ import Amanat from './pages/Amanat';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
+  const [token, setToken] = useState(JSON.parse(sessionStorage.getItem('token')))
 
   useEffect(() => {
-    const token = Cookies.get('token');
+    
     console.log("this is the token: " + token);
     console.log("This is the authenticated state", authenticated);
     setAuthenticated(!!token);
