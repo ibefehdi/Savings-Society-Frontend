@@ -79,9 +79,9 @@ const SavingsConfiguration = () => {
                         lineHeight: '1.875rem', flexGrow: 1,
                         marginLeft: '1.2rem'
                     }}>
-                        Savings Interest Rate
+                        {t('savings_percentage')}
                     </Typography>
-                    <Button variant='contained' onClick={() => { handleOpen() }}>Add</Button>
+                    <Button variant='contained' onClick={() => { handleOpen() }}>{t('add')}</Button>
                 </Box>
                 <DataGrid
                     rows={data}

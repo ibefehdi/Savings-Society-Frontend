@@ -14,6 +14,7 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, M
 import axiosInstance from '../../constants/axiosInstance';
 import WithdrawalForm from '../../printablePages/WithdrawalForm';
 import { useTranslation } from 'react-i18next';
+import WithdrawalModal from './WithdrawalModal';
 
 
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
@@ -134,10 +135,10 @@ const SavingsWithdrawalPage = () => {
             flex: 1,
             renderCell: (params) => {
                 if (params.value === 0) {
-                    return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>Active</Typography>
+                    return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
                 }
                 else if (params.value === 1) {
-                    return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>Inactive</Typography>
+                    return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
                 }
             }
         },
@@ -147,13 +148,13 @@ const SavingsWithdrawalPage = () => {
             flex: 1,
             renderCell: (params) => {
                 if (params.value === 0) {
-                    return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>Active</Typography>
+                    return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
                 }
                 else if (params.value === 1) {
-                    return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>Inactive</Typography>
+                    return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
                 }
                 else if (params.value === 2) {
-                    return <Typography sx={{ color: '#DA3E33', fontWeight: 600 }}>Death</Typography>
+                    return <Typography sx={{ color: '#DA3E33', fontWeight: 600 }}>{t('death')}</Typography>
                 }
             }
         },
@@ -209,29 +210,7 @@ const SavingsWithdrawalPage = () => {
             }
         }
     };
-    const ConfirmWithdrawDialog = () => (
-        <Dialog
-            open={editOpen}
-            onClose={handleCloseConfirmDialog}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-        >
-            <DialogTitle id="alert-dialog-title">{"Confirm Deletion"}</DialogTitle>
-            <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                    Are you sure you want to withdraw savings for this user?
-                </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={handleCloseConfirmDialog} color="primary">
-                    Cancel
-                </Button>
-                <Button onClick={confirmWithdraw} color="primary" autoFocus>
-                    Confirm
-                </Button>
-            </DialogActions>
-        </Dialog>
-    );
+
     const componentRef = useRef();
 
     const handlePrint = useReactToPrint({
@@ -316,7 +295,7 @@ const SavingsWithdrawalPage = () => {
                     }}>
                         {t('savings_withdrawal')}
                     </Typography>
-                    <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0 }}>
+                    <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0, display: 'none' }}>
                         <WithdrawalForm ref={componentRef} />
                     </Box>
 
@@ -363,7 +342,7 @@ const SavingsWithdrawalPage = () => {
                     }}
                 />
             </Box>
-            <ConfirmWithdrawDialog />
+            <WithdrawalModal savings={true} id={selectedShareholderId} open={editOpen} setOpen={setEditOpen} fetchData={fetchData} />
         </React.Fragment>
 
     )

@@ -139,10 +139,10 @@ const SavingsDepositPage = () => {
             flex: 1,
             renderCell: (params) => {
                 if (params.value === 0) {
-                    return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>Active</Typography>
+                    return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
                 }
                 else if (params.value === 1) {
-                    return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>Inactive</Typography>
+                    return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
                 }
             }
         },
@@ -152,13 +152,13 @@ const SavingsDepositPage = () => {
             flex: 1,
             renderCell: (params) => {
                 if (params.value === 0) {
-                    return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>Active</Typography>
+                    return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
                 }
                 else if (params.value === 1) {
-                    return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>Inactive</Typography>
+                    return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
                 }
                 else if (params.value === 2) {
-                    return <Typography sx={{ color: '#DA3E33', fontWeight: 600 }}>Death</Typography>
+                    return <Typography sx={{ color: '#DA3E33', fontWeight: 600 }}>{t('death')}</Typography>
                 }
             }
         },
@@ -274,9 +274,9 @@ const SavingsDepositPage = () => {
                         lineHeight: '1.875rem', flexGrow: 1,
                         marginLeft: '1.2rem'
                     }}>
-                        Savings Deposit
+                        {t('saving_deposit')}
                     </Typography>
-                    <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0 }}>
+                    <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0, display: 'none' }}>
                         <AddBalanceForm ref={componentRef} />
                     </Box>
 
