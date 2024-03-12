@@ -13,10 +13,8 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, T
 import axiosInstance from '../../constants/axiosInstance';
 import WithdrawalForm from '../../printablePages/WithdrawalForm';
 import { useTranslation } from 'react-i18next';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import Select from '@mui/material/Select';
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
+import WithdrawalModal from './WithdrawalModal';
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
 
     const handleEditClick = () => {
@@ -119,7 +117,7 @@ const SharesWithdrawalPage = () => {
             headerName: t('initial_investment'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.savings && params.row.savings.initialAmount.toFixed(3);
+                return params.row.share && params.row.share.initialAmount.toFixed(3);
             }
         },
         {
@@ -127,7 +125,7 @@ const SharesWithdrawalPage = () => {
             headerName: t('current_amount'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.savings && params.row.savings.currentAmount.toFixed(3);
+                return params.row.share && params.row.share.currentAmount.toFixed(3);
             }
         },
         {
@@ -136,10 +134,10 @@ const SharesWithdrawalPage = () => {
             flex: 1,
             renderCell: (params) => {
                 if (params.value === 0) {
-                    return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>Active</Typography>
+                    return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
                 }
                 else if (params.value === 1) {
-                    return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>Inactive</Typography>
+                    return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
                 }
             }
         },
@@ -149,13 +147,13 @@ const SharesWithdrawalPage = () => {
             flex: 1,
             renderCell: (params) => {
                 if (params.value === 0) {
-                    return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>Active</Typography>
+                    return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
                 }
                 else if (params.value === 1) {
-                    return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>Inactive</Typography>
+                    return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
                 }
                 else if (params.value === 2) {
-                    return <Typography sx={{ color: '#DA3E33', fontWeight: 600 }}>Death</Typography>
+                    return <Typography sx={{ color: '#DA3E33', fontWeight: 600 }}>{t('death')}</Typography>
                 }
             }
         },
@@ -316,9 +314,9 @@ const SharesWithdrawalPage = () => {
                         lineHeight: '1.875rem', flexGrow: 1,
                         marginLeft: '1.2rem'
                     }}>
-                        Shares Withdrawal
+                        {t('shares_withdrawal')}
                     </Typography>
-                    <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0 }}>
+                    <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0, display: 'none' }}>
                         <WithdrawalForm ref={componentRef} />
                     </Box>
 
@@ -363,7 +361,7 @@ const SharesWithdrawalPage = () => {
                     }}
                 />
             </Box>
-            <ConfirmWithdrawDialog />
+            <WithdrawalModal savings={false} id={selectedShareholderId} open={editOpen} setOpen={setEditOpen} fetchData={fetchData} />
         </React.Fragment>
 
     )

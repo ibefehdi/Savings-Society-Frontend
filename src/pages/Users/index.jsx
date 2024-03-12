@@ -82,7 +82,7 @@ const Users = () => {
                 // Close dialog and refresh data or any additional state updates
                 setOpenConfirmDialog(false);
                 setUserToDelete(null);
-                fetchData(); // Assuming you have a fetchData function to refresh the list
+                fetchData();
             } catch (error) {
                 console.error("Deletion error:", error);
                 setOpenConfirmDialog(false);
@@ -101,12 +101,8 @@ const Users = () => {
 
     useEffect(() => {
         fetchData();
-    }, [fetchData, pageNo, pageSize]);
-    const handlePageSizeChange = (event) => {
-        setPageSize(event.target.value);
-        setPageNo(1); // Reset to the first page when the size changes
-        setPaginationModel({ ...paginationModel, pageSize: event.target.value });
-    };
+    }, [pageNo, pageSize]);
+
     const [paginationModel, setPaginationModel] = useState({
         pageSize: pageSize,
         page: pageNo,
@@ -369,12 +365,12 @@ const Users = () => {
                 <Box
                     sx={{
                         ...style,
-                        width: '50rem',
+                        width: '80rem',
                     }}
                 >
                     <Typography variant='h5' id="child-modal-title" sx={{ mb: 2 }}>{editMode ? "Edit User" : "Add User Details"}</Typography>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} md={6}>
+                    <Grid container spacing={12}>
+                        <Grid item xs={12} md={4}>
                             <TextField
                                 id="fName"
                                 label={t('first_name')}
@@ -445,10 +441,10 @@ const Users = () => {
 
                             />
                         </Grid>
-                        <Grid item xs={12} md={6}>
+                        <Grid item xs={12} md={4}>
                             <Typography variant='h6' sx={{ mb: 2 }}>{t('permissions')}</Typography>
                             {/* Shareholder Permissions */}
-                            <Typography variant='subtitle1'>Shareholder Permissions</Typography>
+                            <Typography variant='subtitle1'>{t('shareholder_permissions')}</Typography>
                             <FormGroup>
                                 <FormControlLabel
                                     control={
@@ -492,7 +488,7 @@ const Users = () => {
                                 />
                             </FormGroup>
                             {/* User Permissions */}
-                            <Typography variant='subtitle1' sx={{ mt: 2 }}>User Permissions</Typography>
+                            <Typography variant='subtitle1' sx={{ mt: 2 }}>{t('user_permissions')}</Typography>
                             <FormGroup>
                                 <FormControlLabel
                                     control={
@@ -535,8 +531,129 @@ const Users = () => {
                                     label="Delete"
                                 />
                             </FormGroup>
+                            {/* User Permissions */}
+                            <Typography variant='subtitle1' sx={{ mt: 2 }}>{t('amanat_permissions')}</Typography>
+                            <FormGroup>
+                                <FormControlLabel
+                                    control={
+                                        <Controller
+                                            name="permissions.amanat.create"
+                                            control={control}
+                                            render={({ field }) => <Checkbox {...field} checked={field.value} />}
+                                        />
+                                    }
+                                    label="Create"
+                                />
+                                <FormControlLabel
+                                    control={
+                                        <Controller
+                                            name="permissions.amanat.view"
+                                            control={control}
+                                            render={({ field }) => <Checkbox {...field} checked={field.value} />}
+                                        />
+                                    }
+                                    label="View"
+                                />
+                                <FormControlLabel
+                                    control={
+                                        <Controller
+                                            name="permissions.amanat.edit"
+                                            control={control}
+                                            render={({ field }) => <Checkbox {...field} checked={field.value} />}
+                                        />
+                                    }
+                                    label="Edit"
+                                />
+                                <FormControlLabel
+                                    control={
+                                        <Controller
+                                            name="permissions.amanat.delete"
+                                            control={control}
+                                            render={({ field }) => <Checkbox {...field} checked={field.value} />}
+                                        />
+                                    }
+                                    label="Delete"
+                                />
+                            </FormGroup>
+
+
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            <Typography variant='subtitle1' sx={{ mt: 2 }}>{t('deposit_permissions')}</Typography>
+                            <FormGroup>
+                                <FormControlLabel
+                                    control={
+                                        <Controller
+                                            name="permissions.deposit.share"
+                                            control={control}
+                                            render={({ field }) => <Checkbox {...field} checked={field.value} />}
+                                        />
+                                    }
+                                    label="Share"
+                                />
+                                <FormControlLabel
+                                    control={
+                                        <Controller
+                                            name="permissions.deposit.savings"
+                                            control={control}
+                                            render={({ field }) => <Checkbox {...field} checked={field.value} />}
+                                        />
+                                    }
+                                    label="Saving"
+                                />
+
+                            </FormGroup>
+                            <Typography variant='subtitle1' sx={{ mt: 2 }}>{t('withdrawal_permissions')}</Typography>
+                            <FormGroup>
+                                <FormControlLabel
+                                    control={
+                                        <Controller
+                                            name="permissions.withdrawal.share"
+                                            control={control}
+                                            render={({ field }) => <Checkbox {...field} checked={field.value} />}
+                                        />
+                                    }
+                                    label="Share"
+                                />
+                                <FormControlLabel
+                                    control={
+                                        <Controller
+                                            name="permissions.withdrawal.savings"
+                                            control={control}
+                                            render={({ field }) => <Checkbox {...field} checked={field.value} />}
+                                        />
+                                    }
+                                    label="Saving"
+                                />
+
+                            </FormGroup>
+                            <Typography variant='subtitle1' sx={{ mt: 2 }}>{t('financial_configuration_permissions')}</Typography>
+                            <FormGroup>
+                                <FormControlLabel
+                                    control={
+                                        <Controller
+                                            name="permissions.financialConfiguration.share"
+                                            control={control}
+                                            render={({ field }) => <Checkbox {...field} checked={field.value} />}
+                                        />
+                                    }
+                                    label="Share"
+                                />
+                                <FormControlLabel
+                                    control={
+                                        <Controller
+                                            name="permissions.financialConfiguration.savings"
+                                            control={control}
+                                            render={({ field }) => <Checkbox {...field} checked={field.value} />}
+                                        />
+                                    }
+                                    label="Saving"
+                                />
+
+                            </FormGroup>
                         </Grid>
                     </Grid>
+
                     <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
                         <Button onClick={handleSubmit(onSubmit)}>{editMode ? "Edit" : "Add"}</Button>
                     </Box>

@@ -68,6 +68,13 @@
     "active_users":"المستخدم النشط",
     "active_shareholders":"مساهم نشط",
     "deleted_users":"مستخدم غير نشط",
-    "amanat":"أمانة"
-
+    "amanat":"أمانة",
+    "shares_withdrawal":"سحوبات الأسهم",
+    "savings_withdrawal":"سحوبات الإدخار",
+    "shares_deposit":"شراء أسهم",
+    "saving_deposit":"إيداع في حساب الإدخار",
+    "overview":"نظرة عامة",
+    "withdraw":"سحب",
+    "withdrawal_amount":"مبلغ السحب",
+    "amount_after_withdrawal":"المبلغ بعد السحب"
 }

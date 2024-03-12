@@ -33,15 +33,30 @@ const Home = () => {
         <React.Fragment>
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
                 <Typography variant="h3" component="h2" sx={{
-                    fontStyle: 'normal', // Sets the font style
+                    fontStyle: 'normal',
                     fontWeight: 600,
-                    lineHeight: '1.875rem', flexGrow: 1,
+                    lineHeight: '1.875rem',
+                    flexGrow: 1,
                     marginLeft: '1.2rem'
                 }}>
-                    Overview
+                    {t('overview')}
                 </Typography>
-                <Box sx={{ width: '90%', backgroundColor: '#FFF', display: 'flex', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
-                    <Box sx={{ width: "13rem", height: '5rem', padding: '1rem', borderRight: '2px solid #f1f1f1', textAlign: 'left' }}>
+                <Box sx={{
+                    width: '90%',
+                    backgroundColor: '#FFF',
+                    display: 'flex',
+                    margin: '2rem',
+                    padding: '1rem',
+                    borderRadius: '0.5rem',
+                    overflowX: 'auto'
+                }}>
+                    <Box sx={{
+                        width: "13rem",
+                        height: '5rem',
+                        padding: '1rem',
+                        borderRight: '2px solid #f1f1f1',
+                        textAlign: 'left'
+                    }}>
                         <Typography sx={{ color: '#2a6bd1', marginBottom: '0.5rem', fontWeight: "700" }}>
                             {t('total_shareholders')}
                         </Typography>

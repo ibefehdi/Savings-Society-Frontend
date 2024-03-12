@@ -68,5 +68,15 @@
     "active_users":"Active Users",
     "active_shareholders":"Active Shareholders",
     "deleted_users":"Deleted Users",
-    "amanat":"Amanat"
+    "amanat":"Amanat",
+    "add_user_details":"Add User Details",
+    "shares_withdrawal":"Shares Withdrawal",
+    "savings_withdrawal":"Savings Withdrawal",
+    "shares_deposit":"Purchase Shares",
+    "saving_deposit":"Savings Deposit",
+    "overview":"Overview",
+    "withdraw":"Withdraw",
+    "withdrawal_amount":"Withdrawal Amount",
+    "amount_after_withdrawal":"Amount After Withdrawal"
+
 }

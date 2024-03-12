@@ -14,6 +14,23 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, T
 import axiosInstance from '../../constants/axiosInstance';
 import WithdrawalForm from '../../printablePages/WithdrawalForm';
 import { useTranslation } from 'react-i18next';
+import AmanatWithdrawal from './AmanatWithdrawal';
+const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
+
+  const handleEditClick = () => {
+    setSelectedShareholderId(id); // Set the selected shareholder ID
+    setEditOpen(true); // Open the edit modal
+  };
+
+  return (
+
+
+    <IconButton onClick={handleEditClick}>
+      <LocalAtmIcon />
+    </IconButton>
+
+  );
+};
 const Amanat = () => {
   const [pageNo, setPageNo] = useState(1)
   const [pageSize, setPageSize] = useState(10)
@@ -25,10 +42,13 @@ const Amanat = () => {
     civilId: '',
     serial: ''
   });
+
   const { data, fetchData, count } = useFetch('/shareholders', pageNo, pageSize, filters);
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [userData, setUserdata] = useState(JSON.parse(sessionStorage.getItem('userDetails')))
+  const [selectedShareholderId, setSelectedShareholderId] = useState(null);
+  const [admin, setAdmin] = useState(userData?.isAdmin)
 
   const columns = [
     {
@@ -130,7 +150,16 @@ const Amanat = () => {
         }
       }
     },
+    ...(admin ? [{
+      field: 'withdrawal',
+      headerName: t('withdrawal'),
+      sortable: false,
+      width: 150,
+      renderCell: (params) => {
+        return <ViewButton id={params.id} edit={true} setEditOpen={setEditOpen} setSelectedShareholderId={setSelectedShareholderId} />;
 
+      },
+    }] : []),
 
 
   ];
@@ -156,127 +185,128 @@ const Amanat = () => {
   const toggleFilters = () => {
     setShowFilters(!showFilters);
   };
-  return (<React.Fragment>
-    <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto' }}>
-      <FilterListOutlinedIcon /> {t('filter')}
-    </Button>
-    {showFilters && (<Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
-      <TextField
-        label={t('serial')}
-        variant="outlined"
-        value={filters.serial}
-        onChange={(e) => setFilters({ ...filters, serial: e.target.value })}
-        fullWidth
-        autoComplete='off'
-      />
-      <TextField
-        label={t('first_name')}
-        variant="outlined"
-        value={filters.fName}
-        onChange={(e) => setFilters({ ...filters, fName: e.target.value })}
-        fullWidth
-        autoComplete='off'
+  return (
+    <React.Fragment>
+      <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto' }}>
+        <FilterListOutlinedIcon /> {t('filter')}
+      </Button>
+      {showFilters && (<Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
+        <TextField
+          label={t('serial')}
+          variant="outlined"
+          value={filters.serial}
+          onChange={(e) => setFilters({ ...filters, serial: e.target.value })}
+          fullWidth
+          autoComplete='off'
+        />
+        <TextField
+          label={t('first_name')}
+          variant="outlined"
+          value={filters.fName}
+          onChange={(e) => setFilters({ ...filters, fName: e.target.value })}
+          fullWidth
+          autoComplete='off'
 
-      />
-      <TextField
-        label={t('last_name')}
-        variant="outlined"
-        value={filters.lName}
-        onChange={(e) => setFilters({ ...filters, lName: e.target.value })}
-        fullWidth
-        autoComplete='off'
+        />
+        <TextField
+          label={t('last_name')}
+          variant="outlined"
+          value={filters.lName}
+          onChange={(e) => setFilters({ ...filters, lName: e.target.value })}
+          fullWidth
+          autoComplete='off'
 
-      />
-      <TextField
-        label={t('civil_id')}
-        variant="outlined"
-        value={filters.civilId}
-        onChange={(e) => setFilters({ ...filters, civilId: e.target.value })}
-        fullWidth
-        autoComplete='off'
+        />
+        <TextField
+          label={t('civil_id')}
+          variant="outlined"
+          value={filters.civilId}
+          onChange={(e) => setFilters({ ...filters, civilId: e.target.value })}
+          fullWidth
+          autoComplete='off'
 
-      />
-      <TextField
-        label={t('status')}
-        variant="outlined"
-        select
-        value={filters.status}
-        onChange={(e) => setFilters({ ...filters, status: e.target.value })}
-        fullWidth
-        autoComplete='off'
+        />
+        <TextField
+          label={t('status')}
+          variant="outlined"
+          select
+          value={filters.status}
+          onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+          fullWidth
+          autoComplete='off'
 
-      >
-        {/* Replace these with your actual status options */}
-        <MenuItem value={0}>{t('active')}</MenuItem>
-        <MenuItem value={1}>{t('inactive')}</MenuItem>
-        <MenuItem value={2}>{t('death')}</MenuItem>
-      </TextField>
-      <TextField
-        label={t('membership_status')}
-        variant="outlined"
-        select
-        value={filters.membershipStatus}
-        onChange={(e) => setFilters({ ...filters, membershipStatus: e.target.value })}
-        fullWidth
-        autoComplete='off'
-      >
-        <MenuItem value={0}>{t('active')}</MenuItem>
-        <MenuItem value={1}>{t('inactive')}</MenuItem>
-      </TextField>
-    </Box>)}
-    <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
-      <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
-        <Typography variant="h3" component="h2" sx={{
-          fontStyle: 'normal', // Sets the font style
-          fontWeight: 600,
-          lineHeight: '1.875rem', flexGrow: 1,
-          marginLeft: '1.2rem'
-        }}>
-          {t('amanat')}
-        </Typography>
-
-      </Box>
-      <DataGrid
-        rows={data}
-        columns={columns}
-        paginationModel={paginationModel}
-        onPaginationModelChange={(newModel) => {
-          setPageNo(newModel.page + 1);
-          setPaginationModel(newModel);
-        }}
-        getRowId={(row) => row._id}
-        rowCount={count}
-        paginationMode="server"
-        sx={{
-          backgroundColor: '#FFF',
-          padding: '1rem',
-          border: 'none',
-          width: '100%',
-          '& .MuiDataGrid-columnHeadersInner': {
-            border: 'none',
-          },
-          '& .MuiDataGrid-virtualScroller': {
-            border: 'none',
-          },
-          '& .MuiDataGrid-virtualScrollerContent': {
-            border: 'none',
-          },
-          '& .MuiDataGrid-footerContainer': {
-            borderTop: 'none',
-          },
-          '& .MuiDataGrid-columnHeaders': {
-            border: 'none',
+        >
+          <MenuItem value={0}>{t('active')}</MenuItem>
+          <MenuItem value={1}>{t('inactive')}</MenuItem>
+          <MenuItem value={2}>{t('death')}</MenuItem>
+        </TextField>
+        <TextField
+          label={t('membership_status')}
+          variant="outlined"
+          select
+          value={filters.membershipStatus}
+          onChange={(e) => setFilters({ ...filters, membershipStatus: e.target.value })}
+          fullWidth
+          autoComplete='off'
+        >
+          <MenuItem value={0}>{t('active')}</MenuItem>
+          <MenuItem value={1}>{t('inactive')}</MenuItem>
+        </TextField>
+      </Box>)}
+      <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
+        <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
+          <Typography variant="h3" component="h2" sx={{
             fontStyle: 'normal', // Sets the font style
-            fontWeight: 600, // Sets the font weight
-            lineHeight: '1.25rem',
-            color: '#667085',
-            fontSize: '0.875rem'
-          },
-        }}
-      />
-    </Box>
+            fontWeight: 600,
+            lineHeight: '1.875rem', flexGrow: 1,
+            marginLeft: '1.2rem'
+          }}>
+            {t('amanat')}
+          </Typography>
 
-  </React.Fragment>)
+        </Box>
+        <DataGrid
+          rows={data}
+          columns={columns}
+          paginationModel={paginationModel}
+          onPaginationModelChange={(newModel) => {
+            setPageNo(newModel.page + 1);
+            setPaginationModel(newModel);
+          }}
+          getRowId={(row) => row._id}
+          rowCount={count}
+          paginationMode="server"
+          sx={{
+            backgroundColor: '#FFF',
+            padding: '1rem',
+            border: 'none',
+            width: '100%',
+            '& .MuiDataGrid-columnHeadersInner': {
+              border: 'none',
+            },
+            '& .MuiDataGrid-virtualScroller': {
+              border: 'none',
+            },
+            '& .MuiDataGrid-virtualScrollerContent': {
+              border: 'none',
+            },
+            '& .MuiDataGrid-footerContainer': {
+              borderTop: 'none',
+            },
+            '& .MuiDataGrid-columnHeaders': {
+              border: 'none',
+              fontStyle: 'normal', // Sets the font style
+              fontWeight: 600, // Sets the font weight
+              lineHeight: '1.25rem',
+              color: '#667085',
+              fontSize: '0.875rem'
+            },
+          }}
+        />
+      </Box>
+      <AmanatWithdrawal id={selectedShareholderId} open={editOpen} setOpen={setEditOpen} savings={true} fetchData={fetchData} />
+    </React.Fragment>
+  )
 }
 
 export default Amanat
