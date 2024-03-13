@@ -2,13 +2,9 @@ import React, { useEffect, useState } from 'react'
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-
 import TextField from '@mui/material/TextField';
 import { useForm, Controller } from 'react-hook-form';
 import axiosInstance from '../../constants/axiosInstance';
-import { MenuItem, FormControl, Select, FormHelperText, InputLabel } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 const style = {
     position: 'absolute',
@@ -70,7 +66,8 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
         setTotalAmount((currentAmount + additionAmount).toFixed(3));
     }, [shareholderDetails, newAmount]);
 
-    const { t } = useTranslation();
+    const { i18n, t } = useTranslation();
+    const isRtl = i18n.dir() === 'rtl';
 
     return (
         <Modal
@@ -78,6 +75,7 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
             onClose={handleClose}
             aria-labelledby="add-shareholder-modal-title"
             aria-describedby="add-shareholder-modal-description"
+            sx={{ direction: isRtl ? 'rtl' : 'ltr' }}
         >
 
             <Box sx={{

@@ -11,8 +11,7 @@ import axiosInstance from '../../constants/axiosInstance';
 import { MenuItem, FormControl, Select, FormHelperText, InputLabel } from '@mui/material';
 import MoneyForm from '../../printablePages/MoneyForm';
 import { useReactToPrint } from 'react-to-print';
-import AddBalanceForm from '../../printablePages/AddBalanceForm';
-import WithdrawalForm from '../../printablePages/WithdrawalForm';
+
 import { useTranslation } from 'react-i18next';
 
 const style = {
@@ -55,13 +54,17 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
     });
-    const { t } = useTranslation();
+    const { i18n, t } = useTranslation();
+    const isRtl = i18n.dir() === 'rtl';
+
     return (
         <Modal
             open={open}
             onClose={handleClose}
             aria-labelledby="add-shareholder-modal-title"
             aria-describedby="add-shareholder-modal-description"
+            sx={{ direction: isRtl ? 'rtl' : 'ltr' }}
+
 
         >
             <Box sx={{

@@ -1,6 +1,6 @@
 {
     "logout": "تسجيل الخروج",
-    "home": "الصفحه الرائيسية",
+    "home": "الصفحة الرئيسية",
     "users": "المستخدمون",
     "shareholders": "المساهمون",
     "deposits": "الايداعات",
@@ -56,7 +56,7 @@
     "share_initial_amount": "القيمة المبدائية للسهم",
     "share_amount": "قيمة السهم",
     "interest_rate": "نسبة الفائدة",
-    "login_text": "اسم المستحدم",
+    "login_text": "اسم المستخدم",
     "welcome_back": "مرحباً بعودتك",
     "sign_in": "تسجيل دخول",
     "create": "إشاء",

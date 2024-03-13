@@ -20,7 +20,10 @@
         margin-top: 1rem;
     }
 }
-
+.flex-container-rtl {
+    direction: rtl;
+    /* Adjust more styles as needed to support RTL layout */
+  }
 @media (max-width: 480px) {
     
     .content {

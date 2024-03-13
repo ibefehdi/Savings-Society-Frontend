@@ -1,12 +1,11 @@
-import React, { useState, useContext, startTransition } from "react";
+import React, { useState, } from "react";
 import {
     Box,
     IconButton,
-    useTheme,
     Menu,
     MenuItem,
+    Button
 } from "@mui/material";
-import { theme } from "../../theme";
 import LanguageIcon from "@mui/icons-material/Language"; // Import an icon for the language menu
 
 import PersonIcon from "@mui/icons-material/Person";
@@ -22,9 +21,13 @@ const Topbar = () => {
         en: { nativeName: "English" },
         ar: { nativeName: "Arabic" },
     };
-    const theme = useTheme();
+    const toggleLanguage = () => {
+        const newLang = i18n.resolvedLanguage === 'en' ? 'ar' : 'en';
+        i18n.changeLanguage(newLang);
+    };
+    const buttonText = i18n.resolvedLanguage === 'en' ? 'AR' : 'EN';
+
     const navigate = useNavigate()
-    const [anchorEl, setAnchorEl] = useState(null);
     const [userMenuAnchorEl, setUserMenuAnchorEl] = useState(null);
     const [languageMenuAnchorEl, setLanguageMenuAnchorEl] = useState(null);
     const handleUserMenuClick = (event) => {
@@ -44,9 +47,7 @@ const Topbar = () => {
     };
 
     const changeLanguage = (lng) => {
-
         i18n.changeLanguage(lng);
-
         handleLanguageMenuClose();
     };
 
@@ -65,19 +66,7 @@ const Topbar = () => {
                 <img src={logo} alt="Logo" style={{ width: 40, height: 40, marginRight: 10 }} onClick={() => navigate('/')} />
             </Box>
             <Box display={"flex"}>
-                <IconButton onClick={handleUserMenuClick}>
-                    <PersonIcon />
-                </IconButton>
-                <Menu
-                    anchorEl={userMenuAnchorEl}
-                    keepMounted
-                    open={Boolean(userMenuAnchorEl)}
-                    onClose={handleUserMenuClose}
-                >
-                    <MenuItem onClick={handleMenuLogout}>{t('logout')}</MenuItem>
-                </Menu>
-
-                <IconButton onClick={handleLanguageMenuClick}>
+                {/* <IconButton onClick={handleLanguageMenuClick}>
                     <LanguageIcon />
                 </IconButton>
                 <Menu
@@ -95,6 +84,23 @@ const Topbar = () => {
                             {lngs[lng].nativeName}
                         </MenuItem>
                     ))}
+                </Menu> */}
+                <Button onClick={toggleLanguage}>
+                    <IconButton>
+                        <LanguageIcon />
+                    </IconButton>
+                    {buttonText}
+                </Button>
+                <IconButton onClick={handleUserMenuClick}>
+                    <PersonIcon />
+                </IconButton>
+                <Menu
+                    anchorEl={userMenuAnchorEl}
+                    keepMounted
+                    open={Boolean(userMenuAnchorEl)}
+                    onClose={handleUserMenuClose}
+                >
+                    <MenuItem onClick={handleMenuLogout}>{t('logout')}</MenuItem>
                 </Menu>
             </Box>
         </Box>

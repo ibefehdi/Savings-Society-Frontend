@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Box, TextField, Typography, Button, Switch, FormControlLabel } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu'; // Import the icon for the menu button
 import "./Login.css";
 import { theme } from '../../theme';
 import logo from '../../assets/logo.png';
@@ -10,7 +9,7 @@ import { jwtDecode } from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
 import { setUserDetails } from '../../redux/reducers';
 import { useDispatch } from 'react-redux';
-import { useTranslation, useI18n } from 'react-i18next';
+import { useTranslation, } from 'react-i18next';
 
 const Login = () => {
     const {
@@ -20,14 +19,9 @@ const Login = () => {
         formState: { errors },
     } = useForm();
     const [inputError, setInputError] = useState({ username: false, password: false, customError: "" });
-    const [languageMenuAnchorEl, setLanguageMenuAnchorEl] = useState(null);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { t, i18n } = useTranslation();
-    const lngs = {
-        en: { nativeName: "English" },
-        ar: { nativeName: "Arabic" },
-    };
 
     const toggleLanguage = () => {
         const newLang = i18n.language === 'en' ? 'ar' : 'en';
@@ -67,8 +61,10 @@ const Login = () => {
             setInputError({ username: username, password: password, customError: "" });
         }
     };
+    const isRtl = i18n.dir() === 'rtl';
+
     return (
-        <Box className='layout'>
+        <Box className='layout' sx={{ direction: isRtl ? 'rtl' : 'ltr' }}>
 
             <form onSubmit={handleSubmit(onSubmit)} className='login-details'>
                 <FormControlLabel
@@ -80,8 +76,8 @@ const Login = () => {
                 <Box
                     component="img"
                     sx={{
-                        height: "3rem",
-                        width: "3rem",
+                        height: "10rem",
+                        width: "10rem",
                         alignSelf: 'center',
                     }}
                     alt="Company Logo"

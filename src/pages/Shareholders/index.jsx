@@ -42,6 +42,7 @@ const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
 const Shareholders = () => {
   const [pageNo, setPageNo] = useState(1)
   const [pageSize, setPageSize] = useState(10)
+
   const [filters, setFilters] = useState({
     fName: '',
     lName: '',
@@ -52,7 +53,9 @@ const Shareholders = () => {
   });
   const { data, fetchData, count } = useFetch('/shareholders', pageNo, pageSize, filters);
   const [selectedShareholderId, setSelectedShareholderId] = useState(null);
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
+  const isRtl = i18n.dir() === 'rtl';
+
   const navigate = useNavigate();
   const [userData, setUserdata] = useState(JSON.parse(sessionStorage.getItem('userDetails')))
   const [permissions, setPermissions] = useState(userData?.permissions)
@@ -216,7 +219,7 @@ const Shareholders = () => {
 
   return (
     <React.Fragment>
-      <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto' }}>
+      <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto',marginRight:isRtl?'2rem':0 }}>
         <FilterListOutlinedIcon /> {t('filter')}
       </Button>
       {showFilters && (<Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>

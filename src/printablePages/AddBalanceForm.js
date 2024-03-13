@@ -7,16 +7,16 @@ const AddBalanceForm = React.forwardRef((props, ref) => {
         <div ref={ref} style={formStyles}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px', paddingBottom: 10, borderBottom: '1px solid black', direction: 'ltr' }}>
                 <div style={{ flex: 1 }}>
-                    <h2 style={{ margin: '0' }}>Co-operative Society of Savings</h2>
-                    <p style={{ margin: '0' }}>For Kuwait Staff in Government</p>
-                    <p style={{ margin: '0' }}>Tel: 22610345 - 22641090 - Fax: 22619360</p>
+                    <h1 style={{ margin: '0', textAlign: 'center' }}>Co-operative Society of Savings</h1>
+                    <p style={{ margin: '0', textAlign: 'center' }}>For Kuwait Staff in Government</p>
+                    <p style={{ margin: '0', textAlign: 'center' }}>Tel: 22610345 - 22641090 - Fax: 22619360</p>
                 </div>
                 <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
                     <img src={logo} alt='logo' style={{ height: '100px', width: '100px' }} />
                 </div>
                 <div style={{ flex: 1, textAlign: 'right' }}>
-                    <h3 style={{ margin: '0' }}>الجمعية التعاونية للادخار</h3>
-                    <p style={{ margin: '0' }}>الجمعية التعاونية لموظفي الحكومة الكويتيين (للادخار)</p>
+                    {/* <h1 style={{ margin: '0' }}>الجمعية التعاونية للادخار</h1> */}
+                    <h1 style={{ margin: '0', textAlign: 'center' }}>الجمعية التعاونية لموظفي الحكومة الكويتيين (للادخار)</h1>
                 </div>
             </div>
             <h2 style={headingStyles}>طلب زيادة رصيد الأسهم – المدخرات</h2>
@@ -30,7 +30,12 @@ const AddBalanceForm = React.forwardRef((props, ref) => {
                 لذا يرجى الموافقة على قبول المبلغ الموضح أعلاه وتزويدي بإيصال بالاستلام.<br />
                 وتفضلوا بقبول خالص التحية،،،
             </p>
-
+            <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', textAlign: 'right', direction: 'rtl' }}>
+                <label style={{ width: 'auto', margin: '0 10px' }}>أسهم</label>
+                <div style={{ width: '20px', height: '20px', border: '1px solid black', margin: '0 10px' }}></div>
+                <label style={{ width: 'auto', margin: '0 10px' }}>مدخرات</label>
+                <div style={{ width: '20px', height: '20px', border: '1px solid black', margin: '0 10px' }}></div>
+            </div>
 
             <div style={dateSignatureStyles}>
                 <div>التاريخ: <br /><br /> ________</div>

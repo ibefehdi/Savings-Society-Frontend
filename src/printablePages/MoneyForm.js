@@ -1,20 +1,39 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import logo from '../assets/logo.png';
 const MoneyForm = React.forwardRef((props, ref) => {
+    // const [serial, setSerial] = useState();
+    // useEffect(() => {
+    //     const fetchData = async () => {
+
+    //         try {
+    //             const response = await axiosInstance.post('/receipt-voucher-serials', {});
+    //             setSerial(response.data.serialNumber);
+    //             // Here, update your component state/context with response.data as needed
+
+    //         } catch (e) {
+    //             console.log(e);
+    //             // Handle the error more gracefully here
+    //         }
+    //     };
+    //     if (props.increment) {
+    //         fetchData();
+
+    //     }
+    // }, [props.increment])
     return (
         <div ref={ref} style={{ fontFamily: 'Arial, sans-serif', width: '100%', margin: 'auto', padding: '50px', border: '1px solid black' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                 <div style={{ flex: 1 }}>
-                    <h2 style={{ margin: '0' }}>Co-operative Society of Savings</h2>
-                    <p style={{ margin: '0' }}>For Kuwait Staff in Government</p>
-                    <p style={{ margin: '0' }}>Tel: 22610345 - 22641090 - Fax: 22619360</p>
+                    <h1 style={{ margin: '0', textAlign: 'center' }}>Co-operative Society of Savings</h1>
+                    <p style={{ margin: '0', textAlign: 'center' }}>For Kuwait Staff in Government</p>
+                    <p style={{ margin: '0', textAlign: 'center' }}>Tel: 22610345 - 22641090 - Fax: 22619360</p>
                 </div>
                 <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
                     <img src={logo} alt='logo' style={{ height: '100px', width: '100px' }} />
                 </div>
                 <div style={{ flex: 1, textAlign: 'right' }}>
-                    <h3 style={{ margin: '0' }}>الجمعية التعاونية للادخار</h3>
-                    <p style={{ margin: '0' }}>الجمعية التعاونية لموظفي الحكومة الكويتيين (للادخار)</p>
+                    {/* <h1 style={{ margin: '0' }}>الجمعية التعاونية للادخار</h1> */}
+                    <h1 style={{ margin: '0', textAlign: 'center' }}>الجمعية التعاونية لموظفي الحكومة الكويتيين (للادخار)</h1>
                 </div>
             </div>
 
@@ -23,6 +42,8 @@ const MoneyForm = React.forwardRef((props, ref) => {
             </div>
             <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'center', textAlign: 'center', direction: 'rtl' }}>
                 <label style={{ width: 'auto', fontWeight: 'bolder', textDecoration: 'underline', fontSize: 28 }}>سند قبض</label>
+                <h1 style={{ marginBottom: '20px', display: 'flex', justifyContent: 'flex-end', textAlign: 'right', direction: 'rtl', color: 'red', opacity: '60%', position: 'absolute', left: "660px" }}>{props.serial}</h1>
+
             </div>
             {/* <!-- Membership Number --> */}
             <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'flex-end', textAlign: 'right', direction: 'rtl' }}>
@@ -51,6 +72,14 @@ const MoneyForm = React.forwardRef((props, ref) => {
                 <label style={{ width: 'auto' }}>على بنك:</label>
                 <div style={{ flexGrow: 1, borderBottom: '1px solid black', margin: '0 10px' }}>&nbsp;</div>
             </div>
+            <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', textAlign: 'right', direction: 'rtl' }}>
+                <label style={{ width: 'auto', margin: '0 10px' }}>أسهم</label>
+                <div style={{ width: '20px', height: '20px', border: '1px solid black', margin: '0 10px' }}></div>
+                <label style={{ width: 'auto', margin: '0 10px' }}>مدخرات</label>
+                <div style={{ width: '20px', height: '20px', border: '1px solid black', margin: '0 10px' }}></div>
+            </div>
+
+
             {/* <!-- Notes --> */}
             <div style={{ marginBottom: '20px', textAlign: 'right' }}>
                 <label style={{ width: 'auto' }}>ملاحظات:</label>
