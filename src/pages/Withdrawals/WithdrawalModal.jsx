@@ -23,7 +23,9 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
     const [shareholderDetails, setShareholderDetails] = useState();
     const adminData = JSON.parse(sessionStorage.getItem('userDetails') || '{}');
     const [totalAmount, setTotalAmount] = useState(0);
-    const { t } = useTranslation();
+    const { i18n, t } = useTranslation();
+    const isRtl = i18n.dir() === 'rtl';
+
     const { register, handleSubmit, watch, setValue, control, reset, formState: { errors } } = useForm();
     useEffect(() => {
         const fetchShareholderDetails = async () => {
@@ -32,7 +34,7 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
                     const response = await axiosInstance.get(`shareholder/financials/${id}`);
                     const shareholderData = savings ? response?.data?.response?.savings : response?.data?.response?.shares
                     setShareholderDetails(shareholderData);
-                    console.log("This is the details of the shareholder",shareholderData);
+                    console.log("This is the details of the shareholder", shareholderData);
 
                 }
 
@@ -71,6 +73,8 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
             onClose={handleClose}
             aria-labelledby="add-shareholder-modal-title"
             aria-describedby="add-shareholder-modal-description"
+            sx={{ direction: isRtl ? 'rtl' : 'ltr' }}
+
         >
 
             <Box sx={{
@@ -85,6 +89,7 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
                     label={t('current_amount')}
                     value={shareholderDetails?.currentAmount}
                     disabled
+                    
                 />
                 <TextField
                     id="amountToWithdraw"
@@ -94,6 +99,7 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
                     {...register('amountToWithdraw', { required: true })}
                     error={!!errors.newAmount}
                     helperText={errors.newAmount ? 'This is required' : ''}
+                    
                 />
                 <TextField
                     margin="normal"
@@ -101,6 +107,7 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
                     label={t('amount_after_withdrawal')}
                     value={totalAmount}
                     disabled
+                   
                 />
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
                     {t('withdraw')}

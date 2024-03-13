@@ -1,24 +1,20 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-
 import TextField from '@mui/material/TextField';
 import { useForm, Controller } from 'react-hook-form';
 import axiosInstance from '../../constants/axiosInstance';
-import { MenuItem, FormControl, Select, FormHelperText, InputLabel } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400, // Adjusted for better readability
+    width: 400,
     bgcolor: 'background.paper',
     boxShadow: 24,
-    p: 4, // Shorthand for padding, applies to pt, px, and pb
+    p: 4,
 };
 const AddShareConfigurationModal = ({ open, year, setOpen, fetchData, editMode, shareConfigId, setEditMode }) => {
     const { register, handleSubmit, setValue, control, reset, formState: { errors } } = useForm();
@@ -27,8 +23,8 @@ const AddShareConfigurationModal = ({ open, year, setOpen, fetchData, editMode, 
         fetchData();
         setEditMode(false);
     }
-    const { t } = useTranslation();
-
+    const { i18n, t } = useTranslation();
+    const isRtl = i18n.dir() === 'rtl';
     const onSubmit = async (data) => {
         try {
             if (editMode) {
@@ -53,6 +49,7 @@ const AddShareConfigurationModal = ({ open, year, setOpen, fetchData, editMode, 
             onClose={handleClose}
             aria-labelledby="add-shareholder-modal-title"
             aria-describedby="add-shareholder-modal-description"
+            sx={{ direction: isRtl ? 'rtl' : 'ltr' }}
 
         >
             <Box sx={{
@@ -82,7 +79,8 @@ const AddShareConfigurationModal = ({ open, year, setOpen, fetchData, editMode, 
                     {editMode ? `Edit` : "Submit"}
                 </Button>
             </Box>
-        </Modal>)
+        </Modal>
+    )
 }
 
 export default AddShareConfigurationModal

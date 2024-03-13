@@ -9,6 +9,7 @@ import TextField from '@mui/material/TextField';
 import { useForm, Controller } from 'react-hook-form';
 import axiosInstance from '../../constants/axiosInstance';
 import { MenuItem, FormControl, Select, FormHelperText, InputLabel } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 const style = {
     position: 'absolute',
@@ -61,7 +62,8 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
     }, [id]);
 
 
-
+    const { i18n, t } = useTranslation();
+    const isRtl = i18n.dir() === 'rtl';
     const handleClose = () => {
         setOpen(false)
         fetchData();
@@ -86,6 +88,7 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
             onClose={handleClose}
             aria-labelledby="add-shareholder-modal-title"
             aria-describedby="add-shareholder-modal-description"
+            sx={{ direction: isRtl ? 'rtl' : 'ltr' }}
 
         >
             <Box sx={{

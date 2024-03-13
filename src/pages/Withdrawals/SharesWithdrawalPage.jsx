@@ -45,7 +45,7 @@ const SharesWithdrawalPage = () => {
     });
     const { data, fetchData, count } = useFetch('/shareholders', pageNo, pageSize, filters);
     const [selectedShareholderId, setSelectedShareholderId] = useState(null);
-    const { t } = useTranslation();
+    const { i18n, t } = useTranslation();
     const navigate = useNavigate();
     const [userData, setUserdata] = useState(JSON.parse(sessionStorage.getItem('userDetails')))
     const [admin, setAdmin] = useState(userData?.isAdmin)
@@ -205,29 +205,8 @@ const SharesWithdrawalPage = () => {
             }
         }
     };
-    const ConfirmWithdrawDialog = () => (
-        <Dialog
-            open={editOpen}
-            onClose={handleCloseConfirmDialog}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-        >
-            <DialogTitle id="alert-dialog-title">{"Confirm Deletion"}</DialogTitle>
-            <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                    Are you sure you want to withdraw savings for this user?
-                </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={handleCloseConfirmDialog} color="primary">
-                    Cancel
-                </Button>
-                <Button onClick={confirmWithdraw} color="primary" autoFocus>
-                    Confirm
-                </Button>
-            </DialogActions>
-        </Dialog>
-    );
+    const isRtl = i18n.dir() === 'rtl';
+
     const componentRef = useRef();
 
     const handlePrint = useReactToPrint({
@@ -239,7 +218,7 @@ const SharesWithdrawalPage = () => {
     };
     return (
         <React.Fragment>
-            <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto' }}>
+            <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
                 <FilterListOutlinedIcon /> {t('filter')}
             </Button>
             {showFilters && (<Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>

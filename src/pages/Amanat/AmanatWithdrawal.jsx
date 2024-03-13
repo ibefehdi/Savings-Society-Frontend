@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
 import TextField from '@mui/material/TextField';
-
 import { useForm } from 'react-hook-form';
 import axiosInstance from '../../constants/axiosInstance';
 const style = {
@@ -23,7 +22,7 @@ const AmanatWithdrawal = ({ id, fetchData, setOpen, open }) => {
     const [shareholderDetails, setShareholderDetails] = useState();
     const adminData = JSON.parse(sessionStorage.getItem('userDetails') || '{}');
     const [totalAmount, setTotalAmount] = useState(0);
-    const { t } = useTranslation();
+    const { i18n, t } = useTranslation();
     const { register, handleSubmit, watch, setValue, control, reset, formState: { errors } } = useForm();
     useEffect(() => {
         const fetchShareholderDetails = async () => {
@@ -63,12 +62,16 @@ const AmanatWithdrawal = ({ id, fetchData, setOpen, open }) => {
         const additionAmount = parseFloat(amountToWithdraw) || 0;
         setTotalAmount((currentAmount - additionAmount));
     }, [shareholderDetails, amountToWithdraw]);
+    const isRtl = i18n.dir() === 'rtl';
+
     return (
         <Modal
             open={open}
             onClose={handleClose}
             aria-labelledby="add-shareholder-modal-title"
             aria-describedby="add-shareholder-modal-description"
+            sx={{ direction: isRtl ? 'rtl' : 'ltr' }}
+
         >
 
             <Box sx={{

@@ -13,6 +13,7 @@ import Topbar from '../../components/Topbar';
 import { useTranslation } from 'react-i18next';
 const Layout = () => {
     const { i18n, t } = useTranslation();
+    const isRtl = i18n.dir() === 'rtl';
 
     const menuItems = [
         { name: t('home'), icon: <HomeOutlinedIcon />, path: "/" },
@@ -58,11 +59,11 @@ const Layout = () => {
 
     ];
     return (
-        <div className="app-container">
+        <div className={`app-container ${isRtl ? 'flex-container-rtl' : ''}`}>
             <Topbar />
-            <div className="flex-container">
+            <div className={`flex-container ${isRtl ? 'flex-container-rtl' : ''}`}>
                 <DashboardSidebar menuItems={menuItems} />
-                <div className="content">
+                <div className={`content ${isRtl ? 'content-rtl' : ''}`}>
                     <Outlet />
                 </div>
             </div>

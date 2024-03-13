@@ -2,12 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axiosInstance from '../../constants/axiosInstance';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import Button from '@mui/material/Button';
+
 import Typography from '@mui/material/Typography';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
+
 import { Table, TableBody, TableRow, TableCell, Tab, Tabs } from '@mui/material';
 function TabPanel(props) {
     const { children, value, index, ...other } = props;

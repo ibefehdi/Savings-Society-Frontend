@@ -5,14 +5,11 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useReactToPrint } from 'react-to-print';
 import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
-
 import { useFetch } from '../../hooks/useFetch';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, MenuItem } from '@mui/material';
-import axiosInstance from '../../constants/axiosInstance';
-import WithdrawalForm from '../../printablePages/WithdrawalForm';
+import { TextField, MenuItem } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import AmanatWithdrawal from './AmanatWithdrawal';
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
@@ -44,7 +41,7 @@ const Amanat = () => {
   });
 
   const { data, fetchData, count } = useFetch('/shareholders', pageNo, pageSize, filters);
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
   const navigate = useNavigate();
   const [userData, setUserdata] = useState(JSON.parse(sessionStorage.getItem('userDetails')))
   const [selectedShareholderId, setSelectedShareholderId] = useState(null);
@@ -177,6 +174,7 @@ const Amanat = () => {
 
 
   const componentRef = useRef();
+  const isRtl = i18n.dir() === 'rtl';
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -187,7 +185,7 @@ const Amanat = () => {
   };
   return (
     <React.Fragment>
-      <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto' }}>
+      <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto',marginRight:isRtl?'2rem':0 }}>
         <FilterListOutlinedIcon /> {t('filter')}
       </Button>
       {showFilters && (<Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>

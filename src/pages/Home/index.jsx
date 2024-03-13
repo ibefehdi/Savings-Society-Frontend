@@ -1,10 +1,10 @@
-import { jwtDecode } from 'jwt-decode'
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import axiosInstance from '../../constants/axiosInstance';
 import { useTranslation } from 'react-i18next';
+import logo from '../../assets/logo.png';
+
 const Home = () => {
     const [shareholderCount, setShareholderCount] = useState()
     const [userCount, setUserCount] = useState()
@@ -31,6 +31,11 @@ const Home = () => {
     }, []);
     return (
         <React.Fragment>
+            {/* <Box sx={{ width: '8rem', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', }}>
+
+                <img src={logo} alt="Logo" style={{ width: 100, height: 100 }} />
+
+            </Box> */}
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
                 <Typography variant="h3" component="h2" sx={{
                     fontStyle: 'normal',
@@ -92,7 +97,7 @@ const Home = () => {
 
 
             </Box>
-        </React.Fragment>
+        </React.Fragment >
     )
 }
 
