@@ -163,14 +163,12 @@ const Users = () => {
     };
     const columns = [
         {
-            field: 'fName',
-            headerName: t('first_name'),
-            width: 150,
-        },
-        {
-            field: 'lName',
-            headerName: t('last_name'),
-            width: 150,
+            field: 'Full Name',
+            headerName: t('full_name'),
+            flex: 1,
+            renderCell: (params) => {
+                return `${params.row.fName} ${params.row.lName}`
+            }
         },
         {
             field: 'username',

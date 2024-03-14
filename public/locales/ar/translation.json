@@ -13,7 +13,8 @@
     "withdrawal_form": "نموذج السحب",
     "deposit_form": "نموذج الايداع",
     "serial": "التسلسل",
-    "first_name": "الاسم الاول",
+    "first_name": "الاسم لاول",
+    "full_name":"الاسم",
     "last_name": "الاسم الاخير",
     "date_of_birth": "تاريخ الميلاد",
     "civil_id": "الرقم المدني",
@@ -77,5 +78,6 @@
     "withdraw":"سحب",
     "withdrawal_amount":"مبلغ السحب",
     "amount_after_withdrawal":"المبلغ بعد السحب",
-    "death_form":"صرف مستحقات متوفى"
+    "death_form":"صرف مستحقات متوفى",
+    "per_page":"لكل صفحة"
 }

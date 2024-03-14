@@ -84,7 +84,20 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                         <TextField margin="normal" fullWidth label={t('email')} {...register('email', { required: true })} error={!!errors.email} helperText={errors.email ? 'Email is required' : ''} />
                         <TextField margin="normal" fullWidth label={t('phone_number')} {...register('mobileNumber', { required: true })} error={!!errors.mobileNumber} helperText={errors.mobileNumber ? 'Phone Number is required' : ''} />
                         <TextField margin="normal" fullWidth label={t('iban')} {...register('ibanNumber', { required: true })} error={!!errors.ibanNumber} helperText={errors.ibanNumber ? 'IBAN Number is required' : ''} />
-                        <TextField margin="normal" fullWidth type="date"  {...register('dob', { required: true })} error={!!errors.dob} helperText={errors.dob ? 'Date of Birth is required' : ''} />
+                        <InputLabel htmlFor="dob">Date of Birth:</InputLabel>
+                        <TextField fullWidth type="date" id='dob' {...register('dob', { required: true })} error={!!errors.dob} helperText={errors.dob ? 'Date of Birth is required' : ''} />
+                        <InputLabel htmlFor="joinDate">Join Date:</InputLabel>
+                        <TextField
+                            id="joinDate"
+                            type="date"
+                            fullWidth
+                            {...register('joinDate', { required: true })}
+                            error={!!errors.joinDate}
+                            helperText={errors.joinDate ? 'Join Date is required' : ''}
+                        />
+                        <InputLabel htmlFor="quitDate">Quit Date:</InputLabel>
+                        <TextField fullWidth type="date" id='quitDate' {...register('quitDate', { required: true })} error={!!errors.ibanNumber} helperText={errors.ibanNumber ? 'Join Date is required' : ''} />
+
                         <FormControl fullWidth error={!!errors.status} margin="normal">
                             <InputLabel id="status-label">{t('status')}</InputLabel>
                             <Controller
@@ -98,9 +111,9 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                                         labelId="status-label"
                                         label="Status"
                                     >
-                                        <MenuItem value={0}>Active</MenuItem>
-                                        <MenuItem value={1}>Inactive</MenuItem>
-                                        <MenuItem value={2}>Death</MenuItem>
+                                        <MenuItem value={0}>{t('active')}</MenuItem>
+                                        <MenuItem value={1}>{t('inactive')}</MenuItem>
+                                        <MenuItem value={2}>{t('death')}</MenuItem>
                                     </Select>
                                 )}
                             />

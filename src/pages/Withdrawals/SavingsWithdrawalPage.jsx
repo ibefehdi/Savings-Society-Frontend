@@ -58,14 +58,12 @@ const SavingsWithdrawalPage = () => {
             flex: 1,
         },
         {
-            field: 'fName',
-            headerName: t('first_name'),
+            field: 'Full Name',
+            headerName: t('full_name'),
             flex: 1,
-        },
-        {
-            field: 'lName',
-            headerName: t('last_name'),
-            flex: 1,
+            renderCell: (params) => {
+                return `${params.row.fName} ${params.row.lName}`
+            }
         },
         {
             field: 'DOB',
