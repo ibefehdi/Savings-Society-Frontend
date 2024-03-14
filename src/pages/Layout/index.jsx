@@ -52,6 +52,7 @@ const Layout = () => {
                 { name: t('receipt_voucher'), path: "/Forms/ReceiptVoucher" },
                 { name: t('withdrawal_form'), path: "/Forms/WithdrawalForm" },
                 { name: t('deposit_form'), path: "/Forms/DepositForm" },
+                { name: t('death_form'), path: "Forms/DeathForm" }
 
             ]
         },

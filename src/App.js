@@ -21,6 +21,7 @@ import ReceiptVoucher from './pages/ReceiptVoucher';
 import WithdrawalFormPage from './pages/WithdrawalFormPage';
 import DepositFormPage from './pages/DepositFormPage';
 import Amanat from './pages/Amanat';
+import DeathFormPage from './pages/DeathFormPage';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -51,6 +52,7 @@ function App() {
         { path: 'Forms/ReceiptVoucher', element: <ReceiptVoucher /> },
         { path: 'Forms/WithdrawalForm', element: <WithdrawalFormPage /> },
         { path: 'Forms/DepositForm', element: <DepositFormPage /> },
+        { path: 'Forms/DeathForm', element: <DeathFormPage /> },
         { path: 'Amanat', element: <Amanat /> }
 
       ] : [],
