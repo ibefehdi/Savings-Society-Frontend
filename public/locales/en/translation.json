@@ -14,6 +14,7 @@
     "deposit_form":"Deposit Form",
     "serial": "Serial",
     "first_name": "First Name",
+    "full_name":"Full Name",
     "last_name": "Last Name",
     "date_of_birth": "Date of Birth",
     "civil_id": "Civil ID",
@@ -78,6 +79,7 @@
     "withdraw":"Withdraw",
     "withdrawal_amount":"Withdrawal Amount",
     "amount_after_withdrawal":"Amount After Withdrawal",
-    "death_form":"Death Form"
+    "death_form":"Death Form",
+    "per_page":"Per Page"
 
 }

@@ -54,14 +54,12 @@ const Amanat = () => {
       flex: 1,
     },
     {
-      field: 'fName',
-      headerName: t('first_name'),
+      field: 'Full Name',
+      headerName: t('full_name'),
       flex: 1,
-    },
-    {
-      field: 'lName',
-      headerName: t('last_name'),
-      flex: 1,
+      renderCell: (params) => {
+        return `${params.row.fName} ${params.row.lName}`
+      }
     },
     {
       field: 'DOB',
@@ -185,7 +183,7 @@ const Amanat = () => {
   };
   return (
     <React.Fragment>
-      <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto',marginRight:isRtl?'2rem':0 }}>
+      <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
         <FilterListOutlinedIcon /> {t('filter')}
       </Button>
       {showFilters && (<Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
