@@ -1,25 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import logo from '../assets/logo.png';
 const MoneyForm = React.forwardRef((props, ref) => {
-    // const [serial, setSerial] = useState();
-    // useEffect(() => {
-    //     const fetchData = async () => {
-
-    //         try {
-    //             const response = await axiosInstance.post('/receipt-voucher-serials', {});
-    //             setSerial(response.data.serialNumber);
-    //             // Here, update your component state/context with response.data as needed
-
-    //         } catch (e) {
-    //             console.log(e);
-    //             // Handle the error more gracefully here
-    //         }
-    //     };
-    //     if (props.increment) {
-    //         fetchData();
-
-    //     }
-    // }, [props.increment])
+    
     return (
         <div ref={ref} style={{ fontFamily: 'Arial, sans-serif', width: '100%', margin: 'auto', padding: '50px', border: '1px solid black' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
