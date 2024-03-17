@@ -10,7 +10,7 @@ export const useFetch = (url, pageNo, resultsPerPage, filters = {}) => {
         setLoading(true)
         // Convert filters object to query string
         const filterParams = new URLSearchParams(filters).toString();
-        const queryString = `?page=${pageNo}&resultsPerPage=${resultsPerPage}&${filterParams}`
+        const queryString = pageNo ? `?page=${pageNo}&resultsPerPage=${resultsPerPage}&${filterParams}`:`&${filterParams}`
 
         axiosInstance.get(`${url}${queryString}`)
             .then(res => {
@@ -23,7 +23,7 @@ export const useFetch = (url, pageNo, resultsPerPage, filters = {}) => {
             .finally(() => {
                 setLoading(false)
             })
-    }, [url, pageNo, resultsPerPage, filters]) // Include filters in the dependency array
+    }, [url, pageNo, resultsPerPage, filters]) 
 
     return { data, loading, fetchData, count }
 }

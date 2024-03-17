@@ -4,37 +4,18 @@ import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useReactToPrint } from 'react-to-print';
-import { TextField } from '@mui/material'
-import { MenuItem } from '@mui/material'
-import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
+
 import { useFetch } from '../../hooks/useFetch';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
-import LocalAtmIcon from '@mui/icons-material/LocalAtm';
-import DepositForm from './DepositForm';
-import AddBalanceForm from '../../printablePages/AddBalanceForm';
+import { TextField, MenuItem } from '@mui/material';
+import axiosInstance from '../../constants/axiosInstance';
+import WithdrawalForm from '../../printablePages/WithdrawalForm';
 import { useTranslation } from 'react-i18next';
-
-
-const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
-
-    const handleEditClick = () => {
-        setSelectedShareholderId(id); // Set the selected shareholder ID
-        setEditOpen(true); // Open the edit modal
-    };
-
-    return (
-
-
-        <IconButton onClick={handleEditClick}>
-            <LocalAtmIcon />
-        </IconButton>
-
-    );
-};
-const SharesDepositPage = () => {
-    const [pageNo, setPageNo] = useState(1)
-    const [pageSize, setPageSize] = useState(10)
+import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
+import PrintDataGrid from '../../printablePages/PrintDataGrid';
+import { useFetchNoPagination } from '../../hooks/useFetchNoPagination';
+const FinancialReporting = () => {
     const [filters, setFilters] = useState({
         fName: '',
         lName: '',
@@ -43,17 +24,10 @@ const SharesDepositPage = () => {
         civilId: '',
         serial: ''
     });
-    const { data, fetchData, count } = useFetch('/shareholders', pageNo, pageSize, filters);
-    const [selectedShareholderId, setSelectedShareholderId] = useState(null);
-    const [showFilters, setShowFilters] = useState(false);
-    const toggleFilters = () => {
-        setShowFilters(!showFilters);
-    };
+    const { data, fetchData, count } = useFetchNoPagination('/financialReports', filters);
     const navigate = useNavigate();
-    const [userData, setUserdata] = useState(JSON.parse(sessionStorage.getItem('userDetails')))
-    const [admin, setAdmin] = useState(userData?.isAdmin)
-    const [adminId, setAdminId] = useState(userData?.id)
-    const { i18n, t } = useTranslation();
+
+    const { i18n, t } = useTranslation()
     const columns = [
         {
             field: 'serial',
@@ -61,140 +35,82 @@ const SharesDepositPage = () => {
             flex: 1,
         },
         {
-            field: 'Full Name',
+            field: 'fullName',
             headerName: t('full_name'),
             flex: 1,
-            renderCell: (params) => {
-                return `${params.row.fName} ${params.row.lName}`
-            }
-        },
-        {
-            field: 'DOB',
-            headerName: t('date_of_birth'),
-            flex: 1,
-            renderCell: (params) => {
-                // Parse the date string from params.value
-                const date = new Date(params.value);
-
-                // Extract day, month, and year
-                const day = date.getDate().toString().padStart(2, '0');
-                const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
-                const year = date.getFullYear().toString(); // Get last two digits of year
-
-                // Formatted date string in "DD/MM/YY" format
-                const formattedDate = `${day}/${month}/${year}`;
-
-                // Return the formatted date
-                return formattedDate;
-            }
         },
         {
             field: 'civilId',
             headerName: t('civil_id'),
             flex: 1,
-
-        },
-
-        {
-            field: 'ibanNumber',
-            headerName: t('iban'),
-            flex: 1,
-        },
-        {
-            field: 'mobileNumber',
-            headerName: t('phone_number'),
-            flex: 1,
-        },
-        {
-            field: 'address',
-            headerName: t('address'),
-            flex: 1,
-            renderCell: (params) => {
-                const { block, street, house, avenue, city } = params.value;
-                return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
-            }
         },
         {
             field: 'initialInvestment',
             headerName: t('initial_investment'),
             flex: 1,
-            renderCell: (params) => {
-                return params.row.savings && params.row.savings.initialAmount.toFixed(3);
-            }
+            renderCell: (params) => params.row.savings
+                ? params.row.savings.initialAmount.toFixed(3)
+                : 'N/A'
         },
         {
             field: 'currentAmount',
             headerName: t('current_amount'),
             flex: 1,
-            renderCell: (params) => {
-                return params.row.savings && params.row.savings.currentAmount.toFixed(3);
-            }
+            renderCell: (params) => params.row.savings
+                ? params.row.savings.currentAmount.toFixed(3)
+                : 'N/A'
         },
         {
-            field: 'membershipStatus',
-            headerName: t('membership_status'),
+            field: 'savingsIncrease',
+            headerName: t('savings_increase'),
             flex: 1,
-            renderCell: (params) => {
-                if (params.value === 0) {
-                    return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
-                }
-                else if (params.value === 1) {
-                    return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
-                }
-            }
+        },
+
+
+        {
+            field: 'initialShareAmount',
+            headerName: t('initial_share_amount'),
+            flex: 1,
+            valueGetter: (params) => params.row.share?.initialAmount.toFixed(3) ?? 'N/A',
         },
         {
-            field: 'status',
-            headerName: t('status'),
+            field: 'currentShareAmount',
+            headerName: t('current_share_amount'),
             flex: 1,
-            renderCell: (params) => {
-                if (params.value === 0) {
-                    return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
-                }
-                else if (params.value === 1) {
-                    return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
-                }
-                else if (params.value === 2) {
-                    return <Typography sx={{ color: '#DA3E33', fontWeight: 600 }}>{t('death')}</Typography>
-                }
-            }
+            valueGetter: (params) => params.row.share?.currentAmount.toFixed(3) ?? 'N/A',
         },
-        ...(admin ? [{
-            field: 'deposit',
-            headerName: t('deposit'),
-            sortable: false,
-            width: 55,
-            renderCell: (params) => {
-                return <ViewButton id={params.id} edit={true} setEditOpen={setEditOpen} setSelectedShareholderId={setSelectedShareholderId} />;
-
-            },
-        }] : []),
-
-
+        {
+            field: 'shareIncrease',
+            headerName: t('share_increase'),
+            flex: 1,
+        },
+        {
+            field: 'amanatAmount',
+            headerName: t('amanat_amount'),
+            flex: 1,
+            renderCell: (params) => params.row.savings && params.row.savings.length > 0 && params.row.savings[0].amanat
+                ? params.row.savings[0].amanat.amount.toFixed(3)
+                : 'N/A'
+        }
     ];
 
-    const [editOpen, setEditOpen] = useState(false);
-    const handleWithdraw = (user) => {
-        setSelectedShareholderId(user);
-        setEditOpen(true);
-    };
 
     useEffect(() => {
-        fetchData();
-    }, [fetchData, pageNo, pageSize]);
-    const [paginationModel, setPaginationModel] = useState({
-        pageSize: pageSize,
-        page: pageNo,
-    });
-    const handleCloseConfirmDialog = () => {
-        setEditOpen(false);
-        setSelectedShareholderId(null)
-    }
+        fetchData(filters);
+    }, [filters]);
+
+
+    const [showFilters, setShowFilters] = useState(false);
+    const toggleFilters = () => {
+        setShowFilters(!showFilters);
+    };
+
+
+    const componentRef = useRef();
 
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
     });
-    const componentRef = useRef()
     const isRtl = i18n.dir() === 'rtl';
 
     return (
@@ -202,6 +118,7 @@ const SharesDepositPage = () => {
             <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
                 <FilterListOutlinedIcon /> {t('filter')}
             </Button>
+
             {showFilters && (<Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', marginRight: isRtl ? "2rem" : 0 }}>
                 <TextField
                     label={t('serial')}
@@ -274,22 +191,20 @@ const SharesDepositPage = () => {
                         lineHeight: '1.875rem', flexGrow: 1,
                         marginLeft: '1.2rem'
                     }}>
-                        {t('shares_deposit')}
+                        {t('savings_withdrawal')}
                     </Typography>
-                    <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0, display: 'none' }}>
-                        <AddBalanceForm ref={componentRef} />
-                    </Box>
+
 
                     <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
+                </Box>
+
+                <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0, display: 'none' }}>
+                    <PrintDataGrid ref={componentRef} data={data} />
                 </Box>
                 <DataGrid
                     rows={data}
                     columns={columns}
-                    paginationModel={paginationModel}
-                    onPaginationModelChange={(newModel) => {
-                        setPageNo(newModel.page + 1);
-                        setPaginationModel(newModel);
-                    }}
+
                     getRowId={(row) => row._id}
                     rowCount={count}
                     paginationMode="server"
@@ -321,10 +236,10 @@ const SharesDepositPage = () => {
                     }}
                 />
             </Box>
-            <DepositForm id={selectedShareholderId} open={editOpen} setOpen={setEditOpen} shares={true} fetchData={fetchData} />
         </React.Fragment>
 
     )
 }
 
-export default SharesDepositPage
+
+export default FinancialReporting

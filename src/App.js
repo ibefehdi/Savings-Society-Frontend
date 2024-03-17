@@ -22,6 +22,7 @@ import WithdrawalFormPage from './pages/WithdrawalFormPage';
 import DepositFormPage from './pages/DepositFormPage';
 import Amanat from './pages/Amanat';
 import DeathFormPage from './pages/DeathFormPage';
+import FinancialReporting from './pages/FinancialReporting';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -42,6 +43,7 @@ function App() {
         { index: true, element: <Home /> },
         { path: 'Users', element: <Users /> },
         { path: 'Shareholders', element: <Shareholders /> },
+        { path: "Financialreporting", element: <FinancialReporting /> },
         { path: 'Shareholders/:id', element: <ShareholderDetails /> },
         { path: 'Financial/Share', element: <ShareConfiguration /> },
         { path: 'Financial/Savings', element: <SavingsConfiguration /> },

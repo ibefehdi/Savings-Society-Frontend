@@ -221,70 +221,70 @@ const Shareholders = () => {
       <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
         <FilterListOutlinedIcon /> {t('filter')}
       </Button>
-      {showFilters && (<Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
-        <TextField
-          label={t('serial')}
-          variant="outlined"
-          value={filters.serial}
-          onChange={(e) => setFilters({ ...filters, serial: e.target.value })}
-          fullWidth
-          autoComplete='off'
-        />
-        <TextField
-          label={t('first_name')}
-          variant="outlined"
-          value={filters.fName}
-          onChange={(e) => setFilters({ ...filters, fName: e.target.value })}
-          fullWidth
-          autoComplete='off'
+      {showFilters &&
+        (<Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', marginRight: isRtl ? "2rem" : 0 }}>
+          <TextField
+            label={t('serial')}
+            variant="outlined"
+            value={filters.serial}
+            onChange={(e) => setFilters({ ...filters, serial: e.target.value })}
+            fullWidth
+            autoComplete='off'
+          />
+          <TextField
+            label={t('first_name')}
+            variant="outlined"
+            value={filters.fName}
+            onChange={(e) => setFilters({ ...filters, fName: e.target.value })}
+            fullWidth
+            autoComplete='off'
 
-        />
-        <TextField
-          label={t('last_name')}
-          variant="outlined"
-          value={filters.lName}
-          onChange={(e) => setFilters({ ...filters, lName: e.target.value })}
-          fullWidth
-          autoComplete='off'
+          />
+          <TextField
+            label={t('last_name')}
+            variant="outlined"
+            value={filters.lName}
+            onChange={(e) => setFilters({ ...filters, lName: e.target.value })}
+            fullWidth
+            autoComplete='off'
 
-        />
-        <TextField
-          label={t('civil_id')}
-          variant="outlined"
-          value={filters.civilId}
-          onChange={(e) => setFilters({ ...filters, civilId: e.target.value })}
-          fullWidth
-          autoComplete='off'
+          />
+          <TextField
+            label={t('civil_id')}
+            variant="outlined"
+            value={filters.civilId}
+            onChange={(e) => setFilters({ ...filters, civilId: e.target.value })}
+            fullWidth
+            autoComplete='off'
 
-        />
-        <TextField
-          label={t('status')}
-          variant="outlined"
-          select
-          value={filters.status}
-          onChange={(e) => setFilters({ ...filters, status: e.target.value })}
-          fullWidth
-          autoComplete='off'
+          />
+          <TextField
+            label={t('status')}
+            variant="outlined"
+            select
+            value={filters.status}
+            onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+            fullWidth
+            autoComplete='off'
 
-        >
-          {/* Replace these with your actual status options */}
-          <MenuItem value={0}>{t('active')}</MenuItem>
-          <MenuItem value={1}>{t('inactive')}</MenuItem>
-          <MenuItem value={2}>{t('death')}</MenuItem>
-        </TextField>
-        <TextField
-          label={t('membership_status')}
-          variant="outlined"
-          select
-          value={filters.membershipStatus}
-          onChange={(e) => setFilters({ ...filters, membershipStatus: e.target.value })}
-          fullWidth
-          autoComplete='off'
-        >
-          <MenuItem value={0}>{t('active')}</MenuItem>
-          <MenuItem value={1}>{t('inactive')}</MenuItem>
-        </TextField>
-      </Box>)}
+          >
+            <MenuItem value={0}>{t('active')}</MenuItem>
+            <MenuItem value={1}>{t('inactive')}</MenuItem>
+            <MenuItem value={2}>{t('death')}</MenuItem>
+          </TextField>
+          <TextField
+            label={t('membership_status')}
+            variant="outlined"
+            select
+            value={filters.membershipStatus}
+            onChange={(e) => setFilters({ ...filters, membershipStatus: e.target.value })}
+            fullWidth
+            autoComplete='off'
+          >
+            <MenuItem value={0}>{t('active')}</MenuItem>
+            <MenuItem value={1}>{t('inactive')}</MenuItem>
+          </TextField>
+        </Box>)}
       <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
 
 
