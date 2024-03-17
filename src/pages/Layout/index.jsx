@@ -45,6 +45,8 @@ const Layout = () => {
                 { name: t('savings'), path: "/Financial/Savings" }
             ]
         },
+        { name: t('financial_reporting'), icon: <RecentActorsOutlinedIcon />, path: "/financialreporting" },
+
         {
             name: t('print_forms'),
             icon: <FileCopyOutlinedIcon />,
