@@ -80,6 +80,7 @@
     "withdrawal_amount":"Withdrawal Amount",
     "amount_after_withdrawal":"Amount After Withdrawal",
     "death_form":"Death Form",
-    "per_page":"Per Page"
+    "per_page":"Per Page",
+    "financial_reporting":"Financial Reporting"
 
 }

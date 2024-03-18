@@ -79,5 +79,6 @@
     "withdrawal_amount":"مبلغ السحب",
     "amount_after_withdrawal":"المبلغ بعد السحب",
     "death_form":"صرف مستحقات متوفى",
-    "per_page":"لكل صفحة"
+    "per_page":"لكل صفحة",
+    "financial_reporting":"التقارير المالية"
 }

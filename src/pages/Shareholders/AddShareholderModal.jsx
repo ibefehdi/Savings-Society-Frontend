@@ -84,6 +84,7 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                         <TextField margin="normal" fullWidth label={t('email')} {...register('email', { required: true })} error={!!errors.email} helperText={errors.email ? 'Email is required' : ''} />
                         <TextField margin="normal" fullWidth label={t('phone_number')} {...register('mobileNumber', { required: true })} error={!!errors.mobileNumber} helperText={errors.mobileNumber ? 'Phone Number is required' : ''} />
                         <TextField margin="normal" fullWidth label={t('iban')} {...register('ibanNumber', { required: true })} error={!!errors.ibanNumber} helperText={errors.ibanNumber ? 'IBAN Number is required' : ''} />
+
                         <InputLabel htmlFor="dob">Date of Birth:</InputLabel>
                         <TextField fullWidth type="date" id='dob' {...register('dob', { required: true })} error={!!errors.dob} helperText={errors.dob ? 'Date of Birth is required' : ''} />
                         <InputLabel htmlFor="joinDate">Join Date:</InputLabel>
@@ -125,6 +126,26 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                         <Typography variant="h6">
                             {t('address')}
                         </Typography>
+                        <FormControl fullWidth error={!!errors.status} margin="normal">
+                            <InputLabel id="status-label">{t('gender')}</InputLabel>
+                            <Controller
+                                name="gender"
+                                control={control}
+                                rules={{ required: true }}
+                                defaultValue=""
+                                render={({ field }) => (
+                                    <Select
+                                        {...field}
+                                        labelId="gender-label"
+                                        label="Gender"
+                                    >
+                                        <MenuItem value={'male'}>{t('Male')}</MenuItem>
+                                        <MenuItem value={'female'}>{t('Female')}</MenuItem>
+                                    </Select>
+                                )}
+                            />
+                            {errors.status && <FormHelperText>Gender is required</FormHelperText>}
+                        </FormControl>
                         <TextField margin="normal" fullWidth label={t('block')} {...register('block', { required: true })} error={!!errors.block} helperText={errors.block ? 'Block is required' : ''} />
                         <TextField margin="normal" fullWidth label={t('area')} {...register('city', { required: true })} error={!!errors.city} helperText={errors.city ? 'City is required' : ''} />
                         <TextField margin="normal" fullWidth label={t('poBox')} {...register('poBox')} />

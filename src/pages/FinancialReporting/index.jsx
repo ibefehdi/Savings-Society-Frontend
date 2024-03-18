@@ -1,30 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
+
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useReactToPrint } from 'react-to-print';
-
-import { useFetch } from '../../hooks/useFetch';
+import ReactToPrint from 'react-to-print';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import { TextField, MenuItem } from '@mui/material';
-import axiosInstance from '../../constants/axiosInstance';
-import WithdrawalForm from '../../printablePages/WithdrawalForm';
 import { useTranslation } from 'react-i18next';
 import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
 import PrintDataGrid from '../../printablePages/PrintDataGrid';
 import { useFetchNoPagination } from '../../hooks/useFetchNoPagination';
 const FinancialReporting = () => {
-    const [filters, setFilters] = useState({
-        fName: '',
-        lName: '',
-        status: '',
-        membershipStatus: '',
-        civilId: '',
-        serial: ''
-    });
-    const { data, fetchData, count } = useFetchNoPagination('/financialReports', filters);
+
+    const { data, fetchData, count, updateFilters, filters } = useFetchNoPagination('/financialReports');
     const navigate = useNavigate();
 
     const { i18n, t } = useTranslation()
@@ -46,7 +36,7 @@ const FinancialReporting = () => {
         },
         {
             field: 'initialInvestment',
-            headerName: t('initial_investment'),
+            headerName: t('savings_initial_amount'),
             flex: 1,
             renderCell: (params) => params.row.savings
                 ? params.row.savings.initialAmount.toFixed(3)
@@ -69,13 +59,13 @@ const FinancialReporting = () => {
 
         {
             field: 'initialShareAmount',
-            headerName: t('initial_share_amount'),
+            headerName: t('share_initial_amount'),
             flex: 1,
             valueGetter: (params) => params.row.share?.initialAmount.toFixed(3) ?? 'N/A',
         },
         {
             field: 'currentShareAmount',
-            headerName: t('current_share_amount'),
+            headerName: t('share_current_amount'),
             flex: 1,
             valueGetter: (params) => params.row.share?.currentAmount.toFixed(3) ?? 'N/A',
         },
@@ -86,18 +76,25 @@ const FinancialReporting = () => {
         },
         {
             field: 'amanatAmount',
-            headerName: t('amanat_amount'),
+            headerName: t('amanat'),
             flex: 1,
-            renderCell: (params) => params.row.savings && params.row.savings.length > 0 && params.row.savings[0].amanat
-                ? params.row.savings[0].amanat.amount.toFixed(3)
+            renderCell: (params) => params.row.savings && params.row.savings.amanat
+                ? params.row.savings.amanat.amount.toFixed(3)
                 : 'N/A'
+        },
+        {
+            field: 'total',
+            headerName: t('total'),
+            flex: 1,
+            valueGetter: (params) => params.row.total.toFixed(3) ?? 'N/A',
         }
+
     ];
 
 
     useEffect(() => {
-        fetchData(filters);
-    }, [filters]);
+        fetchData();
+    }, []);
 
 
     const [showFilters, setShowFilters] = useState(false);
@@ -123,16 +120,14 @@ const FinancialReporting = () => {
                 <TextField
                     label={t('serial')}
                     variant="outlined"
-                    value={filters.serial}
-                    onChange={(e) => setFilters({ ...filters, serial: e.target.value })}
+                    onChange={(e) => updateFilters({ serial: e.target.value })}
                     fullWidth
                     autoComplete='off'
                 />
                 <TextField
                     label={t('first_name')}
                     variant="outlined"
-                    value={filters.fName}
-                    onChange={(e) => setFilters({ ...filters, fName: e.target.value })}
+                    onChange={(e) => updateFilters({ fName: e.target.value })}
                     fullWidth
                     autoComplete='off'
 
@@ -140,8 +135,7 @@ const FinancialReporting = () => {
                 <TextField
                     label={t('last_name')}
                     variant="outlined"
-                    value={filters.lName}
-                    onChange={(e) => setFilters({ ...filters, lName: e.target.value })}
+                    onChange={(e) => updateFilters({ lName: e.target.value })}
                     fullWidth
                     autoComplete='off'
 
@@ -149,18 +143,29 @@ const FinancialReporting = () => {
                 <TextField
                     label={t('civil_id')}
                     variant="outlined"
-                    value={filters.civilId}
-                    onChange={(e) => setFilters({ ...filters, civilId: e.target.value })}
+                    onChange={(e) => updateFilters({ civilId: e.target.value })}
                     fullWidth
                     autoComplete='off'
 
                 />
                 <TextField
+                    label={t('gender')}
+                    variant="outlined"
+                    select
+                    onChange={(e) => updateFilters({ gender: e.target.value })}
+                    fullWidth
+                    autoComplete='off'
+
+                >
+                    {/* Replace these with your actual status options */}
+                    <MenuItem value={"male"}>{t('Male')}</MenuItem>
+                    <MenuItem value={"female"}>{t('Female')}</MenuItem>
+                </TextField>
+                <TextField
                     label={t('status')}
                     variant="outlined"
                     select
-                    value={filters.status}
-                    onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+                    onChange={(e) => updateFilters({ status: e.target.value })}
                     fullWidth
                     autoComplete='off'
 
@@ -174,8 +179,7 @@ const FinancialReporting = () => {
                     label={t('membership_status')}
                     variant="outlined"
                     select
-                    value={filters.membershipStatus}
-                    onChange={(e) => setFilters({ ...filters, membershipStatus: e.target.value })}
+                    onChange={(e) => updateFilters({ membershipStatus: e.target.value })}
                     fullWidth
                     autoComplete='off'
                 >
@@ -191,7 +195,7 @@ const FinancialReporting = () => {
                         lineHeight: '1.875rem', flexGrow: 1,
                         marginLeft: '1.2rem'
                     }}>
-                        {t('savings_withdrawal')}
+                        {t('financial_reporting')}
                     </Typography>
 
 
@@ -199,7 +203,11 @@ const FinancialReporting = () => {
                 </Box>
 
                 <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0, display: 'none' }}>
-                    <PrintDataGrid ref={componentRef} data={data} />
+                    <ReactToPrint
+                        trigger={() => <button>Print this out!</button>}
+                        content={() => componentRef.current}
+                    />
+                    <PrintDataGrid ref={componentRef} data={data} filters={filters} />
                 </Box>
                 <DataGrid
                     rows={data}
