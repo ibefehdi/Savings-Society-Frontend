@@ -39,5 +39,5 @@ export const useFetchNoPagination = (url, initialFilters = {}) => {
         fetchData();
     }, [fetchData]);
 
-    return { data, loading, fetchData, count, updateFilters };
+    return { data, loading, fetchData, count, updateFilters, filters };
 };
