@@ -81,6 +81,8 @@
     "amount_after_withdrawal":"Amount After Withdrawal",
     "death_form":"Death Form",
     "per_page":"Per Page",
-    "financial_reporting":"Financial Reporting"
-
+    "financial_reporting":"Financial Reporting",
+    "dob":"Date of Birth",
+    "quit_date":"Quit Date",
+    "join_date":"Join Date"
 }

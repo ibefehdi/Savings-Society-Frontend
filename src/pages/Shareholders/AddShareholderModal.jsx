@@ -13,7 +13,10 @@ import MoneyForm from '../../printablePages/MoneyForm';
 import { useReactToPrint } from 'react-to-print';
 
 import { useTranslation } from 'react-i18next';
-
+import rtlPlugin from 'stylis-plugin-rtl';
+import { prefixer } from 'stylis';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -56,132 +59,151 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
     });
     const { i18n, t } = useTranslation();
     const isRtl = i18n.dir() === 'rtl';
+    const cacheRtl = createCache({
+        key: 'muirtl',
+        stylisPlugins: [prefixer, rtlPlugin],
+    });
+    const cacheLtr = createCache({
+        key: 'muilt',
+    });
 
     return (
-        <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="add-shareholder-modal-title"
-            aria-describedby="add-shareholder-modal-description"
-            sx={{ direction: isRtl ? 'rtl' : 'ltr' }}
+        <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="add-shareholder-modal-title"
+                aria-describedby="add-shareholder-modal-description"
+                sx={{ direction: isRtl ? 'rtl' : 'ltr' }}
 
 
-        >
-            <Box sx={{
-                ...style,
-                width: '80rem',
-            }}
-                component="form" onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off">
-                <Grid container spacing={2}> {/* Adjust the spacing as needed */}
-                    {/* Column 1 */}
-                    <Grid item xs={12} sm={6} md={4}>
-                        <Typography variant="h6">
-                            {t('shareholder_details')}
-                        </Typography>
-                        <TextField margin="normal" fullWidth label={t('first_name')} {...register('fName', { required: true })} error={!!errors.fName} helperText={errors.fName ? 'First Name is required' : ''} />
-                        <TextField margin="normal" fullWidth label={t('last_name')} {...register('lName', { required: true })} error={!!errors.lName} helperText={errors.lName ? 'Last Name is required' : ''} />
-                        <TextField margin="normal" fullWidth label={t('civil_id')} {...register('civilId', { required: true })} error={!!errors.civilId} helperText={errors.civilId ? 'Civil ID is required' : ''} />
-                        <TextField margin="normal" fullWidth label={t('email')} {...register('email', { required: true })} error={!!errors.email} helperText={errors.email ? 'Email is required' : ''} />
-                        <TextField margin="normal" fullWidth label={t('phone_number')} {...register('mobileNumber', { required: true })} error={!!errors.mobileNumber} helperText={errors.mobileNumber ? 'Phone Number is required' : ''} />
-                        <TextField margin="normal" fullWidth label={t('iban')} {...register('ibanNumber', { required: true })} error={!!errors.ibanNumber} helperText={errors.ibanNumber ? 'IBAN Number is required' : ''} />
+            >
+                <Box sx={{
+                    ...style,
+                    width: '80rem',
+                }}
+                    component="form" onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off">
+                    <Grid container spacing={2}> {/* Adjust the spacing as needed */}
+                        {/* Column 1 */}
+                        <Grid item xs={12} sm={6} md={4}>
+                            <Typography variant="h6">
+                                {t('shareholder_details')}
+                            </Typography>
 
-                        <InputLabel htmlFor="dob">Date of Birth:</InputLabel>
-                        <TextField fullWidth type="date" id='dob' {...register('dob', { required: true })} error={!!errors.dob} helperText={errors.dob ? 'Date of Birth is required' : ''} />
-                        <InputLabel htmlFor="joinDate">Join Date:</InputLabel>
-                        <TextField
-                            id="joinDate"
-                            type="date"
-                            fullWidth
-                            {...register('joinDate', { required: true })}
-                            error={!!errors.joinDate}
-                            helperText={errors.joinDate ? 'Join Date is required' : ''}
-                        />
-                        <InputLabel htmlFor="quitDate">Quit Date:</InputLabel>
-                        <TextField fullWidth type="date" id='quitDate' {...register('quitDate', { required: true })} error={!!errors.ibanNumber} helperText={errors.ibanNumber ? 'Join Date is required' : ''} />
+                            <TextField margin="normal" fullWidth label={t('first_name')} {...register('fName', { required: true })} error={!!errors.fName} helperText={errors.fName ? 'First Name is required' : ''} />
+                            <TextField margin="normal" fullWidth label={t('last_name')} {...register('lName', { required: true })} error={!!errors.lName} helperText={errors.lName ? 'Last Name is required' : ''} />
+                            <TextField margin="normal" fullWidth label={t('civil_id')} {...register('civilId', { required: true })} error={!!errors.civilId} helperText={errors.civilId ? 'Civil ID is required' : ''} />
+                            <TextField margin="normal" fullWidth label={t('email')} {...register('email', { required: true })} error={!!errors.email} helperText={errors.email ? 'Email is required' : ''} />
+                            <TextField margin="normal" fullWidth label={t('phone_number')} {...register('mobileNumber', { required: true })} error={!!errors.mobileNumber} helperText={errors.mobileNumber ? 'Phone Number is required' : ''} />
+                            <TextField margin="normal" fullWidth label={t('iban')} {...register('ibanNumber', { required: true })} error={!!errors.ibanNumber} helperText={errors.ibanNumber ? 'IBAN Number is required' : ''} />
 
-                        <FormControl fullWidth error={!!errors.status} margin="normal">
-                            <InputLabel id="status-label">{t('status')}</InputLabel>
-                            <Controller
-                                name="status"
-                                control={control}
-                                rules={{ required: true }}
-                                defaultValue=""
-                                render={({ field }) => (
-                                    <Select
-                                        {...field}
-                                        labelId="status-label"
-                                        label="Status"
-                                    >
-                                        <MenuItem value={0}>{t('active')}</MenuItem>
-                                        <MenuItem value={1}>{t('inactive')}</MenuItem>
-                                        <MenuItem value={2}>{t('death')}</MenuItem>
-                                    </Select>
-                                )}
+                            <InputLabel htmlFor="dob" >{t('dob')}</InputLabel>
+                            <TextField fullWidth type="date" id='dob' {...register('dob', { required: true })} error={!!errors.dob} helperText={errors.dob ? 'Date of Birth is required' : ''} />
+                            <InputLabel
+                                htmlFor="joinDate"
+                                sx={{
+                                    textAlign: isRtl ? 'right' : 'left',
+                                    direction: isRtl ? 'rtl' : 'ltr'
+                                }}
+                            >
+                                {t('join_date')}
+                            </InputLabel>
+                            <TextField
+                                id="joinDate"
+                                type="date"
+                                fullWidth
+                                {...register('joinDate', { required: true })}
+                                error={!!errors.joinDate}
+                                helperText={errors.joinDate ? 'Join Date is required' : ''}
                             />
-                            {errors.status && <FormHelperText>Status is required</FormHelperText>}
-                        </FormControl>
-                    </Grid>
-                    {/* Column 2 */}
-                    <Grid item xs={12} sm={6} md={4}>
-                        <Typography variant="h6">
-                            {t('address')}
-                        </Typography>
-                        <FormControl fullWidth error={!!errors.status} margin="normal">
-                            <InputLabel id="status-label">{t('gender')}</InputLabel>
-                            <Controller
-                                name="gender"
-                                control={control}
-                                rules={{ required: true }}
-                                defaultValue=""
-                                render={({ field }) => (
-                                    <Select
-                                        {...field}
-                                        labelId="gender-label"
-                                        label="Gender"
-                                    >
-                                        <MenuItem value={'male'}>{t('Male')}</MenuItem>
-                                        <MenuItem value={'female'}>{t('Female')}</MenuItem>
-                                    </Select>
-                                )}
-                            />
-                            {errors.status && <FormHelperText>Gender is required</FormHelperText>}
-                        </FormControl>
-                        <TextField margin="normal" fullWidth label={t('block')} {...register('block', { required: true })} error={!!errors.block} helperText={errors.block ? 'Block is required' : ''} />
-                        <TextField margin="normal" fullWidth label={t('area')} {...register('city', { required: true })} error={!!errors.city} helperText={errors.city ? 'City is required' : ''} />
-                        <TextField margin="normal" fullWidth label={t('poBox')} {...register('poBox')} />
-                        <TextField margin="normal" fullWidth label={t('house')} {...register('house', { required: true })} error={!!errors.house} helperText={errors.house ? 'House Number is required' : ''} />
-                        <TextField margin="normal" fullWidth label={t('street')}{...register('street', { required: true })} error={!!errors.street} helperText={errors.street ? 'Street is required' : ''} />
-                        <TextField margin="normal" fullWidth label={t('area')} {...register('area', { required: true })} error={!!errors.area} helperText={errors.area ? 'Area is required' : ''} />
-                        <TextField margin="normal" fullWidth label={t('zipCode')} {...register('zipCode')} />
-                        <TextField margin="normal" fullWidth label={t('country')} {...register('country', { required: true })} error={!!errors.country} helperText={errors.country ? 'Country is required' : ''} />
-                    </Grid>
-                    {/* Column 3 */}
-                    <Grid item xs={12} sm={6} md={4}>
-                        <Typography variant="h6">
-                            {t('investment')}
-                        </Typography>
-                        <TextField margin="normal" fullWidth label={t('savings_initial_amount')} type="number" {...register('savingsInitialPrice', { required: true })} error={!!errors.savingsInitialPrice} helperText={errors.savingsInitialPrice ? 'Savings Initial Price is required' : ''} />
-                        <TextField margin="normal" fullWidth label={t('share_initial_amount')} type="number" {...register('shareInitialPrice', { required: true })} error={!!errors.shareInitialPrice} helperText={errors.shareInitialPrice ? 'Share Initial Price is required' : ''} />
-                        <TextField margin="normal" fullWidth label={t('share_amount')} type="number" {...register('shareAmount', { required: true })} error={!!errors.shareAmount} helperText={errors.shareAmount ? 'Share Amount is required' : ''} />
+                            <InputLabel htmlFor="quitDate">{t('quit_date')}</InputLabel>
+                            <TextField fullWidth type="date" id='quitDate' {...register('quitDate', { required: true })} error={!!errors.ibanNumber} helperText={errors.ibanNumber ? 'Join Date is required' : ''} />
 
-                    </Grid>
-                    {/* <Grid item xs={12} sm={6} md={3}>
+                            <FormControl fullWidth error={!!errors.status} margin="normal">
+                                <InputLabel id="status-label">{t('status')}</InputLabel>
+                                <Controller
+                                    name="status"
+                                    control={control}
+                                    rules={{ required: true }}
+                                    defaultValue=""
+                                    render={({ field }) => (
+                                        <Select
+                                            {...field}
+                                            labelId="status-label"
+                                            label="Status"
+                                        >
+                                            <MenuItem value={0}>{t('active')}</MenuItem>
+                                            <MenuItem value={1}>{t('inactive')}</MenuItem>
+                                            <MenuItem value={2}>{t('death')}</MenuItem>
+                                        </Select>
+                                    )}
+                                />
+                                {errors.status && <FormHelperText>Status is required</FormHelperText>}
+                            </FormControl>
+
+
+                        </Grid>
+                        {/* Column 2 */}
+                        <Grid item xs={12} sm={6} md={4}>
+                            <Typography variant="h6">
+                                {t('address')}
+                            </Typography>
+                            <FormControl fullWidth error={!!errors.status} margin="normal">
+                                <InputLabel id="status-label">{t('gender')}</InputLabel>
+                                <Controller
+                                    name="gender"
+                                    control={control}
+                                    rules={{ required: true }}
+                                    defaultValue=""
+                                    render={({ field }) => (
+                                        <Select
+                                            {...field}
+                                            labelId="gender-label"
+                                            label="Gender"
+                                        >
+                                            <MenuItem value={'male'}>{t('Male')}</MenuItem>
+                                            <MenuItem value={'female'}>{t('Female')}</MenuItem>
+                                        </Select>
+                                    )}
+                                />
+                                {errors.status && <FormHelperText>Gender is required</FormHelperText>}
+                            </FormControl>
+                            <TextField margin="normal" fullWidth label={t('block')} {...register('block', { required: true })} error={!!errors.block} helperText={errors.block ? 'Block is required' : ''} />
+                            <TextField margin="normal" fullWidth label={t('area')} {...register('city', { required: true })} error={!!errors.city} helperText={errors.city ? 'City is required' : ''} />
+                            <TextField margin="normal" fullWidth label={t('poBox')} {...register('poBox')} />
+                            <TextField margin="normal" fullWidth label={t('house')} {...register('house', { required: true })} error={!!errors.house} helperText={errors.house ? 'House Number is required' : ''} />
+                            <TextField margin="normal" fullWidth label={t('street')}{...register('street', { required: true })} error={!!errors.street} helperText={errors.street ? 'Street is required' : ''} />
+                            <TextField margin="normal" fullWidth label={t('area')} {...register('area', { required: true })} error={!!errors.area} helperText={errors.area ? 'Area is required' : ''} />
+                            <TextField margin="normal" fullWidth label={t('zipCode')} {...register('zipCode')} />
+                            <TextField margin="normal" fullWidth label={t('country')} {...register('country', { required: true })} error={!!errors.country} helperText={errors.country ? 'Country is required' : ''} />
+                        </Grid>
+                        {/* Column 3 */}
+                        <Grid item xs={12} sm={6} md={4}>
+                            <Typography variant="h6">
+                                {t('investment')}
+                            </Typography>
+                            <TextField margin="normal" fullWidth label={t('savings_initial_amount')} type="number" {...register('savingsInitialPrice', { required: true })} error={!!errors.savingsInitialPrice} helperText={errors.savingsInitialPrice ? 'Savings Initial Price is required' : ''} />
+                            <TextField margin="normal" fullWidth label={t('share_initial_amount')} type="number" {...register('shareInitialPrice', { required: true })} error={!!errors.shareInitialPrice} helperText={errors.shareInitialPrice ? 'Share Initial Price is required' : ''} />
+                            <TextField margin="normal" fullWidth label={t('share_amount')} type="number" {...register('shareAmount', { required: true })} error={!!errors.shareAmount} helperText={errors.shareAmount ? 'Share Amount is required' : ''} />
+
+                        </Grid>
+                        {/* <Grid item xs={12} sm={6} md={3}>
                       
                     </Grid> */}
-                </Grid>
-                <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0 }}>
-                    <MoneyForm ref={componentRef} />
+                    </Grid>
+                    <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0 }}>
+                        <MoneyForm ref={componentRef} />
+                    </Box>
+
+                    <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+                        Submit
+                    </Button>
+                    <Button onClick={handlePrint} sx={{ mt: 3, mb: 2 }}>
+                        Print
+                    </Button>
                 </Box>
-
-                <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-                    Submit
-                </Button>
-                <Button onClick={handlePrint} sx={{ mt: 3, mb: 2 }}>
-                    Print
-                </Button>
-            </Box>
-        </Modal>
-
+            </Modal>
+        </CacheProvider>
     );
 };
 
