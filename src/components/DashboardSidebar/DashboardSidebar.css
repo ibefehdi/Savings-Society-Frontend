@@ -1,12 +1,17 @@
 .menu-item{
     padding: 1rem 0rem !important;
+    
 }
 .sidebar {
-    background-color: white !important;
+    background-color: #15533B !important;
     height: 92vh;
-    border:none;
-    
-   }
+    border: none;
+    position: relative; /* Adjust based on your layout needs, e.g., 'fixed' or 'absolute' */
+    z-index: 1001111111111111111111; /* Increase the z-index value */
+    width:'100%';
+    padding-top: 2rem;
+}
+
    @media (max-width: 480px) {
     .dashboard-sidebar {
         width: 100%; /* Adjust the sidebar to take full width and act as a top bar */

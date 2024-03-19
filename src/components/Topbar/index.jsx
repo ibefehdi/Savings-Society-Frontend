@@ -1,10 +1,11 @@
-import React, { useState, } from "react";
+import React, { useEffect, useState, } from "react";
 import {
     Box,
     IconButton,
     Menu,
     MenuItem,
-    Button
+    Button,
+    Typography
 } from "@mui/material";
 import LanguageIcon from "@mui/icons-material/Language"; // Import an icon for the language menu
 
@@ -60,10 +61,31 @@ const Topbar = () => {
         window.location.reload();
         handleUserMenuClose();
     };
+    const [collapsed, setCollapsed] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => setCollapsed(window.innerWidth < 768);
+        window.addEventListener('resize', handleResize);
+        handleResize();
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+    const isRtl = i18n.dir() === 'rtl';
+
     return (
-        <Box display={"flex"} justifyContent={"space-between"} p={2}>
-            <Box display={"flex"} alignItems={"center"} >
-                <img src={logo} alt="Logo" style={{ width: 40, height: 40, marginRight: 10 }} onClick={() => navigate('/')} />
+        <Box display={"flex"} justifyContent={"space-between"} sx={{ height: '4.7rem' }}>
+            <Box
+                display={"flex"}
+                alignItems={"center"}
+                sx={{
+                    backgroundColor: "#15533B",
+                    width: collapsed ? '4.93rem' : (isRtl ? '15.6rem' : '15.56rem'),
+                    gap: 1,
+                    borderTopLeftRadius: isRtl ? '0.5rem' : 0,
+                    borderTopRightRadius: isRtl ? 0 : '0.5rem'
+                }}
+            >
+                <img src={logo} alt="Logo" style={{ width: "3.875rem", height: "3.875rem", marginLeft: collapsed ? 5 : 10 }} onClick={() => navigate('/')} />
+                {!collapsed && <Typography sx={{ color: 'white' }}>Co-operative Society of Savings</Typography>}
             </Box>
             <Box display={"flex"}>
                 {/* <IconButton onClick={handleLanguageMenuClick}>
@@ -103,7 +125,7 @@ const Topbar = () => {
                     <MenuItem onClick={handleMenuLogout}>{t('logout')}</MenuItem>
                 </Menu>
             </Box>
-        </Box>
+        </Box >
     );
 };
 
