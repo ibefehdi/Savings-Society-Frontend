@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axiosInstance from '../../constants/axiosInstance';
 import Box from '@mui/material/Box';
+import { useTranslation } from 'react-i18next';
 
 import Typography from '@mui/material/Typography';
 
 import { Table, TableBody, TableRow, TableCell, Tab, Tabs } from '@mui/material';
+import { t } from 'i18next';
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
-
+    const { t } = useTranslation();
     return (
         <div
             role="tabpanel"
@@ -84,13 +86,13 @@ const ShareholderDetails = () => {
     }
     const StatusDetail = (status) => {
         if (status === 0) {
-            return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>Active</Typography>
+            return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
         }
         else if (status === 1) {
-            return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>Inactive</Typography>
+            return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
         }
         else if (status === 2) {
-            return <Typography sx={{ color: '#DA3E33', fontWeight: 600 }}>Death</Typography>
+            return <Typography sx={{ color: '#DA3E33', fontWeight: 600 }}>{t('death')}</Typography>
         }
     }
     return (
@@ -104,10 +106,10 @@ const ShareholderDetails = () => {
 
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                            <Tab label="Overview" {...a11yProps(0)} />
+                            <Tab label={t('overview')} {...a11yProps(0)} />
                             <Tab label="Contact Details" {...a11yProps(1)} />
-                            <Tab label="Address" {...a11yProps(2)} />
-                            <Tab label="Investment" {...a11yProps(3)} />
+                            <Tab label={t('address')} {...a11yProps(2)} />
+                            <Tab label={t('investment')} {...a11yProps(3)} />
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
@@ -115,13 +117,12 @@ const ShareholderDetails = () => {
                             <Table >
                                 <TableBody>
                                     <DetailRow label={<Typography variant="h5" sx={{ fontWeight: '600' }}>Personal Details</Typography>} />
-                                    <DetailRow label="Full Name" value={`${shareholderDetails.fName} ${shareholderDetails.lName}`} />
-                                    <DetailRow label="Membership ID" value={shareholderDetails.serial} />
-                                    <DetailRow label="Category" value="Shareholder" />
-                                    <DetailRow label="Status" value={StatusDetail(shareholderDetails.status)} />
-                                    <DetailRow label="Civil Id" value={shareholderDetails.civilId} />
-                                    <DetailRow label="Nationality" value={shareholderDetails.Country} />
-                                    <DetailRow label="Date Of Birth" value={FormatDate(shareholderDetails.DOB)} />
+                                    <DetailRow label={t('full_name')} value={`${shareholderDetails.fName} ${shareholderDetails.lName}`} />
+                                    <DetailRow label={t('serial')} value={shareholderDetails.serial} />
+                                    <DetailRow label={t('status')} value={StatusDetail(shareholderDetails.status)} />
+                                    <DetailRow label={t('civil_id')} value={shareholderDetails.civilId} />
+                                    <DetailRow label={t('nationality')} value={shareholderDetails.Country} />
+                                    <DetailRow label={t('dob')} value={FormatDate(shareholderDetails.DOB)} />
                                 </TableBody>
                             </Table>
                         </Box>
@@ -130,7 +131,7 @@ const ShareholderDetails = () => {
                         <Box sx={{ display: 'flex' }}>
                             <Table>
                                 <TableBody>
-                                    <DetailRow label={<Typography variant="h5" sx={{ fontWeight: '600' }}>Savings</Typography>} />
+                                    <DetailRow label={<Typography variant="h5" sx={{ fontWeight: '600' }}>{t('savings')}</Typography>} />
                                     <DetailRow label="Initial Investment" value={shareholderDetails.savings.initialAmount} />
                                     <DetailRow label="Current Amount" value={shareholderDetails.savings.currentAmount.toFixed(3)} />
                                     <DetailRow label="Initial Investment Date" value={FormatDate(shareholderDetails.savings.date)} />
@@ -139,7 +140,7 @@ const ShareholderDetails = () => {
                             </Table>
                             <Table>
                                 <TableBody>
-                                    <DetailRow label={<Typography variant="h5" sx={{ fontWeight: '600' }}>Shares</Typography>} />
+                                    <DetailRow label={<Typography variant="h5" sx={{ fontWeight: '600' }}>{t('share')}</Typography>} />
                                     <DetailRow label="Share Amount" value={shareholderDetails.share.amount} />
                                     <DetailRow label="Initial Amount Paid" value={shareholderDetails.share.initialAmount} />
                                     <DetailRow label="Current Amount " value={shareholderDetails.share.currentAmount.toFixed(3)} />
@@ -153,11 +154,11 @@ const ShareholderDetails = () => {
                             <Table>
                                 <TableBody>
                                     <DetailRow label={<Typography variant="h5" sx={{ fontWeight: '600' }}>Contact Details</Typography>} />
-                                    <DetailRow label="Email Address" value={shareholderDetails.email} />
-                                    <DetailRow label="Phone Number" value={shareholderDetails.mobileNumber} />
-                                    <DetailRow label="Zip Code" value={shareholderDetails.zipCode} />
-                                    <DetailRow label="IBAN Number" value={shareholderDetails.ibanNumber} />
-                                    <DetailRow label="Area" value={shareholderDetails.Area} />
+                                    <DetailRow label={t('email')} value={shareholderDetails.email} />
+                                    <DetailRow label={t('phone_number')} value={shareholderDetails.mobileNumber} />
+                                    <DetailRow label={t('zipCode')} value={shareholderDetails.zipCode} />
+                                    <DetailRow label={t('iban')} value={shareholderDetails.ibanNumber} />
+                                    <DetailRow label={t('area')} value={shareholderDetails.Area} />
                                 </TableBody>
                             </Table>
                         </Box>
@@ -166,11 +167,11 @@ const ShareholderDetails = () => {
                         <Box>
                             <Table>
                                 <TableBody>
-                                    <DetailRow label={<Typography variant="h5" sx={{ fontWeight: '600' }}>Address</Typography>} />
-                                    <DetailRow label="Block" value={shareholderDetails.address.block} />
-                                    <DetailRow label="Street Number" value={shareholderDetails.address.street} />
-                                    <DetailRow label="House" value={shareholderDetails.address.house} />
-                                    <DetailRow label="City" value={shareholderDetails.address.city} />
+                                    <DetailRow label={<Typography variant="h5" sx={{ fontWeight: '600' }}>{t('address')}</Typography>} />
+                                    <DetailRow label={t('block')} value={shareholderDetails.address.block} />
+                                    <DetailRow label={t('street')} value={shareholderDetails.address.street} />
+                                    <DetailRow label={t('house')} value={shareholderDetails.address.house} />
+                                    <DetailRow label={t('area')} value={shareholderDetails.address.city} />
                                 </TableBody>
                             </Table>
                         </Box>
