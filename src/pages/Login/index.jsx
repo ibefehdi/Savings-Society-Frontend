@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, TextField, Typography, Button, Switch, FormControlLabel } from '@mui/material';
 import "./Login.css";
 import { theme } from '../../theme';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/logo1.png';
 import { useForm } from "react-hook-form";
 import axiosInstance from '../../constants/axiosInstance';
 import { jwtDecode } from "jwt-decode";
