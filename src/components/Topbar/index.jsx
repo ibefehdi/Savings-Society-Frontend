@@ -85,7 +85,7 @@ const Topbar = () => {
                 }}
             >
                 <img src={logo} alt="Logo" style={{ width: "3.875rem", height: "3.875rem", marginLeft: collapsed ? 5 : 10 }} onClick={() => navigate('/')} />
-                {!collapsed && <Typography sx={{ color: 'white' }}>Co-operative Society of Savings</Typography>}
+                {!collapsed && <Typography sx={{ color: 'white' }}>{t('company_name')}</Typography>}
             </Box>
             <Box display={"flex"}>
                 {/* <IconButton onClick={handleLanguageMenuClick}>

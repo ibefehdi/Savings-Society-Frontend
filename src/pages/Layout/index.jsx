@@ -58,8 +58,6 @@ const Layout = () => {
 
             ]
         },
-
-
     ];
     return (
         <div className={`app-container ${isRtl ? 'flex-container-rtl' : ''}`}>
