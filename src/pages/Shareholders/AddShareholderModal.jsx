@@ -202,7 +202,7 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                                         {...field}
                                         margin="normal"
                                         fullWidth
-                                        label="Share Amount"
+                                        label={t('share_amount')} 
                                         type="number"
                                         error={!!error}
                                         helperText={error ? 'Share Amount is required' : ''}
@@ -218,7 +218,7 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                                         {...field}
                                         margin="normal"
                                         fullWidth
-                                        label="Share Initial Amount"
+                                        label={t('share_initial_amount')}
                                         type="number"
                                         disabled // This makes the field disabled
                                         error={!!error}
