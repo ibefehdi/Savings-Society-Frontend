@@ -53,8 +53,8 @@
   "area": "المنطقة",
   "zipCode": "بريد رقم",
   "country": "الدولة",
-  "savings_initial_amount": "القيمة المبدائية للادخار",
-  "share_initial_amount": "القيمة المبدائية للسهم",
+  "savings_initial_amount": "القيمة المبدئية للادخار",
+  "share_initial_amount": "القيمة المبدئية للسهم",
   "share_amount": "قيمة السهم",
   "interest_rate": "نسبة الفائدة",
   "login_text": "اسم المستخدم",
@@ -100,5 +100,6 @@
   "investment_date": "تاريخ الاستثمار",
   "interest_calculation_date": "تاريخ حساب الفائدة",
   "personal_details": "البيانات الشخصية",
-  "nationality": "الجنسية"
+  "nationality": "الجنسية",
+  "share_current_amount":"قيمة الاسهم الحالية"
 }
