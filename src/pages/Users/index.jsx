@@ -452,7 +452,7 @@ const Users = () => {
                                             render={({ field }) => <Checkbox {...field} checked={field.value} />}
                                         />
                                     }
-                                    label="Create"
+                                    label={t('create')}
                                 />
                                 <FormControlLabel
                                     control={
@@ -462,7 +462,7 @@ const Users = () => {
                                             render={({ field }) => <Checkbox {...field} checked={field.value} />}
                                         />
                                     }
-                                    label="View"
+                                    label={t('view')}
                                 />
                                 <FormControlLabel
                                     control={
@@ -472,7 +472,7 @@ const Users = () => {
                                             render={({ field }) => <Checkbox {...field} checked={field.value} />}
                                         />
                                     }
-                                    label="Edit"
+                                    label={t('edit')}
                                 />
                                 <FormControlLabel
                                     control={
@@ -482,7 +482,7 @@ const Users = () => {
                                             render={({ field }) => <Checkbox {...field} checked={field.value} />}
                                         />
                                     }
-                                    label="Delete"
+                                    label={t('delete')}
                                 />
                             </FormGroup>
                             {/* User Permissions */}
@@ -496,7 +496,7 @@ const Users = () => {
                                             render={({ field }) => <Checkbox {...field} checked={field.value} />}
                                         />
                                     }
-                                    label="Create"
+                                    label={t('create')}
                                 />
                                 <FormControlLabel
                                     control={
@@ -506,7 +506,7 @@ const Users = () => {
                                             render={({ field }) => <Checkbox {...field} checked={field.value} />}
                                         />
                                     }
-                                    label="View"
+                                    label={t('view')}
                                 />
                                 <FormControlLabel
                                     control={
@@ -516,7 +516,7 @@ const Users = () => {
                                             render={({ field }) => <Checkbox {...field} checked={field.value} />}
                                         />
                                     }
-                                    label="Edit"
+                                    label={t('edit')}
                                 />
                                 <FormControlLabel
                                     control={
@@ -526,7 +526,7 @@ const Users = () => {
                                             render={({ field }) => <Checkbox {...field} checked={field.value} />}
                                         />
                                     }
-                                    label="Delete"
+                                    label={t('delete')}
                                 />
                             </FormGroup>
                             {/* User Permissions */}
@@ -540,7 +540,7 @@ const Users = () => {
                                             render={({ field }) => <Checkbox {...field} checked={field.value} />}
                                         />
                                     }
-                                    label="Create"
+                                    label={t('create')}
                                 />
                                 <FormControlLabel
                                     control={
@@ -550,7 +550,7 @@ const Users = () => {
                                             render={({ field }) => <Checkbox {...field} checked={field.value} />}
                                         />
                                     }
-                                    label="View"
+                                    label={t('view')}
                                 />
                                 <FormControlLabel
                                     control={
@@ -560,7 +560,7 @@ const Users = () => {
                                             render={({ field }) => <Checkbox {...field} checked={field.value} />}
                                         />
                                     }
-                                    label="Edit"
+                                    label={t('edit')}
                                 />
                                 <FormControlLabel
                                     control={
@@ -570,7 +570,7 @@ const Users = () => {
                                             render={({ field }) => <Checkbox {...field} checked={field.value} />}
                                         />
                                     }
-                                    label="Delete"
+                                    label={t('delete')}
                                 />
                             </FormGroup>
 
@@ -587,7 +587,7 @@ const Users = () => {
                                             render={({ field }) => <Checkbox {...field} checked={field.value} />}
                                         />
                                     }
-                                    label="Share"
+                                    label={t('share')}
                                 />
                                 <FormControlLabel
                                     control={
@@ -597,7 +597,7 @@ const Users = () => {
                                             render={({ field }) => <Checkbox {...field} checked={field.value} />}
                                         />
                                     }
-                                    label="Saving"
+                                    label={t('savings')}
                                 />
 
                             </FormGroup>
@@ -611,7 +611,7 @@ const Users = () => {
                                             render={({ field }) => <Checkbox {...field} checked={field.value} />}
                                         />
                                     }
-                                    label="Share"
+                                    label={t('share')}
                                 />
                                 <FormControlLabel
                                     control={
@@ -621,7 +621,7 @@ const Users = () => {
                                             render={({ field }) => <Checkbox {...field} checked={field.value} />}
                                         />
                                     }
-                                    label="Saving"
+                                    label={t('savings')}
                                 />
 
                             </FormGroup>
@@ -635,7 +635,7 @@ const Users = () => {
                                             render={({ field }) => <Checkbox {...field} checked={field.value} />}
                                         />
                                     }
-                                    label="Share"
+                                    label={t('share')}
                                 />
                                 <FormControlLabel
                                     control={
@@ -645,7 +645,7 @@ const Users = () => {
                                             render={({ field }) => <Checkbox {...field} checked={field.value} />}
                                         />
                                     }
-                                    label="Saving"
+                                    label={t('savings')}
                                 />
 
                             </FormGroup>
@@ -653,7 +653,7 @@ const Users = () => {
                     </Grid>
 
                     <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
-                        <Button onClick={handleSubmit(onSubmit)}>{editMode ? "Edit" : "Add"}</Button>
+                        <Button onClick={handleSubmit(onSubmit)}>{editMode ? t('edit') : t('add')}</Button>
                     </Box>
                 </Box>
             </Modal>

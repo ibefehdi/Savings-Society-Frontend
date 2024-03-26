@@ -18,12 +18,12 @@ const SavingsConfiguration = () => {
     const columns = [
         {
             field: 'year',
-            headerName: 'Year',
+            headerName: t('year'),
             flex: 1,
         },
         {
             field: 'individualSharePercentage',
-            headerName: "Interest Rate",
+            headerName: t('interest_rate'),
             flex: 1,
             renderCell: (params) => {
                 return `${params.value}%`

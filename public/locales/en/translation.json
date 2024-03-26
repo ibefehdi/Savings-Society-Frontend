@@ -44,6 +44,7 @@
   "print_form": "Print Form",
   "active": "Active",
   "inactive": "Inactive",
+
   "death": "Death",
   "shareholder_details": "Shareholder Details",
   "investment": "Investment",
@@ -85,5 +86,17 @@
   "dob": "Date of Birth",
   "quit_date": "Quit Date",
   "join_date": "Join Date",
-  "company_name": "Co-operative Society of Savings"
+  "company_name": "Co-operative Society of Savings",
+  "gender": "Gender",
+  "submit": "Submit",
+  "print": "Print",
+  "savings_increase": "Savings Increase",
+  "share_increase": "Share Increase",
+  "total": "Total",
+  "contact_details": "Contact Details",
+  "amount_of_shares": "Amount of Shares",
+  "investment_date": "Investment Date",
+  "interest_calculation_date": "Interest calculation Date",
+  "personal_details": "Personal Details",
+  "nationality": "Nationality"
 }

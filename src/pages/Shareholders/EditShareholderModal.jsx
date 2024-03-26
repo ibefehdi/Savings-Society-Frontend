@@ -102,18 +102,18 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
                     {/* Column 1 */}
                     <Grid item xs={12} sm={6} md={6}>
                         <Typography variant="h6">
-                            Shareholder Details
+                            {t('shareholder_details')}
                         </Typography>
-                        <TextField margin="normal" fullWidth label={t('fName')} {...register('fName', { required: true })} error={!!errors.fName} helperText={errors.fName ? 'First Name is required' : ''} />
-                        <TextField margin="normal" fullWidth label={t('lName')} {...register('lName', { required: true })} error={!!errors.lName} helperText={errors.lName ? 'Last Name is required' : ''} />
-                        <TextField margin="normal" fullWidth label={t('civilId')} {...register('civilId', { required: true })} error={!!errors.civilId} helperText={errors.civilId ? 'Civil ID is required' : ''} />
+                        <TextField margin="normal" fullWidth label={t('first_name')} {...register('fName', { required: true })} error={!!errors.fName} helperText={errors.fName ? 'First Name is required' : ''} />
+                        <TextField margin="normal" fullWidth label={t('last_name')} {...register('lName', { required: true })} error={!!errors.lName} helperText={errors.lName ? 'Last Name is required' : ''} />
+                        <TextField margin="normal" fullWidth label={t('civil_id')} {...register('civilId', { required: true })} error={!!errors.civilId} helperText={errors.civilId ? 'Civil ID is required' : ''} />
                         <TextField margin="normal" fullWidth label={t('email')} {...register('email', { required: true })} error={!!errors.email} helperText={errors.email ? 'Email is required' : ''} />
                         <TextField margin="normal" fullWidth label={t('phone_number')} {...register('mobileNumber', { required: true })} error={!!errors.mobileNumber} helperText={errors.mobileNumber ? 'Phone Number is required' : ''} />
                         <TextField margin="normal" fullWidth label={t('iban')} {...register('ibanNumber', { required: true })} error={!!errors.ibanNumber} helperText={errors.ibanNumber ? 'IBAN Number is required' : ''} />
                         <InputLabel htmlFor="dob">{t('date_of_birth')}</InputLabel>
                         <TextField fullWidth type="date" id='dob' {...register('dob', { required: true })} error={!!errors.dob} helperText={errors.dob ? 'Date of Birth is required' : ''} />
 
-                        <InputLabel htmlFor="joinDate">Join Date:</InputLabel>
+                        <InputLabel htmlFor="joinDate">{t('join_date')}</InputLabel>
                         <TextField
                             id="joinDate"
                             type="date"
@@ -122,7 +122,7 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
                             error={!!errors.joinDate}
                             helperText={errors.joinDate ? 'Join Date is required' : ''}
                         />
-                        <InputLabel htmlFor="quitDate">Quit Date:</InputLabel>
+                        <InputLabel htmlFor="quitDate">{t('quit_date')}</InputLabel>
                         <TextField fullWidth type="date" id='quitDate' {...register('quitDate', { required: true })} error={!!errors.ibanNumber} helperText={errors.ibanNumber ? 'Join Date is required' : ''} />
                         <FormControl fullWidth error={!!errors.status} margin="normal">
                             <InputLabel id="status-label">{t('status')}</InputLabel>
@@ -135,7 +135,7 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
                                     <Select
                                         {...field}
                                         labelId="status-label"
-                                        label="Status"
+                                        label={t('status')}
                                     >
                                         <MenuItem value={"0"}>{t('active')}</MenuItem>
                                         <MenuItem value={"1"}>{t('inactive')}</MenuItem>
@@ -146,7 +146,7 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
                             {errors.status && <FormHelperText>Status is required</FormHelperText>}
                         </FormControl>
                         <FormControl fullWidth error={!!errors.status} margin="normal">
-                            <InputLabel id="status-label">Status</InputLabel>
+                            <InputLabel id="status-label">{t('membership_status')}</InputLabel>
                             <Controller
                                 name="membershipStatus"
                                 control={control}
@@ -156,7 +156,7 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
                                     <Select
                                         {...field}
                                         labelId="status-label"
-                                        label="Membership Status"
+                                        label={t('membership_status')}
                                     >
                                         <MenuItem value={"0"}>{t('active')}</MenuItem>
                                         <MenuItem value={"1"}>{t('inactive')}</MenuItem>
@@ -169,7 +169,7 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
                     {/* Column 2 */}
                     <Grid item xs={12} sm={6} md={6}>
                         <Typography variant="h6">
-                            Address
+                            {t('address')}
                         </Typography>
                         <FormControl fullWidth error={!!errors.status} margin="normal">
                             <InputLabel id="status-label">{t('gender')}</InputLabel>
@@ -182,7 +182,7 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
                                     <Select
                                         {...field}
                                         labelId="gender-label"
-                                        label="Gender"
+                                        label={t('gender')}
                                     >
                                         <MenuItem value={'male'}>{t('Male')}</MenuItem>
                                         <MenuItem value={'female'}>{t('Female')}</MenuItem>
@@ -191,14 +191,14 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
                             />
                             {errors.status && <FormHelperText>Gender is required</FormHelperText>}
                         </FormControl>
-                        <TextField margin="normal" fullWidth label="Block" {...register('block', { required: true })} error={!!errors.block} helperText={errors.block ? 'Block is required' : ''} />
-                        <TextField margin="normal" fullWidth label="City" {...register('city', { required: true })} error={!!errors.city} helperText={errors.city ? 'City is required' : ''} />
-                        <TextField margin="normal" fullWidth label="PO Box" {...register('poBox')} />
-                        <TextField margin="normal" fullWidth label="House Number" {...register('house', { required: true })} error={!!errors.house} helperText={errors.house ? 'House Number is required' : ''} />
-                        <TextField margin="normal" fullWidth label="Street" {...register('street', { required: true })} error={!!errors.street} helperText={errors.street ? 'Street is required' : ''} />
-                        <TextField margin="normal" fullWidth label="Area" {...register('area', { required: true })} error={!!errors.area} helperText={errors.area ? 'Area is required' : ''} />
-                        <TextField margin="normal" fullWidth label="Zip Code" {...register('zipCode')} />
-                        <TextField margin="normal" fullWidth label="Country" {...register('country', { required: true })} error={!!errors.country} helperText={errors.country ? 'Country is required' : ''} />
+                        <TextField margin="normal" fullWidth label={t('block')} {...register('block', { required: true })} error={!!errors.block} helperText={errors.block ? 'Block is required' : ''} />
+                        <TextField margin="normal" fullWidth label={t('area')}{...register('city', { required: true })} error={!!errors.city} helperText={errors.city ? 'City is required' : ''} />
+                        <TextField margin="normal" fullWidth label={t('poBox')}{...register('poBox')} />
+                        <TextField margin="normal" fullWidth label={t('house')} {...register('house', { required: true })} error={!!errors.house} helperText={errors.house ? 'House Number is required' : ''} />
+                        <TextField margin="normal" fullWidth label={t('street')} {...register('street', { required: true })} error={!!errors.street} helperText={errors.street ? 'Street is required' : ''} />
+                        <TextField margin="normal" fullWidth label={t('area')} {...register('area', { required: true })} error={!!errors.area} helperText={errors.area ? 'Area is required' : ''} />
+                        <TextField margin="normal" fullWidth label={t('zipCode')}{...register('zipCode')} />
+                        <TextField margin="normal" fullWidth label={t('country')} {...register('country', { required: true })} error={!!errors.country} helperText={errors.country ? 'Country is required' : ''} />
                     </Grid>
                     {/* Column 3
                     <Grid item xs={12} sm={6} md={4}>
@@ -215,7 +215,7 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
                     </Grid> */}
                 </Grid>
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-                    Edit
+                    {t('edit')}
                 </Button>
             </Box>
         </Modal>

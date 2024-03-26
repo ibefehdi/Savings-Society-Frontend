@@ -83,7 +83,7 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                     width: '80rem',
                 }}
                     component="form" onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off">
-                    <Grid container spacing={2}> {/* Adjust the spacing as needed */}
+                    <Grid container spacing={2}> 
                         {/* Column 1 */}
                         <Grid item xs={12} sm={6} md={4}>
                             <Typography variant="h6">
@@ -196,10 +196,10 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                     </Box>
 
                     <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-                        Submit
+                        {t('submit')}
                     </Button>
                     <Button onClick={handlePrint} sx={{ mt: 3, mb: 2 }}>
-                        Print
+                        {t('print')}
                     </Button>
                 </Box>
             </Modal>
