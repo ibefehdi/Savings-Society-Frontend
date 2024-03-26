@@ -86,7 +86,7 @@
   "dob": "Date of Birth",
   "quit_date": "Quit Date",
   "join_date": "Join Date",
-  "company_name": "Co-operative Society of Savings",
+  "company_name": "Co-Operative Society of Savings",
   "gender": "Gender",
   "submit": "Submit",
   "print": "Print",
@@ -98,5 +98,6 @@
   "investment_date": "Investment Date",
   "interest_calculation_date": "Interest calculation Date",
   "personal_details": "Personal Details",
-  "nationality": "Nationality"
+  "nationality": "Nationality",
+  "share_current_amount": "Share Current Amount"
 }
