@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../assets/logo.png';
+import logo from '../assets/logo1.png';
 
 const AddBalanceForm = React.forwardRef((props, ref) => {
     const year = new Date().getFullYear().toString();

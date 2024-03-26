@@ -84,5 +84,21 @@
   "dob": "تاريخ الولادة",
   "quit_date": "تاريخ الانسحاب",
   "join_date": "تاريخ الانتساب",
-  "company_name": "الجمعية التعاونية لموظفي الحكومة الكويتيين للإدخار"
+  "company_name": "الجمعية التعاونية لموظفي الحكومة الكويتيين للإدخار",
+  "amanat_permissions": "صلاحيات الأمانات",
+  "deposit_permissions": "صلاحيات الإيداع",
+  "withdrawal_permissions": "صلاحيات السحب",
+  "financial_configuration_permissions": "صلاحيات التكوين المالي",
+  "gender": "الجنس",
+  "submit": "إرسال",
+  "print": "طباعة",
+  "savings_increase": "ربا الادخار",
+  "share_increase": "ربا الأسهم",
+  "total": "المجموع الفرعي",
+  "contact_details": "تفاصيل الاتصال",
+  "amount_of_shares": "عدد الأسهم",
+  "investment_date": "تاريخ الاستثمار",
+  "interest_calculation_date": "تاريخ حساب الفائدة",
+  "personal_details": "البيانات الشخصية",
+  "nationality": "الجنسية"
 }

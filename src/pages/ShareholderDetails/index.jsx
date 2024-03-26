@@ -10,7 +10,7 @@ import { Table, TableBody, TableRow, TableCell, Tab, Tabs } from '@mui/material'
 import { t } from 'i18next';
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
-    const { t } = useTranslation();
+
     return (
         <div
             role="tabpanel"
@@ -36,7 +36,6 @@ function a11yProps(index) {
 }
 const ShareholderDetails = () => {
     const { id } = useParams();
-    console.log(id);
     const [shareholderDetails, setShareholderDetails] = useState()
     const [value, setValue] = useState(0);
     const [userData, setUserdata] = useState(JSON.parse(sessionStorage.getItem('userDetails')))
@@ -44,6 +43,7 @@ const ShareholderDetails = () => {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+    const { t } = useTranslation();
     useEffect(() => {
         const fetchShareholderDetails = async () => {
             try {
@@ -107,7 +107,7 @@ const ShareholderDetails = () => {
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                             <Tab label={t('overview')} {...a11yProps(0)} />
-                            <Tab label="Contact Details" {...a11yProps(1)} />
+                            <Tab label={t('contact_details')} {...a11yProps(1)} />
                             <Tab label={t('address')} {...a11yProps(2)} />
                             <Tab label={t('investment')} {...a11yProps(3)} />
                         </Tabs>
@@ -116,7 +116,7 @@ const ShareholderDetails = () => {
                         <Box>
                             <Table >
                                 <TableBody>
-                                    <DetailRow label={<Typography variant="h5" sx={{ fontWeight: '600' }}>Personal Details</Typography>} />
+                                    <DetailRow label={<Typography variant="h5" sx={{ fontWeight: '600' }}>{t('personal_details')}</Typography>} />
                                     <DetailRow label={t('full_name')} value={`${shareholderDetails.fName} ${shareholderDetails.lName}`} />
                                     <DetailRow label={t('serial')} value={shareholderDetails.serial} />
                                     <DetailRow label={t('status')} value={StatusDetail(shareholderDetails.status)} />
@@ -132,19 +132,19 @@ const ShareholderDetails = () => {
                             <Table>
                                 <TableBody>
                                     <DetailRow label={<Typography variant="h5" sx={{ fontWeight: '600' }}>{t('savings')}</Typography>} />
-                                    <DetailRow label="Initial Investment" value={shareholderDetails.savings.initialAmount} />
-                                    <DetailRow label="Current Amount" value={shareholderDetails.savings.currentAmount.toFixed(3)} />
-                                    <DetailRow label="Initial Investment Date" value={FormatDate(shareholderDetails.savings.date)} />
-                                    <DetailRow label="Interest Calculation Date" value={FormatDate(shareholderDetails.savings.updatedAt)} />
+                                    <DetailRow label={t('initial_investment')} value={shareholderDetails.savings.initialAmount} />
+                                    <DetailRow label={t('current_amount')} value={shareholderDetails.savings.currentAmount.toFixed(3)} />
+                                    <DetailRow label={t('investment_date')} value={FormatDate(shareholderDetails.savings.date)} />
+                                    <DetailRow label={t('interest_calculation_date')} value={FormatDate(shareholderDetails.savings.updatedAt)} />
                                 </TableBody>
                             </Table>
                             <Table>
                                 <TableBody>
                                     <DetailRow label={<Typography variant="h5" sx={{ fontWeight: '600' }}>{t('share')}</Typography>} />
-                                    <DetailRow label="Share Amount" value={shareholderDetails.share.amount} />
-                                    <DetailRow label="Initial Amount Paid" value={shareholderDetails.share.initialAmount} />
-                                    <DetailRow label="Current Amount " value={shareholderDetails.share.currentAmount.toFixed(3)} />
-                                    <DetailRow label="Investment Date" value={FormatDate(shareholderDetails.share.date)} />
+                                    <DetailRow label={t('amount_of_shares')} value={shareholderDetails.share.amount} />
+                                    <DetailRow label={t('initial_investment')} value={shareholderDetails.share.initialAmount} />
+                                    <DetailRow label={t('current_amount')} value={shareholderDetails.share.currentAmount.toFixed(3)} />
+                                    <DetailRow label={t('investment_date')} value={FormatDate(shareholderDetails.share.date)} />
                                 </TableBody>
                             </Table>
                         </Box>
@@ -153,7 +153,7 @@ const ShareholderDetails = () => {
                         <Box>
                             <Table>
                                 <TableBody>
-                                    <DetailRow label={<Typography variant="h5" sx={{ fontWeight: '600' }}>Contact Details</Typography>} />
+                                    <DetailRow label={<Typography variant="h5" sx={{ fontWeight: '600' }}>{t('contact_details')}</Typography>} />
                                     <DetailRow label={t('email')} value={shareholderDetails.email} />
                                     <DetailRow label={t('phone_number')} value={shareholderDetails.mobileNumber} />
                                     <DetailRow label={t('zipCode')} value={shareholderDetails.zipCode} />
