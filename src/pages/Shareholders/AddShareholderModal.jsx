@@ -32,8 +32,13 @@ const style = {
 const AddShareholderModal = ({ open, setOpen, fetchData }) => {
     const userData = JSON.parse(sessionStorage.getItem('userDetails') || '{}');
 
-    const { register, handleSubmit, setValue, control, formState: { errors } } = useForm();
-
+    const { register, handleSubmit, setValue, control, watch, formState: { errors } } = useForm({
+        defaultValues: {
+            shareAmount: '',
+            shareInitialPrice: '',
+        }
+    });
+    const shareAmount = watch('shareAmount');
     useEffect(() => {
         // Set the adminId from userData if available
         if (userData.id) {
@@ -44,6 +49,11 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
         setOpen(false)
         fetchData();
     }
+    useEffect(() => {
+        // Whenever shareAmount changes, update shareInitialPrice
+        const shareInitialPrice = shareAmount ? shareAmount * 2 : '';
+        setValue('shareInitialPrice', shareInitialPrice, { shouldValidate: true });
+    }, [shareAmount, setValue]);
     const onSubmit = async (data) => {
         try {
             await axiosInstance.post('/shareholder', data);
@@ -83,7 +93,7 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                     width: '80rem',
                 }}
                     component="form" onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off">
-                    <Grid container spacing={2}> 
+                    <Grid container spacing={2}>
                         {/* Column 1 */}
                         <Grid item xs={12} sm={6} md={4}>
                             <Typography variant="h6">
@@ -183,9 +193,39 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                                 {t('investment')}
                             </Typography>
                             <TextField margin="normal" fullWidth label={t('savings_initial_amount')} type="number" {...register('savingsInitialPrice', { required: true })} error={!!errors.savingsInitialPrice} helperText={errors.savingsInitialPrice ? 'Savings Initial Price is required' : ''} />
-                            <TextField margin="normal" fullWidth label={t('share_initial_amount')} type="number" {...register('shareInitialPrice', { required: true })} error={!!errors.shareInitialPrice} helperText={errors.shareInitialPrice ? 'Share Initial Price is required' : ''} />
-                            <TextField margin="normal" fullWidth label={t('share_amount')} type="number" {...register('shareAmount', { required: true })} error={!!errors.shareAmount} helperText={errors.shareAmount ? 'Share Amount is required' : ''} />
-
+                            <Controller
+                                name="shareAmount"
+                                control={control}
+                                rules={{ required: true }}
+                                render={({ field, fieldState: { error } }) => (
+                                    <TextField
+                                        {...field}
+                                        margin="normal"
+                                        fullWidth
+                                        label="Share Amount"
+                                        type="number"
+                                        error={!!error}
+                                        helperText={error ? 'Share Amount is required' : ''}
+                                    />
+                                )}
+                            />
+                            <Controller
+                                name="shareInitialPrice"
+                                control={control}
+                                rules={{ required: true }}
+                                render={({ field, fieldState: { error } }) => (
+                                    <TextField
+                                        {...field}
+                                        margin="normal"
+                                        fullWidth
+                                        label="Share Initial Amount"
+                                        type="number"
+                                        disabled // This makes the field disabled
+                                        error={!!error}
+                                        helperText={error ? 'Share Initial Price is required' : ''}
+                                    />
+                                )}
+                            />
                         </Grid>
                         {/* <Grid item xs={12} sm={6} md={3}>
                       
