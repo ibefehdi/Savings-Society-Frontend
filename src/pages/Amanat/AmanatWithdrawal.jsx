@@ -39,7 +39,6 @@ const AmanatWithdrawal = ({ id, fetchData, setOpen, open }) => {
                 console.error("Failed to fetch shareholder details:", error);
             }
         };
-
         fetchShareholderDetails();
     }, [id]);
     const handleClose = () => {
@@ -63,7 +62,6 @@ const AmanatWithdrawal = ({ id, fetchData, setOpen, open }) => {
         setTotalAmount((currentAmount - additionAmount));
     }, [shareholderDetails, amountToWithdraw]);
     const isRtl = i18n.dir() === 'rtl';
-
     return (
         <Modal
             open={open}
@@ -73,7 +71,6 @@ const AmanatWithdrawal = ({ id, fetchData, setOpen, open }) => {
             sx={{ direction: isRtl ? 'rtl' : 'ltr' }}
 
         >
-
             <Box sx={{
                 ...style,
                 width: '40rem',

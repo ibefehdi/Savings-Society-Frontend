@@ -8,13 +8,26 @@ import { useFetch } from '../../hooks/useFetch';
 import { DataGrid } from '@mui/x-data-grid';
 import AddShareConfigurationModal from './AddShareConfigurationModal';
 import { useTranslation } from 'react-i18next';
+import rtlPlugin from 'stylis-plugin-rtl';
+import { prefixer } from 'stylis';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
 const ShareConfiguration = () => {
+    const cacheRtl = createCache({
+        key: 'muirtl',
+        stylisPlugins: [prefixer, rtlPlugin],
+    });
+    const cacheLtr = createCache({
+        key: 'muilt',
+    });
     const [pageNo, setPageNo] = useState(1);
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [pageSize, setPageSize] = useState(10)
     const [editMode, setEditMode] = useState(false);
     const [shareConfigId, setShareConfigId] = useState();
     const { data, fetchData, count } = useFetch('/shareconfigs', pageNo, pageSize);
+    const isRtl = i18n.dir() === 'rtl';
+
     const columns = [
         {
             field: 'year',
@@ -63,7 +76,7 @@ const ShareConfiguration = () => {
 
     }
     return (
-        <React.Fragment>
+        <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
                 <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
                     <Typography variant="h3" component="h2" sx={{
@@ -72,13 +85,16 @@ const ShareConfiguration = () => {
                         lineHeight: '1.875rem', flexGrow: 1,
                         marginLeft: '1.2rem'
                     }}>
-                        {t('savings_withdrawal')}
+                        {t('share_percentage')}
                     </Typography>
                     <Button variant='contained' onClick={() => { handleOpen() }}>{t('add')}</Button>
                 </Box>
                 <DataGrid
                     rows={data}
-                    columns={columns}
+                    columns={columns.map((column) => ({
+                        ...column,
+                        disableColumnMenu: true, // Disables the column menu completely
+                    }))}
                     page={pageNo}
 
                     getRowId={(row) => row._id}
@@ -94,6 +110,7 @@ const ShareConfiguration = () => {
                         backgroundColor: '#FFF',
                         padding: '1rem',
                         border: 'none',
+                        direction: isRtl ? 'rtl' : 'ltr',
                         width: '100%',
                         '& .MuiDataGrid-columnHeadersInner': {
                             border: 'none',
@@ -122,7 +139,7 @@ const ShareConfiguration = () => {
 
             </Box>
             <AddShareConfigurationModal year={year} open={open} setOpen={setOpen} fetchData={fetchData} setEditMode={setEditMode} shareConfigId={shareConfigId} editMode={editMode} />
-        </React.Fragment>)
+        </CacheProvider>)
 }
 
 export default ShareConfiguration

@@ -44,11 +44,7 @@ const DashboardSidebar = ({ menuItems }) => {
                         </MenuItem>
                     ))}
                 </Menu>
-                {/* 
-                <div style={{ padding: "10px" }}>
-
-                </div> */}
-
+              
             </div>
         </Sidebar >
     );

@@ -8,10 +8,15 @@ import { useFetch } from '../../hooks/useFetch';
 import { DataGrid } from '@mui/x-data-grid';
 import AddSavingsConfigurationModal from './AddSavingsConfigurationModal';
 import { useTranslation } from 'react-i18next';
+import rtlPlugin from 'stylis-plugin-rtl';
+import { prefixer } from 'stylis';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
 const SavingsConfiguration = () => {
     const [pageNo, setPageNo] = useState(1)
     const [pageSize, setPageSize] = useState(10)
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const isRtl = i18n.dir() === 'rtl';
     const [editMode, setEditMode] = useState(false);
     const [shareConfigId, setShareConfigId] = useState();
     const { data, fetchData, count } = useFetch('/savingconfigs', pageNo, pageSize);
@@ -62,13 +67,20 @@ const SavingsConfiguration = () => {
         setOpen(true);
 
     }
+    const cacheRtl = createCache({
+        key: 'muirtl',
+        stylisPlugins: [prefixer, rtlPlugin],
+    });
+    const cacheLtr = createCache({
+        key: 'muilt',
+    });
     return (
-        <React.Fragment>
+        <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
                 <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
-                    <Typography variant="h5" component="h2" sx={{
+                    <Typography variant="h3" component="h2" sx={{
                         fontStyle: 'normal', // Sets the font style
-                        fontWeight: 600, // Sets the font weight
+                        fontWeight: 600,
                         lineHeight: '1.875rem', flexGrow: 1,
                         marginLeft: '1.2rem'
                     }}>
@@ -78,8 +90,10 @@ const SavingsConfiguration = () => {
                 </Box>
                 <DataGrid
                     rows={data}
-                    columns={columns}
-                    page={pageNo}
+                    columns={columns.map((column) => ({
+                        ...column,
+                        disableColumnMenu: true, // Disables the column menu completely
+                    }))} page={pageNo}
 
                     getRowId={(row) => row._id}
                     initialState={{
@@ -95,6 +109,7 @@ const SavingsConfiguration = () => {
                         padding: '1rem',
                         border: 'none',
                         width: '100%',
+                        direction: isRtl ? 'rtl' : 'ltr',
                         '& .MuiDataGrid-columnHeadersInner': {
                             border: 'none',
                         },
@@ -122,7 +137,7 @@ const SavingsConfiguration = () => {
 
             </Box>
             <AddSavingsConfigurationModal year={year} open={open} setOpen={setOpen} fetchData={fetchData} setEditMode={setEditMode} shareConfigId={shareConfigId} editMode={editMode} />
-        </React.Fragment>)
+        </CacheProvider>)
 
 }
 

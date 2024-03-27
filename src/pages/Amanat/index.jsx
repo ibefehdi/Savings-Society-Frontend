@@ -12,6 +12,10 @@ import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import { TextField, MenuItem } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import AmanatWithdrawal from './AmanatWithdrawal';
+import rtlPlugin from 'stylis-plugin-rtl';
+import { prefixer } from 'stylis';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
 
   const handleEditClick = () => {
@@ -122,10 +126,10 @@ const Amanat = () => {
       flex: 1,
       renderCell: (params) => {
         if (params.value === 0) {
-          return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>Active</Typography>
+          return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
         }
         else if (params.value === 1) {
-          return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>Inactive</Typography>
+          return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
         }
       }
     },
@@ -135,13 +139,13 @@ const Amanat = () => {
       flex: 1,
       renderCell: (params) => {
         if (params.value === 0) {
-          return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>Active</Typography>
+          return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
         }
         else if (params.value === 1) {
-          return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>Inactive</Typography>
+          return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
         }
         else if (params.value === 2) {
-          return <Typography sx={{ color: '#DA3E33', fontWeight: 600 }}>Death</Typography>
+          return <Typography sx={{ color: '#DA3E33', fontWeight: 600 }}>{t('death')}</Typography>
         }
       }
     },
@@ -181,8 +185,15 @@ const Amanat = () => {
   const toggleFilters = () => {
     setShowFilters(!showFilters);
   };
+  const cacheRtl = createCache({
+    key: 'muirtl',
+    stylisPlugins: [prefixer, rtlPlugin],
+  });
+  const cacheLtr = createCache({
+    key: 'muilt',
+  });
   return (
-    <React.Fragment>
+    <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
       <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
         <FilterListOutlinedIcon /> {t('filter')}
       </Button>
@@ -263,7 +274,10 @@ const Amanat = () => {
         </Box>
         <DataGrid
           rows={data}
-          columns={columns}
+          columns={columns.map((column) => ({
+            ...column,
+            disableColumnMenu: true, // Disables the column menu completely
+          }))}
           paginationModel={paginationModel}
           onPaginationModelChange={(newModel) => {
             setPageNo(newModel.page + 1);
@@ -272,11 +286,13 @@ const Amanat = () => {
           getRowId={(row) => row._id}
           rowCount={count}
           paginationMode="server"
+
           sx={{
             backgroundColor: '#FFF',
             padding: '1rem',
             border: 'none',
             width: '100%',
+            direction: isRtl ? 'rtl' : 'ltr',
             '& .MuiDataGrid-columnHeadersInner': {
               border: 'none',
             },
@@ -301,7 +317,7 @@ const Amanat = () => {
         />
       </Box>
       <AmanatWithdrawal id={selectedShareholderId} open={editOpen} setOpen={setEditOpen} savings={true} fetchData={fetchData} />
-    </React.Fragment>
+    </CacheProvider>
   )
 }
 

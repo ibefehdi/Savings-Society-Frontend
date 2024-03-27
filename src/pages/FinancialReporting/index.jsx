@@ -12,8 +12,18 @@ import { useTranslation } from 'react-i18next';
 import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
 import PrintDataGrid from '../../printablePages/PrintDataGrid';
 import { useFetchNoPagination } from '../../hooks/useFetchNoPagination';
+import rtlPlugin from 'stylis-plugin-rtl';
+import { prefixer } from 'stylis';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
 const FinancialReporting = () => {
-
+    const cacheRtl = createCache({
+        key: 'muirtl',
+        stylisPlugins: [prefixer, rtlPlugin],
+    });
+    const cacheLtr = createCache({
+        key: 'muilt',
+    });
     const { data, fetchData, count, updateFilters, filters } = useFetchNoPagination('/financialReports');
     const navigate = useNavigate();
 
@@ -111,7 +121,7 @@ const FinancialReporting = () => {
     const isRtl = i18n.dir() === 'rtl';
 
     return (
-        <React.Fragment>
+        <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
                 <FilterListOutlinedIcon /> {t('filter')}
             </Button>
@@ -157,7 +167,6 @@ const FinancialReporting = () => {
                     autoComplete='off'
 
                 >
-                    {/* Replace these with your actual status options */}
                     <MenuItem value={"male"}>{t('Male')}</MenuItem>
                     <MenuItem value={"female"}>{t('Female')}</MenuItem>
                 </TextField>
@@ -170,7 +179,6 @@ const FinancialReporting = () => {
                     autoComplete='off'
 
                 >
-                    {/* Replace these with your actual status options */}
                     <MenuItem value={0}>{t('active')}</MenuItem>
                     <MenuItem value={1}>{t('inactive')}</MenuItem>
                     <MenuItem value={2}>{t('death')}</MenuItem>
@@ -203,16 +211,18 @@ const FinancialReporting = () => {
                 </Box>
 
                 <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0, display: 'none' }}>
-                    <ReactToPrint
+                    {/* <ReactToPrint
                         trigger={() => <button>Print this out!</button>}
                         content={() => componentRef.current}
-                    />
+                    /> */}
                     <PrintDataGrid ref={componentRef} data={data} filters={filters} />
                 </Box>
                 <DataGrid
                     rows={data}
-                    columns={columns}
-
+                    columns={columns.map((column) => ({
+                        ...column,
+                        disableColumnMenu: true,
+                    }))}
                     getRowId={(row) => row._id}
                     rowCount={count}
                     paginationMode="server"
@@ -221,6 +231,7 @@ const FinancialReporting = () => {
                         padding: '1rem',
                         border: 'none',
                         width: '100%',
+                        direction: isRtl ? 'rtl' : 'ltr',
                         '& .MuiDataGrid-columnHeadersInner': {
                             border: 'none',
                         },
@@ -235,8 +246,8 @@ const FinancialReporting = () => {
                         },
                         '& .MuiDataGrid-columnHeaders': {
                             border: 'none',
-                            fontStyle: 'normal', // Sets the font style
-                            fontWeight: 600, // Sets the font weight
+                            fontStyle: 'normal',
+                            fontWeight: 600,
                             lineHeight: '1.25rem',
                             color: '#667085',
                             fontSize: '0.875rem'
@@ -244,7 +255,7 @@ const FinancialReporting = () => {
                     }}
                 />
             </Box>
-        </React.Fragment>
+        </CacheProvider>
 
     )
 }

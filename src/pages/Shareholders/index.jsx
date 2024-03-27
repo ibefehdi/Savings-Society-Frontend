@@ -15,6 +15,10 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import EditShareholderModal from './EditShareholderModal';
 import { useTranslation } from 'react-i18next';
 import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
+import rtlPlugin from 'stylis-plugin-rtl';
+import { prefixer } from 'stylis';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
   const navigate = useNavigate();
 
@@ -191,6 +195,13 @@ const Shareholders = () => {
     }] : [])
 
   ];
+  const cacheRtl = createCache({
+    key: 'muirtl',
+    stylisPlugins: [prefixer, rtlPlugin],
+  });
+  const cacheLtr = createCache({
+    key: 'muilt',
+  });
   useEffect(() => {
     fetchData();
   }, [fetchData, pageNo, pageSize]);
@@ -217,7 +228,7 @@ const Shareholders = () => {
   };
 
   return (
-    <React.Fragment>
+    <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
       <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
         <FilterListOutlinedIcon /> {t('filter')}
       </Button>
@@ -307,8 +318,10 @@ const Shareholders = () => {
         </Box>
         <DataGrid
           rows={data}
-          columns={columns}
-          paginationModel={paginationModel}
+          columns={columns.map((column) => ({
+            ...column,
+            disableColumnMenu: true, 
+          }))} paginationModel={paginationModel}
           onPaginationModelChange={(newModel) => {
             setPageNo(newModel.page + 1);
             setPaginationModel(newModel);
@@ -319,6 +332,7 @@ const Shareholders = () => {
           sx={{
             backgroundColor: '#FFF',
             padding: '1rem',
+            direction: isRtl ? 'rtl' : 'ltr',
             border: 'none',
             width: '100%',
             '& .MuiDataGrid-columnHeadersInner': {
@@ -346,7 +360,7 @@ const Shareholders = () => {
       </Box>
       <AddShareholderModal open={open} setOpen={setOpen} fetchData={fetchData} />
       <EditShareholderModal open={editOpen} setOpen={setEditOpen} fetchData={fetchData} id={selectedShareholderId} />
-    </React.Fragment>)
+    </CacheProvider>)
 }
 
 export default Shareholders
