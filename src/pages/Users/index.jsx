@@ -20,6 +20,10 @@ import {
 import { useForm, Controller } from 'react-hook-form';
 import axiosInstance from '../../constants/axiosInstance';
 import { useTranslation } from 'react-i18next';
+import rtlPlugin from 'stylis-plugin-rtl';
+import { prefixer } from 'stylis';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -38,8 +42,14 @@ const Users = () => {
     const { data, fetchData, count } = useFetch('/users', pageNo, pageSize)
     const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
     const [userToDelete, setUserToDelete] = useState(null);
-    const { t } = useTranslation();
-
+    const { t, i18n } = useTranslation();
+    const cacheRtl = createCache({
+        key: 'muirtl',
+        stylisPlugins: [prefixer, rtlPlugin],
+    });
+    const cacheLtr = createCache({
+        key: 'muilt',
+    });
     let navigate = useNavigate()
     const [open, setOpen] = useState(false);
     const [editMode, setEditMode] = useState(false); // New state for edit mode
@@ -299,8 +309,10 @@ const Users = () => {
             </DialogActions>
         </Dialog>
     );
+    const isRtl = i18n.dir() === 'rtl';
+
     return (
-        <React.Fragment>
+        <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem' }}>
                 <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
 
@@ -316,8 +328,10 @@ const Users = () => {
                 </Box>
                 <DataGrid
                     rows={data}
-                    columns={columns}
-                    getRowId={(row) => row._id}
+                    columns={columns.map((column) => ({
+                        ...column,
+                        disableColumnMenu: true, // Disables the column menu completely
+                    }))} getRowId={(row) => row._id}
                     onPaginationModelChange={(newModel) => {
                         setPageNo(newModel.page + 1);
                         setPaginationModel(newModel);
@@ -326,7 +340,7 @@ const Users = () => {
                         backgroundColor: '#FFF',
                         padding: '1rem',
                         border: 'none',
-
+                        direction: isRtl ? 'rtl' : 'ltr',
                         '& .MuiDataGrid-columnHeadersInner': {
                             border: 'none',
                         },
@@ -658,7 +672,7 @@ const Users = () => {
                 </Box>
             </Modal>
 
-        </React.Fragment>
+        </CacheProvider>
 
     )
 }

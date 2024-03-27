@@ -15,7 +15,10 @@ import axiosInstance from '../../constants/axiosInstance';
 import WithdrawalForm from '../../printablePages/WithdrawalForm';
 import { useTranslation } from 'react-i18next';
 import WithdrawalModal from './WithdrawalModal';
-
+import rtlPlugin from 'stylis-plugin-rtl';
+import { prefixer } from 'stylis';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
 
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
 
@@ -34,6 +37,13 @@ const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
     );
 };
 const SavingsWithdrawalPage = () => {
+    const cacheRtl = createCache({
+        key: 'muirtl',
+        stylisPlugins: [prefixer, rtlPlugin],
+    });
+    const cacheLtr = createCache({
+        key: 'muilt',
+    });
     const [pageNo, setPageNo] = useState(1)
     const [pageSize, setPageSize] = useState(10)
     const [selectedShareholderId, setSelectedShareholderId] = useState(null);
@@ -217,7 +227,7 @@ const SavingsWithdrawalPage = () => {
     const isRtl = i18n.dir() === 'rtl';
 
     return (
-        <React.Fragment>
+        <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
                 <FilterListOutlinedIcon /> {t('filter')}
             </Button>
@@ -305,8 +315,10 @@ const SavingsWithdrawalPage = () => {
 
                 <DataGrid
                     rows={data}
-                    columns={columns}
-                    paginationModel={paginationModel}
+                    columns={columns.map((column) => ({
+                        ...column,
+                        disableColumnMenu: true, // Disables the column menu completely
+                    }))} paginationModel={paginationModel}
                     onPaginationModelChange={(newModel) => {
                         setPageNo(newModel.page + 1);
                         setPaginationModel(newModel);
@@ -319,6 +331,7 @@ const SavingsWithdrawalPage = () => {
                         padding: '1rem',
                         border: 'none',
                         width: '100%',
+                        direction: isRtl ? 'rtl' : 'ltr',
                         '& .MuiDataGrid-columnHeadersInner': {
                             border: 'none',
                         },
@@ -343,7 +356,7 @@ const SavingsWithdrawalPage = () => {
                 />
             </Box>
             <WithdrawalModal savings={true} id={selectedShareholderId} open={editOpen} setOpen={setEditOpen} fetchData={fetchData} />
-        </React.Fragment>
+        </CacheProvider>
 
     )
 }

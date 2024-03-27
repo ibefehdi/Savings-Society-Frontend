@@ -78,10 +78,11 @@ const Topbar = () => {
                 alignItems={"center"}
                 sx={{
                     backgroundColor: "#15533B",
-                    width: collapsed ? '4.93rem' : (isRtl ? '15.6rem' : '15.56rem'),
+                    width: collapsed ? '4.93rem' : (isRtl ? '15.56rem' : '15.56rem'),
                     gap: 1,
                     borderTopLeftRadius: isRtl ? '0.5rem' : 0,
-                    borderTopRightRadius: isRtl ? 0 : '0.5rem'
+                    borderTopRightRadius: isRtl ? 0 : '0.5rem',
+                    marginRight:'1px'
                 }}
             >
                 <img src={logo} alt="Logo" style={{ width: "3.875rem", height: "3.875rem", marginLeft: collapsed ? 5 : 10 }} onClick={() => navigate('/')} />
