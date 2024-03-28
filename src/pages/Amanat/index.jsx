@@ -19,13 +19,11 @@ import createCache from '@emotion/cache';
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
 
   const handleEditClick = () => {
-    setSelectedShareholderId(id); // Set the selected shareholder ID
-    setEditOpen(true); // Open the edit modal
+    setSelectedShareholderId(id); 
+    setEditOpen(true); 
   };
 
   return (
-
-
     <IconButton onClick={handleEditClick}>
       <LocalAtmIcon />
     </IconButton>

@@ -29,13 +29,13 @@ const DashboardSidebar = ({ menuItems }) => {
                         }
                     }
                 }}
-                
+
                 >
                     {menuItems?.map(menuItem => menuItem.subMenus ? (
-                        <SubMenu 
-                        label={menuItem.name} icon={menuItem.icon}>
+                        <SubMenu
+                            label={menuItem.name} icon={menuItem.icon}>
                             {menuItem.subMenus.map(sub => (
-                                <MenuItem style={{backgroundColor:"#15533B",}} component={<Link to={sub.path} />}>{sub.name}</MenuItem>
+                                <MenuItem style={{ backgroundColor: "#15533B", }} component={<Link to={sub.path} />}>{sub.name}</MenuItem>
                             ))}
                         </SubMenu>
                     ) : (
@@ -44,7 +44,7 @@ const DashboardSidebar = ({ menuItems }) => {
                         </MenuItem>
                     ))}
                 </Menu>
-              
+
             </div>
         </Sidebar >
     );

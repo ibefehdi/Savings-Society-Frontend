@@ -19,6 +19,9 @@ import rtlPlugin from 'stylis-plugin-rtl';
 import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
+import axiosInstance from '../../constants/axiosInstance';
+import { saveAs } from 'file-saver';
+
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
   const navigate = useNavigate();
 
@@ -218,6 +221,17 @@ const Shareholders = () => {
     setOpen(true);
 
   }
+
+  const getCSV = () => {
+    const filterParams = new URLSearchParams(filters).toString();
+    const queryString = `shareholdercsv/?${filterParams}`;
+    axiosInstance.get(queryString, { responseType: 'blob' })
+      .then((response) => {
+        const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
+        saveAs(blob, "shareholder.csv");
+      })
+      .catch(error => console.error('Download error!', error));
+  };
   const [paginationModel, setPaginationModel] = useState({
     pageSize: pageSize,
     page: pageNo,
@@ -314,13 +328,15 @@ const Shareholders = () => {
             <MenuItem value={25}>25 {t('per_page')}</MenuItem>
             <MenuItem value={50}>50 {t('per_page')}</MenuItem>
           </Select>
-          {permissions?.shareholder?.create && (<Button variant='contained' onClick={() => { handleOpen() }}>{t('add')}</Button>)}
+          <Box display={"flex"} gap={2}>{permissions?.shareholder?.create && (<Button variant='contained' onClick={() => { handleOpen() }}>{t('add')}</Button>)}
+            <Button variant='contained' onClick={() => { getCSV() }}>{t('export_csv')}</Button></Box>
+
         </Box>
         <DataGrid
           rows={data}
           columns={columns.map((column) => ({
             ...column,
-            disableColumnMenu: true, 
+            disableColumnMenu: true,
           }))} paginationModel={paginationModel}
           onPaginationModelChange={(newModel) => {
             setPageNo(newModel.page + 1);
