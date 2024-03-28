@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, TextField, Typography, Button, Switch, FormControlLabel } from '@mui/material';
+import { Box, TextField, Typography, Button, Switch, FormControlLabel, IconButton } from '@mui/material';
 import "./Login.css";
 import { theme } from '../../theme';
 import logo from '../../assets/logo1.png';
@@ -14,6 +14,8 @@ import rtlPlugin from 'stylis-plugin-rtl';
 import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
+import LanguageIcon from "@mui/icons-material/Language"; // Import an icon for the language menu
+
 const Login = () => {
     const {
         register,
@@ -37,6 +39,8 @@ const Login = () => {
     const cacheLtr = createCache({
         key: 'muilt',
     });
+    const buttonText = i18n.resolvedLanguage === 'en' ? 'AR' : 'EN';
+
     const onSubmit = async (data) => {
         try {
             const response = await axiosInstance.post('users/signin', data);
@@ -76,15 +80,21 @@ const Login = () => {
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
 
-            <Box className='layout' sx={{ direction: isRtl ? 'rtl' : 'ltr' }}>
+            <Box className='layout' >
 
                 <form onSubmit={handleSubmit(onSubmit)} className='login-details'>
-                    <FormControlLabel
+                    <Button onClick={toggleLanguage} sx={{ '&:hover': { backgroundColor: 'transparent' } }}>
+                        <IconButton sx={{ '&:hover': { backgroundColor: 'transparent' } }}>
+                            <LanguageIcon />
+                        </IconButton>
+                        {buttonText}
+                    </Button>
+                    {/* <FormControlLabel
                         control={<Switch checked={i18n.language === 'ar'} onChange={toggleLanguage} />}
                         label={i18n.language === 'ar' ? 'AR' : 'EN'}
                         labelPlacement="end"
-                        sx={{ alignSelf: 'center', marginBottom: '1rem' }}
-                    />
+                        sx={{ alignSelf: 'center', marginBottom: '1rem', direction: 'ltr !important' }}
+                    /> */}
                     <Box
                         component="img"
                         sx={{
