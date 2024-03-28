@@ -82,13 +82,13 @@ const Topbar = () => {
                     gap: 1,
                     borderTopLeftRadius: isRtl ? '0.5rem' : 0,
                     borderTopRightRadius: isRtl ? 0 : '0.5rem',
-                    marginRight:'1px'
+                    marginRight: '1px'
                 }}
             >
                 <img src={logo} alt="Logo" style={{ width: "3.875rem", height: "3.875rem", marginLeft: collapsed ? 5 : 10 }} onClick={() => navigate('/')} />
                 {!collapsed && <Typography sx={{ color: 'white' }}>{t('company_name')}</Typography>}
             </Box>
-            <Box display={"flex"}>
+            <Box display={"flex"} sx={{ marginRight: isRtl ? 0 : '1rem', marginLeft: isRtl ? '1rem' : 0 }}>
                 {/* <IconButton onClick={handleLanguageMenuClick}>
                     <LanguageIcon />
                 </IconButton>
@@ -109,12 +109,12 @@ const Topbar = () => {
                     ))}
                 </Menu> */}
                 <Button onClick={toggleLanguage}>
-                    <IconButton>
+                    <IconButton sx={{ '&:hover': { backgroundColor: 'transparent' } }}>
                         <LanguageIcon />
                     </IconButton>
                     {buttonText}
                 </Button>
-                <IconButton onClick={handleUserMenuClick}>
+                <IconButton onClick={handleUserMenuClick} >
                     <PersonIcon />
                 </IconButton>
                 <Menu

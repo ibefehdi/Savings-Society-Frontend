@@ -83,8 +83,6 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                 aria-labelledby="add-shareholder-modal-title"
                 aria-describedby="add-shareholder-modal-description"
                 sx={{ direction: isRtl ? 'rtl' : 'ltr' }}
-
-
             >
                 <Box sx={{
                     ...style,

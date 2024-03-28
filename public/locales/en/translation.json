@@ -99,5 +99,6 @@
   "interest_calculation_date": "Interest calculation Date",
   "personal_details": "Personal Details",
   "nationality": "Nationality",
-  "share_current_amount": "Share Current Amount"
+  "share_current_amount": "Share Current Amount",
+  "export_csv":"Export As CSV"
 }

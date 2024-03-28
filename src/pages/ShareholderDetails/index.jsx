@@ -43,7 +43,7 @@ const ShareholderDetails = () => {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     useEffect(() => {
         const fetchShareholderDetails = async () => {
             try {

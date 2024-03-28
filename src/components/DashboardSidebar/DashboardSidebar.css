@@ -6,10 +6,13 @@
     background-color: #15533B !important;
     height: 92vh;
     border: none;
-    position: relative; /* Adjust based on your layout needs, e.g., 'fixed' or 'absolute' */
-    z-index: 1001111111111111111111; /* Increase the z-index value */
+    position: relative; 
+    z-index: 1001111111111111111111;
     width:'100%';
     padding-top: 2rem;
+}
+.activeMenuItem {
+    color: black !important; 
 }
 
    @media (max-width: 480px) {
