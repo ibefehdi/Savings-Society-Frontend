@@ -136,7 +136,7 @@ const Shareholders = () => {
       headerName: t('initial_investment'),
       flex: 1,
       renderCell: (params) => {
-        return params.row.savings && params.row.savings.initialAmount.toFixed(3);
+        return params.row.savings && params.row.savings.initialAmount;
       }
     },
     {
@@ -144,7 +144,7 @@ const Shareholders = () => {
       headerName: t('current_amount'),
       flex: 1,
       renderCell: (params) => {
-        return params.row.savings && params.row.savings.currentAmount.toFixed(3);
+        return params.row.savings && params.row.savings.currentAmount;
       }
     },
     {

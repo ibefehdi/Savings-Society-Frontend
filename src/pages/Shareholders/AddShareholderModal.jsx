@@ -163,7 +163,7 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                                         <Select
                                             {...field}
                                             labelId="gender-label"
-                                            label="Gender"
+                                            label={t('gender')}
                                         >
                                             <MenuItem value={'male'}>{t('Male')}</MenuItem>
                                             <MenuItem value={'female'}>{t('Female')}</MenuItem>
@@ -196,7 +196,7 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                                         {...field}
                                         margin="normal"
                                         fullWidth
-                                        label={t('share_amount')} 
+                                        label={t('share_amount')}
                                         type="number"
                                         error={!!error}
                                         helperText={error ? 'Share Amount is required' : ''}
