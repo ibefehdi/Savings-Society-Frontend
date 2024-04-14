@@ -8,6 +8,7 @@ import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { Outlet } from 'react-router-dom';
 import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined';
+import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
 import "./Layout.css"
 import Topbar from '../../components/Topbar';
 import { useTranslation } from 'react-i18next';
@@ -37,6 +38,7 @@ const Layout = () => {
             ]
         },
         { name: t('amanat'), icon: <HandshakeOutlinedIcon />, path: "/Amanat" },
+        { name: t('deposit_history'), icon: <HistoryOutlinedIcon />, path: "/deposithistory" },
         {
             name: t('financial_configuration'),
             icon: <SettingsOutlinedIcon />,
