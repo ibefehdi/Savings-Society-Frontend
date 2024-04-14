@@ -129,7 +129,7 @@ const SharesDepositPage = () => {
             headerName: t('initial_investment'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.share && params.row.share.initialAmount.toFixed(3);
+                return params.row.share && params.row.share.initialAmount
             }
         },
         {
@@ -137,7 +137,7 @@ const SharesDepositPage = () => {
             headerName: t('current_amount'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.share && params.row.share.currentAmount.toFixed(3);
+                return params.row.share && params.row.share.currentAmount
             }
         },
         {
