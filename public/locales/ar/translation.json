@@ -102,5 +102,7 @@
   "personal_details": "البيانات الشخصية",
   "nationality": "الجنسية",
   "share_current_amount": "قيمة الاسهم الحالية",
-  "export_csv": "تحويل الى CSV"
+  "export_csv": "تحويل الى CSV",
+  "deposit_history": "حركة الإيداعات",
+  "withdrawal_history": "سحوبات الإيداعات"
 }

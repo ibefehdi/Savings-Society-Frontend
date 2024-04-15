@@ -100,5 +100,7 @@
   "personal_details": "Personal Details",
   "nationality": "Nationality",
   "share_current_amount": "Share Current Amount",
-  "export_csv":"Export As CSV"
+  "export_csv": "Export As CSV",
+  "deposit_history": "Deposit History",
+  "withdrawal_history": "Withdrawal History"
 }

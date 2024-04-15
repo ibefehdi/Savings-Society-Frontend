@@ -133,7 +133,10 @@ const ShareholderDetails = () => {
                                 <TableBody>
                                     <DetailRow label={<Typography variant="h5" sx={{ fontWeight: '600' }}>{t('savings')}</Typography>} />
                                     <DetailRow label={t('initial_investment')} value={shareholderDetails.savings.initialAmount} />
-                                    <DetailRow label={t('current_amount')} value={shareholderDetails.savings.currentAmount.toFixed(3)} />
+                                    <DetailRow
+                                        label={t('current_amount')}
+                                        value={shareholderDetails.savings?.currentAmount ? shareholderDetails.savings.currentAmount.toFixed(3) : ''}
+                                    />
                                     <DetailRow label={t('investment_date')} value={FormatDate(shareholderDetails.savings.date)} />
                                     <DetailRow label={t('interest_calculation_date')} value={FormatDate(shareholderDetails.savings.updatedAt)} />
                                 </TableBody>
@@ -143,7 +146,10 @@ const ShareholderDetails = () => {
                                     <DetailRow label={<Typography variant="h5" sx={{ fontWeight: '600' }}>{t('share')}</Typography>} />
                                     <DetailRow label={t('amount_of_shares')} value={shareholderDetails.share.amount} />
                                     <DetailRow label={t('initial_investment')} value={shareholderDetails.share.initialAmount} />
-                                    <DetailRow label={t('current_amount')} value={shareholderDetails.share.currentAmount.toFixed(3)} />
+                                    <DetailRow
+                                        label={t('current_amount')}
+                                        value={shareholderDetails.savings?.currentAmount ? shareholderDetails.savings.currentAmount.toFixed(3) : ''}
+                                    />
                                     <DetailRow label={t('investment_date')} value={FormatDate(shareholderDetails.share.date)} />
                                 </TableBody>
                             </Table>
