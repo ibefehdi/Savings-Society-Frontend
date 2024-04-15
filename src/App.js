@@ -24,6 +24,7 @@ import Amanat from './pages/Amanat';
 import DeathFormPage from './pages/DeathFormPage';
 import FinancialReporting from './pages/FinancialReporting';
 import DepositHistory from './pages/DepositHistory';
+import WithdrawalHistory from './pages/WithdrawalHistory';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -57,7 +58,8 @@ function App() {
         { path: 'Forms/DepositForm', element: <DepositFormPage /> },
         { path: 'Forms/DeathForm', element: <DeathFormPage /> },
         { path: 'Amanat', element: <Amanat /> },
-        { path: 'deposithistory', element: <DepositHistory /> }
+        { path: 'deposithistory', element: <DepositHistory /> },
+        { path: 'withdrawalhistory', element: <WithdrawalHistory /> }
 
       ] : [],
     },

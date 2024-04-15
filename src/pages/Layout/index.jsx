@@ -39,6 +39,8 @@ const Layout = () => {
         },
         { name: t('amanat'), icon: <HandshakeOutlinedIcon />, path: "/Amanat" },
         { name: t('deposit_history'), icon: <HistoryOutlinedIcon />, path: "/deposithistory" },
+        { name: t('withdrawal_history'), icon: <HistoryOutlinedIcon />, path: "/withdrawalhistory" },
+
         {
             name: t('financial_configuration'),
             icon: <SettingsOutlinedIcon />,
