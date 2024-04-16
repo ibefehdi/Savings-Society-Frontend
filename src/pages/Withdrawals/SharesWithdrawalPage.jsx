@@ -63,7 +63,7 @@ const SharesWithdrawalPage = () => {
     const [adminId, setAdminId] = useState(userData?.id)
     const columns = [
         {
-            field: 'serial',
+            field: 'membersCode',
             headerName: t('serial'),
             flex: 1,
         },

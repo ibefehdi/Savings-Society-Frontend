@@ -15,7 +15,7 @@ const DepositHistory = () => {
     useEffect(() => { fetchData() }, [])
     const columns = [
         {
-            field: 'serial',
+            field: 'membersCode',
             headerName: t('serial'),
             flex: 1,
             valueGetter: (params) => `${params.row.shareholder.serial}`

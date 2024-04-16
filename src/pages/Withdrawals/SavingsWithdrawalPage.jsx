@@ -63,7 +63,7 @@ const SavingsWithdrawalPage = () => {
     const { i18n, t } = useTranslation()
     const columns = [
         {
-            field: 'serial',
+            field: 'membersCode',
             headerName: t('serial'),
             flex: 1,
         },

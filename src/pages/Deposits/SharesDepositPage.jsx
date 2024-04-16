@@ -66,7 +66,7 @@ const SharesDepositPage = () => {
     const { i18n, t } = useTranslation();
     const columns = [
         {
-            field: 'serial',
+            field: 'membersCode',
             headerName: t('serial'),
             flex: 1,
         },
@@ -212,7 +212,7 @@ const SharesDepositPage = () => {
             <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0, direction: isRtl ? 'rtl' : 'ltr' }}>
                 <FilterListOutlinedIcon /> {t('filter')}
             </Button>
-            {showFilters && (<Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', marginRight: isRtl ? "2rem" : 0, direction: isRtl ? 'rtl' : 'ltr'}}>
+            {showFilters && (<Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', marginRight: isRtl ? "2rem" : 0, direction: isRtl ? 'rtl' : 'ltr' }}>
                 <TextField
                     label={t('serial')}
                     variant="outlined"

@@ -15,7 +15,7 @@ const WithdrawalHistory = () => {
     useEffect(() => { fetchData() }, [])
     const columns = [
         {
-            field: 'Serial',
+            field: 'membersCode',
             headerName: t('serial'),
             flex: 1,
             valueGetter: (params) => `${params.row.shareholder.serial}`

@@ -101,7 +101,7 @@ const ShareholderDetails = () => {
 
                 <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
                     <Typography variant='h2' style={{ direction: 'rtl', unicodeBidi: 'embed', textAlign: 'start' }}>
-                        {shareholderDetails.fName} {shareholderDetails.lName} - #{shareholderDetails.serial}
+                        {shareholderDetails.fName} {shareholderDetails.lName} - #{shareholderDetails.membersCode}
                     </Typography>
 
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
