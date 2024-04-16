@@ -68,7 +68,7 @@ const Shareholders = () => {
   const [permissions, setPermissions] = useState(userData?.permissions)
   const columns = [
     {
-      field: 'serial',
+      field: 'membersCode',
       headerName: t('serial'),
       flex: 1,
     },
