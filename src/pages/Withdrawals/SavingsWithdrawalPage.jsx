@@ -193,9 +193,11 @@ const SavingsWithdrawalPage = () => {
         pageSize: pageSize,
         page: pageNo,
     });
-    const handleCloseConfirmDialog = () => {
-        setEditOpen(false);
+    
+    const handleClose = () => {
+        setEditOpen(false)
         setSelectedShareholderId(null)
+        fetchData();
     }
     const [showFilters, setShowFilters] = useState(false);
     const toggleFilters = () => {
@@ -310,6 +312,7 @@ const SavingsWithdrawalPage = () => {
                     </Box>
 
                     <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
+                    
                 </Box>
 
 

@@ -135,6 +135,9 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
                     {t('edit')}
                 </Button>
+                <Button onClick={handleClose} sx={{ mt: 3, mb: 2 }}>
+                    {t('close')}
+                </Button>
             </Box>
         </Modal>
     );
