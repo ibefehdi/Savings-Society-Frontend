@@ -89,14 +89,14 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
                                 <StyledTd>{row.serial}</StyledTd>
                                 <StyledTd>{row.fullName}</StyledTd>
                                 <StyledTd>{row.civilId}</StyledTd>
-                                <StyledTd>{row.savings ? row.savings.initialAmount.toFixed(3) : 'N/A'}</StyledTd>
+                                {/* <StyledTd>{row.savings ? row.savings.initialAmount.toFixed(3) : 'N/A'}</StyledTd>
                                 <StyledTd>{row.savings ? row.savings.currentAmount.toFixed(3) : 'N/A'}</StyledTd>
                                 <StyledTd>{row.savingsIncrease ? row.savingsIncrease.toFixed(3) : 'N/A'}</StyledTd>
                                 <StyledTd>{row.share?.initialAmount.toFixed(3) ?? 'N/A'}</StyledTd>
                                 <StyledTd>{row.share?.currentAmount.toFixed(3) ?? 'N/A'}</StyledTd>
                                 <StyledTd>{row.shareIncrease ? row.shareIncrease.toFixed(3) : 'N/A'}</StyledTd>
                                 <StyledTd>{row.savings && row.savings.amanat ? row.savings.amanat.amount.toFixed(3) : 'N/A'}</StyledTd>
-                                <StyledTd>{row.total.toFixed(3)}</StyledTd>
+                                <StyledTd>{row.total.toFixed(3)}</StyledTd> */}
                             </TableRow>
                         ))}
                     </tbody>

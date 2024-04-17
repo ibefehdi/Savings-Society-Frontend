@@ -124,22 +124,22 @@ const SharesDepositPage = () => {
                 return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
             }
         },
-        {
-            field: 'initialInvestment',
-            headerName: t('initial_investment'),
-            flex: 1,
-            renderCell: (params) => {
-                return params.row.share && params.row.share.initialAmount
-            }
-        },
-        {
-            field: 'currentAmount',
-            headerName: t('current_amount'),
-            flex: 1,
-            renderCell: (params) => {
-                return params.row.share && params.row.share.currentAmount
-            }
-        },
+        // {
+        //     field: 'initialInvestment',
+        //     headerName: t('initial_investment'),
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         return params.row.share && params.row.share.initialAmount
+        //     }
+        // },
+        // {
+        //     field: 'currentAmount',
+        //     headerName: t('current_amount'),
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         return params.row.share && params.row.share.currentAmount
+        //     }
+        // },
         {
             field: 'membershipStatus',
             headerName: t('membership_status'),

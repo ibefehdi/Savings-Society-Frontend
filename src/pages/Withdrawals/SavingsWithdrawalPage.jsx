@@ -121,22 +121,24 @@ const SavingsWithdrawalPage = () => {
                 return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
             }
         },
-        {
-            field: 'initialInvestment',
-            headerName: t('initial_investment'),
-            flex: 1,
-            renderCell: (params) => {
-                return params.row.savings && params.row.savings.initialAmount;
-            }
-        },
-        {
-            field: 'currentAmount',
-            headerName: t('current_amount'),
-            flex: 1,
-            renderCell: (params) => {
-                return params.row.savings && params.row.savings.currentAmount;
-            }
-        },
+        // {
+        //     field: 'initialInvestment',
+        //     headerName: t('initial_investment'),
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         // Filter the savings array for the current year and display the initial amount
+        //         return params.row.savings[0]?.initialAmount ? params.row.savings[0]?.initialAmount.toFixed(3) : "N/A"
+        //     }
+        // },
+        // {
+        //     field: 'currentAmount',
+        //     headerName: t('current_amount'),
+        //     flex: 1,
+        //     renderCell: (params) => {
+
+        //         return params.row.savings[0]?.currentAmount ? params.row.savings[0]?.currentAmount.toFixed(3) : "N/A"
+        //     }
+        // },
         {
             field: 'membershipStatus',
             headerName: t('membership_status'),

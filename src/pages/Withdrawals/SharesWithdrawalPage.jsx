@@ -121,22 +121,7 @@ const SharesWithdrawalPage = () => {
                 return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
             }
         },
-        {
-            field: 'initialInvestment',
-            headerName: t('initial_investment'),
-            flex: 1,
-            renderCell: (params) => {
-                return params.row.share && params.row.share.initialAmount.toFixed(3);
-            }
-        },
-        {
-            field: 'currentAmount',
-            headerName: t('current_amount'),
-            flex: 1,
-            renderCell: (params) => {
-                return params.row.share && params.row.share.currentAmount.toFixed(3);
-            }
-        },
+       
         {
             field: 'membershipStatus',
             headerName: t('membership_status'),

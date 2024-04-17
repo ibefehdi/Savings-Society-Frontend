@@ -3,6 +3,7 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
 import { useForm } from 'react-hook-form';
 import axiosInstance from '../../constants/axiosInstance';
 import { useTranslation } from 'react-i18next';
@@ -21,12 +22,14 @@ const style = {
 };
 
 const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
-    const { register, handleSubmit, watch, setValue, control, reset, formState: { errors } } = useForm();
+    const { register, handleSubmit, watch, setValue, reset, formState: { errors } } = useForm();
     const [shareholderDetails, setShareholderDetails] = useState();
     const adminData = JSON.parse(sessionStorage.getItem('userDetails') || '{}');
     const [totalAmount, setTotalAmount] = useState(0);
     const { i18n, t } = useTranslation();
     const isRtl = i18n.dir() === 'rtl';
+    const currentYear = new Date().getFullYear();
+    const [year, setYear] = useState(currentYear);
 
     useEffect(() => {
         const fetchShareholderDetails = async () => {
@@ -49,7 +52,7 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
             const currentAmount = Number(shareholderDetails.currentAmount) || 0;
             const newShareAmount = parseFloat(watch('newShareAmount')) || 0;
             const newAmount = savings ? parseFloat(watch('newAmount')) : newShareAmount * 2;
-            setValue('newAmount', newAmount, { shouldValidate: true }); // Dynamically update newAmount based on newShareAmount
+            setValue('newAmount', newAmount, { shouldValidate: true });
             setTotalAmount((currentAmount + newAmount).toFixed(3));
         }
     }, [shareholderDetails, watch('newShareAmount'), savings]);
@@ -63,10 +66,10 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
     const onSubmit = async (data) => {
         try {
             const formData = {
-                ...data,
-                adminId: [adminData.id],
+                newAmount: data.newAmount,
                 newShareAmount: data.newShareAmount ? Number(data.newShareAmount) : undefined,
-                shareInitialPrice: data.shareInitialPrice ? parseFloat(data.shareInitialPrice) : undefined
+                adminId: [adminData.id],
+                year: year  // Use the selected year from the dropdown
             };
             const url = savings ? `shareholder/depositsavings/${id}` : `shareholder/depositshares/${id}`;
             await axiosInstance.post(url, formData);
@@ -94,6 +97,24 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                     disabled
                 />
                 <TextField
+                    id="year"
+                    select
+                    label={t('year')}
+                    value={year}
+                    onChange={(e) => setYear(e.target.value)}
+                    margin="normal"
+                    fullWidth
+                >
+                    <MenuItem key="none" value="">
+                        {t('select_year')} 
+                    </MenuItem>
+                    {[...Array(22)].map((_, index) => (
+                        <MenuItem key={index} value={currentYear - index}>
+                            {currentYear - index}
+                        </MenuItem>
+                    ))}
+                </TextField>
+                <TextField
                     id="newAmount"
                     margin="normal"
                     fullWidth
@@ -101,7 +122,7 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                     {...register('newAmount', { required: true })}
                     error={!!errors.newAmount}
                     helperText={errors.newAmount ? t('this_field_is_required') : ''}
-                    disabled={!savings}  // Disable if not savings, as it is auto-calculated
+                    disabled={!savings}
                 />
                 {!savings && (
                     <>
@@ -114,15 +135,6 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                             error={!!errors.newShareAmount}
                             helperText={errors.newShareAmount ? t('this_field_is_required') : ''}
                         />
-                        {/* <TextField
-                            id="shareInitialPrice"
-                            margin="normal"
-                            fullWidth
-                            label={t('share_initial_price')}
-                            {...register('shareInitialPrice', { required: true })}
-                            error={!!errors.shareInitialPrice}
-                            helperText={errors.shareInitialPrice ? t('this_field_is_required') : ''}
-                        /> */}
                     </>
                 )}
                 <TextField
