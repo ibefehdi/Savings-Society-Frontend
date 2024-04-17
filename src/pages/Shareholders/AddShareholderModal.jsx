@@ -120,6 +120,28 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                                 error={!!errors.joinDate}
                                 helperText={errors.joinDate ? 'Join Date is required' : ''}
                             />
+
+                            <FormControl fullWidth error={!!errors.status} margin="normal">
+                                <InputLabel id="status-label">{t('gender')}</InputLabel>
+                                <Controller
+                                    name="gender"
+                                    control={control}
+                                    rules={{ required: true }}
+                                    defaultValue=""
+                                    render={({ field }) => (
+                                        <Select
+                                            {...field}
+                                            labelId="gender-label"
+                                            label={t('gender')}
+                                        >
+                                            <MenuItem value={'male'}>{t('Male')}</MenuItem>
+                                            <MenuItem value={'female'}>{t('Female')}</MenuItem>
+                                        </Select>
+                                    )}
+                                />
+                                {errors.status && <FormHelperText>Gender is required</FormHelperText>}
+                            </FormControl>
+
                             {/* <InputLabel htmlFor="quitDate">{t('quit_date')}</InputLabel>
                             <TextField fullWidth type="date" id='quitDate' {...register('quitDate', { required: true })} error={!!errors.ibanNumber} helperText={errors.ibanNumber ? 'Join Date is required' : ''} /> */}
 
@@ -152,26 +174,7 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                             <Typography variant="h6">
                                 {t('address')}
                             </Typography>
-                            <FormControl fullWidth error={!!errors.status} margin="normal">
-                                <InputLabel id="status-label">{t('gender')}</InputLabel>
-                                <Controller
-                                    name="gender"
-                                    control={control}
-                                    rules={{ required: true }}
-                                    defaultValue=""
-                                    render={({ field }) => (
-                                        <Select
-                                            {...field}
-                                            labelId="gender-label"
-                                            label={t('gender')}
-                                        >
-                                            <MenuItem value={'male'}>{t('Male')}</MenuItem>
-                                            <MenuItem value={'female'}>{t('Female')}</MenuItem>
-                                        </Select>
-                                    )}
-                                />
-                                {errors.status && <FormHelperText>Gender is required</FormHelperText>}
-                            </FormControl>
+
                             <TextField margin="normal" fullWidth label={t('block')} {...register('block', { required: true })} error={!!errors.block} helperText={errors.block ? 'Block is required' : ''} />
                             <TextField margin="normal" fullWidth label={t('area')} {...register('city', { required: true })} error={!!errors.city} helperText={errors.city ? 'City is required' : ''} />
                             <TextField margin="normal" fullWidth label={t('poBox')} {...register('poBox')} />
@@ -234,6 +237,9 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                     </Button>
                     <Button onClick={handlePrint} sx={{ mt: 3, mb: 2 }}>
                         {t('print')}
+                    </Button>
+                    <Button onClick={handleClose} sx={{ mt: 3, mb: 2 }}>
+                        {t('close')}
                     </Button>
                 </Box>
             </Modal>

@@ -215,7 +215,11 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
                     </Grid> */}
                 </Grid>
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-                    {t('edit')}
+                    {t('submit')}
+                </Button>
+
+                <Button onClick={handleClose} sx={{ mt: 3, mb: 2 }}>
+                    {t('close')}
                 </Button>
             </Box>
         </Modal>

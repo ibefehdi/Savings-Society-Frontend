@@ -668,6 +668,9 @@ const Users = () => {
 
                     <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
                         <Button onClick={handleSubmit(onSubmit)}>{editMode ? t('edit') : t('add')}</Button>
+                        <Button onClick={handleClose} >
+                            {t('close')}
+                        </Button>
                     </Box>
                 </Box>
             </Modal>

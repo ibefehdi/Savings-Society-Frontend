@@ -104,6 +104,9 @@ const AmanatWithdrawal = ({ id, fetchData, setOpen, open }) => {
                     {t('withdraw')}
 
                 </Button>
+                <Button onClick={handleClose} sx={{ mt: 3, mb: 2 }}>
+                    {t('close')}
+                </Button>
             </Box>
         </Modal>
     )

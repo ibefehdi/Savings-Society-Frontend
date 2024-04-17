@@ -89,7 +89,7 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
                     label={t('current_amount')}
                     value={shareholderDetails?.currentAmount}
                     disabled
-                    
+
                 />
                 <TextField
                     id="amountToWithdraw"
@@ -99,7 +99,7 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
                     {...register('amountToWithdraw', { required: true })}
                     error={!!errors.newAmount}
                     helperText={errors.newAmount ? 'This is required' : ''}
-                    
+
                 />
                 <TextField
                     margin="normal"
@@ -107,10 +107,14 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
                     label={t('amount_after_withdrawal')}
                     value={totalAmount}
                     disabled
-                   
+
                 />
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
                     {t('withdraw')}
+                </Button>
+
+                <Button onClick={handleClose} sx={{ mt: 3, mb: 2 }}>
+                    {t('close')}
                 </Button>
             </Box>
         </Modal>
