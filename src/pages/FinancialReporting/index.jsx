@@ -46,24 +46,30 @@ const FinancialReporting = () => {
         },
         {
             field: 'initialInvestment',
-            headerName: t('savings_initial_amount'),
+            headerName: t('initial_investment'),
             flex: 1,
-            renderCell: (params) => params.row.savings
-                ? params.row.savings.initialAmount.toFixed(3)
-                : 'N/A'
+            renderCell: (params) => {
+                // Filter the savings array for the current year and display the initial amount
+                return params.row.savingsDetails?.initialAmount ? params.row.savingsDetails?.initialAmount.toFixed(3) : "N/A"
+            }
         },
         {
             field: 'currentAmount',
             headerName: t('current_amount'),
             flex: 1,
-            renderCell: (params) => params.row.savings
-                ? params.row.savings.currentAmount.toFixed(3)
-                : 'N/A'
+            renderCell: (params) => {
+
+                return params.row.savingsDetails?.currentAmount ? params.row.savingsDetails?.currentAmount.toFixed(3) : "N/A"
+            }
         },
         {
             field: 'savingsIncrease',
             headerName: t('savings_increase'),
             flex: 1,
+            renderCell: (params) => {
+
+                return params.row.savingsIncrease ? params.row.savingsIncrease?.toFixed(3) : "N/A"
+            }
         },
 
 
@@ -71,18 +77,28 @@ const FinancialReporting = () => {
             field: 'initialShareAmount',
             headerName: t('share_initial_amount'),
             flex: 1,
-            valueGetter: (params) => params.row.share?.initialAmount.toFixed(3) ?? 'N/A',
+            renderCell: (params) => {
+
+                return params.row.shareDetails?.initialAmount ? params.row.shareDetails?.initialAmount.toFixed(3) : "N/A"
+            }
         },
         {
             field: 'currentShareAmount',
             headerName: t('share_current_amount'),
             flex: 1,
-            valueGetter: (params) => params.row.share?.currentAmount.toFixed(3) ?? 'N/A',
+            renderCell: (params) => {
+
+                return params.row.shareDetails?.currentAmount ? params.row.shareDetails?.currentAmount.toFixed(3) : "N/A"
+            }
         },
         {
             field: 'shareIncrease',
             headerName: t('share_increase'),
             flex: 1,
+            renderCell: (params) => {
+
+                return params.row.shareIncrease ? params.row.shareIncrease?.toFixed(3) : "N/A"
+            }
         },
         {
             field: 'amanatAmount',
@@ -96,7 +112,7 @@ const FinancialReporting = () => {
             field: 'total',
             headerName: t('total'),
             flex: 1,
-            valueGetter: (params) => params.row.total.toFixed(3) ?? 'N/A',
+            renderCell: (params) => params.row.total ? params.row.total.toFixed(3) : "N/A"
         }
 
     ];

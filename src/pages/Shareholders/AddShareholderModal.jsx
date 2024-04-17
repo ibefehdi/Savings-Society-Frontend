@@ -120,8 +120,8 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                                 error={!!errors.joinDate}
                                 helperText={errors.joinDate ? 'Join Date is required' : ''}
                             />
-                            <InputLabel htmlFor="quitDate">{t('quit_date')}</InputLabel>
-                            <TextField fullWidth type="date" id='quitDate' {...register('quitDate', { required: true })} error={!!errors.ibanNumber} helperText={errors.ibanNumber ? 'Join Date is required' : ''} />
+                            {/* <InputLabel htmlFor="quitDate">{t('quit_date')}</InputLabel>
+                            <TextField fullWidth type="date" id='quitDate' {...register('quitDate', { required: true })} error={!!errors.ibanNumber} helperText={errors.ibanNumber ? 'Join Date is required' : ''} /> */}
 
                             <FormControl fullWidth error={!!errors.status} margin="normal">
                                 <InputLabel id="status-label">{t('status')}</InputLabel>
@@ -214,7 +214,7 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                                         fullWidth
                                         label={t('share_initial_amount')}
                                         type="number"
-                                        disabled // This makes the field disabled
+                                        disabled 
                                         error={!!error}
                                         helperText={error ? 'Share Initial Price is required' : ''}
                                     />

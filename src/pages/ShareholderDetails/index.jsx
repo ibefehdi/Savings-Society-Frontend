@@ -3,10 +3,9 @@ import { useParams } from 'react-router-dom';
 import axiosInstance from '../../constants/axiosInstance';
 import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
-
 import Typography from '@mui/material/Typography';
+import { Table, TableBody, TableRow, TableCell, Tab, Tabs, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 
-import { Table, TableBody, TableRow, TableCell, Tab, Tabs } from '@mui/material';
 import { t } from 'i18next';
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -37,26 +36,43 @@ function a11yProps(index) {
 const ShareholderDetails = () => {
     const { id } = useParams();
     const [shareholderDetails, setShareholderDetails] = useState()
+
+
     const [value, setValue] = useState(0);
     const [userData, setUserdata] = useState(JSON.parse(sessionStorage.getItem('userDetails')))
     const [permissions, setPermissions] = useState(userData?.permissions)
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
+
     const { t, i18n } = useTranslation();
+    const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+
+    const savingsOfYear = shareholderDetails?.savings?.filter(s => parseInt(s.year, 10) === selectedYear);
+    const sharesOfYear = shareholderDetails?.share?.filter(s => s.year === selectedYear);
     useEffect(() => {
         const fetchShareholderDetails = async () => {
             try {
                 const response = await axiosInstance.get(`shareholder/${id}`);
-                setShareholderDetails(response?.data?.shareholder);
-                console.log(response.data);
+                setShareholderDetails(response.data.shareholder);
+                if (response.data.shareholder.share.length > 0) {
+                    setSelectedYear(response.data.shareholder.share[0].year); // Initialize to the first available year
+                }
             } catch (error) {
                 console.error("Failed to fetch shareholder details:", error);
             }
         };
-
         fetchShareholderDetails();
     }, [id]);
+    useEffect(() => {
+        console.log("Savings", savingsOfYear);
+        console.log("Shares", sharesOfYear);
+    }, [savingsOfYear, sharesOfYear]);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+    const handleYearChange = (event) => {
+        setSelectedYear(event.target.value);
+    };
 
     if (!shareholderDetails) {
         return <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
@@ -95,6 +111,7 @@ const ShareholderDetails = () => {
             return <Typography sx={{ color: '#DA3E33', fontWeight: 600 }}>{t('death')}</Typography>
         }
     }
+
     return (
         <React.Fragment>
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', display: 'flex' }}>
@@ -128,32 +145,45 @@ const ShareholderDetails = () => {
                         </Box>
                     </TabPanel>
                     <TabPanel value={value} index={3}>
-                        <Box sx={{ display: 'flex' }}>
-                            <Table>
-                                <TableBody>
-                                    <DetailRow label={<Typography variant="h5" sx={{ fontWeight: '600' }}>{t('savings')}</Typography>} />
-                                    <DetailRow label={t('initial_investment')} value={shareholderDetails.savings.initialAmount} />
-                                    <DetailRow
-                                        label={t('current_amount')}
-                                        value={shareholderDetails.savings?.currentAmount ? shareholderDetails.savings.currentAmount.toFixed(3) : ''}
-                                    />
-                                    <DetailRow label={t('investment_date')} value={FormatDate(shareholderDetails.savings.date)} />
-                                    <DetailRow label={t('interest_calculation_date')} value={FormatDate(shareholderDetails.savings.updatedAt)} />
-                                </TableBody>
-                            </Table>
-                            <Table>
-                                <TableBody>
-                                    <DetailRow label={<Typography variant="h5" sx={{ fontWeight: '600' }}>{t('share')}</Typography>} />
-                                    <DetailRow label={t('amount_of_shares')} value={shareholderDetails.share.amount} />
-                                    <DetailRow label={t('initial_investment')} value={shareholderDetails.share.initialAmount} />
-                                    <DetailRow
-                                        label={t('current_amount')}
-                                        value={shareholderDetails.savings?.currentAmount ? shareholderDetails.savings.currentAmount.toFixed(3) : ''}
-                                    />
-                                    <DetailRow label={t('investment_date')} value={FormatDate(shareholderDetails.share.date)} />
-                                </TableBody>
-                            </Table>
-                        </Box>
+                        <FormControl fullWidth margin="normal">
+                            <InputLabel>{t('select_year')}</InputLabel>
+                            <Select
+                                value={selectedYear}
+                                label={t('select_year')}
+                                onChange={handleYearChange}
+                            >
+                                {Array.from(new Set(shareholderDetails.share.map(item => item.year)))
+                                    .map(year => <MenuItem key={year} value={year}>{year}</MenuItem>)}
+                            </Select>
+                        </FormControl>
+                        <Table>
+                            <TableBody>
+                                <TableRow>
+                                    <TableCell variant="head">{t('savings')}</TableCell>
+                                </TableRow>
+                                {savingsOfYear?.map((saving, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell>{t('initial_investment')}</TableCell>
+                                        <TableCell>{saving.initialAmount ? saving.initialAmount.toFixed(3) : "N/A"}</TableCell>
+                                        <TableCell>{t('current_amount')}</TableCell>
+                                        <TableCell>{saving.currentAmount ? saving.currentAmount.toFixed(3) : "N/A"}</TableCell>
+                                    </TableRow>
+                                ))}
+                                <TableRow>
+                                    <TableCell variant="head">{t('shares')}</TableCell>
+                                </TableRow>
+                                {sharesOfYear.map((share, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell>{t('amount_of_shares')}</TableCell>
+                                        <TableCell>{share.amount ? share.amount : "N/A"}</TableCell>
+                                        <TableCell>{t('initial_investment')}</TableCell>
+                                        <TableCell>{share.initialAmount ? share.initialAmount.toFixed(3) : "N/A"}</TableCell>
+                                        <TableCell>{t('current_amount')}</TableCell>
+                                        <TableCell>{share.currentAmount ? share.currentAmount.toFixed(5) : "N/A"}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <Box>

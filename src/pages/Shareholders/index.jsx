@@ -80,24 +80,16 @@ const Shareholders = () => {
         return `${params.row.fName} ${params.row.lName}`
       }
     },
-
     {
       field: 'DOB',
       headerName: t('date_of_birth'),
       flex: 1,
       renderCell: (params) => {
-        // Parse the date string from params.value
         const date = new Date(params.value);
-
-        // Extract day, month, and year
         const day = date.getDate().toString().padStart(2, '0');
-        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
-        const year = date.getFullYear().toString(); // Get last two digits of year
-
-        // Formatted date string in "DD/MM/YY" format
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear().toString();
         const formattedDate = `${day}/${month}/${year}`;
-
-        // Return the formatted date
         return formattedDate;
       }
     },
@@ -105,7 +97,6 @@ const Shareholders = () => {
       field: 'civilId',
       headerName: t('civil_id'),
       flex: 1,
-
     },
     {
       field: 'email',
@@ -136,7 +127,8 @@ const Shareholders = () => {
       headerName: t('initial_investment'),
       flex: 1,
       renderCell: (params) => {
-        return params.row.savings && params.row.savings.initialAmount;
+        // Filter the savings array for the current year and display the initial amount
+        return params.row.savings[0]?.initialAmount ? params.row.savings[0]?.initialAmount.toFixed(3) : "N/A"
       }
     },
     {
@@ -144,7 +136,8 @@ const Shareholders = () => {
       headerName: t('current_amount'),
       flex: 1,
       renderCell: (params) => {
-        return params.row.savings && params.row.savings.currentAmount;
+
+        return params.row.savings[0]?.currentAmount ? params.row.savings[0]?.currentAmount.toFixed(3) : "N/A"
       }
     },
     {
@@ -154,8 +147,7 @@ const Shareholders = () => {
       renderCell: (params) => {
         if (params.value === 0) {
           return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
-        }
-        else if (params.value === 1) {
+        } else if (params.value === 1) {
           return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
         }
       }
@@ -167,11 +159,9 @@ const Shareholders = () => {
       renderCell: (params) => {
         if (params.value === 0) {
           return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
-        }
-        else if (params.value === 1) {
+        } else if (params.value === 1) {
           return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
-        }
-        else if (params.value === 2) {
+        } else if (params.value === 2) {
           return <Typography sx={{ color: '#DA3E33', fontWeight: 600 }}>{t('death')}</Typography>
         }
       }
@@ -183,7 +173,6 @@ const Shareholders = () => {
       width: 55,
       renderCell: (params) => {
         return <ViewButton id={params.id} />;
-
       },
     }] : []),
     ...(permissions?.shareholder?.edit ? [{
@@ -193,11 +182,10 @@ const Shareholders = () => {
       width: 55,
       renderCell: (params) => {
         return <ViewButton id={params.id} edit={true} setEditOpen={setEditOpen} setSelectedShareholderId={setSelectedShareholderId} />;
-
       },
     }] : [])
-
   ];
+
   const cacheRtl = createCache({
     key: 'muirtl',
     stylisPlugins: [prefixer, rtlPlugin],
