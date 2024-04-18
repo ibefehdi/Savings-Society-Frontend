@@ -18,7 +18,7 @@ const DepositHistory = () => {
             field: 'membersCode',
             headerName: t('serial'),
             flex: 1,
-            valueGetter: (params) => `${params.row.shareholder.serial}`
+            valueGetter: (params) => `${params.row.shareholder.membersCode}`
 
         },
         {

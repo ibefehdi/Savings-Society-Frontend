@@ -52,7 +52,7 @@ const SharesWithdrawalPage = () => {
         status: '',
         membershipStatus: '',
         civilId: '',
-        serial: ''
+        membersCode: ''
     });
     const { data, fetchData, count } = useFetch('/shareholders', pageNo, pageSize, filters);
     const [selectedShareholderId, setSelectedShareholderId] = useState(null);
@@ -121,7 +121,7 @@ const SharesWithdrawalPage = () => {
                 return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
             }
         },
-       
+
         {
             field: 'membershipStatus',
             headerName: t('membership_status'),
@@ -219,8 +219,8 @@ const SharesWithdrawalPage = () => {
                 <TextField
                     label={t('serial')}
                     variant="outlined"
-                    value={filters.serial}
-                    onChange={(e) => setFilters({ ...filters, serial: e.target.value })}
+                    value={filters.membersCode}
+                    onChange={(e) => setFilters({ ...filters, membersCode: e.target.value })}
                     fullWidth
                     autoComplete='off'
                 />

@@ -50,7 +50,7 @@ const SavingsDepositPage = () => {
         status: '',
         membershipStatus: '',
         civilId: '',
-        serial: ''
+        membersCode: ''
     });
     const { data, fetchData, count } = useFetch('/shareholders', pageNo, pageSize, filters);
     const [selectedShareholderId, setSelectedShareholderId] = useState(null);
@@ -213,8 +213,8 @@ const SavingsDepositPage = () => {
                 <TextField
                     label={t('serial')}
                     variant="outlined"
-                    value={filters.serial}
-                    onChange={(e) => setFilters({ ...filters, serial: e.target.value })}
+                    value={filters.membersCode}
+                    onChange={(e) => setFilters({ ...filters, membersCode: e.target.value })}
                     fullWidth
                     autoComplete='off'
                 />
