@@ -146,7 +146,7 @@ const FinancialReporting = () => {
                 <TextField
                     label={t('serial')}
                     variant="outlined"
-                    onChange={(e) => updateFilters({ serial: e.target.value })}
+                    onChange={(e) => updateFilters({ membersCode: e.target.value })}
                     fullWidth
                     autoComplete='off'
                 />
