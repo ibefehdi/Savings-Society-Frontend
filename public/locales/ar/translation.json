@@ -92,8 +92,8 @@
   "gender": "الجنس",
   "submit": "إرسال",
   "print": "طباعة",
-  "savings_increase": "ربا الادخار",
-  "share_increase": "ربا الأسهم",
+  "savings_increase": "زيادة المدخرات",
+  "share_increase": "زيادة قيمة الاسهم",
   "total": "المجموع الفرعي",
   "contact_details": "تفاصيل الاتصال",
   "amount_of_shares": "عدد الأسهم",
@@ -104,5 +104,6 @@
   "share_current_amount": "قيمة الاسهم الحالية",
   "export_csv": "تحويل الى CSV",
   "deposit_history": "حركة الإيداعات",
-  "withdrawal_history": "سحوبات الإيداعات"
+  "withdrawal_history": "سحوبات الإيداعات",
+  "select_year": "اختر السنة"
 }

@@ -115,7 +115,7 @@ const Amanat = () => {
       headerName: t('current_amount'),
       flex: 1,
       renderCell: (params) => {
-        return params.row.savings.amanat && params.row.savings.amanat.amount.toFixed(5);
+        return params.row.savings.amanat && params.row.savings.amanat.amount.toFixed(3);
       }
     },
     {

@@ -102,5 +102,6 @@
   "share_current_amount": "Share Current Amount",
   "export_csv": "Export As CSV",
   "deposit_history": "Deposit History",
-  "withdrawal_history": "Withdrawal History"
+  "withdrawal_history": "Withdrawal History",
+  "select_year": "Select Year"
 }

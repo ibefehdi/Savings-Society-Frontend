@@ -63,12 +63,21 @@ const FinancialReporting = () => {
             }
         },
         {
+            field: 'year',
+            headerName: t('year'),
+            flex: 1,
+            renderCell: (params) => {
+
+                return params.row.savingsDetails?.year ? params.row.savingsDetails?.year : "N/A"
+            }
+        },
+        {
             field: 'savingsIncrease',
             headerName: t('savings_increase'),
             flex: 1,
             renderCell: (params) => {
 
-                return params.row.savingsIncrease ? params.row.savingsIncrease?.toFixed(3) : "N/A"
+                return params.row.savingsIncrease && params.row.savingsIncrease ? params.row.savingsIncrease?.toFixed(3) : "N/A"
             }
         },
 
@@ -92,12 +101,21 @@ const FinancialReporting = () => {
             }
         },
         {
+            field: 'year',
+            headerName: t('year'),
+            flex: 1,
+            renderCell: (params) => {
+
+                return params.row.shareDetails?.year ? params.row.shareDetails?.year : "N/A"
+            }
+        },
+        {
             field: 'shareIncrease',
             headerName: t('share_increase'),
             flex: 1,
             renderCell: (params) => {
 
-                return params.row.shareIncrease ? params.row.shareIncrease?.toFixed(3) : "N/A"
+                return params.row.shareIncrease && params.row.shareIncrease ? params.row.shareIncrease?.toFixed(3) : "N/A"
             }
         },
         {
@@ -120,7 +138,7 @@ const FinancialReporting = () => {
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [filters]);
 
 
     const [showFilters, setShowFilters] = useState(false);
