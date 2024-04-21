@@ -19,8 +19,8 @@ import createCache from '@emotion/cache';
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
 
   const handleEditClick = () => {
-    setSelectedShareholderId(id); 
-    setEditOpen(true); 
+    setSelectedShareholderId(id);
+    setEditOpen(true);
   };
 
   return (
@@ -99,6 +99,9 @@ const Amanat = () => {
       field: 'mobileNumber',
       headerName: t('phone_number'),
       flex: 1,
+      renderCell: (params) => {
+        return params.row.mobileNumber && params.row.mobileNumber ? params.row.mobileNumber : "N/A"
+      }
     },
     {
       field: 'address',
@@ -115,7 +118,9 @@ const Amanat = () => {
       headerName: t('current_amount'),
       flex: 1,
       renderCell: (params) => {
-        return params.row.savings.amanat && params.row.savings.amanat.amount.toFixed(3);
+        // Safely access deeply nested properties
+        const amount = params.row.savings?.[0]?.amanat?.amount;
+        return amount ? amount.toFixed(3) : 'N/A';  // Format and handle undefined
       }
     },
     {
