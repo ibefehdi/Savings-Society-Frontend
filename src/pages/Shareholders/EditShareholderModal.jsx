@@ -101,9 +101,9 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
                 <Grid container spacing={2}>
                     {/* Column 1 */}
                     <Grid item xs={12} sm={6} md={6}>
-                        <Typography variant="h6">
+                        {/* <Typography variant="h6">
                             {t('shareholder_details')}
-                        </Typography>
+                        </Typography> */}
                         <TextField margin="normal" fullWidth label={t('first_name')} {...register('fName', { required: true })} error={!!errors.fName} helperText={errors.fName ? 'First Name is required' : ''} />
                         <TextField margin="normal" fullWidth label={t('last_name')} {...register('lName', { required: true })} error={!!errors.lName} helperText={errors.lName ? 'Last Name is required' : ''} />
                         <TextField margin="normal" fullWidth label={t('civil_id')} {...register('civilId', { required: true })} error={!!errors.civilId} helperText={errors.civilId ? 'Civil ID is required' : ''} />
@@ -122,8 +122,8 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
                             error={!!errors.joinDate}
                             helperText={errors.joinDate ? 'Join Date is required' : ''}
                         />
-                        <InputLabel htmlFor="quitDate">{t('quit_date')}</InputLabel>
-                        <TextField fullWidth type="date" id='quitDate' {...register('quitDate', { required: true })} error={!!errors.ibanNumber} helperText={errors.ibanNumber ? 'Join Date is required' : ''} />
+                        {/* <InputLabel htmlFor="quitDate">{t('quit_date')}</InputLabel>
+                        <TextField fullWidth type="date" id='quitDate' {...register('quitDate', { required: true })} error={!!errors.ibanNumber} helperText={errors.ibanNumber ? 'Join Date is required' : ''} /> */}
                         <FormControl fullWidth error={!!errors.status} margin="normal">
                             <InputLabel id="status-label">{t('status')}</InputLabel>
                             <Controller
@@ -168,9 +168,9 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
                     </Grid>
                     {/* Column 2 */}
                     <Grid item xs={12} sm={6} md={6}>
-                        <Typography variant="h6">
+                        {/* <Typography variant="h6">
                             {t('address')}
-                        </Typography>
+                        </Typography> */}
                         <FormControl fullWidth error={!!errors.status} margin="normal">
                             <InputLabel id="status-label">{t('gender')}</InputLabel>
                             <Controller
@@ -198,7 +198,9 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
                         <TextField margin="normal" fullWidth label={t('street')} {...register('street', { required: true })} error={!!errors.street} helperText={errors.street ? 'Street is required' : ''} />
                         <TextField margin="normal" fullWidth label={t('area')} {...register('area', { required: true })} error={!!errors.area} helperText={errors.area ? 'Area is required' : ''} />
                         <TextField margin="normal" fullWidth label={t('zipCode')}{...register('zipCode')} />
-                        <TextField margin="normal" fullWidth label={t('country')} {...register('country', { required: true })} error={!!errors.country} helperText={errors.country ? 'Country is required' : ''} />
+                        {/* <TextField margin="normal" fullWidth label={t('country')} {...register('country', { required: true })} error={!!errors.country} helperText={errors.country ? 'Country is required' : ''} /> */}
+                        <TextField margin="normal" fullWidth label={t('workplace')} {...register('workplace',)} error={!!errors.workplace} helperText={errors.workplace ? 'workplace is required' : ''} />
+
                     </Grid>
                     {/* Column 3
                     <Grid item xs={12} sm={6} md={4}>

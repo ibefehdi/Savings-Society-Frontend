@@ -5,11 +5,9 @@ export const useFetchNoPagination = (url, initialFilters = {}) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [count, setCount] = useState();
-    const [filters, setFilters] = useState(initialFilters); // Manage filters state internally
-
+    const [filters, setFilters] = useState(initialFilters); 
     const fetchData = useCallback(() => {
         setLoading(true);
-        // Convert filters object to query string, ensuring we prepend '?' for the first parameter
         const filterParams = new URLSearchParams(filters).toString();
         const queryString = Object.keys(filters).length ? `?${filterParams}` : '';
 
@@ -24,17 +22,15 @@ export const useFetchNoPagination = (url, initialFilters = {}) => {
             .finally(() => {
                 setLoading(false);
             });
-    }, [url, filters]);
+    }, [url, filters]);  
 
-    // Expose a method to update filters, triggering re-fetch
+
     const updateFilters = useCallback((newFilters) => {
-        setFilters(prevFilters => ({
-            ...prevFilters,
-            ...newFilters,
-        }));
+        setFilters(prevFilters => {
+            return { ...prevFilters, ...newFilters };
+        });
     }, []);
 
-    // Fetch data on initial mount and when filters change
     useEffect(() => {
         fetchData();
     }, [fetchData]);

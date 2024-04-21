@@ -140,6 +140,8 @@ const ShareholderDetails = () => {
                                     <DetailRow label={t('civil_id')} value={shareholderDetails.civilId} />
                                     <DetailRow label={t('nationality')} value={shareholderDetails.Country} />
                                     <DetailRow label={t('dob')} value={FormatDate(shareholderDetails.DOB)} />
+                                    <DetailRow label={t('bankName')} value={shareholderDetails.bankName} />
+                                    <DetailRow label={t('iban')} value={shareholderDetails.ibanNumber} />
                                 </TableBody>
                             </Table>
                         </Box>
@@ -170,7 +172,7 @@ const ShareholderDetails = () => {
                                     </TableRow>
                                 ))}
                                 <TableRow>
-                                    <TableCell variant="head">{t('shares')}</TableCell>
+                                    <TableCell variant="head">{t('share')}</TableCell>
                                 </TableRow>
                                 {sharesOfYear.map((share, index) => (
                                     <TableRow key={index}>
@@ -182,6 +184,11 @@ const ShareholderDetails = () => {
                                         <TableCell>{share.currentAmount ? share.currentAmount.toFixed(5) : "N/A"}</TableCell>
                                     </TableRow>
                                 ))}
+                                <TableRow>
+                                    <TableCell variant="head">{t('amanat')}</TableCell>
+                                </TableRow>
+                                
+                               
                             </TableBody>
                         </Table>
                     </TabPanel>
@@ -195,6 +202,8 @@ const ShareholderDetails = () => {
                                     <DetailRow label={t('zipCode')} value={shareholderDetails.zipCode} />
                                     <DetailRow label={t('iban')} value={shareholderDetails.ibanNumber} />
                                     <DetailRow label={t('area')} value={shareholderDetails.Area} />
+                                    <DetailRow label={t('workplace')} value={shareholderDetails.workplace} />
+
                                 </TableBody>
                             </Table>
                         </Box>
