@@ -113,6 +113,9 @@ const SavingsDepositPage = () => {
             field: 'mobileNumber',
             headerName: t('phone_number'),
             flex: 1,
+            renderCell: (params) => {
+                return params.row.mobileNumber && params.row.mobileNumber ? params.row.mobileNumber : "N/A"
+            }
         },
         {
             field: 'address',

@@ -88,14 +88,16 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
             sx={{ direction: isRtl ? 'rtl' : 'ltr' }}
         >
             <Box sx={style} component="form" onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off">
-                <TextField
-                    id="currentAmount"
-                    margin='normal'
-                    fullWidth
-                    label={t('current_amount')}
-                    value={shareholderDetails?.currentAmount?.toFixed(3)}
-                    disabled
-                />
+                {savings && (
+                    <TextField
+                        id="currentAmount"
+                        margin='normal'
+                        fullWidth
+                        label={t('current_amount')}
+                        value={shareholderDetails?.currentAmount?.toFixed(3)}
+                        disabled
+                    />
+                )}
                 <TextField
                     id="year"
                     select
@@ -106,7 +108,7 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                     fullWidth
                 >
                     <MenuItem key="none" value="">
-                        {t('select_year')} 
+                        {t('select_year')}
                     </MenuItem>
                     {[...Array(22)].map((_, index) => (
                         <MenuItem key={index} value={currentYear - index}>

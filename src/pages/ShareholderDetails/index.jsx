@@ -163,7 +163,7 @@ const ShareholderDetails = () => {
                                 <TableRow>
                                     <TableCell variant="head">{t('savings')}</TableCell>
                                 </TableRow>
-                                {savingsOfYear?.map((saving, index) => (
+                                {shareholderDetails?.savings?.map((saving, index) => (
                                     <TableRow key={index}>
                                         <TableCell>{t('initial_investment')}</TableCell>
                                         <TableCell>{saving.initialAmount ? saving.initialAmount.toFixed(3) : "N/A"}</TableCell>
@@ -171,6 +171,7 @@ const ShareholderDetails = () => {
                                         <TableCell>{saving.currentAmount ? saving.currentAmount.toFixed(3) : "N/A"}</TableCell>
                                     </TableRow>
                                 ))}
+
                                 <TableRow>
                                     <TableCell variant="head">{t('share')}</TableCell>
                                 </TableRow>
@@ -187,8 +188,8 @@ const ShareholderDetails = () => {
                                 <TableRow>
                                     <TableCell variant="head">{t('amanat')}</TableCell>
                                 </TableRow>
-                                
-                               
+
+
                             </TableBody>
                         </Table>
                     </TabPanel>

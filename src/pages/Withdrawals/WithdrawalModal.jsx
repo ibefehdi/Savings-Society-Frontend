@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import MenuItem from "@mui/material/MenuItem"
 import { useTranslation } from 'react-i18next';
 import TextField from '@mui/material/TextField';
 
@@ -22,6 +23,8 @@ const style = {
 const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
     const [shareholderDetails, setShareholderDetails] = useState();
     const adminData = JSON.parse(sessionStorage.getItem('userDetails') || '{}');
+    const currentYear = new Date().getFullYear();
+    const [year, setYear] = useState(currentYear);
     const [totalAmount, setTotalAmount] = useState(0);
     const { i18n, t } = useTranslation();
     const isRtl = i18n.dir() === 'rtl';
@@ -53,6 +56,8 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
     }
     const url = savings ? `/shareholder/withdrawsavings/${id}` : `/shareholder/withdrawshares/${id}`
     const onSubmit = async (data) => {
+        console.log("Submitting form", data);
+
         try {
             const updatedData = { ...data, adminId: [adminData?.id] }
             await axiosInstance.post(url, updatedData);
@@ -61,64 +66,93 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
             console.error('Error posting shareholder data:', error);
         }
     };
+
+    const amountOfShares = watch('amountOfShares');
     const amountToWithdraw = watch('amountToWithdraw');
+
+    useEffect(() => {
+        if (!savings) {
+            setValue('amountToWithdraw', (amountOfShares * 2).toString());
+        }
+    }, [amountOfShares, setValue, savings]);
+
     useEffect(() => {
         const currentAmount = shareholderDetails?.currentAmount || 0;
         const additionAmount = parseFloat(amountToWithdraw) || 0;
-        setTotalAmount((currentAmount - additionAmount));
+        setTotalAmount(currentAmount - additionAmount);
     }, [shareholderDetails, amountToWithdraw]);
     return (
         <Modal
             open={open}
             onClose={handleClose}
-            aria-labelledby="add-shareholder-modal-title"
-            aria-describedby="add-shareholder-modal-description"
+            aria-labelledby="modal-title"
+            aria-describedby="modal-description"
             sx={{ direction: isRtl ? 'rtl' : 'ltr' }}
-
         >
+            <Box
+                sx={{ ...style, width: '40rem' }}
+                component="form"
+                onSubmit={handleSubmit(onSubmit)}
+                noValidate
+                autoComplete="off"
+            >
+                {!savings && (
+                    <TextField
+                        id="amountOfShares"
+                        margin='normal'
+                        fullWidth
+                        label={t('amount_of_shares')}
+                        {...register('amountOfShares', { required: true })}
+                        value={shareholderDetails?.amountOfShares}
 
-            <Box sx={{
-                ...style,
-                width: '40rem',
-            }}
-                component="form" onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off">
-                <TextField
-                    id="currentAmount"
-                    margin='normal'
+                    />
+                )}
+                {!savings && (<TextField
+                    id="year"
+                    select
+                    label={t('year')}
+                    value={year}
+                    {...register('year', { required: true })}
+                    onChange={(e) => setYear(e.target.value)}
+                    margin="normal"
                     fullWidth
-                    label={t('current_amount')}
-                    value={shareholderDetails?.currentAmount}
-                    disabled
-
-                />
+                >
+                    <MenuItem key="none" value="">
+                        {t('select_year')}
+                    </MenuItem>
+                    {[...Array(22)].map((_, index) => (
+                        <MenuItem key={index} value={currentYear - index}>
+                            {currentYear - index}
+                        </MenuItem>
+                    ))}
+                </TextField>)}
                 <TextField
                     id="amountToWithdraw"
                     margin="normal"
                     fullWidth
                     label={t('withdrawal_amount')}
                     {...register('amountToWithdraw', { required: true })}
-                    error={!!errors.newAmount}
-                    helperText={errors.newAmount ? 'This is required' : ''}
-
+                    error={!!errors.amountToWithdraw}
+                    helperText={errors.amountToWithdraw ? t('required_field') : ''}
+                    disabled={!savings}
                 />
+
                 <TextField
                     margin="normal"
                     fullWidth
                     label={t('amount_after_withdrawal')}
                     value={totalAmount}
                     disabled
-
                 />
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
                     {t('withdraw')}
                 </Button>
-
                 <Button onClick={handleClose} sx={{ mt: 3, mb: 2 }}>
                     {t('close')}
                 </Button>
             </Box>
         </Modal>
-    )
+    );
 }
 
 export default WithdrawalModal
