@@ -16,6 +16,8 @@ import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 const style = {
+    marginTop: "1rem",
+    marginBottom: "1rem",
     position: 'absolute',
     top: '50%',
     left: '50%',
@@ -100,8 +102,8 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                             <TextField margin="normal" fullWidth label={t('civil_id')} {...register('civilId', { required: true })} error={!!errors.civilId} helperText={errors.civilId ? 'Civil ID is required' : ''} />
                             <TextField margin="normal" fullWidth label={t('email')} {...register('email', { required: true })} error={!!errors.email} helperText={errors.email ? 'Email is required' : ''} />
                             <TextField margin="normal" fullWidth label={t('phone_number')} {...register('mobileNumber', { required: true })} error={!!errors.mobileNumber} helperText={errors.mobileNumber ? 'Phone Number is required' : ''} />
-                            <TextField margin="normal" fullWidth label={t('iban')} {...register('ibanNumber', )} error={!!errors.ibanNumber} helperText={errors.ibanNumber ? 'IBAN Number is required' : ''} />
-                            <TextField margin="normal" fullWidth label={t('bankName')} {...register('bankName', )} error={!!errors.bankName} helperText={errors.bankName ? 'Bank Name is required' : ''} />
+                            <TextField margin="normal" fullWidth label={t('iban')} {...register('ibanNumber',)} error={!!errors.ibanNumber} helperText={errors.ibanNumber ? 'IBAN Number is required' : ''} />
+                            <TextField margin="normal" fullWidth label={t('bankName')} {...register('bankName',)} error={!!errors.bankName} helperText={errors.bankName ? 'Bank Name is required' : ''} />
 
                             <InputLabel htmlFor="dob" >{t('dob')}</InputLabel>
                             <TextField fullWidth type="date" id='dob' {...register('dob', { required: true })} error={!!errors.dob} helperText={errors.dob ? 'Date of Birth is required' : ''} />
@@ -118,7 +120,7 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                                 id="joinDate"
                                 type="date"
                                 fullWidth
-                                {...register('joinDate', )}
+                                {...register('joinDate',)}
                                 error={!!errors.joinDate}
                                 helperText={errors.joinDate ? 'Join Date is required' : ''}
                             />
@@ -185,7 +187,7 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                             <TextField margin="normal" fullWidth label={t('area')} {...register('area', { required: true })} error={!!errors.area} helperText={errors.area ? 'Area is required' : ''} />
                             <TextField margin="normal" fullWidth label={t('zipCode')} {...register('zipCode')} />
                             {/* <TextField margin="normal" fullWidth label={t('country')} {...register('country', { required: true })} error={!!errors.country} helperText={errors.country ? 'Country is required' : ''} /> */}
-                            <TextField margin="normal" fullWidth label={t('workplace')} {...register('workplace', )} error={!!errors.workplace} helperText={errors.workplace ? 'workplace is required' : ''} />
+                            <TextField margin="normal" fullWidth label={t('workplace')} {...register('workplace',)} error={!!errors.workplace} helperText={errors.workplace ? 'workplace is required' : ''} />
 
                         </Grid>
                         {/* Column 3 */}
@@ -193,7 +195,7 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                             {/* <Typography variant="h6">
                                 {t('investment')}
                             </Typography> */}
-                            <TextField margin="normal" fullWidth label={t('serial')} {...register('membersCode', )} error={!!errors.membersCode} helperText={errors.membersCode ? 'Members Code is required' : ''} />
+                            <TextField margin="normal" fullWidth label={t('serial')} {...register('membersCode',)} error={!!errors.membersCode} helperText={errors.membersCode ? 'Members Code is required' : ''} />
 
                             <TextField margin="normal" fullWidth label={t('savings_initial_amount')} type="number" {...register('savingsInitialPrice', { required: true })} error={!!errors.savingsInitialPrice} helperText={errors.savingsInitialPrice ? 'Savings Initial Price is required' : ''} />
                             <Controller
@@ -223,7 +225,7 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                                         fullWidth
                                         label={t('share_initial_amount')}
                                         type="number"
-                                        disabled 
+                                        disabled
                                         error={!!error}
                                         helperText={error ? 'Share Initial Price is required' : ''}
                                     />
