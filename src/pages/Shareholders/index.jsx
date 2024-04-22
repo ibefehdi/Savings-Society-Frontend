@@ -131,7 +131,7 @@ const Shareholders = () => {
       flex: 1,
       renderCell: (params) => {
         // Filter the savings array for the current year and display the initial amount
-        return params.row.savings[0]?.initialAmount ? params.row.savings[0]?.initialAmount.toFixed(3) : "N/A"
+        return params.row.savings.initialAmount ? params.row.savings.initialAmount.toFixed(3) : "N/A"
       }
     },
     {
@@ -140,7 +140,7 @@ const Shareholders = () => {
       flex: 1,
       renderCell: (params) => {
 
-        return params.row.savings[0]?.currentAmount ? params.row.savings[0]?.currentAmount.toFixed(3) : "N/A"
+        return params.row.savings.currentAmount ? params.row.savings.currentAmount.toFixed(3) : "N/A"
       }
     },
     {

@@ -29,7 +29,7 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
     const { i18n, t } = useTranslation();
     const isRtl = i18n.dir() === 'rtl';
     const currentYear = new Date().getFullYear();
-    const [year, setYear] = useState(currentYear);
+    // const [year, setYear] = useState(currentYear);
 
     useEffect(() => {
         const fetchShareholderDetails = async () => {
@@ -51,11 +51,13 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
         if (shareholderDetails) {
             const currentAmount = Number(shareholderDetails.currentAmount) || 0;
             const newShareAmount = parseFloat(watch('newShareAmount')) || 0;
-            const newAmount = savings ? parseFloat(watch('newAmount')) : newShareAmount * 2;
+            const newAmountInput = watch('newAmount'); // Watch this specifically
+            const newAmount = savings ? parseFloat(newAmountInput) : newShareAmount * 2;
             setValue('newAmount', newAmount, { shouldValidate: true });
             setTotalAmount((currentAmount + newAmount).toFixed(3));
         }
-    }, [shareholderDetails, watch('newShareAmount'), savings]);
+    }, [shareholderDetails, savings, watch('newShareAmount'), watch('newAmount'), setValue]);
+
 
     const handleClose = () => {
         setOpen(false);
@@ -68,8 +70,8 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
             const formData = {
                 newAmount: data.newAmount,
                 newShareAmount: data.newShareAmount ? Number(data.newShareAmount) : undefined,
-                adminId: [adminData.id],
-                year: year  // Use the selected year from the dropdown
+                adminId: adminData.id,
+                // year: year
             };
             const url = savings ? `shareholder/depositsavings/${id}` : `shareholder/depositshares/${id}`;
             await axiosInstance.post(url, formData);
@@ -98,7 +100,7 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                         disabled
                     />
                 )}
-                <TextField
+                {/* {!savings && (<TextField
                     id="year"
                     select
                     label={t('year')}
@@ -115,7 +117,8 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                             {currentYear - index}
                         </MenuItem>
                     ))}
-                </TextField>
+                </TextField>)
+                } */}
                 <TextField
                     id="newAmount"
                     margin="normal"

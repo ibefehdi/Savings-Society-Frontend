@@ -119,7 +119,7 @@ const Amanat = () => {
       flex: 1,
       renderCell: (params) => {
         // Safely access deeply nested properties
-        const amount = params.row.savings?.[0]?.amanat?.amount;
+        const amount = params.row.savings?.amanat?.amount;
         return amount ? amount.toFixed(3) : 'N/A';  // Format and handle undefined
       }
     },

@@ -45,7 +45,7 @@ const ShareholderDetails = () => {
     const { t, i18n } = useTranslation();
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
-    const savingsOfYear = shareholderDetails?.savings?.filter(s => parseInt(s.year, 10) === selectedYear);
+    // const savingsOfYear = shareholderDetails?.savings?.filter(s => parseInt(s.year, 10) === selectedYear);
     const sharesOfYear = shareholderDetails?.share?.filter(s => s.year === selectedYear);
     useEffect(() => {
         const fetchShareholderDetails = async () => {
@@ -62,9 +62,8 @@ const ShareholderDetails = () => {
         fetchShareholderDetails();
     }, [id]);
     useEffect(() => {
-        console.log("Savings", savingsOfYear);
         console.log("Shares", sharesOfYear);
-    }, [savingsOfYear, sharesOfYear]);
+    }, [sharesOfYear]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -163,14 +162,14 @@ const ShareholderDetails = () => {
                                 <TableRow>
                                     <TableCell variant="head">{t('savings')}</TableCell>
                                 </TableRow>
-                                {shareholderDetails?.savings?.map((saving, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell>{t('initial_investment')}</TableCell>
-                                        <TableCell>{saving.initialAmount ? saving.initialAmount.toFixed(3) : "N/A"}</TableCell>
-                                        <TableCell>{t('current_amount')}</TableCell>
-                                        <TableCell>{saving.currentAmount ? saving.currentAmount.toFixed(3) : "N/A"}</TableCell>
-                                    </TableRow>
-                                ))}
+
+                                <TableRow >
+                                    <TableCell>{t('initial_investment')}</TableCell>
+                                    <TableCell>{shareholderDetails?.savings?.initialAmount ? shareholderDetails?.savings?.initialAmount.toFixed(3) : "N/A"}</TableCell>
+                                    <TableCell>{t('current_amount')}</TableCell>
+                                    <TableCell>{shareholderDetails?.savings?.currentAmount ? shareholderDetails?.savings?.currentAmount.toFixed(3) : "N/A"}</TableCell>
+                                </TableRow>
+
 
                                 <TableRow>
                                     <TableCell variant="head">{t('share')}</TableCell>
