@@ -29,13 +29,15 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
     const { i18n, t } = useTranslation();
     const isRtl = i18n.dir() === 'rtl';
     const currentYear = new Date().getFullYear();
-    // const [year, setYear] = useState(currentYear);
+    const [year, setYear] = useState(currentYear);
+
+    const yearOptions = Array.from({ length: 12 }, (_, index) => currentYear - index);
 
     useEffect(() => {
         const fetchShareholderDetails = async () => {
             if (id) {
                 try {
-                    const response = await axiosInstance.get(`shareholder/financials/${id}`);
+                    const response = await axiosInstance.get(`shareholder/financials/${id}?year=${year}`);
                     const data = savings ? response.data.response.savings : response.data.response.shares;
                     setShareholderDetails(data);
                 } catch (error) {
@@ -45,19 +47,17 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
         };
 
         fetchShareholderDetails();
-    }, [id, savings]);
+    }, [id, savings, year]);
 
     useEffect(() => {
         if (shareholderDetails) {
             const currentAmount = Number(shareholderDetails.currentAmount) || 0;
             const newShareAmount = parseFloat(watch('newShareAmount')) || 0;
-            const newAmountInput = watch('newAmount'); // Watch this specifically
-            const newAmount = savings ? parseFloat(newAmountInput) : newShareAmount * 2;
-            setValue('newAmount', newAmount, { shouldValidate: true });
+            const newAmount = savings ? parseFloat(watch('newAmount')) : newShareAmount * 2;
+            setValue('newAmount', newAmount.toFixed(3), { shouldValidate: true });
             setTotalAmount((currentAmount + newAmount).toFixed(3));
         }
-    }, [shareholderDetails, savings, watch('newShareAmount'), watch('newAmount'), setValue]);
-
+    }, [shareholderDetails, savings, setValue, watch]);
 
     const handleClose = () => {
         setOpen(false);
@@ -71,7 +71,7 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                 newAmount: data.newAmount,
                 newShareAmount: data.newShareAmount ? Number(data.newShareAmount) : undefined,
                 adminId: adminData.id,
-                // year: year
+                year: year
             };
             const url = savings ? `shareholder/depositsavings/${id}` : `shareholder/depositshares/${id}`;
             await axiosInstance.post(url, formData);
@@ -100,26 +100,8 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                         disabled
                     />
                 )}
-                {/* {!savings && (<TextField
-                    id="year"
-                    select
-                    label={t('year')}
-                    value={year}
-                    onChange={(e) => setYear(e.target.value)}
-                    margin="normal"
-                    fullWidth
-                >
-                    <MenuItem key="none" value="">
-                        {t('select_year')}
-                    </MenuItem>
-                    {[...Array(22)].map((_, index) => (
-                        <MenuItem key={index} value={currentYear - index}>
-                            {currentYear - index}
-                        </MenuItem>
-                    ))}
-                </TextField>)
-                } */}
-                <TextField
+
+                {/* <TextField
                     id="newAmount"
                     margin="normal"
                     fullWidth
@@ -128,7 +110,7 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                     error={!!errors.newAmount}
                     helperText={errors.newAmount ? t('this_field_is_required') : ''}
                     disabled={!savings}
-                />
+                /> */}
                 {!savings && (
                     <>
                         <TextField
@@ -149,6 +131,21 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                     value={totalAmount}
                     disabled
                 />
+                <TextField
+                    id="year"
+                    margin="normal"
+                    fullWidth
+                    label={t('year')}
+                    select
+                    value={year}
+                    onChange={(e) => setYear(e.target.value)}
+                >
+                    {yearOptions.map((year) => (
+                        <MenuItem key={year} value={year}>
+                            {year}
+                        </MenuItem>
+                    ))}
+                </TextField>
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
                     {t('edit')}
                 </Button>

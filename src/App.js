@@ -25,6 +25,10 @@ import DeathFormPage from './pages/DeathFormPage';
 import FinancialReporting from './pages/FinancialReporting';
 import DepositHistory from './pages/DepositHistory';
 import WithdrawalHistory from './pages/WithdrawalHistory';
+import Workplaces from './pages/Workplaces';
+import FinancialReportingYear from './pages/FinancialReporting/FinancialReportingYear';
+import FinancialReportsByQuitYear from './pages/FinancialReporting/FinancialReportsByQuitYear';
+import FinancialReportingByWorkplace from './pages/FinancialReporting/FinancialReportingByWorkplace';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -46,6 +50,9 @@ function App() {
         { path: 'Users', element: <Users /> },
         { path: 'Shareholders', element: <Shareholders /> },
         { path: "Financialreporting", element: <FinancialReporting /> },
+        { path: "Financialreporting/year", element: <FinancialReportingYear /> },
+        { path: "FinancialReporting/quityear", element: <FinancialReportsByQuitYear /> },
+        { path: "FinancialReporting/workplace", element: <FinancialReportingByWorkplace /> },
         { path: 'Shareholders/:id', element: <ShareholderDetails /> },
         { path: 'Financial/Share', element: <ShareConfiguration /> },
         { path: 'Financial/Savings', element: <SavingsConfiguration /> },
@@ -59,7 +66,8 @@ function App() {
         { path: 'Forms/DeathForm', element: <DeathFormPage /> },
         { path: 'Amanat', element: <Amanat /> },
         { path: 'deposithistory', element: <DepositHistory /> },
-        { path: 'withdrawalhistory', element: <WithdrawalHistory /> }
+        { path: 'withdrawalhistory', element: <WithdrawalHistory /> },
+        { path: 'workplaces', element: <Workplaces /> }
 
       ] : [],
     },

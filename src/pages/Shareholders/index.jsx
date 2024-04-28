@@ -21,6 +21,7 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import axiosInstance from '../../constants/axiosInstance';
 import { saveAs } from 'file-saver';
+import DisableShareholderModal from './DisableShareholderModal';
 
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
   const navigate = useNavigate();
@@ -44,11 +45,23 @@ const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
     </div>
   );
 };
+const DisableButton = ({ id, setDisableOpen, setSelectedShareholderId }) => {
+  const handleDisableClick = () => {
+    setSelectedShareholderId(id);
+    setDisableOpen(true);
+  };
 
+  return (
+    <IconButton onClick={handleDisableClick}>
+      <ModeEditIcon />
+    </IconButton>
+  );
+};
 
 const Shareholders = () => {
   const [pageNo, setPageNo] = useState(1)
   const [pageSize, setPageSize] = useState(10)
+  const [disableOpen, setDisableOpen] = useState(false);
 
   const [filters, setFilters] = useState({
     fName: '',
@@ -186,7 +199,19 @@ const Shareholders = () => {
       renderCell: (params) => {
         return <ViewButton id={params.id} edit={true} setEditOpen={setEditOpen} setSelectedShareholderId={setSelectedShareholderId} />;
       },
-    }] : [])
+    }] : []),
+    {
+      field: 'disable',
+      headerName: t('disable'),
+      sortable: false,
+      width: 55,
+      renderCell: (params) => {
+        if (params.row.status === 0 || params.row.membershipStatus === 0) {
+          return <DisableButton id={params.id} setDisableOpen={setDisableOpen} setSelectedShareholderId={setSelectedShareholderId} />;
+        }
+        return null;
+      },
+    },
   ];
 
   const cacheRtl = createCache({
@@ -367,6 +392,8 @@ const Shareholders = () => {
       </Box>
       <AddShareholderModal open={open} setOpen={setOpen} fetchData={fetchData} />
       <EditShareholderModal open={editOpen} setOpen={setEditOpen} fetchData={fetchData} id={selectedShareholderId} />
+      <DisableShareholderModal open={disableOpen} setOpen={setDisableOpen} fetchData={fetchData} id={selectedShareholderId} />
+
     </CacheProvider>)
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -31,7 +31,7 @@ const style = {
 };
 const AddShareholderModal = ({ open, setOpen, fetchData }) => {
     const userData = JSON.parse(sessionStorage.getItem('userDetails') || '{}');
-
+    const [workplaces, setWorkplaces] = useState();
     const { register, handleSubmit, setValue, control, watch, formState: { errors } } = useForm({
         defaultValues: {
             shareAmount: '',
@@ -76,7 +76,13 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
     const cacheLtr = createCache({
         key: 'muilt',
     });
-
+    useEffect(() => {
+        async function fetchWorkplaces() {
+            const response = await axiosInstance.get('/workplacesdropdown')
+            setWorkplaces(response?.data?.data);
+        }
+        fetchWorkplaces();
+    }, [])
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Modal
@@ -187,8 +193,29 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                             <TextField margin="normal" fullWidth label={t('area')} {...register('area', { required: true })} error={!!errors.area} helperText={errors.area ? 'Area is required' : ''} />
                             <TextField margin="normal" fullWidth label={t('zipCode')} {...register('zipCode')} />
                             {/* <TextField margin="normal" fullWidth label={t('country')} {...register('country', { required: true })} error={!!errors.country} helperText={errors.country ? 'Country is required' : ''} /> */}
-                            <TextField margin="normal" fullWidth label={t('workplace')} {...register('workplace',)} error={!!errors.workplace} helperText={errors.workplace ? 'workplace is required' : ''} />
-
+                            <FormControl fullWidth margin="normal" error={!!errors.workplace}>
+                                <InputLabel>{t('workplace')}</InputLabel>
+                                <Controller
+                                    name="workplace"
+                                    control={control}
+                                    rules={{ required: 'workplace is required' }}
+                                    render={({ field }) => (
+                                        <Select
+                                            {...field}
+                                            label={t('workplace')}
+                                        >
+                                            {workplaces.map((workplace) => (
+                                                <MenuItem key={workplace.description} value={workplace.description}>
+                                                    {workplace.description}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    )}
+                                />
+                                <FormHelperText>
+                                    {errors.workplace ? errors.workplace.message : ''}
+                                </FormHelperText>
+                            </FormControl>
                         </Grid>
                         {/* Column 3 */}
                         <Grid item xs={12} sm={6} md={4}>
