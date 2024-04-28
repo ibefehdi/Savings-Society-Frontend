@@ -6,6 +6,7 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
+
 import { Outlet } from 'react-router-dom';
 import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined';
 import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
@@ -20,7 +21,11 @@ const Layout = () => {
         { name: t('home'), icon: <HomeOutlinedIcon />, path: "/" },
         { name: t('users'), icon: <GroupOutlinedIcon />, path: "/Users" },
         { name: t('shareholders'), icon: <RecentActorsOutlinedIcon />, path: "/Shareholders" },
-
+        {
+            name: t('workplaces'),
+            icon: <FileCopyOutlinedIcon />,
+            path: "/workplaces"
+        },
         {
             name: t('deposits'),
             icon: <LocalAtmIcon />,
@@ -49,8 +54,17 @@ const Layout = () => {
                 { name: t('savings'), path: "/Financial/Savings" }
             ]
         },
-        { name: t('financial_reporting'), icon: <RecentActorsOutlinedIcon />, path: "/financialreporting" },
-
+        // { name: t('financial_reporting'), icon: <RecentActorsOutlinedIcon />, path: "/financialreporting" },
+        {
+            name: t('financial_reporting'),
+            icon: <RecentActorsOutlinedIcon />,
+            subMenus: [
+                { name: t('join_year'), path: "/financialreporting/year" },
+                { name: t('quit_year'), path: "/financialReporting/quityear" },
+                { name: t('workplace'), path: "/FinancialReporting/workplace" },
+                { name: t('custom'), path: "/financialreporting" },
+            ]
+        },
         {
             name: t('print_forms'),
             icon: <FileCopyOutlinedIcon />,
@@ -62,6 +76,7 @@ const Layout = () => {
 
             ]
         },
+
     ];
     return (
 

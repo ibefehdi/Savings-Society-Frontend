@@ -16,7 +16,8 @@ import rtlPlugin from 'stylis-plugin-rtl';
 import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
-const FinancialReporting = () => {
+import axiosInstance from '../../constants/axiosInstance';
+const FinancialReportingByWorkplace = () => {
     const cacheRtl = createCache({
         key: 'muirtl',
         stylisPlugins: [prefixer, rtlPlugin],
@@ -24,9 +25,9 @@ const FinancialReporting = () => {
     const cacheLtr = createCache({
         key: 'muilt',
     });
-    const { data, fetchData, count, updateFilters, filters } = useFetchNoPagination('/financialReports');
+    const { data, fetchData, count, updateFilters, filters } = useFetchNoPagination('/financialreportbyworkplace');
     const navigate = useNavigate();
-
+    const [workplaces, setWorkplaces] = useState();
     const { i18n, t } = useTranslation()
     const columns = [
         {
@@ -119,8 +120,8 @@ const FinancialReporting = () => {
             headerName: t('amanat'),
             flex: 1,
             renderCell: (params) =>
-                params.row.amanatAmount
-                    ? params.row.amanatAmount.toFixed(3)
+                params.row.savings && params.row.savings.amanat
+                    ? params.row.savings.amanat.amount.toFixed(3)
                     : 'N/A',
         },
         {
@@ -150,7 +151,13 @@ const FinancialReporting = () => {
         content: () => componentRef.current,
     });
     const isRtl = i18n.dir() === 'rtl';
-
+    useEffect(() => {
+        async function fetchWorkplaces() {
+            const response = await axiosInstance.get('/workplacesdropdown')
+            setWorkplaces(response?.data?.data);
+        }
+        fetchWorkplaces();
+    }, [])
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
@@ -158,73 +165,22 @@ const FinancialReporting = () => {
             </Button>
 
             {showFilters && (<Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', marginRight: isRtl ? "2rem" : 0 }}>
-                <TextField
-                    label={t('serial')}
-                    variant="outlined"
-                    onChange={(e) => updateFilters({ membersCode: e.target.value })}
-                    fullWidth
-                    autoComplete='off'
-                />
-                <TextField
-                    label={t('first_name')}
-                    variant="outlined"
-                    onChange={(e) => updateFilters({ fName: e.target.value })}
-                    fullWidth
-                    autoComplete='off'
 
-                />
                 <TextField
-                    label={t('last_name')}
-                    variant="outlined"
-                    onChange={(e) => updateFilters({ lName: e.target.value })}
-                    fullWidth
-                    autoComplete='off'
-
-                />
-                <TextField
-                    label={t('civil_id')}
-                    variant="outlined"
-                    onChange={(e) => updateFilters({ civilId: e.target.value })}
-                    fullWidth
-                    autoComplete='off'
-
-                />
-                <TextField
-                    label={t('gender')}
+                    label={t('workplace')}
                     variant="outlined"
                     select
-                    onChange={(e) => updateFilters({ gender: e.target.value })}
-                    fullWidth
-                    autoComplete='off'
-
-                >
-                    <MenuItem value={"male"}>{t('Male')}</MenuItem>
-                    <MenuItem value={"female"}>{t('Female')}</MenuItem>
-                </TextField>
-                <TextField
-                    label={t('status')}
-                    variant="outlined"
-                    select
-                    onChange={(e) => updateFilters({ status: e.target.value })}
-                    fullWidth
-                    autoComplete='off'
-
-                >
-                    <MenuItem value={0}>{t('active')}</MenuItem>
-                    <MenuItem value={1}>{t('inactive')}</MenuItem>
-                    <MenuItem value={2}>{t('death')}</MenuItem>
-                </TextField>
-                <TextField
-                    label={t('membership_status')}
-                    variant="outlined"
-                    select
-                    onChange={(e) => updateFilters({ membershipStatus: e.target.value })}
+                    onChange={(e) => updateFilters({ workplace: e.target.value })}
                     fullWidth
                     autoComplete='off'
                 >
-                    <MenuItem value={0}>{t('active')}</MenuItem>
-                    <MenuItem value={1}>{t('inactive')}</MenuItem>
+                    {workplaces.map((place) => (
+                        <MenuItem key={place.description} value={place.description}>
+                            {place.description}
+                        </MenuItem>
+                    ))}
                 </TextField>
+
             </Box>)}
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
                 <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
@@ -291,5 +247,4 @@ const FinancialReporting = () => {
     )
 }
 
-
-export default FinancialReporting
+export default FinancialReportingByWorkplace

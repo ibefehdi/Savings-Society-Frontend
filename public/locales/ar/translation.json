@@ -105,5 +105,10 @@
   "export_csv": "تحويل الى CSV",
   "deposit_history": "حركة الإيداعات",
   "withdrawal_history": "سحوبات الإيداعات",
-  "select_year": "اختر السنة"
+  "select_year": "اختر السنة",
+  "join_year": "سنة الانضمام",
+  "quit_year": "سنة الاستقالة",
+  "custom": "مخصص",
+  "workplace": "مكان العمل",
+  "disable": "تعطيل المساهم"
 }

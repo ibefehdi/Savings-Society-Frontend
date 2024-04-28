@@ -27,6 +27,8 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
     const adminData = JSON.parse(sessionStorage.getItem('userDetails') || '{}');
     const [shareholderDetails, setShareholderDetails] = useState();
     const { register, handleSubmit, setValue, control, reset, formState: { errors } } = useForm();
+    const [workplaces, setWorkplaces] = useState();
+
     const [permissions, setPermissions] = useState(adminData?.permissions)
     useEffect(() => {
         const fetchShareholderDetails = async () => {
@@ -63,7 +65,13 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
         fetchShareholderDetails();
     }, [id]);
 
-
+    useEffect(() => {
+        async function fetchWorkplaces() {
+            const response = await axiosInstance.get('/workplacesdropdown')
+            setWorkplaces(response?.data?.data);
+        }
+        fetchWorkplaces();
+    }, [])
     const { i18n, t } = useTranslation();
     const isRtl = i18n.dir() === 'rtl';
     const handleClose = () => {
@@ -84,6 +92,7 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
             <Typography variant='h2'>You Don't Have Permission To View This Information</Typography>
         </Box>;
     }
+
     return (
         <Modal
             open={open}
@@ -104,32 +113,31 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
                         {/* <Typography variant="h6">
                             {t('shareholder_details')}
                         </Typography> */}
-                        <TextField margin="normal" fullWidth label={t('first_name')} {...register('fName', { required: true })} error={!!errors.fName} helperText={errors.fName ? 'First Name is required' : ''} />
-                        <TextField margin="normal" fullWidth label={t('last_name')} {...register('lName', { required: true })} error={!!errors.lName} helperText={errors.lName ? 'Last Name is required' : ''} />
-                        <TextField margin="normal" fullWidth label={t('civil_id')} {...register('civilId', { required: true })} error={!!errors.civilId} helperText={errors.civilId ? 'Civil ID is required' : ''} />
-                        <TextField margin="normal" fullWidth label={t('email')} {...register('email', { required: true })} error={!!errors.email} helperText={errors.email ? 'Email is required' : ''} />
-                        <TextField margin="normal" fullWidth label={t('phone_number')} {...register('mobileNumber', { required: true })} error={!!errors.mobileNumber} helperText={errors.mobileNumber ? 'Phone Number is required' : ''} />
-                        <TextField margin="normal" fullWidth label={t('iban')} {...register('ibanNumber', { required: true })} error={!!errors.ibanNumber} helperText={errors.ibanNumber ? 'IBAN Number is required' : ''} />
+                        <TextField margin="normal" fullWidth label={t('first_name')} {...register('fName',  )} error={!!errors.fName} helperText={errors.fName ? 'First Name is required' : ''} />
+                        <TextField margin="normal" fullWidth label={t('last_name')} {...register('lName',  )} error={!!errors.lName} helperText={errors.lName ? 'Last Name is required' : ''} />
+                        <TextField margin="normal" fullWidth label={t('civil_id')} {...register('civilId',  )} error={!!errors.civilId} helperText={errors.civilId ? 'Civil ID is required' : ''} />
+                        <TextField margin="normal" fullWidth label={t('email')} {...register('email',  )} error={!!errors.email} helperText={errors.email ? 'Email is required' : ''} />
+                        <TextField margin="normal" fullWidth label={t('phone_number')} {...register('mobileNumber',  )} error={!!errors.mobileNumber} helperText={errors.mobileNumber ? 'Phone Number is required' : ''} />
+                        <TextField margin="normal" fullWidth label={t('iban')} {...register('ibanNumber',  )} error={!!errors.ibanNumber} helperText={errors.ibanNumber ? 'IBAN Number is required' : ''} />
                         <InputLabel htmlFor="dob">{t('date_of_birth')}</InputLabel>
-                        <TextField fullWidth type="date" id='dob' {...register('dob', { required: true })} error={!!errors.dob} helperText={errors.dob ? 'Date of Birth is required' : ''} />
+                        <TextField fullWidth type="date" id='dob' {...register('dob',  )} error={!!errors.dob} helperText={errors.dob ? 'Date of Birth is required' : ''} />
 
                         <InputLabel htmlFor="joinDate">{t('join_date')}</InputLabel>
                         <TextField
                             id="joinDate"
                             type="date"
                             fullWidth
-                            {...register('joinDate', { required: true })}
+                            {...register('joinDate',  )}
                             error={!!errors.joinDate}
                             helperText={errors.joinDate ? 'Join Date is required' : ''}
                         />
                         {/* <InputLabel htmlFor="quitDate">{t('quit_date')}</InputLabel>
-                        <TextField fullWidth type="date" id='quitDate' {...register('quitDate', { required: true })} error={!!errors.ibanNumber} helperText={errors.ibanNumber ? 'Join Date is required' : ''} /> */}
+                        <TextField fullWidth type="date" id='quitDate' {...register('quitDate',  )} error={!!errors.ibanNumber} helperText={errors.ibanNumber ? 'Join Date is required' : ''} /> */}
                         <FormControl fullWidth error={!!errors.status} margin="normal">
                             <InputLabel id="status-label">{t('status')}</InputLabel>
                             <Controller
                                 name="status"
                                 control={control}
-                                rules={{ required: true }}
                                 defaultValue=""
                                 render={({ field }) => (
                                     <Select
@@ -150,7 +158,6 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
                             <Controller
                                 name="membershipStatus"
                                 control={control}
-                                rules={{ required: true }}
                                 defaultValue=""
                                 render={({ field }) => (
                                     <Select
@@ -176,7 +183,6 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
                             <Controller
                                 name="gender"
                                 control={control}
-                                rules={{ required: true }}
                                 defaultValue=""
                                 render={({ field }) => (
                                     <Select
@@ -191,25 +197,46 @@ const EditShareholderModal = ({ id, open, setOpen, fetchData }) => {
                             />
                             {errors.status && <FormHelperText>Gender is required</FormHelperText>}
                         </FormControl>
-                        <TextField margin="normal" fullWidth label={t('block')} {...register('block', { required: true })} error={!!errors.block} helperText={errors.block ? 'Block is required' : ''} />
-                        <TextField margin="normal" fullWidth label={t('area')}{...register('city', { required: true })} error={!!errors.city} helperText={errors.city ? 'City is required' : ''} />
+                        <TextField margin="normal" fullWidth label={t('block')} {...register('block',  )} error={!!errors.block} helperText={errors.block ? 'Block is required' : ''} />
+                        <TextField margin="normal" fullWidth label={t('area')}{...register('city',  )} error={!!errors.city} helperText={errors.city ? 'City is required' : ''} />
                         <TextField margin="normal" fullWidth label={t('poBox')}{...register('poBox')} />
-                        <TextField margin="normal" fullWidth label={t('house')} {...register('house', { required: true })} error={!!errors.house} helperText={errors.house ? 'House Number is required' : ''} />
-                        <TextField margin="normal" fullWidth label={t('street')} {...register('street', { required: true })} error={!!errors.street} helperText={errors.street ? 'Street is required' : ''} />
-                        <TextField margin="normal" fullWidth label={t('area')} {...register('area', { required: true })} error={!!errors.area} helperText={errors.area ? 'Area is required' : ''} />
+                        <TextField margin="normal" fullWidth label={t('house')} {...register('house',  )} error={!!errors.house} helperText={errors.house ? 'House Number is required' : ''} />
+                        <TextField margin="normal" fullWidth label={t('street')} {...register('street',  )} error={!!errors.street} helperText={errors.street ? 'Street is required' : ''} />
+                        <TextField margin="normal" fullWidth label={t('area')} {...register('area',  )} error={!!errors.area} helperText={errors.area ? 'Area is required' : ''} />
                         <TextField margin="normal" fullWidth label={t('zipCode')}{...register('zipCode')} />
-                        {/* <TextField margin="normal" fullWidth label={t('country')} {...register('country', { required: true })} error={!!errors.country} helperText={errors.country ? 'Country is required' : ''} /> */}
-                        <TextField margin="normal" fullWidth label={t('workplace')} {...register('workplace',)} error={!!errors.workplace} helperText={errors.workplace ? 'workplace is required' : ''} />
-
+                        {/* <TextField margin="normal" fullWidth label={t('country')} {...register('country',  )} error={!!errors.country} helperText={errors.country ? 'Country is required' : ''} /> */}
+                        <FormControl fullWidth margin="normal" error={!!errors.workplace}>
+                            <InputLabel>{t('workplace')}</InputLabel>
+                            <Controller
+                                name="workplace"
+                                control={control}
+                                // rules={{ required: 'workplace is required' }}
+                                render={({ field }) => (
+                                    <Select
+                                        {...field}
+                                        label={t('workplace')}
+                                    >
+                                        {workplaces.map((workplace) => (
+                                            <MenuItem key={workplace.description} value={workplace.description}>
+                                                {workplace.description}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                )}
+                            />
+                            <FormHelperText>
+                                {errors.workplace ? errors.workplace.message : ''}
+                            </FormHelperText>
+                        </FormControl>
                     </Grid>
                     {/* Column 3
                     <Grid item xs={12} sm={6} md={4}>
                         <Typography variant="h6">
                             Investment
                         </Typography>
-                        <TextField margin="normal" fullWidth label="Savings Initial Price" type="number" {...register('savingsInitialPrice', { required: true })} error={!!errors.savingsInitialPrice} helperText={errors.savingsInitialPrice ? 'Savings Initial Price is required' : ''} />
-                        <TextField margin="normal" fullWidth label="Share Initial Price" type="number" {...register('shareInitialPrice', { required: true })} error={!!errors.shareInitialPrice} helperText={errors.shareInitialPrice ? 'Share Initial Price is required' : ''} />
-                        <TextField margin="normal" fullWidth label="Share Amount" type="number" {...register('shareAmount', { required: true })} error={!!errors.shareAmount} helperText={errors.shareAmount ? 'Share Amount is required' : ''} />
+                        <TextField margin="normal" fullWidth label="Savings Initial Price" type="number" {...register('savingsInitialPrice',  )} error={!!errors.savingsInitialPrice} helperText={errors.savingsInitialPrice ? 'Savings Initial Price is required' : ''} />
+                        <TextField margin="normal" fullWidth label="Share Initial Price" type="number" {...register('shareInitialPrice',  )} error={!!errors.shareInitialPrice} helperText={errors.shareInitialPrice ? 'Share Initial Price is required' : ''} />
+                        <TextField margin="normal" fullWidth label="Share Amount" type="number" {...register('shareAmount',  )} error={!!errors.shareAmount} helperText={errors.shareAmount ? 'Share Amount is required' : ''} />
 
                     </Grid> */}
                     {/* <Grid item xs={12} sm={6} md={3}>
