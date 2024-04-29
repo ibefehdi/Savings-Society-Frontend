@@ -222,9 +222,15 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                             {/* <Typography variant="h6">
                                 {t('investment')}
                             </Typography> */}
-                            <TextField margin="normal" fullWidth label={t('serial')} {...register('membersCode',)} error={!!errors.membersCode} helperText={errors.membersCode ? 'Members Code is required' : ''} />
+                            {/* <TextField margin="normal" fullWidth label={t('serial')} {...register('membersCode',)} error={!!errors.membersCode} helperText={errors.membersCode ? 'Members Code is required' : ''} /> */}
 
-                            <TextField margin="normal" fullWidth label={t('savings_initial_amount')} type="number" {...register('savingsInitialPrice', { required: true })} error={!!errors.savingsInitialPrice} helperText={errors.savingsInitialPrice ? 'Savings Initial Price is required' : ''} />
+                            <TextField
+                                margin="normal"
+                                fullWidth
+                                label={t('savings_initial_amount')}
+                                type="number"
+                                {...register('savingsInitialPrice')}
+                            />
                             <Controller
                                 name="shareAmount"
                                 control={control}

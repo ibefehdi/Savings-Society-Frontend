@@ -1,10 +1,11 @@
 import { useState } from "react";
 import axiosInstance from "../../constants/axiosInstance";
-import { Button, Dialog, DialogContent, DialogTitle, TextField } from "@mui/material";
+import { Button, Dialog, DialogContent, DialogTitle, InputLabel, TextField } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 const DisableShareholderModal = ({ open, setOpen, fetchData, id }) => {
     const [quitDate, setQuitDate] = useState();
-
+    const { t } = useTranslation()
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -21,8 +22,13 @@ const DisableShareholderModal = ({ open, setOpen, fetchData, id }) => {
             <DialogTitle>Disable Shareholder</DialogTitle>
             <DialogContent>
                 <form onSubmit={handleSubmit}>
+                    <InputLabel
+                        htmlFor="joinDate"
+
+                    >
+                        {t('join_date')}
+                    </InputLabel>
                     <TextField
-                        label="Quit Date"
                         type="date"
                         value={quitDate}
                         onChange={(e) => setQuitDate(e.target.value)}

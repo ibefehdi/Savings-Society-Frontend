@@ -18,7 +18,7 @@ const StyledTable = styled.table`
 `;
 
 const StyledTh = styled.th`
-  background-color: #00a550;
+  background-color: #15533B;
   color: white;
   padding: 10px 5px;
   direction: rtl;
@@ -108,9 +108,9 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
                                 <StyledTd>
                                     {row.shareDetails && row.shareDetails.length > 0 ? (
                                         <ul>
-                                            {row.shareDetails.map((share, index) => (
+                                            {row.shareDetails?.map((share, index) => (
                                                 <li key={index}>
-                                                    {share.currentAmount.toFixed(3)} - {share.year}
+                                                    {share?.currentAmount?.toFixed(3)} - {share?.year}
                                                 </li>
                                             ))}
                                         </ul>
