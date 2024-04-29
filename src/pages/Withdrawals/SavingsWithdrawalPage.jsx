@@ -142,19 +142,19 @@ const SavingsWithdrawalPage = () => {
         //         return params.row.savings[0]?.currentAmount ? params.row.savings[0]?.currentAmount.toFixed(3) : "N/A"
         //     }
         // },
-        {
-            field: 'membershipStatus',
-            headerName: t('membership_status'),
-            flex: 1,
-            renderCell: (params) => {
-                if (params.value === 0) {
-                    return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
-                }
-                else if (params.value === 1) {
-                    return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
-                }
-            }
-        },
+        // {
+        //     field: 'membershipStatus',
+        //     headerName: t('membership_status'),
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         if (params.value === 0) {
+        //             return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
+        //         }
+        //         else if (params.value === 1) {
+        //             return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
+        //         }
+        //     }
+        // },
         {
             field: 'status',
             headerName: t('status'),
