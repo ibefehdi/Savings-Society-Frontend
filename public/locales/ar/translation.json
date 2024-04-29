@@ -110,5 +110,11 @@
   "quit_year": "سنة الاستقالة",
   "custom": "مخصص",
   "workplace": "مكان العمل",
-  "disable": "تعطيل المساهم"
+  "disable": "تعطيل المساهم",
+  "Male": "ذكر",
+  "Female": "أنثى",
+  "close": "إغلاق",
+  "workplaces": "أماكن العمل",
+  "new_share_amount": "قيمة السهم الجديدة",
+  "availableBalance": "الرصيد المتاح"
 }

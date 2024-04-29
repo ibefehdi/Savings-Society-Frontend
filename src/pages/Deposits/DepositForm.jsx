@@ -124,13 +124,15 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                         />
                     </>
                 )}
-                <TextField
-                    margin="normal"
-                    fullWidth
-                    label={t('amount_after_addition')}
-                    value={totalAmount}
-                    disabled
-                />
+                {savings && (
+                    <TextField
+                        margin="normal"
+                        fullWidth
+                        label={t('amount_after_addition')}
+                        value={totalAmount}
+                        disabled
+                    />
+                )}
                 <TextField
                     id="year"
                     margin="normal"

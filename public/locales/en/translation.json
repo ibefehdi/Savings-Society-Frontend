@@ -44,7 +44,8 @@
   "print_form": "Print Form",
   "active": "Active",
   "inactive": "Inactive",
-
+  "Male": "Male",
+  "Female": "Female",
   "death": "Death",
   "shareholder_details": "Shareholder Details",
   "investment": "Investment",
@@ -109,5 +110,8 @@
   "quit_year": "Quit Year",
   "custom": "Custom",
   "workplace": "Workplace",
-  "disable": "Disable"
+  "disable": "Disable",
+  "close": "Close",
+  "new_share_amount": "New Share Amount",
+  "availableBalance": "Available Balance"
 }

@@ -126,6 +126,16 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
                         </MenuItem>
                     ))}
                 </TextField>)}
+                {savings && (
+                    <TextField
+                        id="availableBalance"
+                        margin="normal"
+                        value={shareholderDetails?.currentAmount}
+                        fullWidth
+                        label={t('availableBalance')}
+                        disabled={true}
+                    />
+                )}
                 <TextField
                     id="amountToWithdraw"
                     margin="normal"
@@ -137,13 +147,13 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
                     disabled={!savings}
                 />
 
-                <TextField
+                {savings && (<TextField
                     margin="normal"
                     fullWidth
                     label={t('amount_after_withdrawal')}
                     value={totalAmount}
                     disabled
-                />
+                />)}
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
                     {t('withdraw')}
                 </Button>

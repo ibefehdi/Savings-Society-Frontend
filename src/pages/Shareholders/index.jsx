@@ -22,7 +22,7 @@ import createCache from '@emotion/cache';
 import axiosInstance from '../../constants/axiosInstance';
 import { saveAs } from 'file-saver';
 import DisableShareholderModal from './DisableShareholderModal';
-
+import PersonOffIcon from '@mui/icons-material/PersonOff';
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
   const navigate = useNavigate();
 
@@ -53,7 +53,7 @@ const DisableButton = ({ id, setDisableOpen, setSelectedShareholderId }) => {
 
   return (
     <IconButton onClick={handleDisableClick}>
-      <ModeEditIcon />
+      <PersonOffIcon />
     </IconButton>
   );
 };
@@ -90,7 +90,7 @@ const Shareholders = () => {
       headerName: t('full_name'),
       flex: 1,
       renderCell: (params) => {
-        return `${params.row.fName} ${params.row.lName}`
+        return `${params?.row?.fName} ${params?.row?.lName}`
       }
     },
     {
@@ -126,7 +126,7 @@ const Shareholders = () => {
       headerName: t('phone_number'),
       flex: 1,
       renderCell: (params) => {
-        return params.row.mobileNumber && params.row.mobileNumber ? params.row.mobileNumber : "N/A"
+        return params?.row?.mobileNumber && params?.row?.mobileNumber ? params?.row?.mobileNumber : "N/A"
       }
     },
     {
@@ -144,7 +144,7 @@ const Shareholders = () => {
       flex: 1,
       renderCell: (params) => {
         // Filter the savings array for the current year and display the initial amount
-        return params.row.savings.initialAmount ? params.row.savings.initialAmount.toFixed(3) : "N/A"
+        return params?.row.savings?.initialAmount ? params?.row?.savings?.initialAmount?.toFixed(3) : "N/A"
       }
     },
     {
@@ -153,7 +153,7 @@ const Shareholders = () => {
       flex: 1,
       renderCell: (params) => {
 
-        return params.row.savings.currentAmount ? params.row.savings.currentAmount.toFixed(3) : "N/A"
+        return params?.row?.savings?.currentAmount ? params?.row?.savings?.currentAmount?.toFixed(3) : "N/A"
       }
     },
     {
@@ -230,7 +230,7 @@ const Shareholders = () => {
 
   const handlePageSizeChange = (event) => {
     setPageSize(event.target.value);
-    setPageNo(1); // Reset to the first page when the size changes
+    setPageNo(1);
     setPaginationModel({ ...paginationModel, pageSize: event.target.value });
   };
   const handleOpen = () => {
@@ -273,7 +273,7 @@ const Shareholders = () => {
             autoComplete='off'
           />
           <TextField
-            label={t('first_name')}
+            label={t('full_name')}
             variant="outlined"
             value={filters.fName}
             onChange={(e) => setFilters({ ...filters, fName: e.target.value })}
@@ -281,7 +281,7 @@ const Shareholders = () => {
             autoComplete='off'
 
           />
-          <TextField
+          {/* <TextField
             label={t('last_name')}
             variant="outlined"
             value={filters.lName}
@@ -289,7 +289,7 @@ const Shareholders = () => {
             fullWidth
             autoComplete='off'
 
-          />
+          /> */}
           <TextField
             label={t('civil_id')}
             variant="outlined"
