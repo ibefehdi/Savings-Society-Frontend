@@ -49,8 +49,8 @@ const FinancialReportingYear = () => {
             headerName: t('initial_investment'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.savingsDetails?.initialAmount
-                    ? params.row.savingsDetails.initialAmount.toFixed(3)
+                return params?.row?.savingsDetails?.initialAmount
+                    ? params?.row?.savingsDetails?.initialAmount?.toFixed(3)
                     : 'N/A';
             },
         },
@@ -59,8 +59,8 @@ const FinancialReportingYear = () => {
             headerName: t('current_amount'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.savingsDetails?.currentAmount
-                    ? params.row.savingsDetails.currentAmount.toFixed(3)
+                return params?.row?.savingsDetails?.currentAmount
+                    ? params?.row?.savingsDetails?.currentAmount?.toFixed(3)
                     : 'N/A';
             },
         },
@@ -69,7 +69,7 @@ const FinancialReportingYear = () => {
             headerName: t('year'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.savingsDetails?.year || 'N/A';
+                return params?.row?.savingsDetails?.year || 'N/A';
             },
         },
         {
@@ -77,8 +77,8 @@ const FinancialReportingYear = () => {
             headerName: t('savings_increase'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.savingsIncrease
-                    ? params.row.savingsIncrease.toFixed(3)
+                return params.row?.savingsIncrease
+                    ? params?.row?.savingsIncrease?.toFixed(3)
                     : 'N/A';
             },
         },
@@ -88,7 +88,7 @@ const FinancialReportingYear = () => {
             flex: 1,
             renderCell: (params) => {
                 return params.row.shareDetails?.reduce(
-                    (total, share) => total + share.initialAmount,
+                    (total, share) => total + share?.initialAmount,
                     0
                 ).toFixed(3);
             },
@@ -99,7 +99,7 @@ const FinancialReportingYear = () => {
             flex: 1,
             renderCell: (params) => {
                 return params.row.shareDetails?.reduce(
-                    (total, share) => total + share.currentAmount,
+                    (total, share) => total + share?.currentAmount,
                     0
                 ).toFixed(3);
             },
@@ -109,8 +109,8 @@ const FinancialReportingYear = () => {
             headerName: t('share_increase'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.totalShareIncrease
-                    ? params.row.totalShareIncrease.toFixed(3)
+                return params.row?.totalShareIncrease
+                    ? params.row?.totalShareIncrease?.toFixed(3)
                     : 'N/A';
             },
         },

@@ -89,15 +89,15 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
                                 <StyledTd>{row?.membersCode}</StyledTd>
                                 <StyledTd>{row?.fullName}</StyledTd>
                                 <StyledTd>{row?.civilId}</StyledTd>
-                                <StyledTd>{row?.savingsDetails ? row?.savingsDetails?.initialAmount?.toFixed(3) : 'N/A'}</StyledTd>
-                                <StyledTd>{row?.savingsDetails ? row?.savingsDetails?.currentAmount?.toFixed(3) : 'N/A'}</StyledTd>
-                                <StyledTd>{row?.savingsIncrease ? row?.savingsIncrease?.toFixed(3) : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.savingsDetails ? row?.savingsDetails?.initialAmount  : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.savingsDetails ? row?.savingsDetails?.currentAmount  : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.savingsIncrease ? row?.savingsIncrease  : 'N/A'}</StyledTd>
                                 <StyledTd>
                                     {row.shareDetails && row.shareDetails?.length > 0 ? (
                                         <ul>
                                             {row?.shareDetails?.map((share, index) => (
                                                 <li key={index}>
-                                                    {share?.initialAmount?.toFixed(3)} - {share?.year}
+                                                    {share?.initialAmount } - {share?.year}
                                                 </li>
                                             ))}
                                         </ul>
@@ -110,7 +110,7 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
                                         <ul>
                                             {row?.shareDetails?.map((share, index) => (
                                                 <li key={index}>
-                                                    {share?.currentAmount?.toFixed(3)} - {share?.year}
+                                                    {share?.currentAmount } - {share?.year}
                                                 </li>
                                             ))}
                                         </ul>
@@ -118,9 +118,9 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
                                         'N/A'
                                     )}
                                 </StyledTd>
-                                <StyledTd>{row.totalShareIncrease ? row.totalShareIncrease?.toFixed(3) : 'N/A'}</StyledTd>
-                                <StyledTd>{row.amanatAmount ? row.amanatAmount?.toFixed(3) : "N/A"}</StyledTd>
-                                <StyledTd>{row.total && row.total ? row.total?.toFixed(3) : "N/A"}</StyledTd>
+                                <StyledTd>{row.totalShareIncrease ? row.totalShareIncrease  : 'N/A'}</StyledTd>
+                                <StyledTd>{row.amanatAmount ? row.amanatAmount  : "N/A"}</StyledTd>
+                                <StyledTd>{row.total && row.total ? row.total  : "N/A"}</StyledTd>
                             </TableRow>
                         ))}
                     </tbody>
