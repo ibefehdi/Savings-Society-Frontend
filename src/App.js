@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Cookies from 'js-cookie'; // Import js-cookie
 
 import Layout from './pages/Layout';
 import Home from './pages/Home';
@@ -43,7 +42,21 @@ function App() {
 
   const router = createBrowserRouter([
     {
-      path: '/',
+      path: "/",
+      element: authenticated ? <Layout /> : <Login />,
+      children: authenticated ? [{ index: true, element: <Home /> }] : []
+    },
+    {
+      path: "/rental",
+      element: authenticated ? <Layout /> : <Login />,
+      children: authenticated ? [
+        { index: true, element: <Home /> },
+        { path: 'Users', element: <Users /> },
+
+      ] : []
+    },
+    {
+      path: '/shareholder',
       element: authenticated ? <Layout /> : <Login />,
       children: authenticated ? [
         { index: true, element: <Home /> },

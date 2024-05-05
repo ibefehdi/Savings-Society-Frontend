@@ -1,22 +1,27 @@
-.menu-item{
-    padding: 1rem 0rem !important;
-    
+.menu-item {
+  padding: 1rem 0rem !important;
 }
 .sidebar {
-    background-color: #15533B !important;
-    height: 92vh;
-    border: none;
-    position: relative; 
-    z-index: 1001111111111111111111;
-    width:'100%';
-    padding-top: 2rem;
+  background-color: #15533b !important;
+  height: 92vh;
+  border: none;
+  position: relative;
+  z-index: 1001111111111111111111;
+  width: "100%";
+  padding-top: 2rem;
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer and Edge */
 }
 .activeMenuItem {
-    color: black !important; 
+  color: black !important;
 }
-
-   @media (max-width: 480px) {
-    .dashboard-sidebar {
-        width: 100%; /* Adjust the sidebar to take full width and act as a top bar */
-        display: none; /* or you can hide it */
-    }}
+.sidebar .pro-sidebar-inner::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+@media (max-width: 480px) {
+  .dashboard-sidebar {
+    width: 100%; /* Adjust the sidebar to take full width and act as a top bar */
+    display: none; /* or you can hide it */
+  }
+}

@@ -16,9 +16,9 @@ const ReceiptVoucher = () => {
 
     useEffect(() => {
         if (triggerPrint) {
-            handlePrint(); // Call the print function if triggerPrint is true
+            handlePrint(); 
         }
-    }, [triggerPrint]); // Effect depends on triggerPrint
+    }, [triggerPrint]); 
 
     const fetchDataAndPrint = async () => {
         setLoading(true);

@@ -37,9 +37,11 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
         const fetchShareholderDetails = async () => {
             if (id) {
                 try {
+                    console.log(`Fetching data for shareholder ID: ${id}, year: ${year}`);
                     const response = await axiosInstance.get(`shareholder/financials/${id}?year=${year}`);
-                    const data = savings ? response.data.response.savings : response.data.response.shares;
+                    const data = savings ? response?.data?.response?.savings : response?.data?.response?.shares;
                     setShareholderDetails(data);
+                    console.log(shareholderDetails)
                 } catch (error) {
                     console.error("Failed to fetch shareholder details:", error);
                 }
@@ -48,6 +50,7 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
 
         fetchShareholderDetails();
     }, [id, savings, year]);
+
 
     useEffect(() => {
         if (shareholderDetails) {
@@ -73,7 +76,7 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                 adminId: adminData.id,
                 year: year
             };
-            const url = savings ? `shareholder/depositsavings/${id}` : `shareholder/depositshares/${id}`;
+            const url = savings ? `shareholder/depositsavings/${id}?year=${year}` : `shareholder/depositshares/${id}?year=${year}`;
             await axiosInstance.post(url, formData);
             handleClose();
         } catch (error) {
@@ -101,7 +104,7 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                     />
                 )}
 
-                {/* <TextField
+                <TextField
                     id="newAmount"
                     margin="normal"
                     fullWidth
@@ -110,7 +113,22 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                     error={!!errors.newAmount}
                     helperText={errors.newAmount ? t('this_field_is_required') : ''}
                     disabled={!savings}
-                /> */}
+                />
+                {!savings && (
+                    <>
+                        <TextField
+                            id="shareAmount"
+                            margin="normal"
+                            fullWidth
+                            label={t('share_amount')}
+                            {...register('shareAmount', { required: true })}
+                            error={!!errors.newShareAmount}
+                            helperText={errors.newShareAmount ? t('this_field_is_required') : ''}
+                            value={shareholderDetails?.amount}
+                            disabled
+                        />
+                    </>
+                )}
                 {!savings && (
                     <>
                         <TextField
@@ -140,7 +158,11 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                     label={t('year')}
                     select
                     value={year}
-                    onChange={(e) => setYear(e.target.value)}
+                    onChange={(e) => {
+                        const newYear = e.target.value;
+                        console.log(`Year selected: ${newYear}`);
+                        setYear(newYear);
+                    }}
                 >
                     {yearOptions.map((year) => (
                         <MenuItem key={year} value={year}>
@@ -148,6 +170,7 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                         </MenuItem>
                     ))}
                 </TextField>
+
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
                     {t('edit')}
                 </Button>
