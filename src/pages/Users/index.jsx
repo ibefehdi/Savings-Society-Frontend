@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, InputLabel, Select } from '@mui/material';
 import FormGroup from '@mui/material/FormGroup';
 import {
     useNavigate,
@@ -24,6 +24,8 @@ import rtlPlugin from 'stylis-plugin-rtl';
 import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -452,6 +454,21 @@ const Users = () => {
                                 helperText={missingFields.includes("phoneNo") ? "This field is required." : ""}
 
                             />
+                            <FormControl variant="outlined" fullWidth>
+                                <InputLabel id="user-type-label">User Type</InputLabel>
+                                <Select
+                                    labelId="user-type-label"
+                                    id="user-type"
+                                    multiple
+                                    value={watch("userType") || []}
+                                    onChange={(e) => setValue("userType", e.target.value)}
+                                    renderValue={(selected) => selected.join(", ")}
+                                    label="User Type"
+                                >
+                                    <MenuItem value="Rental">Rental</MenuItem>
+                                    <MenuItem value="Shareholder">Shareholder</MenuItem>
+                                </Select>
+                            </FormControl>
                         </Grid>
                         <Grid item xs={12} md={4}>
                             <Typography variant='h6' sx={{ mb: 2 }}>{t('permissions')}</Typography>

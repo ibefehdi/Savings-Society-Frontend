@@ -50,6 +50,7 @@ const Login = () => {
             sessionStorage.setItem('token', response?.data?.token);
             console.log("This is the cookie: ", document?.cookie)
             sessionStorage.setItem('userDetails', JSON.stringify(decoded));
+            console.log(JSON.stringify(decoded))
             dispatch(setUserDetails(decoded))
             navigate('/', { replace: true });
             window.location.reload();

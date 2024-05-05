@@ -34,7 +34,7 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
         const fetchShareholderDetails = async () => {
             try {
                 if (id !== null) {
-                    const response = await axiosInstance.get(`shareholder/financials/${id}`);
+                    const response = await axiosInstance.get(`shareholder/financials/${id}?year=${year}`);
                     const shareholderData = savings ? response?.data?.response?.savings : response?.data?.response?.shares
                     setShareholderDetails(shareholderData);
                     console.log("This is the details of the shareholder", shareholderData);
@@ -48,7 +48,7 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
         };
 
         fetchShareholderDetails();
-    }, [id]);
+    }, [id, year, savings]);
     const handleClose = () => {
         setOpen(false)
         reset()
@@ -96,6 +96,17 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
                 noValidate
                 autoComplete="off"
             >
+                 {!savings && (
+                    <TextField
+                        id="currentAmount"
+                        margin='normal'
+                        fullWidth
+                        label={t('currentAmount')}
+                        {...register('currentAmount', { required: true })}
+                        value={shareholderDetails?.amount}
+
+                    />
+                )}
                 {!savings && (
                     <TextField
                         id="amountOfShares"
@@ -103,7 +114,6 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
                         fullWidth
                         label={t('amount_of_shares')}
                         {...register('amountOfShares', { required: true })}
-                        value={shareholderDetails?.amountOfShares}
 
                     />
                 )}

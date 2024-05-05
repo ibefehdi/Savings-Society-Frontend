@@ -26,7 +26,7 @@ const DisableShareholderModal = ({ open, setOpen, fetchData, id }) => {
                         htmlFor="joinDate"
 
                     >
-                        {t('join_date')}
+                        {t('quit_date')}
                     </InputLabel>
                     <TextField
                         type="date"
