@@ -6,7 +6,7 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
-
+import BusinessIcon from '@mui/icons-material/Business';
 import { Outlet } from 'react-router-dom';
 import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined';
 import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
@@ -80,7 +80,11 @@ const Layout = () => {
 
     ];
     const rentalMenuItems = [
-        { name: t('home'), icon: <HomeOutlinedIcon />, path: "/shareholder/" },]
+        { name: t('home'), icon: <HomeOutlinedIcon />, path: "/shareholder/" },
+        { name: t('buildings'), icon: <BusinessIcon />, path: "/rental/buildings" },
+        { name: t('flats'), icon: <HomeOutlinedIcon />, path: "/rental/flats" },
+        { name: t('halls'), icon: <HomeOutlinedIcon />, path: "/rental/halls" }
+    ]
     let menuItems = [];
     if (userDetails?.type.includes('Shareholder')) {
         menuItems = [...menuItems, ...shareholderMenuItems];

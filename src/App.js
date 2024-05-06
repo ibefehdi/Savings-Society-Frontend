@@ -28,6 +28,10 @@ import Workplaces from './pages/Workplaces';
 import FinancialReportingYear from './pages/FinancialReporting/FinancialReportingYear';
 import FinancialReportsByQuitYear from './pages/FinancialReporting/FinancialReportsByQuitYear';
 import FinancialReportingByWorkplace from './pages/FinancialReporting/FinancialReportingByWorkplace';
+import Buildings from './pages/Buildings';
+import Flats from './pages/Flats';
+import FlatDetails from './pages/FlatDetails';
+import Halls from './pages/Halls';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -52,6 +56,11 @@ function App() {
       children: authenticated ? [
         { index: true, element: <Home /> },
         { path: 'Users', element: <Users /> },
+        { path: 'Buildings', element: <Buildings /> },
+        { path: 'Flats', element: <Flats /> },
+        { path: 'Flat/:id', element: <FlatDetails /> },
+        { path: 'Halls', element: <Halls /> },
+
 
       ] : []
     },

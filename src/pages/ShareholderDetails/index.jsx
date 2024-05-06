@@ -53,7 +53,7 @@ const ShareholderDetails = () => {
                 const response = await axiosInstance.get(`shareholder/${id}`);
                 setShareholderDetails(response.data.shareholder);
                 if (response.data.shareholder.share.length > 0) {
-                    setSelectedYear(response.data.shareholder.share[0].year); // Initialize to the first available year
+                    setSelectedYear(response.data.shareholder.share[0].year); 
                 }
             } catch (error) {
                 console.error("Failed to fetch shareholder details:", error);

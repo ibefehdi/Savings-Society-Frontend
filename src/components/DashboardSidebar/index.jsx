@@ -2,9 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import "./DashboardSidebar.css"
 import { Link } from 'react-router-dom';
+import {
+    Box,
+    IconButton,
+
+    Button,
+    Typography
+} from "@mui/material";
 import { useTranslation } from 'react-i18next';
+import logo from '../../assets/logo.png';
+
 const DashboardSidebar = ({ menuItems }) => {
-    const { i18n } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [collapsed, setCollapsed] = useState(false);
 
     useEffect(() => {
@@ -17,7 +26,24 @@ const DashboardSidebar = ({ menuItems }) => {
 
     return (
         <Sidebar collapsed={collapsed}>
-            <div className='sidebar' style={{ borderBottomRightRadius: isRtl ? 0 : '0.5rem', borderBottomLeftRadius: isRtl ? '0.5rem' : 0 }}>
+
+            <div className={isRtl ? "sidebar-rtl" : "sidebar"} style={{ borderBottomRightRadius: isRtl ? 0 : '0', borderBottomLeftRadius: isRtl ? '0' : 0, width: collapsed ? '4.93rem' : (isRtl ? '15.56rem' : '15.56rem') }}>
+                <Box
+                    display={"flex"}
+                    alignItems={"center"}
+                    sx={{
+                        backgroundColor: "#15533B",
+                        width: collapsed ? '4.93rem' : (isRtl ? '15.56rem' : '15.56rem'),
+                        gap: 1,
+                        borderTopLeftRadius: isRtl ? '0.5rem' : 0,
+                        borderTopRightRadius: isRtl ? 0 : '0.5rem',
+                        marginRight: '1px',
+                        marginBottom: '1rem',
+                    }}
+                >
+                    <img src={logo} alt="Logo" style={{ width: "3.875rem", height: "3.875rem", marginLeft: collapsed ? 5 : 10 }} />
+                    {!collapsed && <Typography sx={{ color: 'white' }}>{t('company_name')}</Typography>}
+                </Box>
                 <Menu menuItemStyles={{
                     button: {
                         color: 'white',
