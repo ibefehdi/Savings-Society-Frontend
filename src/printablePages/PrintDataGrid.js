@@ -49,7 +49,7 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
             .map(([key, value]) => `${keyTranslations[key] || key}: ${value}`)
             .join(', ');
     };
-
+    console.log(data)
     return (
         <div ref={ref}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', padding: "1rem" }}>
@@ -80,7 +80,7 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
                             <StyledTh>القيمة المبدائية للسهم</StyledTh>
                             <StyledTh>أرباح الاسهم</StyledTh>
                             <StyledTh>أمانات</StyledTh>
-                            <StyledTh>الإجمالي </StyledTh>
+                            <StyledTh>الإجمالي</StyledTh>
                         </tr>
                     </thead>
                     <tbody>
@@ -89,15 +89,15 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
                                 <StyledTd>{row?.membersCode}</StyledTd>
                                 <StyledTd>{row?.fullName}</StyledTd>
                                 <StyledTd>{row?.civilId}</StyledTd>
-                                <StyledTd>{row?.savingsDetails ? row?.savingsDetails?.initialAmount  : 'N/A'}</StyledTd>
-                                <StyledTd>{row?.savingsDetails ? row?.savingsDetails?.currentAmount  : 'N/A'}</StyledTd>
-                                <StyledTd>{row?.savingsIncrease ? row?.savingsIncrease  : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.savingsDetails ? row?.savingsDetails?.initialAmount : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.savingsDetails ? row?.savingsDetails?.currentAmount : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.savingsIncrease ? row?.savingsIncrease : 'N/A'}</StyledTd>
                                 <StyledTd>
                                     {row.shareDetails && row.shareDetails?.length > 0 ? (
                                         <ul>
                                             {row?.shareDetails?.map((share, index) => (
                                                 <li key={index}>
-                                                    {share?.initialAmount } - {share?.year}
+                                                    {share?.initialAmount}
                                                 </li>
                                             ))}
                                         </ul>
@@ -110,7 +110,7 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
                                         <ul>
                                             {row?.shareDetails?.map((share, index) => (
                                                 <li key={index}>
-                                                    {share?.currentAmount } - {share?.year}
+                                                    {share?.currentAmount}
                                                 </li>
                                             ))}
                                         </ul>
@@ -118,9 +118,9 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
                                         'N/A'
                                     )}
                                 </StyledTd>
-                                <StyledTd>{row.totalShareIncrease ? row.totalShareIncrease  : 'N/A'}</StyledTd>
-                                <StyledTd>{row.amanatAmount ? row.amanatAmount  : "N/A"}</StyledTd>
-                                <StyledTd>{row.total && row.total ? row.total  : "N/A"}</StyledTd>
+                                <StyledTd>{row.totalShareIncrease ? row.totalShareIncrease : 'N/A'}</StyledTd>
+                                <StyledTd>{row.amanatAmount ? row.amanatAmount : "N/A"}</StyledTd>
+                                <StyledTd>{row.total && row.total ? row.total : "N/A"}</StyledTd>
                             </TableRow>
                         ))}
                     </tbody>

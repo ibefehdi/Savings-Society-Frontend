@@ -7,72 +7,15 @@ import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { DataGrid } from '@mui/x-data-grid';
-const DepositHistory = () => {
+import AddNewBuilding from './AddNewBuilding';
+const Buildings = () => {
     const [pageNo, setPageNo] = useState(1)
     const [pageSize, setPageSize] = useState(10)
     const { t, i18n } = useTranslation();
-    const { data, fetchData, count } = useFetch('/deposithistory', pageNo, pageSize);
-    useEffect(() => { fetchData() }, [])
-    const columns = [
-        {
-            field: 'membersCode',
-            headerName: t('serial'),
-            flex: 1,
-            valueGetter: (params) => `${params.row.shareholder.membersCode}`
-
-        },
-        {
-            field: 'Full Name',
-            headerName: t('full_name'),
-            flex: 1,
-            valueGetter: (params) => `${params.row.shareholder.fName} ${params.row.shareholder.lName}`
-        },
-        {
-            field: 'civilId',
-            headerName: t('civil_id'),
-            flex: 1,
-            valueGetter: (params) => params.row.shareholder.civilId
-        },
-        {
-            field: 'mobileNumber',
-            headerName: t('phone_number'),
-            flex: 1,
-            valueGetter: (params) => params.row.shareholder.mobileNumber
-        },
-        {
-            field: 'type',
-            headerName: t('type'),
-            flex: 1,
-            valueGetter: (params) => params.row.type
-        },
-        {
-            field: 'depositDate',
-            headerName: t('deposit_date'),
-            flex: 1,
-            valueGetter: (params) => {
-                const date = new Date(params.row.depositDate);
-                const day = date.getDate().toString().padStart(2, '0');
-                const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                const year = date.getFullYear();
-                return `${day}/${month}/${year}`;
-            }
-        },
-        {
-            field: 'newAmount',
-            headerName: t('new_amount'),
-            flex: 1,
-            valueGetter: (params) => params.row.newAmount
-        },
-        {
-            field: 'admin',
-            headerName: t('admin'),
-            flex: 1,
-            valueGetter: (params) => `${params.row.admin.fName} ${params.row.admin.lName}`
-        }
-    ];
-
+    const { data, fetchData, count } = useFetch('/buildings', pageNo, pageSize);
     const isRtl = i18n.dir() === 'rtl';
-
+    useEffect(() => { fetchData() }, [])
+    const [open, setOpen] = useState(false);
     const cacheRtl = createCache({
         key: 'muirtl',
         stylisPlugins: [prefixer, rtlPlugin],
@@ -84,6 +27,31 @@ const DepositHistory = () => {
         pageSize: pageSize,
         page: pageNo,
     });
+    const columns = [
+        {
+            field: 'name',
+            headerName: t('name'),
+            flex: 1,
+            valueGetter: (params) => `${params.row.name}`
+
+        },
+        {
+            field: 'floors',
+            headerName: t('floors'),
+            flex: 1,
+            valueGetter: (params) => `${params.row.floors}`
+        },
+        {
+            field: 'address',
+            headerName: t('address'),
+            flex: 1,
+            renderCell: (params) => {
+                const { block, street, house, avenue, city } = params.value;
+                return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
+            }
+        },
+
+    ];
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
 
@@ -95,9 +63,11 @@ const DepositHistory = () => {
                         lineHeight: '1.875rem', flexGrow: 1,
                         marginLeft: '1.2rem'
                     }}>
-                        {t('deposit_history')}
+                        {t('buildings')}
                     </Typography>
-
+                    <Button onClick={() => setOpen(true)} variant="contained">
+                        {t('add')}
+                    </Button>
 
                 </Box>
                 <DataGrid
@@ -142,9 +112,10 @@ const DepositHistory = () => {
                     }}
                 />
             </Box>
+            <AddNewBuilding fetchData={fetchData} setOpen={setOpen} open={open} />
         </CacheProvider>
 
     )
 }
 
-export default DepositHistory
+export default Buildings

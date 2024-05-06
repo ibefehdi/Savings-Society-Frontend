@@ -7,7 +7,7 @@ import {
     Button,
     Typography
 } from "@mui/material";
-import LanguageIcon from "@mui/icons-material/Language"; // Import an icon for the language menu
+import LanguageIcon from "@mui/icons-material/Language"; 
 
 import PersonIcon from "@mui/icons-material/Person";
 import Cookies from 'js-cookie';
@@ -73,11 +73,11 @@ const Topbar = () => {
 
     return (
         <Box display={"flex"} justifyContent={"space-between"} sx={{ height: '4.7rem' }}>
-            <Box
+           <Box
                 display={"flex"}
                 alignItems={"center"}
                 sx={{
-                    backgroundColor: "#15533B",
+                    backgroundColor: "#FFF",
                     width: collapsed ? '4.93rem' : (isRtl ? '15.56rem' : '15.56rem'),
                     gap: 1,
                     borderTopLeftRadius: isRtl ? '0.5rem' : 0,
@@ -85,8 +85,8 @@ const Topbar = () => {
                     marginRight: '1px'
                 }}
             >
-                <img src={logo} alt="Logo" style={{ width: "3.875rem", height: "3.875rem", marginLeft: collapsed ? 5 : 10 }} onClick={() => navigate('/')} />
-                {!collapsed && <Typography sx={{ color: 'white' }}>{t('company_name')}</Typography>}
+                
+               
             </Box>
             <Box display={"flex"} sx={{ marginRight: isRtl ? 0 : '1rem', marginLeft: isRtl ? '1rem' : 0 }}>
                 {/* <IconButton onClick={handleLanguageMenuClick}>
