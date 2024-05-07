@@ -32,6 +32,8 @@ import Buildings from './pages/Buildings';
 import Flats from './pages/Flats';
 import FlatDetails from './pages/FlatDetails';
 import Halls from './pages/Halls';
+import Booking from './pages/Booking';
+import BookingTimeline from './pages/BookingTimeline';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -60,6 +62,8 @@ function App() {
         { path: 'Flats', element: <Flats /> },
         { path: 'Flat/:id', element: <FlatDetails /> },
         { path: 'Halls', element: <Halls /> },
+        { path: 'booking', element: <Booking /> },
+        { path: 'bookhall/:id', element: <BookingTimeline /> }
 
 
       ] : []
