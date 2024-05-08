@@ -19,8 +19,16 @@ const style = {
     p: 4,
 };
 
-const AddNewBooking = ({ editMode, setOpen, fetchData, open, hallId }) => {
+const AddNewBooking = ({ editMode, setOpen, fetchData, open, hallId, booking, onDelete }) => {
     const { register, handleSubmit, control, reset, formState: { errors } } = useForm();
+
+    useEffect(() => {
+        if (editMode && booking) {
+            reset(booking);
+        } else {
+            reset();
+        }
+    }, [editMode, booking, reset]);
 
     const handleClose = () => {
         setOpen(false);
@@ -34,13 +42,17 @@ const AddNewBooking = ({ editMode, setOpen, fetchData, open, hallId }) => {
         try {
             const payload = {
                 ...data,
-                hallId: hallId
+                hallId: hallId,
             };
-            await axiosInstance.post('/createbooking', payload);
+            if (editMode) {
+                await axiosInstance.put('/editbooking', payload);
+            } else {
+                await axiosInstance.post('/createbooking', payload);
+            }
             handleClose();
             reset();
         } catch (error) {
-            console.error('Error posting booking data:', error);
+            console.error('Error posting/editing booking data:', error);
         }
     };
 
@@ -64,7 +76,7 @@ const AddNewBooking = ({ editMode, setOpen, fetchData, open, hallId }) => {
                     InputLabelProps={{
                         shrink: true,
                     }}
-                    {...register('date', { required: true })}
+                    {...register('date', { required: editMode ? false : true })}
                     error={!!errors.date}
                     helperText={errors.date ? 'Date is required' : ''}
                 />
@@ -76,7 +88,7 @@ const AddNewBooking = ({ editMode, setOpen, fetchData, open, hallId }) => {
                     InputLabelProps={{
                         shrink: true,
                     }}
-                    {...register('startTime', { required: true })}
+                    {...register('startTime', { required: editMode ? false : true })}
                     error={!!errors.startTime}
                     helperText={errors.startTime ? 'Start Time is required' : ''}
                 />
@@ -88,7 +100,7 @@ const AddNewBooking = ({ editMode, setOpen, fetchData, open, hallId }) => {
                     InputLabelProps={{
                         shrink: true,
                     }}
-                    {...register('endTime', { required: true })}
+                    {...register('endTime', { required: editMode ? false : true })}
                     error={!!errors.endTime}
                     helperText={errors.endTime ? 'End Time is required' : ''}
                 />
@@ -97,7 +109,7 @@ const AddNewBooking = ({ editMode, setOpen, fetchData, open, hallId }) => {
                     fullWidth
                     label={t('rate')}
                     type="number"
-                    {...register('rate', { required: true })}
+                    {...register('rate', { required: editMode ? false : true })}
                     error={!!errors.rate}
                     helperText={errors.rate ? 'Rate is required' : ''}
                 />
@@ -105,7 +117,7 @@ const AddNewBooking = ({ editMode, setOpen, fetchData, open, hallId }) => {
                     margin="normal"
                     fullWidth
                     label={t('tenant_name')}
-                    {...register('tenantName', { required: true })}
+                    {...register('tenantName', { required: editMode ? false : true })}
                     error={!!errors.tenantName}
                     helperText={errors.tenantName ? 'Tenant Name is required' : ''}
                 />
@@ -113,14 +125,14 @@ const AddNewBooking = ({ editMode, setOpen, fetchData, open, hallId }) => {
                     margin="normal"
                     fullWidth
                     label={t('tenant_civil_id')}
-                    {...register('tenantCivilId', { required: true })}
+                    {...register('tenantCivilId', { required: editMode ? false : true })}
                     error={!!errors.tenantCivilId}
                     helperText={errors.tenantCivilId ? 'Tenant Civil ID is required' : ''}
                 />
                 <Controller
                     name="tenantType"
                     control={control}
-                    rules={{ required: true }}
+                    rules={{ required: editMode ? false : true }}
                     render={({ field: { onChange, value }, fieldState: { error } }) => (
                         <TextField
                             select
@@ -141,13 +153,18 @@ const AddNewBooking = ({ editMode, setOpen, fetchData, open, hallId }) => {
                     margin="normal"
                     fullWidth
                     label={t('tenant_contact_number')}
-                    {...register('tenantContactNumber', { required: true })}
+                    {...register('tenantContactNumber', { required: editMode ? false : true })}
                     error={!!errors.tenantContactNumber}
                     helperText={errors.tenantContactNumber ? 'Tenant Contact Number is required' : ''}
                 />
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-                    {editMode ? `Edit` : 'Submit'}
+                    {editMode ? 'Update' : 'Submit'}
                 </Button>
+                {editMode && (
+                    <Button onClick={onDelete} variant="contained" color="error" sx={{ mt: 2 }}>
+                        Delete
+                    </Button>
+                )}
             </Box>
         </Modal>
     );
