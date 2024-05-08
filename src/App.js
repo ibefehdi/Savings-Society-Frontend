@@ -34,6 +34,7 @@ import FlatDetails from './pages/FlatDetails';
 import Halls from './pages/Halls';
 import Booking from './pages/Booking';
 import BookingTimeline from './pages/BookingTimeline';
+import Transactions from './pages/Transactions';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -63,7 +64,8 @@ function App() {
         { path: 'Flat/:id', element: <FlatDetails /> },
         { path: 'Halls', element: <Halls /> },
         { path: 'booking', element: <Booking /> },
-        { path: 'bookhall/:id', element: <BookingTimeline /> }
+        { path: 'bookhall/:id', element: <BookingTimeline /> },
+        { path: 'transactions', element: <Transactions /> }
 
 
       ] : []
