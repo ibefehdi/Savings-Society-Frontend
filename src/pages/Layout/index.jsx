@@ -85,7 +85,9 @@ const Layout = () => {
         { name: t('flats'), icon: <HomeOutlinedIcon />, path: "/rental/flats" },
         { name: t('halls'), icon: <HomeOutlinedIcon />, path: "/rental/halls" },
         { name: t('bookings'), icon: <BusinessIcon />, path: "/rental/booking" },
-        { name: t('transactions'), icon: <BusinessIcon />, path: "/rental/transactions" }
+        { name: t('hall_transactions'), icon: <BusinessIcon />, path: "/rental/halltransactions" },
+        { name: t('vouchers'), icon: <BusinessIcon />, path: "/rental/vouchers" },
+        { name: t('building_transaction'), icon: <BusinessIcon />, path: "/rental/buildingtransactions" }
     ]
     let menuItems = [];
     if (userDetails?.type.includes('Shareholder')) {

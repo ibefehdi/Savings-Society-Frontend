@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next';
 import axiosInstance from '../../constants/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import AddTransactions from './AddTransactions';
-const Transactions = () => {
+const BuildingTransactions = () => {
     const [pageNo, setPageNo] = useState(1)
     const [pageSize, setPageSize] = useState(10)
     const [openModal, setOpenModal] = useState(false);
@@ -29,7 +29,7 @@ const Transactions = () => {
     const [open, setOpen] = useState(false);
 
 
-    const { data, fetchData, count } = useFetch(`/transactions`, pageNo, pageSize, { type: "Hall" });
+    const { data, fetchData, count } = useFetch(`/transactions`, pageNo, pageSize, { type: "Flat" });
     useEffect(() => {
         fetchData();
     }, [pageNo, pageSize]);
@@ -50,44 +50,7 @@ const Transactions = () => {
             flex: 1,
             valueGetter: (params) => params.row.buildingId?.name || '',
         },
-        {
-            field: 'buildingId.type',
-            headerName: 'Building Type',
-            flex: 1,
-            valueGetter: (params) => params.row.buildingId?.type || '',
-        },
-        {
-            field: 'bookingId.date',
-            headerName: 'Booking Date',
-            flex: 1,
-            renderCell: (params) => {
 
-                const date = new Date(params?.row?.bookingId?.date);
-                const day = date.getDate().toString().padStart(2, '0');
-                const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                const year = date.getFullYear().toString();
-                const formattedDate = `${day}/${month}/${year}`;
-                return formattedDate;
-            }
-        },
-        {
-            field: 'bookingId.startTime',
-            headerName: 'Start Time',
-            flex: 1,
-            valueGetter: (params) => params.row.bookingId?.startTime || '',
-        },
-        {
-            field: 'bookingId.endTime',
-            headerName: 'End Time',
-            flex: 1,
-            valueGetter: (params) => params.row.bookingId?.endTime || '',
-        },
-        {
-            field: 'bookingId.rate',
-            headerName: 'Booking Rate',
-            flex: 1,
-            valueGetter: (params) => params.row.bookingId?.rate || '',
-        },
         {
             field: 'amount',
             headerName: 'Amount',
@@ -210,6 +173,7 @@ const Transactions = () => {
             <AddTransactions fetchData={fetchData} setOpen={setOpen} open={open} />
 
         </CacheProvider >)
+
 }
 
-export default Transactions
+export default BuildingTransactions
