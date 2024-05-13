@@ -18,7 +18,6 @@ const Booking = () => {
     const { data, fetchData, count } = useFetch('/halls', pageNo, pageSize);
     const isRtl = i18n.dir() === 'rtl';
     useEffect(() => { fetchData() }, [])
-    const [open, setOpen] = useState(false);
     const cacheRtl = createCache({
         key: 'muirtl',
         stylisPlugins: [prefixer, rtlPlugin],
@@ -76,11 +75,9 @@ const Booking = () => {
                         lineHeight: '1.875rem', flexGrow: 1,
                         marginLeft: '1.2rem'
                     }}>
-                        {t('halls')}
+                        {t('bookings')}
                     </Typography>
-                    <Button onClick={() => setOpen(true)} variant="contained">
-                        {t('add')}
-                    </Button>
+
 
                 </Box>
                 <DataGrid
@@ -116,8 +113,8 @@ const Booking = () => {
                         },
                         '& .MuiDataGrid-columnHeaders': {
                             border: 'none',
-                            fontStyle: 'normal', // Sets the font style
-                            fontWeight: 600, // Sets the font weight
+                            fontStyle: 'normal', 
+                            fontWeight: 600,
                             lineHeight: '1.25rem',
                             color: '#667085',
                             fontSize: '0.875rem'

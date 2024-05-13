@@ -94,7 +94,7 @@ const Flats = () => {
 
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
-            <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
+            <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', }}>
                 <Typography variant="h3" component="h2" sx={{ fontStyle: 'normal', fontWeight: 600, lineHeight: '1.875rem', flexGrow: 1, marginLeft: '1.2rem' }}>
                     {t('flats')}
                 </Typography>
@@ -118,8 +118,11 @@ const Flats = () => {
                         fullWidth
                         value={selectedBuilding || ""}
                         onChange={handleBuildingChange}
+                        displayEmpty
                     >
-                        <MenuItem value="">----{t('select_building')}----</MenuItem>
+                        <MenuItem value="" disabled>
+                            ----{t('select_building')}----
+                        </MenuItem>
                         {buildings.map((building) => (
                             <MenuItem key={building._id} value={building._id}>
                                 {building.name}
