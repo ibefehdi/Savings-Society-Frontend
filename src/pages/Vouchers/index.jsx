@@ -11,16 +11,18 @@ import rtlPlugin from 'stylis-plugin-rtl';
 import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
-import axiosInstance from '../../constants/axiosInstance';
 import PayVoucherModal from './PayVoucherModal';
-
+import AddVoucherModal from './AddVoucherModal';
 const Vouchers = () => {
   const [pageNo, setPageNo] = useState(1)
   const [pageSize, setPageSize] = useState(10)
   const { t, i18n } = useTranslation();
   const isRtl = i18n.dir() === 'rtl';
   const [modalOpen, setModalOpen] = useState(false);
+  const [addModalOpen, setAddModalOpen] = useState(false);
 
+  const handleOpenAddModal = () => setAddModalOpen(true);
+  const handleCloseAddModal = () => setAddModalOpen(false);
   const handleOpen = () => setModalOpen(true);
   const handleClose = () => setModalOpen(false);
   const [selectedVoucherId, setSelectedVoucherId] = useState(null);
@@ -116,7 +118,7 @@ const Vouchers = () => {
           }}>
             {t('Vouchers')}
           </Typography>
-          <Button variant='contained' onClick={() => { handleOpen() }}>{t('add')}</Button>
+          <Button variant='contained' onClick={handleOpenAddModal}>{t('add')}</Button>
         </Box>
         <DataGrid
           rows={data}
@@ -161,7 +163,7 @@ const Vouchers = () => {
         />
       </Box>
       <PayVoucherModal open={modalOpen} onClose={handleCloseModal} voucherId={selectedVoucherId} fetchData={fetchData} />
-
+      <AddVoucherModal open={addModalOpen} onClose={handleCloseAddModal} fetchData={fetchData} />
     </CacheProvider>
   )
 }
