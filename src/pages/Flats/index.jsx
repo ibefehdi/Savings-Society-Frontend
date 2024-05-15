@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
 import { useFetch } from '../../hooks/useFetch';
 import { DataGrid } from '@mui/x-data-grid';
@@ -17,22 +16,26 @@ import { useTranslation } from 'react-i18next';
 import axiosInstance from '../../constants/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import AddNewFlat from './AddNewFlat';
+import RemoveTenantModal from './RemoveTenantModal';
+import AssignTenantModal from './AssignTenantModal';
 
 const Flats = () => {
     const [pageNo, setPageNo] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 });
     const [openModal, setOpenModal] = useState(false);
+    const [openRemoveTenantModal, setOpenRemoveTenantModal] = useState(false);
+    const [selectedFlatId, setSelectedFlatId] = useState(null);
     const { t, i18n } = useTranslation();
     const isRtl = i18n.dir() === 'rtl';
     const cacheRtl = createCache({ key: 'muirtl', stylisPlugins: [prefixer, rtlPlugin] });
     const cacheLtr = createCache({ key: 'muilt' });
     const navigate = useNavigate();
-
+    const [openAssignTenantModal, setOpenAssignTenantModal] = useState(false);
     const [buildings, setBuildings] = useState([]);
     const [selectedBuilding, setSelectedBuilding] = useState('');
     const { data, fetchData, count } = useFetch(`/flatsbybuildingid/${selectedBuilding}`, pageNo, pageSize);
-    useEffect(() => { fetchData() }, [selectedBuilding])
+    useEffect(() => { fetchData() }, [selectedBuilding, paginationModel])
     const columns = [
         {
             field: 'flatNumber',
@@ -63,14 +66,43 @@ const Flats = () => {
             headerName: t('actions'),
             flex: 1,
             renderCell: (params) => (
-                <Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={<VisibilityIcon />}
-                    onClick={() => navigate(`/rental/flat/${params.row._id}`)}
-                >
-                    {t('view')}
-                </Button>
+                <Box>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        startIcon={<VisibilityIcon />}
+                        onClick={() => navigate(`/rental/flat/${params.row._id}`)}
+                    >
+                        {t('view')}
+                    </Button>
+                    {params.row.vacant && (
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={() => {
+                                setSelectedFlatId(params.row._id);
+                                setOpenAssignTenantModal(true);
+                            }}
+                            sx={{ marginLeft: '1rem' }}
+                        >
+                            {t('assignTenant')}
+                        </Button>
+                    )}
+                    {!params.row.vacant && (
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            startIcon={<DeleteIcon />}
+                            onClick={() => {
+                                setSelectedFlatId(params.row._id);
+                                setOpenRemoveTenantModal(true);
+                            }}
+                            sx={{ marginLeft: '1rem' }}
+                        >
+                            {t('removeTenant')}
+                        </Button>
+                    )}
+                </Box>
             ),
         },
     ];
@@ -90,6 +122,16 @@ const Flats = () => {
 
     const handleBuildingChange = (event) => {
         setSelectedBuilding(event.target.value);
+    };
+
+    const handleRemoveTenant = async () => {
+        try {
+            await axiosInstance.get(`/removetenant/${selectedFlatId}`);
+            setOpenRemoveTenantModal(false);
+            fetchData();
+        } catch (error) {
+            console.error('Error removing tenant:', error);
+        }
     };
 
     return (
@@ -187,7 +229,19 @@ const Flats = () => {
                 setOpen={setOpenModal}
                 fetchData={fetchData}
                 editMode={false}
-            />        </CacheProvider>
+            />
+            <RemoveTenantModal
+                open={openRemoveTenantModal}
+                handleClose={() => setOpenRemoveTenantModal(false)}
+                handleRemoveTenant={handleRemoveTenant}
+            />
+            <AssignTenantModal
+                open={openAssignTenantModal}
+                handleClose={() => setOpenAssignTenantModal(false)}
+                flatId={selectedFlatId}
+                fetchData={fetchData}
+            />
+        </CacheProvider>
     );
 };
 

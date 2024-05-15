@@ -10,6 +10,14 @@ import BusinessIcon from '@mui/icons-material/Business';
 import { Outlet } from 'react-router-dom';
 import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined';
 import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
+import ApartmentOutlinedIcon from '@mui/icons-material/ApartmentOutlined';
+import MapsHomeWorkOutlinedIcon from '@mui/icons-material/MapsHomeWorkOutlined';
+import MeetingRoomOutlinedIcon from '@mui/icons-material/MeetingRoomOutlined';
+import BookOutlinedIcon from '@mui/icons-material/BookOutlined';
+import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined';
+import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
+import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import "./Layout.css"
 import Topbar from '../../components/Topbar';
 import { useTranslation } from 'react-i18next';
@@ -81,14 +89,15 @@ const Layout = () => {
     ];
     const rentalMenuItems = [
         { name: t('home'), icon: <HomeOutlinedIcon />, path: "/shareholder/" },
-        { name: t('buildings'), icon: <BusinessIcon />, path: "/rental/buildings" },
-        { name: t('flats'), icon: <HomeOutlinedIcon />, path: "/rental/flats" },
-        { name: t('halls'), icon: <HomeOutlinedIcon />, path: "/rental/halls" },
-        { name: t('bookings'), icon: <BusinessIcon />, path: "/rental/booking" },
-        { name: t('hall_transactions'), icon: <BusinessIcon />, path: "/rental/halltransactions" },
-        { name: t('vouchers'), icon: <BusinessIcon />, path: "/rental/vouchers" },
-        { name: t('building_transaction'), icon: <BusinessIcon />, path: "/rental/buildingtransactions" }
-    ]
+        { name: t('buildings'), icon: <ApartmentOutlinedIcon />, path: "/rental/buildings" },
+        { name: t('flats'), icon: <MapsHomeWorkOutlinedIcon />, path: "/rental/flats" },
+        { name: t('halls'), icon: <MeetingRoomOutlinedIcon />, path: "/rental/halls" },
+        { name: t('bookings'), icon: <BookOutlinedIcon />, path: "/rental/booking" },
+        { name: t('hall_transactions'), icon: <ReceiptOutlinedIcon />, path: "/rental/halltransactions" },
+        { name: t('vouchers'), icon: <ConfirmationNumberOutlinedIcon />, path: "/rental/vouchers" },
+        { name: t('building_transaction'), icon: <AccountBalanceWalletOutlinedIcon />, path: "/rental/buildingtransactions" },
+        { name: t('contracts'), icon: <DescriptionOutlinedIcon />, path: "/rental/contracts" }
+    ];
     let menuItems = [];
     if (userDetails?.type.includes('Shareholder')) {
         menuItems = [...menuItems, ...shareholderMenuItems];

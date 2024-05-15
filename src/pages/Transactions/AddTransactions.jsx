@@ -19,7 +19,7 @@ const style = {
     p: 4,
 };
 
-const AddTransactions = ({ fetchData, setOpen, open }) => {
+const AddTransactions = ({ fetchData, setOpen, open, building }) => {
     const { register, handleSubmit, control, reset } = useForm();
     const { i18n, t } = useTranslation();
     const isRtl = i18n.dir() === 'rtl';
@@ -50,7 +50,7 @@ const AddTransactions = ({ fetchData, setOpen, open }) => {
                 amount: data.amount,
                 date: data.date,
                 type: data.type,
-                transactionFrom: "Hall",
+                transactionFrom: building ? "Flat" : "Hall",
                 description: data.description,
             };
 

@@ -170,7 +170,7 @@ const BuildingTransactions = () => {
                 />
 
             </Box>
-            <AddTransactions fetchData={fetchData} setOpen={setOpen} open={open} />
+            <AddTransactions fetchData={fetchData} setOpen={setOpen} open={open} building={true} />
 
         </CacheProvider >)
 
