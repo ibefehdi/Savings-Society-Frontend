@@ -38,6 +38,8 @@ import Transactions from './pages/Transactions';
 import Vouchers from './pages/Vouchers';
 import BuildingTransactions from './pages/Transactions/BuildingTransactions';
 import Contracts from './pages/Contracts';
+import ProfitReport from './pages/TotalTransactions';
+import TotalTransactionsPerFlat from './pages/TotalTransactions/TotalTransactionsPerFlat';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -71,7 +73,9 @@ function App() {
         { path: 'halltransactions', element: <Transactions /> },
         { path: 'vouchers', element: <Vouchers /> },
         { path: 'buildingtransactions', element: <BuildingTransactions /> },
-        { path: 'contracts', element: <Contracts /> }
+        { path: 'contracts', element: <Contracts /> },
+        { path: 'ProfitReport', element: <ProfitReport /> },
+        { path: 'Profitreportperflat', element: <TotalTransactionsPerFlat /> }
 
       ] : []
     },

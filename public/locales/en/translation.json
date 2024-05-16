@@ -158,5 +158,7 @@
   "collection_day": "Collection Day",
   "flat_details": "Flat Details",
   "tenant_details": "Tenant Details",
-  "contract_details": "Contract Details"
+  "contract_details": "Contract Details",
+  "profit_report_per_building": "Profit Report Per Building",
+  "profit_report_per_flat": "Profit Report Per Flat"
 }
