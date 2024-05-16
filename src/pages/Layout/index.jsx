@@ -96,7 +96,9 @@ const Layout = () => {
         { name: t('hall_transactions'), icon: <ReceiptOutlinedIcon />, path: "/rental/halltransactions" },
         { name: t('vouchers'), icon: <ConfirmationNumberOutlinedIcon />, path: "/rental/vouchers" },
         { name: t('building_transaction'), icon: <AccountBalanceWalletOutlinedIcon />, path: "/rental/buildingtransactions" },
-        { name: t('contracts'), icon: <DescriptionOutlinedIcon />, path: "/rental/contracts" }
+        { name: t('contracts'), icon: <DescriptionOutlinedIcon />, path: "/rental/contracts" },
+        { name: t('profit_report_per_building'), icon: <LocalAtmIcon />, path: "/rental/ProfitReport" },
+        { name: t('profit_report_per_flat'), icon: <LocalAtmIcon />, path: "/rental/Profitreportperflat" }
     ];
     let menuItems = [];
     if (userDetails?.type.includes('Shareholder')) {
