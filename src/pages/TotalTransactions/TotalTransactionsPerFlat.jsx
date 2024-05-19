@@ -7,7 +7,6 @@ import rtlPlugin from 'stylis-plugin-rtl';
 import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
-import axios from 'axios';
 import axiosInstance from '../../constants/axiosInstance';
 
 const TotalTransactionsPerFlat = () => {
@@ -82,7 +81,6 @@ const TotalTransactionsPerFlat = () => {
         };
     });
 
-    // Calculate total income, total expenses, and total profit
     const totalIncome = incomes.reduce((sum, income) => sum + income.totalIncome, 0);
     const totalExpenses = expenses.reduce((sum, expense) => sum + expense.totalExpenses, 0);
     const totalProfit = totalIncome - totalExpenses;
