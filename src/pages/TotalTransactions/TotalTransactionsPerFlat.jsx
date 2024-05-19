@@ -121,7 +121,7 @@ const TotalTransactionsPerFlat = () => {
                         marginBottom: '1rem',
                     }}
                 >
-                    {t('total_transactions_per_flat')}
+                    {t('profit_report_per_flat')}
                 </Typography>
                 <DataGrid
                     rows={rows}

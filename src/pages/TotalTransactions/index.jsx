@@ -121,7 +121,7 @@ const ProfitReport = () => {
                         marginBottom: '1rem',
                     }}
                 >
-                    {t('profit_report')}
+                    {t('profit_report_per_building')}
                 </Typography>
                 <DataGrid
                     rows={rows}

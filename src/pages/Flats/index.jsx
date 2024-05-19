@@ -70,7 +70,6 @@ const Flats = () => {
                     <Button
                         variant="contained"
                         color="primary"
-                        startIcon={<VisibilityIcon />}
                         onClick={() => navigate(`/rental/flat/${params.row._id}`)}
                     >
                         {t('view')}
@@ -83,7 +82,7 @@ const Flats = () => {
                                 setSelectedFlatId(params.row._id);
                                 setOpenAssignTenantModal(true);
                             }}
-                            sx={{ marginLeft: '1rem' }}
+                            sx={{ marginLeft: '1rem', marginRight: '1rem' }}
                         >
                             {t('assignTenant')}
                         </Button>
@@ -92,12 +91,11 @@ const Flats = () => {
                         <Button
                             variant="contained"
                             color="secondary"
-                            startIcon={<DeleteIcon />}
                             onClick={() => {
                                 setSelectedFlatId(params.row._id);
                                 setOpenRemoveTenantModal(true);
                             }}
-                            sx={{ marginLeft: '1rem' }}
+                            sx={{ marginLeft: '1rem', marginRight: '1rem' }}
                         >
                             {t('removeTenant')}
                         </Button>
