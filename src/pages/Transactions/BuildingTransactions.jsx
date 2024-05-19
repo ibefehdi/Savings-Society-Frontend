@@ -46,20 +46,20 @@ const BuildingTransactions = () => {
 
         {
             field: 'buildingId.name',
-            headerName: 'Building Name',
+            headerName: t('building_name'),
             flex: 1,
             valueGetter: (params) => params.row.buildingId?.name || '',
         },
 
         {
             field: 'amount',
-            headerName: 'Amount',
+            headerName: t('amount'),
             flex: 1,
             valueGetter: (params) => params.row.amount || '',
         },
         {
             field: 'date',
-            headerName: 'Date',
+            headerName: t('date'),
             flex: 1,
             renderCell: (params) => {
                 if (params.value) {
@@ -75,19 +75,19 @@ const BuildingTransactions = () => {
         },
         {
             field: 'type',
-            headerName: 'Type',
+            headerName: t('type'),
             flex: 1,
             valueGetter: (params) => params.row.type || '',
         },
         {
             field: 'transactionFrom',
-            headerName: 'Transaction From',
+            headerName: t('transaction_from'),
             flex: 1,
             valueGetter: (params) => params.row.transactionFrom || '',
         },
         {
             field: 'description',
-            headerName: 'Description',
+            headerName: t('description'),
             flex: 1,
             valueGetter: (params) => params.row.description || '',
         },
