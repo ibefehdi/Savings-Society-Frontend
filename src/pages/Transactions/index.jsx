@@ -46,19 +46,19 @@ const Transactions = () => {
 
         {
             field: 'buildingId.name',
-            headerName: 'Building Name',
+            headerName: t('building_name'),
             flex: 1,
             valueGetter: (params) => params.row.buildingId?.name || '',
         },
         {
             field: 'buildingId.type',
-            headerName: 'Building Type',
+            headerName: t('building_type'),
             flex: 1,
             valueGetter: (params) => params.row.buildingId?.type || '',
         },
         {
             field: 'bookingId.date',
-            headerName: 'Booking Date',
+            headerName: t('booking_date'),
             flex: 1,
             renderCell: (params) => {
 
@@ -72,31 +72,31 @@ const Transactions = () => {
         },
         {
             field: 'bookingId.startTime',
-            headerName: 'Start Time',
+            headerName: t('start_date'),
             flex: 1,
             valueGetter: (params) => params.row.bookingId?.startTime || '',
         },
         {
             field: 'bookingId.endTime',
-            headerName: 'End Time',
+            headerName: t('end_date'),
             flex: 1,
             valueGetter: (params) => params.row.bookingId?.endTime || '',
         },
         {
             field: 'bookingId.rate',
-            headerName: 'Booking Rate',
+            headerName: t('booking_rate'),
             flex: 1,
             valueGetter: (params) => params.row.bookingId?.rate || '',
         },
         {
             field: 'amount',
-            headerName: 'Amount',
+            headerName: t('amount'),
             flex: 1,
             valueGetter: (params) => params.row.amount || '',
         },
         {
             field: 'date',
-            headerName: 'Date',
+            headerName: t('date'),
             flex: 1,
             renderCell: (params) => {
                 if (params.value) {
@@ -112,19 +112,19 @@ const Transactions = () => {
         },
         {
             field: 'type',
-            headerName: 'Type',
+            headerName: t('type'),
             flex: 1,
             valueGetter: (params) => params.row.type || '',
         },
         {
             field: 'transactionFrom',
-            headerName: 'Transaction From',
+            headerName: t('transaction_from'),
             flex: 1,
             valueGetter: (params) => params.row.transactionFrom || '',
         },
         {
             field: 'description',
-            headerName: 'Description',
+            headerName: t('description'),
             flex: 1,
             valueGetter: (params) => params.row.description || '',
         },
