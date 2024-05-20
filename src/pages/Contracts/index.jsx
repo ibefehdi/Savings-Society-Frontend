@@ -77,19 +77,19 @@ const Contracts = () => {
             headerName: t('collection_day'),
             flex: 1,
         },
-        {
-            field: 'edit',
-            headerName: t('edit'),
-            flex: 1,
-            width: 55,
-            renderCell: (params) => {
-                return (
-                    <IconButton onClick={() => console.log(params.id)}>
-                        <ModeEditIcon />
-                    </IconButton>
-                );
-            },
-        },
+        // {
+        //     field: 'edit',
+        //     headerName: t('edit'),
+        //     flex: 1,
+        //     width: 55,
+        //     renderCell: (params) => {
+        //         return (
+        //             <IconButton onClick={() => console.log(params.id)}>
+        //                 <ModeEditIcon />
+        //             </IconButton>
+        //         );
+        //     },
+        // },
     ];
 
     useEffect(() => {
