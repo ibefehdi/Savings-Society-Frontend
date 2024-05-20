@@ -38,7 +38,7 @@ const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
           <ModeEditIcon />
         </IconButton>
       ) : (
-        <IconButton onClick={() => navigate(`/Shareholders/${id}`)}>
+        <IconButton onClick={() => navigate(`/shareholderno/${id}`)}>
           <VisibilityIcon />
         </IconButton>
       )}

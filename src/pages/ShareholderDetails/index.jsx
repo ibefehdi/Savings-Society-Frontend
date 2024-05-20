@@ -36,7 +36,9 @@ function a11yProps(index) {
 const ShareholderDetails = () => {
     const { id } = useParams();
     const [shareholderDetails, setShareholderDetails] = useState()
-
+    useEffect(() => {
+        console.log("This is the id: ", id)
+    }, [id])
 
     const [value, setValue] = useState(0);
     const [userData, setUserdata] = useState(JSON.parse(sessionStorage.getItem('userDetails')))
@@ -53,7 +55,7 @@ const ShareholderDetails = () => {
                 const response = await axiosInstance.get(`shareholder/${id}`);
                 setShareholderDetails(response.data.shareholder);
                 if (response.data.shareholder.share.length > 0) {
-                    setSelectedYear(response.data.shareholder.share[0].year); 
+                    setSelectedYear(response.data.shareholder.share[0].year);
                 }
             } catch (error) {
                 console.error("Failed to fetch shareholder details:", error);

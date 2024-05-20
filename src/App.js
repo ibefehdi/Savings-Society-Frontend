@@ -109,8 +109,11 @@ function App() {
       ] : [],
     },
     {
-      path: "printsavingswithdrawal/:id",
-      element: <ShareholderDetails />
+      path: "/shareholderno/:id",
+      element: authenticated ? <Layout /> : <Login />,
+      children: authenticated ? [
+        { index: true, element: <ShareholderDetails /> }
+      ] : []
     },
     {
       path: "*",
