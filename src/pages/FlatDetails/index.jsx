@@ -137,6 +137,7 @@ const FlatDetails = () => {
                                 <TableBody>
                                     <DetailRow label={<Typography variant="h5" sx={{ fontWeight: '600' }}>{t('flat_details')}</Typography>} />
                                     <DetailRow label={t('flat_number')} value={flatDetails.flatNumber} />
+                                    <DetailRow label={t('floorNumber')} value={flatDetails?.floorNumber} />
                                     <DetailRow label={t('vacant')} value={flatDetails.vacant ? 'Yes' : 'No'} />
                                 </TableBody>
                             </Table>

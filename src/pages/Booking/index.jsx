@@ -64,6 +64,8 @@ const Booking = () => {
         },
 
     ];
+    const orderedColumns = isRtl ? [...columns].reverse() : columns;
+
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
 
@@ -82,10 +84,11 @@ const Booking = () => {
                 </Box>
                 <DataGrid
                     rows={data}
-                    columns={columns.map((column) => ({
+                    columns={orderedColumns.map((column) => ({
                         ...column,
                         disableColumnMenu: true,
-                    }))} paginationModel={paginationModel}
+                    }))}
+                    paginationModel={paginationModel}
                     onPaginationModelChange={(newModel) => {
                         setPageNo(newModel.page + 1);
                         setPaginationModel(newModel);
@@ -113,7 +116,7 @@ const Booking = () => {
                         },
                         '& .MuiDataGrid-columnHeaders': {
                             border: 'none',
-                            fontStyle: 'normal', 
+                            fontStyle: 'normal',
                             fontWeight: 600,
                             lineHeight: '1.25rem',
                             color: '#667085',

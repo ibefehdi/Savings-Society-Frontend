@@ -96,6 +96,7 @@ const ProfitReport = () => {
         totalExpenses,
         profit: totalProfit,
     });
+    const orderedColumns = isRtl ? [...columns].reverse() : columns;
 
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
@@ -125,7 +126,7 @@ const ProfitReport = () => {
                 </Typography>
                 <DataGrid
                     rows={rows}
-                    columns={columns.map((column) => ({
+                    columns={orderedColumns.map((column) => ({
                         ...column,
                         disableColumnMenu: true,
                     }))}

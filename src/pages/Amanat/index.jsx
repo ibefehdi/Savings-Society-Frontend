@@ -167,6 +167,7 @@ const Amanat = () => {
   ];
 
   const [editOpen, setEditOpen] = useState(false);
+  const orderedColumns = isRtl ? [...columns].reverse() : columns;
 
 
   useEffect(() => {
@@ -277,9 +278,9 @@ const Amanat = () => {
         </Box>
         <DataGrid
           rows={data}
-          columns={columns.map((column) => ({
+          columns={orderedColumns.map((column) => ({
             ...column,
-            disableColumnMenu: true, // Disables the column menu completely
+            disableColumnMenu: true,
           }))}
           paginationModel={paginationModel}
           onPaginationModelChange={(newModel) => {
