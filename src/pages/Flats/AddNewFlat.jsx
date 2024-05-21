@@ -96,6 +96,14 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open }) => {
                 <TextField
                     margin="normal"
                     fullWidth
+                    label={t('floorNumber')}
+                    {...register('floorNumber')}
+                    error={!!errors.floorNumber}
+                    helperText={errors.floorNumber ? 'Floor Number is required' : ''}
+                />
+                <TextField
+                    margin="normal"
+                    fullWidth
                     label={t('tenant_name')}
                     {...register('tenantName')}
                 />
@@ -114,7 +122,7 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open }) => {
                 <Controller
                     name="tenantType"
                     control={control}
-                   
+
                     render={({ field: { onChange, value }, fieldState: { error } }) => (
                         <TextField
                             select
@@ -124,7 +132,7 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open }) => {
                             onChange={onChange}
                             value={value}
                             error={!!error}
-                            
+
                         >
                             <MenuItem value="Public">{t('public')}</MenuItem>
                             <MenuItem value="Private">{t('private')}</MenuItem>

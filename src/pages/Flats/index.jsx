@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
+
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
@@ -14,12 +15,14 @@ import { prefixer } from 'stylis';
 import createCache from '@emotion/cache';
 import { useTranslation } from 'react-i18next';
 import axiosInstance from '../../constants/axiosInstance';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+
 import AddNewFlat from './AddNewFlat';
 import RemoveTenantModal from './RemoveTenantModal';
 import AssignTenantModal from './AssignTenantModal';
 
 const Flats = () => {
+    const { id } = useParams();
     const [pageNo, setPageNo] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 });
@@ -42,6 +45,12 @@ const Flats = () => {
             headerName: t('flatNumber'),
             flex: 1,
             valueGetter: (params) => `${params.row.flatNumber}`
+        },
+        {
+            field: 'floorNumber',
+            headerName: t('floorNumber'),
+            flex: 1,
+            valueGetter: (params) => `${params?.row?.floorNumber ? params?.row?.floorNumber : "N/A"}`
         },
         {
             field: 'vacant',
@@ -110,13 +119,16 @@ const Flats = () => {
             try {
                 const response = await axiosInstance.get('/buildingdropdown');
                 setBuildings(response?.data?.data);
+                if (id) {
+                    setSelectedBuilding(id);
+                }
             } catch (error) {
                 console.error('Error fetching buildings:', error);
             }
         };
 
         fetchBuildings();
-    }, []);
+    }, [id]);
 
     const handleBuildingChange = (event) => {
         setSelectedBuilding(event.target.value);
@@ -131,6 +143,7 @@ const Flats = () => {
             console.error('Error removing tenant:', error);
         }
     };
+    const orderedColumns = isRtl ? [...columns].reverse() : columns;
 
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
@@ -180,7 +193,7 @@ const Flats = () => {
                 {selectedBuilding && (
                     <DataGrid
                         rows={data}
-                        columns={columns.map((column) => ({
+                        columns={orderedColumns.map((column) => ({
                             ...column,
                             disableColumnMenu: true,
                         }))}

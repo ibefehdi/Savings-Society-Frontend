@@ -91,8 +91,14 @@ const Layout = () => {
         { name: t('home'), icon: <HomeOutlinedIcon />, path: "/shareholder/" },
         { name: t('buildings'), icon: <ApartmentOutlinedIcon />, path: "/rental/buildings" },
         { name: t('flats'), icon: <MapsHomeWorkOutlinedIcon />, path: "/rental/flats" },
-        { name: t('halls'), icon: <MeetingRoomOutlinedIcon />, path: "/rental/halls" },
-        { name: t('bookings'), icon: <BookOutlinedIcon />, path: "/rental/booking" },
+        {
+            name: t('halls'),
+            icon: <MeetingRoomOutlinedIcon />,
+            path: "/rental/halls",
+            subMenus: [
+                { name: t('bookings'), path: "/rental/booking" }
+            ]
+        },
         { name: t('hall_transactions'), icon: <ReceiptOutlinedIcon />, path: "/rental/halltransactions" },
         { name: t('vouchers'), icon: <ConfirmationNumberOutlinedIcon />, path: "/rental/vouchers" },
         { name: t('building_transaction'), icon: <AccountBalanceWalletOutlinedIcon />, path: "/rental/buildingtransactions" },
