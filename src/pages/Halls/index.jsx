@@ -107,6 +107,10 @@ const Halls = () => {
                             color: '#667085',
                             fontSize: '0.875rem'
                         },
+                        '& .MuiDataGrid-cell': {
+                            fontSize: '1rem', // Increase the font size of the data cells
+                            fontWeight: 'bold', // Make the data text bolder
+                        },
                     }}
                 />
             </Box>
