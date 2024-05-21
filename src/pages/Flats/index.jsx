@@ -231,6 +231,10 @@ const Flats = () => {
                                 color: '#667085',
                                 fontSize: '0.875rem'
                             },
+                            '& .MuiDataGrid-cell': {
+                                fontSize: '1rem', 
+                                fontWeight: 'bold', 
+                            },
                         }}
                     />
                 )}

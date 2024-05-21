@@ -55,7 +55,6 @@ const Booking = () => {
                 <Button
                     variant="contained"
                     color="primary"
-                    startIcon={<VisibilityIcon />}
                     onClick={() => navigate(`/rental/bookhall/${params.row._id}`)}
                 >
                     {t('book')}
@@ -121,6 +120,10 @@ const Booking = () => {
                             lineHeight: '1.25rem',
                             color: '#667085',
                             fontSize: '0.875rem'
+                        },
+                        '& .MuiDataGrid-cell': {
+                            fontSize: '1rem', // Increase the font size of the data cells
+                            fontWeight: 'bold', // Make the data text bolder
                         },
                     }}
                 />
