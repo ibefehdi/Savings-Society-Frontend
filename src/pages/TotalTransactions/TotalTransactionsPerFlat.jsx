@@ -143,6 +143,8 @@ const TotalTransactionsPerFlat = () => {
                         padding: '1rem',
                         border: 'none',
                         direction: isRtl ? 'rtl' : 'ltr',
+                        textAlign: isRtl ? "right" : 'left',
+
                         width: '100%',
                         '& .MuiDataGrid-columnHeadersInner': {
                             border: 'none',
@@ -167,8 +169,8 @@ const TotalTransactionsPerFlat = () => {
                         '& .MuiDataGrid-cell': {
                             fontSize: '1rem', // Increase the font size of the data cells
                             fontWeight: 'bold', // Make the data text bolder
-                          },
-                          
+                        },
+
                     }}
                     disableRowSelectionOnClick
                 />
