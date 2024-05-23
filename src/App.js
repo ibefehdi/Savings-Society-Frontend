@@ -40,6 +40,12 @@ import BuildingTransactions from './pages/Transactions/BuildingTransactions';
 import Contracts from './pages/Contracts';
 import ProfitReport from './pages/TotalTransactions';
 import TotalTransactionsPerFlat from './pages/TotalTransactions/TotalTransactionsPerFlat';
+import RentPaymentNoticePage from './pages/RentPaymentNoticePage';
+import CheckWithdrawalPage from './pages/CheckWithdrawalPage';
+import BoardMemberRewardFormPage from './pages/BoardMemberRewardFormPage';
+import ReturnFromLeavePage from './pages/ReturnFromLeavePage';
+import CashWithdrawalPage from './pages/CashWithdrawalPage';
+import MembershipApplicationFormPage from './pages/MembershipApplicationFormPage';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -102,6 +108,13 @@ function App() {
         { path: 'Forms/WithdrawalForm', element: <WithdrawalFormPage /> },
         { path: 'Forms/DepositForm', element: <DepositFormPage /> },
         { path: 'Forms/DeathForm', element: <DeathFormPage /> },
+        { path: 'Forms/RentPaymentNotice', element: <RentPaymentNoticePage /> },
+        { path: 'Forms/Checkwithdrawal', element: <CheckWithdrawalPage /> },
+        { path: 'Forms/BoardMemberReward', element: <BoardMemberRewardFormPage /> },
+        { path: "Forms/ReturnFromLeavePage", element: <ReturnFromLeavePage /> },
+        { path: "Forms/CashWithdrawalPage", element: <CashWithdrawalPage /> },
+        { path: "Forms/MembershipApplicationFormPage", element: <MembershipApplicationFormPage /> },
+
         { path: 'Amanat', element: <Amanat /> },
         { path: 'deposithistory', element: <DepositHistory /> },
         { path: 'withdrawalhistory', element: <WithdrawalHistory /> },

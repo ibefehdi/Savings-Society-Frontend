@@ -81,7 +81,13 @@ const Layout = () => {
                 { name: t('receipt_voucher'), path: "/shareholder/Forms/ReceiptVoucher" },
                 { name: t('withdrawal_form'), path: "/shareholder/Forms/WithdrawalForm" },
                 { name: t('deposit_form'), path: "/shareholder/Forms/DepositForm" },
-                { name: t('death_form'), path: "/shareholder/Forms/DeathForm" }
+                { name: t('death_form'), path: "/shareholder/Forms/DeathForm" },
+                { name: t('rent_notice'), path: "/shareholder/Forms/RentPaymentNotice" },
+                { name: t('check_withdrawal'), path: "/shareholder/Forms/Checkwithdrawal" },
+                { name: t('board_member_reward'), path: "/shareholder/Forms/BoardMemberReward" },
+                { name: t('return_from_leave'), path: "/shareholder/Forms/ReturnFromLeavePage" },
+                { name: t('cash_withdrawal_page'), path: "/shareholder/Forms/CashWithdrawalPage" },
+                { name: t('membership_application'), path: "/shareholder/Forms/MembershipApplicationFormPage" }
 
             ]
         },

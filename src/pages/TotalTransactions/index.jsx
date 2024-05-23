@@ -145,6 +145,7 @@ const ProfitReport = () => {
                         padding: '1rem',
                         border: 'none',
                         direction: isRtl ? 'rtl' : 'ltr',
+                        textAlign: isRtl ? "right" : 'left',
                         width: '100%',
                         '& .MuiDataGrid-columnHeadersInner': {
                             border: 'none',
