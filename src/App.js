@@ -46,6 +46,10 @@ import BoardMemberRewardFormPage from './pages/BoardMemberRewardFormPage';
 import ReturnFromLeavePage from './pages/ReturnFromLeavePage';
 import CashWithdrawalPage from './pages/CashWithdrawalPage';
 import MembershipApplicationFormPage from './pages/MembershipApplicationFormPage';
+import SharesAndSavingsPage from './pages/SharesAndSavingsPage';
+import SavingsWithdrawalFormPage from './pages/SavingsWithdrawalFormPage';
+import PeriodicLeavePage from './pages/PeriodicLeavePage';
+import SpecialLeavePage from './pages/SpecialLeavePage';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -114,7 +118,10 @@ function App() {
         { path: "Forms/ReturnFromLeavePage", element: <ReturnFromLeavePage /> },
         { path: "Forms/CashWithdrawalPage", element: <CashWithdrawalPage /> },
         { path: "Forms/MembershipApplicationFormPage", element: <MembershipApplicationFormPage /> },
-
+        { path: "Forms/SharesAndSavingsPage", element: <SharesAndSavingsPage /> },
+        { path: "Forms/SavingsWithdrawalPage", element: <SavingsWithdrawalFormPage /> },
+        { path: "Forms/PeriodicLeavePage", element: <PeriodicLeavePage /> },
+        { path: "Forms/SpecialLeavePage", element: <SpecialLeavePage /> },
         { path: 'Amanat', element: <Amanat /> },
         { path: 'deposithistory', element: <DepositHistory /> },
         { path: 'withdrawalhistory', element: <WithdrawalHistory /> },

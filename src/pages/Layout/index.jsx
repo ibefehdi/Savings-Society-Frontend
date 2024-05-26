@@ -87,8 +87,11 @@ const Layout = () => {
                 { name: t('board_member_reward'), path: "/shareholder/Forms/BoardMemberReward" },
                 { name: t('return_from_leave'), path: "/shareholder/Forms/ReturnFromLeavePage" },
                 { name: t('cash_withdrawal_page'), path: "/shareholder/Forms/CashWithdrawalPage" },
-                { name: t('membership_application'), path: "/shareholder/Forms/MembershipApplicationFormPage" }
-
+                { name: t('membership_application'), path: "/shareholder/Forms/MembershipApplicationFormPage" },
+                { name: t("shares_savings_page"), path: "/shareholder/Forms/SharesAndSavingsPage" },
+                { name: t('savings_withdrawal_form'), path: "/shareholder/Forms/SavingsWithdrawalPage" },
+                { name: t('periodic_leave_page'), path: "/shareholder/Forms/PeriodicLeavePage" },
+                { name: t('special_leave_page'), path: "/shareholder/Forms/SpecialLeavePage" }
             ]
         },
 
