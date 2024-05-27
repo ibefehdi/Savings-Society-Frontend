@@ -72,7 +72,7 @@ function App() {
       path: "/rental",
       element: authenticated ? <Layout /> : <Login />,
       children: authenticated ? [
-        { index: true, element: <Home /> },
+        { index: true, element: <Users /> },
         { path: 'Users', element: <Users /> },
         { path: 'Buildings', element: <Buildings /> },
         { path: 'Flats/', element: <Flats /> },
@@ -94,7 +94,7 @@ function App() {
       path: '/shareholder',
       element: authenticated ? <Layout /> : <Login />,
       children: authenticated ? [
-        { index: true, element: <Users /> },
+        { index: true, element: <Home /> },
         { path: 'Users', element: <Users /> },
         { path: 'Shareholders', element: <Shareholders /> },
         { path: "Financialreporting", element: <FinancialReporting /> },
