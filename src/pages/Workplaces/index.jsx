@@ -61,6 +61,7 @@ const Workplaces = () => {
     const cacheLtr = createCache({
         key: 'muilt',
     });
+    const orderedColumns = isRtl ? [...columns].reverse() : columns;
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
@@ -77,10 +78,11 @@ const Workplaces = () => {
                 </Box>
                 <DataGrid
                     rows={data}
-                    columns={columns.map((column) => ({
+                    columns={orderedColumns.map((column) => ({
                         ...column,
-                        disableColumnMenu: true, // Disables the column menu completely
-                    }))} page={pageNo}
+                        disableColumnMenu: true,
+                    }))}
+                    page={pageNo}
 
                     getRowId={(row) => row._id}
                     initialState={{

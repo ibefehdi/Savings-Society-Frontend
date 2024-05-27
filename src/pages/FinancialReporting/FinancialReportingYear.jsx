@@ -150,7 +150,7 @@ const FinancialReportingYear = () => {
         content: () => componentRef.current,
     });
     const isRtl = i18n.dir() === 'rtl';
-
+    const orderedColumns = isRtl ? [...columns].reverse() : columns;
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
@@ -202,7 +202,7 @@ const FinancialReportingYear = () => {
                 </Box>
                 <DataGrid
                     rows={data}
-                    columns={columns.map((column) => ({
+                    columns={orderedColumns.map((column) => ({
                         ...column,
                         disableColumnMenu: true,
                     }))}

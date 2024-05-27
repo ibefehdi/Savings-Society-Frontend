@@ -207,6 +207,7 @@ const SavingsDepositPage = () => {
         content: () => componentRef.current,
     });
     const componentRef = useRef()
+    const orderedColumns = isRtl ? [...columns].reverse() : columns;
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
@@ -294,10 +295,11 @@ const SavingsDepositPage = () => {
                 </Box>
                 <DataGrid
                     rows={data}
-                    columns={columns.map((column) => ({
+                    columns={orderedColumns.map((column) => ({
                         ...column,
-                        disableColumnMenu: true, // Disables the column menu completely
-                    }))} paginationModel={paginationModel}
+                        disableColumnMenu: true,
+                    }))}
+                    paginationModel={paginationModel}
                     onPaginationModelChange={(newModel) => {
                         setPageNo(newModel.page + 1);
                         setPaginationModel(newModel);

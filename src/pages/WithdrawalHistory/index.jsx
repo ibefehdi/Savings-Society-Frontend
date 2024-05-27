@@ -88,6 +88,8 @@ const WithdrawalHistory = () => {
         pageSize: pageSize,
         page: pageNo,
     });
+    const orderedColumns = isRtl ? [...columns].reverse() : columns;
+
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
 
@@ -106,10 +108,11 @@ const WithdrawalHistory = () => {
                 </Box>
                 <DataGrid
                     rows={data}
-                    columns={columns.map((column) => ({
+                    columns={orderedColumns.map((column) => ({
                         ...column,
                         disableColumnMenu: true,
-                    }))} paginationModel={paginationModel}
+                    }))}
+                    paginationModel={paginationModel}
                     onPaginationModelChange={(newModel) => {
                         setPageNo(newModel.page + 1);
                         setPaginationModel(newModel);

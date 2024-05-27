@@ -167,7 +167,6 @@ const Amanat = () => {
   ];
 
   const [editOpen, setEditOpen] = useState(false);
-  const orderedColumns = isRtl ? [...columns].reverse() : columns;
 
 
   useEffect(() => {
@@ -196,6 +195,9 @@ const Amanat = () => {
   const cacheLtr = createCache({
     key: 'muilt',
   });
+
+  const orderedColumns = isRtl ? [...columns].reverse() : columns;
+
   return (
     <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
       <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>

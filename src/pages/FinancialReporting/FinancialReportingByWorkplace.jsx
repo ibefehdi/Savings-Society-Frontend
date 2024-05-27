@@ -151,6 +151,7 @@ const FinancialReportingByWorkplace = () => {
         content: () => componentRef.current,
     });
     const isRtl = i18n.dir() === 'rtl';
+    const orderedColumns = isRtl ? [...columns].reverse() : columns;
     useEffect(() => {
         async function fetchWorkplaces() {
             const response = await axiosInstance.get('/workplacesdropdown')
@@ -198,15 +199,15 @@ const FinancialReportingByWorkplace = () => {
                 </Box>
 
                 <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0, display: 'none' }}>
-                     <ReactToPrint
+                    <ReactToPrint
                         trigger={() => <button>Print this out!</button>}
                         content={() => componentRef.current}
-                    /> 
-                     <PrintDataGrid ref={componentRef} data={data} filters={filters} /> 
+                    />
+                    <PrintDataGrid ref={componentRef} data={data} filters={filters} />
                 </Box>
                 <DataGrid
                     rows={data}
-                    columns={columns.map((column) => ({
+                    columns={orderedColumns.map((column) => ({
                         ...column,
                         disableColumnMenu: true,
                     }))}

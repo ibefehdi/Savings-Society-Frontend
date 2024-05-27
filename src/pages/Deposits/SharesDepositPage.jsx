@@ -191,7 +191,6 @@ const SharesDepositPage = () => {
         setSelectedShareholderId(user);
         setEditOpen(true);
     };
-
     useEffect(() => {
         fetchData();
     }, [fetchData, pageNo, pageSize]);
@@ -209,6 +208,7 @@ const SharesDepositPage = () => {
     });
     const componentRef = useRef()
     const isRtl = i18n.dir() === 'rtl';
+    const orderedColumns = isRtl ? [...columns].reverse() : columns;
 
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
@@ -297,10 +297,11 @@ const SharesDepositPage = () => {
                 </Box>
                 <DataGrid
                     rows={data}
-                    columns={columns.map((column) => ({
+                    columns={orderedColumns.map((column) => ({
                         ...column,
-                        disableColumnMenu: true, // Disables the column menu completely
-                    }))} paginationModel={paginationModel}
+                        disableColumnMenu: true,
+                    }))}
+                    paginationModel={paginationModel}
                     onPaginationModelChange={(newModel) => {
                         setPageNo(newModel.page + 1);
                         setPaginationModel(newModel);

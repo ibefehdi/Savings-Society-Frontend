@@ -312,7 +312,7 @@ const Users = () => {
         </Dialog>
     );
     const isRtl = i18n.dir() === 'rtl';
-
+    const orderedColumns = isRtl ? [...columns].reverse() : columns;
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem' }}>
@@ -330,10 +330,11 @@ const Users = () => {
                 </Box>
                 <DataGrid
                     rows={data}
-                    columns={columns.map((column) => ({
+                    columns={orderedColumns.map((column) => ({
                         ...column,
-                        disableColumnMenu: true, // Disables the column menu completely
-                    }))} getRowId={(row) => row._id}
+                        disableColumnMenu: true,
+                    }))}
+                    getRowId={(row) => row._id}
                     onPaginationModelChange={(newModel) => {
                         setPageNo(newModel.page + 1);
                         setPaginationModel(newModel);

@@ -113,7 +113,7 @@ const SavingsWithdrawalPage = () => {
             flex: 1,
             renderCell: (params) => {
                 return params.row.mobileNumber && params.row.mobileNumber ? params.row.mobileNumber : "N/A"
-              }
+            }
         },
         {
             field: 'address',
@@ -198,7 +198,7 @@ const SavingsWithdrawalPage = () => {
         pageSize: pageSize,
         page: pageNo,
     });
-    
+
     const handleClose = () => {
         setEditOpen(false)
         setSelectedShareholderId(null)
@@ -232,6 +232,7 @@ const SavingsWithdrawalPage = () => {
         content: () => componentRef.current,
     });
     const isRtl = i18n.dir() === 'rtl';
+    const orderedColumns = isRtl ? [...columns].reverse() : columns;
 
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
@@ -317,16 +318,17 @@ const SavingsWithdrawalPage = () => {
                     </Box>
 
                     <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
-                    
+
                 </Box>
 
 
                 <DataGrid
                     rows={data}
-                    columns={columns.map((column) => ({
+                    columns={orderedColumns.map((column) => ({
                         ...column,
-                        disableColumnMenu: true, // Disables the column menu completely
-                    }))} paginationModel={paginationModel}
+                        disableColumnMenu: true,
+                    }))}
+                    paginationModel={paginationModel}
                     onPaginationModelChange={(newModel) => {
                         setPageNo(newModel.page + 1);
                         setPaginationModel(newModel);
