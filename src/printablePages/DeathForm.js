@@ -1,6 +1,7 @@
 import React from 'react'
 import logo from '../assets/logo1.png';
 const DeathForm = React.forwardRef((props, ref) => {
+    const { shareholder } = props;
 
     return (
         <div ref={ref} style={{ fontFamily: 'Arial, sans-serif', width: '100%', margin: 'auto', padding: '20px', border: "1px solid black" }}>
@@ -29,14 +30,34 @@ const DeathForm = React.forwardRef((props, ref) => {
                 <h3>تحية طيبة وبعد،</h3>
 
                 {/* Main Content */}
-                <p>أتقدم لسيادتكم أنا <span style={{ borderBottom: "1px solid black", paddingRight: '150px', }}>&nbsp;</span> بصفتي وكيلاً عن ورثة العضو المذكورة بياناته أدناه، بموجب المستندات المقدمة لكم وهي: حصر وراثة، وتوكيل عن الورثة. لذا يرجى الإيعاز لمن يلزم بصرف جميع أرصدته من الأسهم والمدخرات بالجمعية. وتفضلوا بقبول خالص التحية.</p>
-
+                <p>
+                    أتقدم لسيادتكم أنا{' '}
+                    <span style={{ borderBottom: "1px solid black", paddingRight: '150px' }}>&nbsp;</span>{' '}
+                    بصفتي وكيلاً عن ورثة العضو المذكورة بياناته أدناه، بموجب المستندات المقدمة لكم وهي: حصر وراثة، وتوكيل عن الورثة. لذا يرجى الإيعاز لمن يلزم بصرف جميع أرصدته من الأسهم والمدخرات بالجمعية. وتفضلوا بقبول خالص التحية.
+                </p>
                 {/* Details Table */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', margin: '20px 0' }}>
                     <div>
-                        <p>رقم العضوية: <span style={{ borderBottom: "1px solid black", paddingRight: '150px', }}>&nbsp;</span></p>
-                        <p>اسم العضو: <span style={{ borderBottom: "1px solid black", paddingRight: '150px', }}>&nbsp;</span></p>
-                        <p>اسم مقدم الطلب: <span style={{ borderBottom: "1px solid black", paddingRight: '150px', }}>&nbsp;</span></p>
+                        <p>
+                            رقم العضوية:{' '}
+                            {shareholder?.membersCode ? (
+                                <span>{shareholder.membersCode}</span>
+                            ) : (
+                                <span style={{ borderBottom: "1px solid black", paddingRight: '150px' }}>&nbsp;</span>
+                            )}
+                        </p>
+                        <p>
+                            اسم العضو:{' '}
+                            {shareholder?.fName ? (
+                                <span>{shareholder.fName}</span>
+                            ) : (
+                                <span style={{ borderBottom: "1px solid black", paddingRight: '150px' }}>&nbsp;</span>
+                            )}
+                        </p>
+                        <p>
+                            اسم مقدم الطلب:{' '}
+                            <span style={{ borderBottom: "1px solid black", paddingRight: '150px' }}>&nbsp;</span>
+                        </p>
                     </div>
                     <div>
                         <p>التاريخ: [__/__/____]</p>
@@ -70,17 +91,20 @@ const DeathForm = React.forwardRef((props, ref) => {
                         <tbody>
 
                             <tr>
-                                <td style={{ padding: '2px', border: '1px solid #000', }}>رصيد الأسهم  </td>
-                                <td style={{ padding: '2px', border: '1px solid #000', }}></td>
-                                <td style={{ padding: '2px', border: '1px solid #000', }}></td>
-                                <td style={{ padding: '2px', border: '1px solid #000', }}></td>
+                                <td style={{ padding: '2px', border: '1px solid #000' }}>رصيد الأسهم</td>
+                                <td style={{ padding: '2px', border: '1px solid #000' }}>
+                                    {shareholder?.share?.[0]?.currentAmount ?? ''}
+                                </td>
+                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
+                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
                             </tr>
                             <tr>
-                                <td style={{ padding: '2px', border: '1px solid #000', }}>رصيد مدخرات</td>
-
-                                <td style={{ padding: '2px', border: '1px solid #000', }}></td>
-                                <td style={{ padding: '2px', border: '1px solid #000', }}></td>
-                                <td style={{ padding: '2px', border: '1px solid #000', }}></td>
+                                <td style={{ padding: '2px', border: '1px solid #000' }}>رصيد مدخرات</td>
+                                <td style={{ padding: '2px', border: '1px solid #000' }}>
+                                    {shareholder?.savings?.currentAmount ?? ''}
+                                </td>
+                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
+                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
                             </tr>
                             <tr>
                                 <td style={{ padding: '2px', border: '1px solid #000', }}> أرباح عام</td>

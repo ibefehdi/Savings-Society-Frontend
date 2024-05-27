@@ -6,6 +6,18 @@ import { Box, IconButton, Button, Typography } from "@mui/material";
 import { useTranslation } from 'react-i18next';
 import logo from '../../assets/logo.png';
 
+const CustomDivider = () => {
+    return (
+        <div
+            style={{
+                width: '100%',
+                height: '1px',
+                backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                margin: '8px 0',
+            }}
+        />
+    );
+};
 const DashboardSidebar = ({ menuItems }) => {
     const { t, i18n } = useTranslation();
     const [collapsed, setCollapsed] = useState(false);
@@ -33,24 +45,45 @@ const DashboardSidebar = ({ menuItems }) => {
                     <img src={logo} alt="Logo" style={{ width: "3.875rem", height: "3.875rem", marginLeft: collapsed ? 5 : 10 }} />
                     {!collapsed && <Typography sx={{ color: 'white' }}>{t('company_name')}</Typography>}
                 </Box>
-                <Menu menuItemStyles={{
-                    button: {
-                        color: 'white',
-                        [`&:hover`]: { backgroundColor: '#f5811e', },
-                        [`&:active`]: { color: 'black' }
-                    }
-                }} >
-                    {menuItems?.map(menuItem => menuItem.subMenus ? (
-                        <SubMenu label={menuItem.name} icon={menuItem.icon} onClick={() => handleMenuItemClick(menuItem)}>
-                            {menuItem.subMenus.map(sub => (
-                                <MenuItem style={{ backgroundColor: "#15533B", }} component={<Link to={sub.path} />}>{sub.name}</MenuItem>
-                            ))}
-                        </SubMenu>
-                    ) : (
-                        <MenuItem component={<Link to={menuItem.path} />} icon={menuItem.icon}>
-                            {menuItem.name}
-                        </MenuItem>
-                    ))}
+                <Menu
+                    menuItemStyles={{
+                        button: {
+                            color: 'white',
+                            [`&:hover`]: { backgroundColor: '#f5811e' },
+                            [`&:active`]: { color: 'black' },
+                        },
+                    }}
+                >
+                    {menuItems?.map((menuItem, index) =>
+                        menuItem.divider ? (
+                            <CustomDivider key={`divider-${index}`} />
+                        ) : menuItem.subMenus ? (
+                            <SubMenu
+                                key={menuItem.name}
+                                label={menuItem.name}
+                                icon={menuItem.icon}
+                                onClick={() => handleMenuItemClick(menuItem)}
+                            >
+                                {menuItem.subMenus.map(sub => (
+                                    <MenuItem
+                                        key={sub.name}
+                                        style={{ backgroundColor: '#15533B' }}
+                                        component={<Link to={sub.path} />}
+                                    >
+                                        {sub.name}
+                                    </MenuItem>
+                                ))}
+                            </SubMenu>
+                        ) : (
+                            <MenuItem
+                                key={menuItem.name}
+                                component={<Link to={menuItem.path} />}
+                                icon={menuItem.icon}
+                            >
+                                {menuItem.name}
+                            </MenuItem>
+                        )
+                    )}
                 </Menu>
             </div>
         </Sidebar >

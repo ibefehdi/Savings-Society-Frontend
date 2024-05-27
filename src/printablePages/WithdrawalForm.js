@@ -2,6 +2,7 @@ import React from 'react';
 import logo from '../assets/logo1.png';
 
 const WithdrawalForm = React.forwardRef((props, ref) => {
+    const { shareholder } = props;
     const year = new Date().getFullYear().toString();
     return (
         <div ref={ref} style={formStyles}>
@@ -23,7 +24,9 @@ const WithdrawalForm = React.forwardRef((props, ref) => {
             <p style={paragraphStyles}>
                 السيد الفاضل/ رئيس مجلس الإدارة المحترم<br />
                 تحية طيبة وبعد،،،<br />
-                يرجى التفضل بالموافقة على صرف عدد (&nbsp;__________)&nbsp; سهم بمبلغ __________ دينار (فقط __________ لا غير) وذلك من رصيد الأسهم طبقاً للسجلات المحاسبية طرفكم حتى نهاية السنة المالية المنتهية في 31/12/________.<br /><br />
+                يرجى التفضل بالموافقة على صرف عدد (&nbsp;
+                {shareholder?.share?.[0]?.amount ? shareholder.share[0].amount : '__________'}
+                &nbsp;) سهم بمبلغ {shareholder?.share?.[0]?.currentAmount ? shareholder.share[0].currentAmount : '__________'} دينار (فقط __________ لا غير) وذلك من رصيد الأسهم طبقاً للسجلات المحاسبية طرفكم حتى نهاية السنة المالية المنتهية في 31/12/{year}.<br /><br />
                 مع تحويل صافي أرباحي السنوية لحساب المدخرات علماً بأنني اطلعت على حسابي طرفكم ووجدته صحيح.<br /><br />
                 وتفضلوا بقبول خالص التحية،،،
             </p>
@@ -37,7 +40,7 @@ const WithdrawalForm = React.forwardRef((props, ref) => {
                 <div>التاريخ: <br /><br /> ________</div>
                 <div>
                     اسم العضو:<br /><br />
-                    __________
+                    {shareholder?.fName ? shareholder.fName : '__________'}
                 </div>
                 <div>
                     توقيع موقع الطلب:<br /><br />
@@ -56,14 +59,14 @@ const WithdrawalForm = React.forwardRef((props, ref) => {
                 </thead>
                 <tbody>
                     <tr>
-                        <td>رقم العضوية __________ تاريخ الانتساب: __/__/____</td>
+                        <td>رقم العضوية {shareholder?.membersCode ? shareholder.membersCode : '__________'} تاريخ الانتساب: {shareholder?.joinDate ? new Date(shareholder.joinDate).toLocaleDateString() : '__/__/____'}</td>
                         <td>__________</td>
                         <td>__________</td>
                         <td>__________</td>
                     </tr>
                     <tr>
                         <td>رصيد الأسهم في 31/12/{year}</td>
-                        <td>__________</td>
+                        <td>{shareholder?.share?.[0]?.currentAmount ? shareholder.share[0].currentAmount : '__________'}</td>
                         <td>__________</td>
                         <td>__________</td>
                     </tr>

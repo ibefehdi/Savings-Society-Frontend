@@ -120,6 +120,9 @@ const Layout = () => {
         menuItems = [...menuItems, ...shareholderMenuItems];
     }
     if (userDetails?.type.includes('Rental')) {
+        if (menuItems.length > 0) {
+            menuItems.push({ divider: true }); // Add the custom divider
+        }
         menuItems = [...menuItems, ...rentalMenuItems];
     }
     return (

@@ -2,6 +2,9 @@ import React from 'react';
 import logo from '../assets/logo1.png';
 
 const SharesAndSavingsForm = React.forwardRef((props, ref) => {
+    const { shareholder } = props;
+    const date = new Date();
+    const dateString = date.toDateString();
     return (
         <div ref={ref} style={{ fontFamily: 'Arial, sans-serif', width: '100%', margin: 'auto', padding: '20px', border: "1px solid black", direction: 'rtl' }}>
             {/* Header Section */}
@@ -25,23 +28,72 @@ const SharesAndSavingsForm = React.forwardRef((props, ref) => {
                 <h3>تحية طيبة وبعد،،،</h3>
 
                 {/* Main Content */}
-                <p>أتقدم لسيادتكم حيث أنني عضو بالجمعية تحت رقم (<span style={{ borderBottom: "1px solid black", paddingRight: '150px', }}>&nbsp;</span>) وأرغب في زيادة عدد الأسهم وإيداع مبلغ في حسابي بالمدخرات طرفكم وهي كالتالي :</p>
+                <p>
+                    أتقدم لسيادتكم حيث أنني عضو بالجمعية تحت رقم (
+                    {shareholder?.membersCode ? (
+                        <span>{shareholder.membersCode}</span>
+                    ) : (
+                        <span style={{ borderBottom: "1px solid black", paddingRight: '150px' }}>&nbsp;</span>
+                    )}
+                    ) وأرغب في زيادة عدد الأسهم وإيداع مبلغ في حسابي بالمدخرات طرفكم وهي كالتالي :
+                </p>
+                <p>
+                    1 - الأسهم بعدد (
+                    {shareholder?.share?.[0]?.amount ? (
+                        <span>{shareholder.share[0].amount}</span>
+                    ) : (
+                        <span style={{ borderBottom: "1px solid black", paddingRight: '50px' }}>&nbsp;</span>
+                    )}
+                    ) سهم بمبلغ:{' '}
+                    {shareholder?.share?.[0]?.currentAmount ? (
+                        <span>{shareholder.share[0].currentAmount}</span>
+                    ) : (
+                        <span style={{ borderBottom: "1px solid black", paddingRight: '50px' }}>&nbsp;</span>
+                    )}
+                    /-
+                    <span style={{ borderBottom: "1px solid black", paddingRight: '50px' }}>&nbsp;</span> دينار (فقط
+                    <span style={{ borderBottom: "1px solid black", paddingRight: '150px' }}>&nbsp;</span> لاغير )
+                </p>
 
-                <p>1 - الأسهم بعدد (<span style={{ borderBottom: "1px solid black", paddingRight: '50px', }}>&nbsp;</span>) سهم بمبلغ: <span style={{ borderBottom: "1px solid black", paddingRight: '50px', }}>&nbsp;</span>/-<span style={{ borderBottom: "1px solid black", paddingRight: '50px', }}>&nbsp;</span> دينار (فقط<span style={{ borderBottom: "1px solid black", paddingRight: '150px', }}>&nbsp;</span> لاغير )</p>
+                <p>
+                    2 - المدخرات بمبلغ :{' '}
+                    {shareholder?.savings?.currentAmount ? (
+                        <span>{shareholder?.savings?.currentAmount}</span>
+                    ) : (
+                        <span style={{ borderBottom: "1px solid black", paddingRight: '50px' }}>&nbsp;</span>
+                    )}
+                    /-
+                    <span style={{ borderBottom: "1px solid black", paddingRight: '50px' }}>&nbsp;</span> دينار ( فقط{' '}
+                    <span style={{ borderBottom: "1px solid black", paddingRight: '150px' }}>&nbsp;</span> لاغير )
+                </p>
 
-                <p>2 - المدخرات بمبلغ : <span style={{ borderBottom: "1px solid black", paddingRight: '50px', }}>&nbsp;</span>/<span style={{ borderBottom: "1px solid black", paddingRight: '50px', }}>&nbsp;</span> دينار ( فقط <span style={{ borderBottom: "1px solid black", paddingRight: '150px', }}>&nbsp;</span> لاغير )</p>
-
-                <p>الإجمالي : <span style={{ borderBottom: "1px solid black", paddingRight: '50px', }}>&nbsp;</span>/<span style={{ borderBottom: "1px solid black", paddingRight: '50px', }}>&nbsp;</span> دينار ( فقط <span style={{ borderBottom: "1px solid black", paddingRight: '150px', }}>&nbsp;</span>لاغير )</p>
+                <p>
+                    الإجمالي :{' '}
+                    {shareholder?.share?.[0]?.currentAmount && shareholder?.savings?.currentAmount ? (
+                        <span>{shareholder.share[0].currentAmount + shareholder.savings.currentAmount}</span>
+                    ) : (
+                        <span style={{ borderBottom: "1px solid black", paddingRight: '50px' }}>&nbsp;</span>
+                    )}
+                    /-
+                    <span style={{ borderBottom: "1px solid black", paddingRight: '50px' }}>&nbsp;</span> دينار ( فقط{' '}
+                    <span style={{ borderBottom: "1px solid black", paddingRight: '150px' }}>&nbsp;</span>لاغير )
+                </p>
 
                 <p>لذا ـ يرجى الموافقة على قبول المبلغ الموضح أعلاه وتزويدي بإيصال بالاستلام.</p>
 
                 <p>وتفضلوا بقبول خالص التحية،،،</p>
-
                 {/* Details */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', margin: '20px 0' }}>
                     <div>
-                        <p>التاريخ: [__/__/____]</p>
-                        <p>اسم العضو: <span style={{ borderBottom: "1px solid black", paddingRight: '150px', }}>&nbsp;</span></p>
+                        <p>التاريخ: {dateString}</p>
+                        <p>
+                            اسم العضو:{' '}
+                            {shareholder?.fName ? (
+                                <span>{shareholder.fName}</span>
+                            ) : (
+                                <span style={{ borderBottom: "1px solid black", paddingRight: '150px' }}>&nbsp;</span>
+                            )}
+                        </p>
                         <p>توقيع مقدم الطلب: ______________</p>
                     </div>
                 </div>
@@ -63,13 +115,17 @@ const SharesAndSavingsForm = React.forwardRef((props, ref) => {
                         <tbody>
                             <tr>
                                 <td style={{ padding: '2px', border: '1px solid #000' }}>رصيد الأسهم في 31/12/2020</td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
+                                <td style={{ padding: '2px', border: '1px solid #000' }}>
+                                    {shareholder?.share?.[0]?.currentAmount ?? ''}
+                                </td>
                                 <td style={{ padding: '2px', border: '1px solid #000' }}></td>
                                 <td style={{ padding: '2px', border: '1px solid #000' }}></td>
                             </tr>
                             <tr>
                                 <td style={{ padding: '2px', border: '1px solid #000' }}>رصيد المدخرات في 31/12/2020</td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
+                                <td style={{ padding: '2px', border: '1px solid #000' }}>
+                                    {shareholder?.savings?.currentAmount ?? ''}
+                                </td>
                                 <td style={{ padding: '2px', border: '1px solid #000' }}></td>
                                 <td style={{ padding: '2px', border: '1px solid #000' }}></td>
                             </tr>
