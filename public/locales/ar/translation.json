@@ -182,5 +182,15 @@
   "confirmRemoveTenantText": "هل أنت متأكد أنك تريد إزالة هذا المستأجر؟",
   "confirmRemoveTenant": "هل تريد إزالة المستأجر؟",
   "private": "مدني",
-  "public": "موظف حكومي"
+  "public": "موظف حكومي",
+  "rent_notice": "إشعار دفع الإيجار",
+  "check_withdrawal": "سحب الشيك",
+  "board_member_reward": "مكافأة عضو مجلس الإدارة",
+  "return_from_leave": "العودة من الإجازة",
+  "cash_withdrawal_page": "سحب نقدي",
+  "membership_application": "طلب العضوية",
+  "shares_savings_page": "الأسهم والمدخرات",
+  "savings_withdrawal_form": "نموذج سحب المدخرات",
+  "periodic_leave_page": "إجازة دورية",
+  "special_leave_page": "إجازة خاصة"
 }

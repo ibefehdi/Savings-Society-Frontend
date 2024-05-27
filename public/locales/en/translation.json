@@ -179,5 +179,15 @@
   "confirmRemoveTenantText": "Are you sure you want to remove this tenant?",
   "confirmRemoveTenant": "Remove Tenant?",
   "private": "Private",
-  "public": "Public"
+  "public": "Public",
+  "rent_notice": "Rent Payment Notice",
+  "check_withdrawal": "Check Withdrawal",
+  "board_member_reward": "Board Member Reward",
+  "return_from_leave": "Return From Leave",
+  "cash_withdrawal_page": "Cash Withdrawal",
+  "membership_application": "Membership Application",
+  "shares_savings_page": "Shares and Savings",
+  "savings_withdrawal_form": "Savings Withdrawal",
+  "periodic_leave_page": "Periodic Leave",
+  "special_leave_page": "Special Leave"
 }

@@ -97,7 +97,7 @@ const Layout = () => {
 
     ];
     const rentalMenuItems = [
-        { name: t('home'), icon: <HomeOutlinedIcon />, path: "/shareholder/" },
+        // { name: t('home'), icon: <HomeOutlinedIcon />, path: "/shareholder/" },
         { name: t('buildings'), icon: <ApartmentOutlinedIcon />, path: "/rental/buildings" },
         { name: t('flats'), icon: <MapsHomeWorkOutlinedIcon />, path: "/rental/flats" },
         {
