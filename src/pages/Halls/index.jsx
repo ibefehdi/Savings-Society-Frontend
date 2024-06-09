@@ -9,10 +9,10 @@ import createCache from '@emotion/cache';
 import { DataGrid } from '@mui/x-data-grid';
 import AddNewHall from './AddNewHall';
 const Halls = () => {
-    const [pageNo, setPageNo] = useState(1)
+    const [pageNo, setPageNo] = useState(0)
     const [pageSize, setPageSize] = useState(10)
     const { t, i18n } = useTranslation();
-    const { data, fetchData, count } = useFetch('/halls', pageNo, pageSize);
+    const { data, fetchData, count } = useFetch('/halls', pageNo + 1, pageSize);
     const isRtl = i18n.dir() === 'rtl';
     useEffect(() => { fetchData() }, [])
     const [open, setOpen] = useState(false);
@@ -25,7 +25,7 @@ const Halls = () => {
     });
     const [paginationModel, setPaginationModel] = useState({
         pageSize: pageSize,
-        page: pageNo,
+        page: 0,
     });
     const columns = [
         {
@@ -75,7 +75,7 @@ const Halls = () => {
                     }))}
                     paginationModel={paginationModel}
                     onPaginationModelChange={(newModel) => {
-                        setPageNo(newModel.page + 1);
+                        setPageNo(newModel.page);
                         setPaginationModel(newModel);
                     }}
                     getRowId={(row) => row._id}

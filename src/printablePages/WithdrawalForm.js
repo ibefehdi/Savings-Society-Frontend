@@ -40,7 +40,7 @@ const WithdrawalForm = React.forwardRef((props, ref) => {
                 <div>التاريخ: <br /><br /> ________</div>
                 <div>
                     اسم العضو:<br /><br />
-                    {shareholder?.fName ? shareholder.fName : '__________'}
+                    {shareholder?.fName ? <span style={{ fontWeight: "bold" }}>{shareholder.fName} </span> : '__________'}
                 </div>
                 <div>
                     توقيع موقع الطلب:<br /><br />

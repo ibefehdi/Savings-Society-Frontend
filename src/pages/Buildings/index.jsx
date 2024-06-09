@@ -12,11 +12,11 @@ import EditBuilding from './EditBuilding';
 import { useNavigate } from 'react-router-dom';
 
 const Buildings = () => {
-    const [pageNo, setPageNo] = useState(1);
+    const [pageNo, setPageNo] = useState(0);
     const navigate = useNavigate()
     const [pageSize, setPageSize] = useState(10);
     const { t, i18n } = useTranslation();
-    const { data, fetchData, count } = useFetch('/buildings', pageNo, pageSize);
+    const { data, fetchData, count } = useFetch('/buildings', pageNo + 1, pageSize);
     const isRtl = i18n.dir() === 'rtl';
     const [open, setOpen] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
@@ -37,7 +37,7 @@ const Buildings = () => {
 
     const [paginationModel, setPaginationModel] = useState({
         pageSize: pageSize,
-        page: pageNo,
+        page: 0,
     });
 
     const columns = [
@@ -120,7 +120,7 @@ const Buildings = () => {
                     }))}
                     paginationModel={paginationModel}
                     onPaginationModelChange={(newModel) => {
-                        setPageNo(newModel.page + 1);
+                        setPageNo(newModel.page);
                         setPaginationModel(newModel);
                     }}
                     getRowId={(row) => row._id}

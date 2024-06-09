@@ -192,6 +192,14 @@ const FinancialReportingByWorkplace = () => {
                         marginLeft: '1.2rem'
                     }}>
                         {t('financial_reporting')}
+                        <span style={{
+                            fontSize: '0.875rem', 
+                            marginLeft: '0.5rem',
+                            marginRight: '0.5rem', 
+                            color: '#999' 
+                        }}>
+                            / {t('workplace')}
+                        </span>
                     </Typography>
 
 

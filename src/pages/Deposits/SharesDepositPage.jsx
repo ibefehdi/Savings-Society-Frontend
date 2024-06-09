@@ -43,7 +43,7 @@ const SharesDepositPage = () => {
     const cacheLtr = createCache({
         key: 'muilt',
     });
-    const [pageNo, setPageNo] = useState(1)
+    const [pageNo, setPageNo] = useState(0)
     const [pageSize, setPageSize] = useState(10)
     const [filters, setFilters] = useState({
         fName: '',
@@ -53,7 +53,8 @@ const SharesDepositPage = () => {
         civilId: '',
         membersCode: ''
     });
-    const { data, fetchData, count } = useFetch('/shareholders', pageNo, pageSize, filters);
+    const { data, fetchData, count } = useFetch('/shareholders', pageNo + 1, pageSize, filters);
+
     const [selectedShareholderId, setSelectedShareholderId] = useState(null);
     const [showFilters, setShowFilters] = useState(false);
     const toggleFilters = () => {
@@ -103,6 +104,19 @@ const SharesDepositPage = () => {
             headerName: t('civil_id'),
             flex: 1,
 
+        },
+        {
+            field: 'joinDate',
+            headerName: t('join_date'),
+            flex: 1.5,
+            renderCell: (params) => {
+                const date = new Date(params.value);
+                const day = date.getDate().toString().padStart(2, '0');
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                const year = date.getFullYear().toString();
+                const formattedDate = `${day}/${month}/${year}`;
+                return formattedDate;
+            }
         },
 
         {
@@ -196,7 +210,7 @@ const SharesDepositPage = () => {
     }, [fetchData, pageNo, pageSize]);
     const [paginationModel, setPaginationModel] = useState({
         pageSize: pageSize,
-        page: pageNo,
+        page: 0,
     });
     const handleCloseConfirmDialog = () => {
         setEditOpen(false);
@@ -303,7 +317,7 @@ const SharesDepositPage = () => {
                     }))}
                     paginationModel={paginationModel}
                     onPaginationModelChange={(newModel) => {
-                        setPageNo(newModel.page + 1);
+                        setPageNo(newModel.page);
                         setPaginationModel(newModel);
                     }}
                     getRowId={(row) => row._id}
@@ -329,11 +343,15 @@ const SharesDepositPage = () => {
                         },
                         '& .MuiDataGrid-columnHeaders': {
                             border: 'none',
-                            fontStyle: 'normal', // Sets the font style
-                            fontWeight: 600, // Sets the font weight
+                            fontStyle: 'normal',
+                            fontWeight: 600,
                             lineHeight: '1.25rem',
                             color: '#667085',
                             fontSize: '0.875rem'
+                        },
+                        '& .MuiDataGrid-cell': {
+                            fontSize: '1rem',
+                            fontWeight: 'bold',
                         },
                     }}
                 />

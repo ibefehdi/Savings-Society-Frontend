@@ -334,16 +334,20 @@ const Users = () => {
                         ...column,
                         disableColumnMenu: true,
                     }))}
-                    getRowId={(row) => row._id}
+                    paginationModel={paginationModel}
                     onPaginationModelChange={(newModel) => {
                         setPageNo(newModel.page + 1);
                         setPaginationModel(newModel);
                     }}
+                    getRowId={(row) => row._id}
+                    rowCount={count}
+                    paginationMode="server"
                     sx={{
                         backgroundColor: '#FFF',
                         padding: '1rem',
-                        border: 'none',
                         direction: isRtl ? 'rtl' : 'ltr',
+                        border: 'none',
+                        width: '100%',
                         '& .MuiDataGrid-columnHeadersInner': {
                             border: 'none',
                         },
@@ -358,14 +362,17 @@ const Users = () => {
                         },
                         '& .MuiDataGrid-columnHeaders': {
                             border: 'none',
-                            fontStyle: 'normal', // Sets the font style
-                            fontWeight: 600, // Sets the font weight
+                            fontStyle: 'normal',
+                            fontWeight: 600,
                             lineHeight: '1.25rem',
                             color: '#667085',
                             fontSize: '0.875rem'
                         },
+                        '& .MuiDataGrid-cell': {
+                            fontSize: '1rem',
+                            fontWeight: 'bold',
+                        },
                     }}
-                    disableRowSelectionOnClick
                 />
 
             </Box>

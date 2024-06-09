@@ -70,7 +70,7 @@ const SharesAndSavingsForm = React.forwardRef((props, ref) => {
                 <p>
                     الإجمالي :{' '}
                     {shareholder?.share?.[0]?.currentAmount && shareholder?.savings?.currentAmount ? (
-                        <span>{shareholder.share[0].currentAmount + shareholder.savings.currentAmount}</span>
+                        <span>{Number(shareholder.share[0].currentAmount) + Number(shareholder.savings.currentAmount)}</span>
                     ) : (
                         <span style={{ borderBottom: "1px solid black", paddingRight: '50px' }}>&nbsp;</span>
                     )}
@@ -89,7 +89,7 @@ const SharesAndSavingsForm = React.forwardRef((props, ref) => {
                         <p>
                             اسم العضو:{' '}
                             {shareholder?.fName ? (
-                                <span>{shareholder.fName}</span>
+                                <span style={{ fontWeight: "bold" }}>{shareholder.fName}</span>
                             ) : (
                                 <span style={{ borderBottom: "1px solid black", paddingRight: '150px' }}>&nbsp;</span>
                             )}

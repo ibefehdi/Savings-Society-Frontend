@@ -59,7 +59,7 @@ const DisableButton = ({ id, setDisableOpen, setSelectedShareholderId }) => {
 };
 
 const Shareholders = () => {
-  const [pageNo, setPageNo] = useState(1)
+  const [pageNo, setPageNo] = useState(0)
   const [pageSize, setPageSize] = useState(10)
   const [disableOpen, setDisableOpen] = useState(false);
 
@@ -71,7 +71,7 @@ const Shareholders = () => {
     civilId: '',
     membersCode: ''
   });
-  const { data, fetchData, count } = useFetch('/shareholders', pageNo, pageSize, filters);
+  const { data, fetchData, count } = useFetch('/shareholders', pageNo + 1, pageSize, filters);
   const [selectedShareholderId, setSelectedShareholderId] = useState(null);
   const { i18n, t } = useTranslation();
   const isRtl = i18n.dir() === 'rtl';
@@ -79,6 +79,7 @@ const Shareholders = () => {
   const navigate = useNavigate();
   const [userData, setUserdata] = useState(JSON.parse(sessionStorage.getItem('userDetails')))
   const [permissions, setPermissions] = useState(userData?.permissions)
+
   const columns = [
     {
       field: 'membersCode',
@@ -88,7 +89,7 @@ const Shareholders = () => {
     {
       field: 'Full Name',
       headerName: t('full_name'),
-      flex: 1,
+      flex: 3.2,
       renderCell: (params) => {
         return `${params?.row?.fName} ${params?.row?.lName}`
       }
@@ -96,7 +97,7 @@ const Shareholders = () => {
     {
       field: 'DOB',
       headerName: t('date_of_birth'),
-      flex: 1,
+      flex: 1.5,
       renderCell: (params) => {
         const date = new Date(params.value);
         const day = date.getDate().toString().padStart(2, '0');
@@ -109,22 +110,33 @@ const Shareholders = () => {
     {
       field: 'civilId',
       headerName: t('civil_id'),
-      flex: 1,
+      flex: 2,
     },
     {
-      field: 'email',
-      headerName: t('email'),
-      flex: 1,
+      field: 'joinDate',
+      headerName: t('join_date'),
+      flex: 1.5,
+      renderCell: (params) => {
+        const date = new Date(params.value);
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear().toString();
+        const formattedDate = `${day}/${month}/${year}`;
+        return formattedDate;
+      }
     },
     {
       field: 'ibanNumber',
       headerName: t('iban'),
-      flex: 1,
+      flex: 2,
+      renderCell: (params) => {
+        return <Typography variant='p' sx={{ color: "#10A760" }}>{params.value}</Typography>
+      }
     },
     {
       field: 'mobileNumber',
       headerName: t('phone_number'),
-      flex: 1,
+      flex: 1.50,
       renderCell: (params) => {
         return params?.row?.mobileNumber && params?.row?.mobileNumber ? params?.row?.mobileNumber : "N/A"
       }
@@ -132,7 +144,7 @@ const Shareholders = () => {
     {
       field: 'address',
       headerName: t('address'),
-      flex: 1,
+      flex: 2,
       renderCell: (params) => {
         const { block, street, house, avenue, city } = params.value;
         return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
@@ -250,7 +262,7 @@ const Shareholders = () => {
   };
   const [paginationModel, setPaginationModel] = useState({
     pageSize: pageSize,
-    page: pageNo,
+    page: 0,
   });
   const [showFilters, setShowFilters] = useState(false);
   const toggleFilters = () => {
@@ -356,7 +368,7 @@ const Shareholders = () => {
           }))}
           paginationModel={paginationModel}
           onPaginationModelChange={(newModel) => {
-            setPageNo(newModel.page + 1);
+            setPageNo(newModel.page);
             setPaginationModel(newModel);
           }}
           getRowId={(row) => row._id}
@@ -382,12 +394,18 @@ const Shareholders = () => {
             },
             '& .MuiDataGrid-columnHeaders': {
               border: 'none',
-              fontStyle: 'normal', // Sets the font style
-              fontWeight: 600, // Sets the font weight
+              fontStyle: 'normal',
+              fontWeight: 600,
               lineHeight: '1.25rem',
               color: '#667085',
-              fontSize: '0.875rem'
+              fontSize: '0.875rem',
             },
+            '& .MuiDataGrid-cell': {
+              fontSize: '1rem',
+              fontWeight: 'bold',
+
+            },
+
           }}
         />
       </Box>

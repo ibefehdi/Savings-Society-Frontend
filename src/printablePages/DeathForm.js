@@ -49,7 +49,7 @@ const DeathForm = React.forwardRef((props, ref) => {
                         <p>
                             اسم العضو:{' '}
                             {shareholder?.fName ? (
-                                <span>{shareholder.fName}</span>
+                                <span style={{ fontWeight: "bold" }}>{shareholder.fName}</span>
                             ) : (
                                 <span style={{ borderBottom: "1px solid black", paddingRight: '150px' }}>&nbsp;</span>
                             )}
@@ -92,10 +92,10 @@ const DeathForm = React.forwardRef((props, ref) => {
 
                             <tr>
                                 <td style={{ padding: '2px', border: '1px solid #000' }}>رصيد الأسهم</td>
+                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
                                 <td style={{ padding: '2px', border: '1px solid #000' }}>
                                     {shareholder?.share?.[0]?.currentAmount ?? ''}
                                 </td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
                                 <td style={{ padding: '2px', border: '1px solid #000' }}></td>
                             </tr>
                             <tr>
@@ -116,7 +116,7 @@ const DeathForm = React.forwardRef((props, ref) => {
                             <tr>
                                 <td style={{ padding: '2px', border: '1px solid #000', }}>إجمالي</td>
 
-                                <td style={{ padding: '2px', border: '1px solid #000', }}></td>
+                                <td style={{ padding: '2px', border: '1px solid #000', }}>{Number(shareholder?.share?.[0]?.currentAmount ?? 0) + Number(shareholder?.savings?.currentAmount ?? 0)}</td>
                                 <td style={{ padding: '2px', border: '1px solid #000', }}></td>
                                 <td style={{ padding: '2px', border: '1px solid #000', textAlign: 'right' }}>فقط</td>
                             </tr>

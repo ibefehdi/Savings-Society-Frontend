@@ -192,5 +192,10 @@
   "shares_savings_page": "الأسهم والمدخرات",
   "savings_withdrawal_form": "نموذج سحب المدخرات",
   "periodic_leave_page": "إجازة دورية",
-  "special_leave_page": "إجازة خاصة"
+  "special_leave_page": "إجازة خاصة",
+  "Workplaces":"مكان العمل",
+  "nameArabic":"الاسم باللغة العربية",
+  "rental_print_forms": "باعة النماذج HR",
+  "fetch":"بحث",
+  "bankName":"اسم البنك"
 }

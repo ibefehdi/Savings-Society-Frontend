@@ -42,7 +42,7 @@ const SavingsDepositPage = () => {
     const cacheLtr = createCache({
         key: 'muilt',
     });
-    const [pageNo, setPageNo] = useState(1)
+    const [pageNo, setPageNo] = useState(0)
     const [pageSize, setPageSize] = useState(10)
     const [filters, setFilters] = useState({
         fName: '',
@@ -52,7 +52,8 @@ const SavingsDepositPage = () => {
         civilId: '',
         membersCode: ''
     });
-    const { data, fetchData, count } = useFetch('/shareholders', pageNo, pageSize, filters);
+    const { data, fetchData, count } = useFetch('/shareholders', pageNo + 1, pageSize, filters);
+
     const [selectedShareholderId, setSelectedShareholderId] = useState(null);
     const { i18n, t } = useTranslation();
     const navigate = useNavigate();
@@ -103,7 +104,19 @@ const SavingsDepositPage = () => {
             flex: 1,
 
         },
-
+        {
+            field: 'joinDate',
+            headerName: t('join_date'),
+            flex: 1.5,
+            renderCell: (params) => {
+                const date = new Date(params.value);
+                const day = date.getDate().toString().padStart(2, '0');
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                const year = date.getFullYear().toString();
+                const formattedDate = `${day}/${month}/${year}`;
+                return formattedDate;
+            }
+        },
         {
             field: 'ibanNumber',
             headerName: t('iban'),
@@ -197,7 +210,7 @@ const SavingsDepositPage = () => {
     }, [fetchData, pageNo, pageSize]);
     const [paginationModel, setPaginationModel] = useState({
         pageSize: pageSize,
-        page: pageNo,
+        page: 0,
     });
     const handleCloseConfirmDialog = () => {
         setEditOpen(false);
@@ -280,7 +293,7 @@ const SavingsDepositPage = () => {
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
                 <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
                     <Typography variant="h3" component="h2" sx={{
-                        fontStyle: 'normal', // Sets the font style
+                        fontStyle: 'normal',
                         fontWeight: 600,
                         lineHeight: '1.875rem', flexGrow: 1,
                         marginLeft: '1.2rem'
@@ -301,7 +314,7 @@ const SavingsDepositPage = () => {
                     }))}
                     paginationModel={paginationModel}
                     onPaginationModelChange={(newModel) => {
-                        setPageNo(newModel.page + 1);
+                        setPageNo(newModel.page);
                         setPaginationModel(newModel);
                     }}
                     getRowId={(row) => row._id}
@@ -327,11 +340,15 @@ const SavingsDepositPage = () => {
                         },
                         '& .MuiDataGrid-columnHeaders': {
                             border: 'none',
-                            fontStyle: 'normal', // Sets the font style
-                            fontWeight: 600, // Sets the font weight
+                            fontStyle: 'normal',
+                            fontWeight: 600,
                             lineHeight: '1.25rem',
                             color: '#667085',
                             fontSize: '0.875rem'
+                        },
+                        '& .MuiDataGrid-cell': {
+                            fontSize: '1rem',
+                            fontWeight: 'bold',
                         },
                     }}
                 />

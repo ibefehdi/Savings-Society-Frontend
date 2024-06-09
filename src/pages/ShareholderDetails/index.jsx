@@ -87,10 +87,10 @@ const ShareholderDetails = () => {
     }
     const DetailRow = ({ label, value }) => (
         <TableRow>
-            <TableCell component="th" scope="row" sx={{ border: 0, fontWeight: 'bold', minWidth: '14rem' }}>
+            <TableCell component="th" scope="row" sx={{ border: 0, fontWeight: 'bold', minWidth: '14rem', textAlign: i18n.language === 'ar' ? 'right' : 'left' }}>
                 {label}
             </TableCell>
-            <TableCell sx={{ border: 0, minWidth: '14rem' }}>{value}</TableCell>
+            <TableCell sx={{ border: 0, minWidth: '14rem', textAlign: i18n.language === 'ar' ? 'right' : 'left' }}>{value}</TableCell>
         </TableRow>
     );
     const FormatDate = (dob) => {
