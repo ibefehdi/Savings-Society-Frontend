@@ -136,7 +136,7 @@ const ShareholderDetails = () => {
                                 <TableBody>
                                     <DetailRow label={<Typography variant="h5" sx={{ fontWeight: '600' }}>{t('personal_details')}</Typography>} />
                                     <DetailRow label={t('full_name')} value={`${shareholderDetails.fName} ${shareholderDetails.lName}`} />
-                                    <DetailRow label={t('serial')} value={shareholderDetails.serial} />
+                                    <DetailRow label={t('serial')} value={shareholderDetails.membersCode} />
                                     <DetailRow label={t('status')} value={StatusDetail(shareholderDetails.status)} />
                                     <DetailRow label={t('civil_id')} value={shareholderDetails.civilId} />
                                     <DetailRow label={t('nationality')} value={shareholderDetails.Country} />
