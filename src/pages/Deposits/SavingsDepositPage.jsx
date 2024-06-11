@@ -139,22 +139,22 @@ const SavingsDepositPage = () => {
                 return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
             }
         },
-        {
-            field: 'initialInvestment',
-            headerName: t('initial_investment'),
-            flex: 1,
-            renderCell: (params) => {
-                return params.row.savings && params.row.savings.initialAmount.toFixed(3)
-            }
-        },
-        {
-            field: 'currentAmount',
-            headerName: t('current_amount'),
-            flex: 1,
-            renderCell: (params) => {
-                return params.row.savings && params.row.savings.currentAmount.toFixed(3)
-            }
-        },
+        // {
+        //     field: 'initialInvestment',
+        //     headerName: t('initial_investment'),
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         return params.row.savings && params.row.savings?.initialAmount?.toFixed(3)
+        //     }
+        // },
+        // {
+        //     field: 'currentAmount',
+        //     headerName: t('current_amount'),
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         return params.row.savings && params.row.savings?.currentAmount?.toFixed(3)
+        //     }
+        // },
         // {
         //     field: 'membershipStatus',
         //     headerName: t('membership_status'),
