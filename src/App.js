@@ -50,6 +50,7 @@ import SharesAndSavingsPage from './pages/SharesAndSavingsPage';
 import SavingsWithdrawalFormPage from './pages/SavingsWithdrawalFormPage';
 import PeriodicLeavePage from './pages/PeriodicLeavePage';
 import SpecialLeavePage from './pages/SpecialLeavePage';
+import DisabledShareholders from './pages/Shareholders/DisabledShareholders';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -123,6 +124,7 @@ function App() {
         { index: true, element: <Home /> },
         { path: 'Users', element: <Users /> },
         { path: 'Shareholders', element: <Shareholders /> },
+        { path: 'DisabledShareholders', element: <DisabledShareholders /> },
         { path: "Financialreporting", element: <FinancialReporting /> },
         { path: "Financialreporting/year", element: <FinancialReportingYear /> },
         { path: "FinancialReporting/quityear", element: <FinancialReportsByQuitYear /> },
@@ -155,6 +157,8 @@ function App() {
       ] : authenticated ? [
         { index: true, element: <Home /> },
         { path: 'Shareholders', element: <Shareholders /> },
+        { path: 'DisabledShareholders', element: <DisabledShareholders /> },
+
         { path: 'Shareholders/:id', element: <ShareholderDetails /> },
         { path: 'Financial/Share', element: <ShareConfiguration /> },
         { path: 'Financial/Savings', element: <SavingsConfiguration /> },

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -30,27 +30,51 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
     const isRtl = i18n.dir() === 'rtl';
     const currentYear = new Date().getFullYear();
     const [year, setYear] = useState(currentYear);
+    const [shareholderAllDetails, setShareholderAllDetails] = useState();
+    // const yearOptionsOld = Array.from({ length: 12 }, (_, index) => currentYear - index);
+    const [yearOptions, setYearOptions] = useState([]);
+    const fetchShareholderDetails = useCallback(async () => {
+        if (id) {
+            try {
+                console.log(`Fetching data for shareholder ID: ${id}, year: ${year}`);
+                const response = await axiosInstance.get(`shareholder/financials/${id}?year=${year}`);
+                const data = savings ? response?.data?.response?.savings : response?.data?.response?.shares;
+                console.log(response)
+                setShareholderDetails(data);
+                console.log(shareholderDetails)
+            } catch (error) {
+                console.error("Failed to fetch shareholder details:", error);
+            }
+        }
+    })
 
-    const yearOptions = Array.from({ length: 12 }, (_, index) => currentYear - index);
 
     useEffect(() => {
-        const fetchShareholderDetails = async () => {
+
+        const fetchAllShareholderDetails = async () => {
             if (id) {
-                try {
-                    console.log(`Fetching data for shareholder ID: ${id}, year: ${year}`);
-                    const response = await axiosInstance.get(`shareholder/financials/${id}?year=${year}`);
-                    const data = savings ? response?.data?.response?.savings : response?.data?.response?.shares;
-                    setShareholderDetails(data);
-                    console.log(shareholderDetails)
-                } catch (error) {
-                    console.error("Failed to fetch shareholder details:", error);
-                }
+                const response = await axiosInstance.get(`shareholder/${id}`);
+                console.log("This is the shareholder: ", response?.data?.shareholder)
+                setShareholderAllDetails(response?.data?.shareholder)
             }
-        };
-
+        }
+        fetchAllShareholderDetails()
         fetchShareholderDetails();
-    }, [id, savings, year]);
+    }, [id, savings]);
 
+    useEffect(() => {
+        if (shareholderAllDetails) {
+            const uniqueYears = [
+                ...new Set(shareholderAllDetails.share.map((share) => share.year)),
+            ];
+
+            const lastTenYears = Array.from({ length: 10 }, (_, index) => currentYear - index);
+            const combinedYears = [...new Set([...uniqueYears, ...lastTenYears])].sort((a, b) => b - a);
+
+            setYearOptions(combinedYears);
+            setYear(combinedYears[combinedYears.length - 1]);
+        }
+    }, [shareholderAllDetails, currentYear]);
 
     useEffect(() => {
         if (shareholderDetails) {
@@ -72,18 +96,23 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
         try {
             const formData = {
                 newAmount: data.newAmount,
-                newShareAmount: data.newShareAmount ? Number(data.newShareAmount) : undefined,
                 adminId: adminData.id,
-                year: year
+                year: currentYear
             };
-            const url = savings ? `shareholder/depositsavings/${id}?year=${year}` : `shareholder/depositshares/${id}?year=${year}`;
+            const url = `shareholder/depositsavings/${id}`
+            // : `shareholder/depositshares/${id}?year=${year}`;
             await axiosInstance.post(url, formData);
             handleClose();
         } catch (error) {
             console.error('Error posting shareholder data:', error);
         }
     };
-
+    const handleYearChange = (e) => {
+        const newYear = parseInt(e.target.value);
+        console.log(`Year selected: ${newYear}`);
+        setYear(newYear);
+        fetchShareholderDetails();
+    };
     return (
         <Modal
             open={open}
@@ -109,39 +138,12 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                     margin="normal"
                     fullWidth
                     label={t('required_addition')}
-                    {...register('newAmount', { required: true })}
-                    error={!!errors.newAmount}
-                    helperText={errors.newAmount ? t('this_field_is_required') : ''}
+                    {...register('newAmount')}
+                    // error={!!errors.newAmount}
+                    // helperText={errors.newAmount ? t('this_field_is_required') : ''}
                     disabled={!savings}
                 />
-                {!savings && (
-                    <>
-                        <TextField
-                            id="shareAmount"
-                            margin="normal"
-                            fullWidth
-                            label={t('share_amount')}
-                            {...register('shareAmount', { required: true })}
-                            error={!!errors.newShareAmount}
-                            helperText={errors.newShareAmount ? t('this_field_is_required') : ''}
-                            value={shareholderDetails?.amount}
-                            disabled
-                        />
-                    </>
-                )}
-                {!savings && (
-                    <>
-                        <TextField
-                            id="newShareAmount"
-                            margin="normal"
-                            fullWidth
-                            label={t('new_share_amount')}
-                            {...register('newShareAmount', { required: true })}
-                            error={!!errors.newShareAmount}
-                            helperText={errors.newShareAmount ? t('this_field_is_required') : ''}
-                        />
-                    </>
-                )}
+
                 {savings && (
                     <TextField
                         margin="normal"
@@ -151,25 +153,21 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                         disabled
                     />
                 )}
-                <TextField
+                {/* <TextField
                     id="year"
                     margin="normal"
                     fullWidth
                     label={t('year')}
                     select
                     value={year}
-                    onChange={(e) => {
-                        const newYear = e.target.value;
-                        console.log(`Year selected: ${newYear}`);
-                        setYear(newYear);
-                    }}
+                    onChange={handleYearChange}
                 >
                     {yearOptions.map((year) => (
                         <MenuItem key={year} value={year}>
                             {year}
                         </MenuItem>
                     ))}
-                </TextField>
+                </TextField> */}
 
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
                     {t('edit')}

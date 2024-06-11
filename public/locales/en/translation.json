@@ -194,5 +194,8 @@
   "nameArabic":"Name in Arabic",
   "rental_print_forms":"HR Print Forms",
   "fetch":"Fetch",
-  "bankName":"Bank Name"
+  "bankName":"Bank Name",
+  "inactive_shareholders":"Inactive Shareholders",
+  "active_shareholderss":"Active Shareholders",
+  "disable_shareholder":"Disable Shareholder"
 }

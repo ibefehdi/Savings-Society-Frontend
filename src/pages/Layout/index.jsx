@@ -47,7 +47,8 @@ const Layout = () => {
 
     const nonAdminShareholderMenuItems = [
         { name: t('home'), icon: <HomeOutlinedIcon />, path: "/shareholder/" },
-        { name: t('shareholders'), icon: <RecentActorsOutlinedIcon />, path: "/shareholder/Shareholders" },
+        { name: t('active_shareholderss'), icon: <RecentActorsOutlinedIcon />, path: "/shareholder/Shareholders" },
+        { name: t('inactive_shareholders'), icon: <RecentActorsOutlinedIcon />, path: "/shareholder/DisabledShareholders" },
         {
             name: t('deposits'),
             icon: <LocalAtmIcon />,

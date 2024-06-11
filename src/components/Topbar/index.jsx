@@ -7,7 +7,7 @@ import {
     Button,
     Typography
 } from "@mui/material";
-import LanguageIcon from "@mui/icons-material/Language"; 
+import LanguageIcon from "@mui/icons-material/Language";
 
 import PersonIcon from "@mui/icons-material/Person";
 import Cookies from 'js-cookie';
@@ -70,10 +70,11 @@ const Topbar = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
     const isRtl = i18n.dir() === 'rtl';
-
+    // const languageSupport = process.env.REACT_APP_DEVELOPMENT_LANGUAGE_SUPPORT;
+    // console.log("This is the language support", languageSupport);
     return (
         <Box display={"flex"} justifyContent={"space-between"} sx={{ height: '4.7rem' }}>
-           <Box
+            <Box
                 display={"flex"}
                 alignItems={"center"}
                 sx={{
@@ -85,8 +86,8 @@ const Topbar = () => {
                     marginRight: '1px'
                 }}
             >
-                
-               
+
+
             </Box>
             <Box display={"flex"} sx={{ marginRight: isRtl ? 0 : '1rem', marginLeft: isRtl ? '1rem' : 0 }}>
                 {/* <IconButton onClick={handleLanguageMenuClick}>
@@ -114,6 +115,7 @@ const Topbar = () => {
                     </IconButton>
                     {buttonText}
                 </Button>
+
                 <IconButton onClick={handleUserMenuClick} >
                     <PersonIcon />
                 </IconButton>

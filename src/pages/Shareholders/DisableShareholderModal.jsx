@@ -1,15 +1,17 @@
 import { useState } from "react";
 import axiosInstance from "../../constants/axiosInstance";
-import { Button, Dialog, DialogContent, DialogTitle, InputLabel, TextField } from "@mui/material";
+import { Button, Dialog, DialogContent, DialogTitle, InputLabel, MenuItem, TextField } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 const DisableShareholderModal = ({ open, setOpen, fetchData, id }) => {
     const [quitDate, setQuitDate] = useState();
+    const [status, setStatus] = useState();
+
     const { t } = useTranslation()
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axiosInstance.put(`/disableShareholder/${id}`, { quitDate });
+            await axiosInstance.put(`/disableShareholder/${id}`, { quitDate, status });
             fetchData();
             setOpen(false);
         } catch (error) {
@@ -19,7 +21,7 @@ const DisableShareholderModal = ({ open, setOpen, fetchData, id }) => {
 
     return (
         <Dialog open={open} onClose={() => setOpen(false)}>
-            <DialogTitle>Disable Shareholder</DialogTitle>
+            <DialogTitle>{t('disable_shareholder')}</DialogTitle>
             <DialogContent>
                 <form onSubmit={handleSubmit}>
                     <InputLabel
@@ -35,8 +37,23 @@ const DisableShareholderModal = ({ open, setOpen, fetchData, id }) => {
                         fullWidth
                         margin="normal"
                     />
-                    <Button type="submit" variant="contained" color="primary">
-                        Disable
+                    <TextField
+                        label={t('status')}
+                        variant="outlined"
+                        select
+                        value={status}
+                        onChange={(e) => setStatus(e.target.value)}
+                        fullWidth
+                        autoComplete='off'
+
+                    >
+                        {/* Replace these with your actual status options */}
+                        <MenuItem value={0}>{t('active')}</MenuItem>
+                        <MenuItem value={1}>{t('inactive')}</MenuItem>
+                        <MenuItem value={2}>{t('death')}</MenuItem>
+                    </TextField>
+                    <Button type="submit" sx={{ mt: 3 }} variant="contained" color="primary">
+                        {t('disable')}
                     </Button>
                 </form>
             </DialogContent>

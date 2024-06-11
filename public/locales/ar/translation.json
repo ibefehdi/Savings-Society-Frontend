@@ -108,7 +108,7 @@
   "select_year": "اختر السنة",
   "join_year": "سنة الانضمام",
   "quit_year": "سنة الاستقالة",
-  "custom": "مخصص",
+  "custom": "تقرير مستحقات الأعضاء",
   "workplace": "مكان العمل",
   "disable": "تعطيل المساهم",
   "Male": "ذكر",
@@ -197,5 +197,8 @@
   "nameArabic":"الاسم باللغة العربية",
   "rental_print_forms": "باعة النماذج HR",
   "fetch":"بحث",
-  "bankName":"اسم البنك"
+  "bankName":"اسم البنك",
+  "inactive_shareholders":" المساهمون - غير نشط",
+  "active_shareholderss":"المساهمون - نشط",
+  "disable_shareholder":"تعطيل المساهمين"
 }

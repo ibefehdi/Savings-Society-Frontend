@@ -72,15 +72,16 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
                         <tr>
                             <StyledTh>رقم العضو</StyledTh>
                             <StyledTh>اسم العضو</StyledTh>
-                            <StyledTh>الرقم المدني</StyledTh>
-                            <StyledTh>الاستثمار المبدائي المدخرات</StyledTh>
-                            <StyledTh>المدخرات </StyledTh>
-                            <StyledTh>أرباح المدخرات</StyledTh>
                             <StyledTh>الاسهم</StyledTh>
-                            <StyledTh>القيمة المبدائية للسهم</StyledTh>
+                            <StyledTh>الرقم المدني</StyledTh>
+                            <StyledTh>المدخرات </StyledTh>
                             <StyledTh>أرباح الاسهم</StyledTh>
-                            <StyledTh>أمانات</StyledTh>
+                            <StyledTh>أرباح المدخرات</StyledTh>
                             <StyledTh>الإجمالي</StyledTh>
+                            <StyledTh>أمانات</StyledTh>
+                            {/* <StyledTh>الاستثمار المبدائي المدخرات</StyledTh>
+                            <StyledTh>القيمة المبدائية للسهم</StyledTh> */}
+                            <StyledTh>الرصيد</StyledTh>
                         </tr>
                     </thead>
                     <tbody>
@@ -89,9 +90,6 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
                                 <StyledTd>{row?.membersCode}</StyledTd>
                                 <StyledTd>{row?.fullName}</StyledTd>
                                 <StyledTd>{row?.civilId}</StyledTd>
-                                <StyledTd>{row?.savingsDetails ? row?.savingsDetails?.initialAmount : 'N/A'}</StyledTd>
-                                <StyledTd>{row?.savingsDetails ? row?.savingsDetails?.currentAmount : 'N/A'}</StyledTd>
-                                <StyledTd>{row?.savingsIncrease ? row?.savingsIncrease : 'N/A'}</StyledTd>
                                 <StyledTd>
                                     {row.shareDetails && row.shareDetails?.length > 0 ? (
                                         <ul>
@@ -105,7 +103,14 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
                                         'N/A'
                                     )}
                                 </StyledTd>
-                                <StyledTd>
+
+                                <StyledTd>{row?.savingsDetails ? row?.savingsDetails?.currentAmount?.toFixed(3) : 'N/A'}</StyledTd>
+                                <StyledTd>{row.totalShareIncrease ? row.totalShareIncrease?.toFixed(3) : 'N/A'}</StyledTd>
+                                {/* <StyledTd>{row?.savingsDetails ? row?.savingsDetails?.initialAmount : 'N/A'}</StyledTd> */}
+                                <StyledTd>{row?.savingsIncrease ? row?.savingsIncrease?.toFixed(3) : 'N/A'}</StyledTd>
+                                <StyledTd>{row.total && row.total ? row.total?.toFixed(3) : "N/A"}</StyledTd>
+                                <StyledTd>{row.amanatAmount ? row.amanatAmount?.toFixed(3) : "N/A"}</StyledTd>
+                                {/* <StyledTd>
                                     {row.shareDetails && row?.shareDetails?.length > 0 ? (
                                         <ul>
                                             {row?.shareDetails?.map((share, index) => (
@@ -117,10 +122,9 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
                                     ) : (
                                         'N/A'
                                     )}
-                                </StyledTd>
-                                <StyledTd>{row.totalShareIncrease ? row.totalShareIncrease : 'N/A'}</StyledTd>
-                                <StyledTd>{row.amanatAmount ? row.amanatAmount : "N/A"}</StyledTd>
-                                <StyledTd>{row.total && row.total ? row.total : "N/A"}</StyledTd>
+                                </StyledTd> */}
+                                <StyledTd>{row?.savingsDetails ? row?.savingsDetails?.currentAmount?.toFixed(3) : 'N/A'}</StyledTd>
+
                             </TableRow>
                         ))}
                     </tbody>

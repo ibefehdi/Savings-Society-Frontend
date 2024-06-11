@@ -100,9 +100,7 @@ const DeathForm = React.forwardRef((props, ref) => {
                             </tr>
                             <tr>
                                 <td style={{ padding: '2px', border: '1px solid #000' }}>رصيد مدخرات</td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}>
-                                    {shareholder?.savings?.currentAmount ?? ''}
-                                </td>
+
                                 <td style={{ padding: '2px', border: '1px solid #000' }}></td>
                                 <td style={{ padding: '2px', border: '1px solid #000' }}></td>
                             </tr>

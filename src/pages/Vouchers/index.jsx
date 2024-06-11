@@ -118,7 +118,7 @@ const Vouchers = () => {
             lineHeight: '1.875rem', flexGrow: 1,
             marginLeft: '1.2rem'
           }}>
-            {t('Vouchers')}
+            {t('vouchers')}
           </Typography>
           <Button variant='contained' onClick={handleOpenAddModal}>{t('add')}</Button>
         </Box>
