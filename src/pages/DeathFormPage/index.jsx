@@ -44,7 +44,7 @@ const DeathFormPage = () => {
                     </Typography>
                     <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0 }}></Box>
                     <TextField
-                        label="Member's Code"
+                        label={t('serial')}
                         value={membersCode}
                         onChange={(e) => setMembersCode(e.target.value)}
                         sx={{ marginRight: '1rem' }}

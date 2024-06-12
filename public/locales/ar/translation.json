@@ -200,5 +200,7 @@
   "bankName":"اسم البنك",
   "inactive_shareholders":" المساهمون - غير نشط",
   "active_shareholderss":"المساهمون - نشط",
-  "disable_shareholder":"تعطيل المساهمين"
+  "disable_shareholder":"تعطيل المساهمين",
+  "new_amount":"مبلغ جديد",
+  "deposit_date":"تاريخ الإيداع"
 }

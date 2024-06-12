@@ -2,7 +2,13 @@ import React from 'react'
 import logo from '../assets/logo1.png';
 const DeathForm = React.forwardRef((props, ref) => {
     const { shareholder } = props;
-
+    const formatDate = (date) => {
+        const d = new Date(date);
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        const year = d.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
     return (
         <div ref={ref} style={{ fontFamily: 'Arial, sans-serif', width: '100%', margin: 'auto', padding: '20px', border: "1px solid black" }}>
             {/* Header Section */}
@@ -70,7 +76,22 @@ const DeathForm = React.forwardRef((props, ref) => {
                 {/* Association Details */}
                 <div style={{ borderTop: '1px solid #000', paddingTop: '10px' }}>
                     <p>بيانات من واقع سجلات الجمعية</p>
-                    <p>رقم العضوية: __________ تاريخ الانتساب: __/__/____</p>
+                    <p>
+                        رقم العضوية:{' '}
+                        {shareholder?.membersCode ? (
+                            <span>{shareholder.membersCode}</span>
+                        ) : (
+                            <span style={{ borderBottom: "1px solid black", paddingRight: '150px' }}>&nbsp;</span>
+                        )}
+                    </p>
+                    <p>
+                        تاريخ الانتساب:{' '}
+                        {shareholder?.joinDate ? (
+                            <span>{formatDate(shareholder.joinDate)}</span>
+                        ) : (
+                            <span style={{ borderBottom: "1px solid black", paddingRight: '150px' }}>&nbsp;</span>
+                        )}
+                    </p>
 
                     {/* Financial Details Header */}
                     <p style={{ textDecoration: 'underline', fontWeight: 'bold', paddingBottom: '5px' }}>
@@ -100,6 +121,7 @@ const DeathForm = React.forwardRef((props, ref) => {
                             </tr>
                             <tr>
                                 <td style={{ padding: '2px', border: '1px solid #000' }}>رصيد مدخرات</td>
+                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
 
                                 <td style={{ padding: '2px', border: '1px solid #000' }}></td>
                                 <td style={{ padding: '2px', border: '1px solid #000' }}></td>
@@ -114,8 +136,8 @@ const DeathForm = React.forwardRef((props, ref) => {
                             <tr>
                                 <td style={{ padding: '2px', border: '1px solid #000', }}>إجمالي</td>
 
-                                <td style={{ padding: '2px', border: '1px solid #000', }}>{Number(shareholder?.share?.[0]?.currentAmount ?? 0) + Number(shareholder?.savings?.currentAmount ?? 0)}</td>
                                 <td style={{ padding: '2px', border: '1px solid #000', }}></td>
+                                <td style={{ padding: '2px', border: '1px solid #000', }}>{Number(shareholder?.share?.[0]?.currentAmount ?? 0) + Number(shareholder?.savings?.currentAmount ?? 0)}</td>
                                 <td style={{ padding: '2px', border: '1px solid #000', textAlign: 'right' }}>فقط</td>
                             </tr>
                         </tbody>

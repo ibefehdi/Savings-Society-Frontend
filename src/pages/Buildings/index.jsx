@@ -54,6 +54,12 @@ const Buildings = () => {
             valueGetter: (params) => `${params.row.floors}`,
         },
         {
+            field: 'type',
+            headerName: t('type'),
+            flex: 1,
+            valueGetter: (params) => `${params.row.type}`,
+        },
+        {
             field: 'address',
             headerName: t('address'),
             flex: 1,

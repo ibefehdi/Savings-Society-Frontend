@@ -197,5 +197,7 @@
   "bankName":"Bank Name",
   "inactive_shareholders":"Inactive Shareholders",
   "active_shareholderss":"Active Shareholders",
-  "disable_shareholder":"Disable Shareholder"
+  "disable_shareholder":"Disable Shareholder",
+  "new_amount":"New Amount",
+  "deposit_date":"Deposit Date"
 }

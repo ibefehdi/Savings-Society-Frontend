@@ -5,6 +5,13 @@ const SharesAndSavingsForm = React.forwardRef((props, ref) => {
     const { shareholder } = props;
     const date = new Date();
     const dateString = date.toDateString();
+    const formatDate = (date) => {
+        const d = new Date(date);
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const year = d.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
     return (
         <div ref={ref} style={{ fontFamily: 'Arial, sans-serif', width: '100%', margin: 'auto', padding: '20px', border: "1px solid black", direction: 'rtl' }}>
             {/* Header Section */}
@@ -21,6 +28,8 @@ const SharesAndSavingsForm = React.forwardRef((props, ref) => {
                     <h1 style={{ margin: '0', textAlign: 'center' }}>الجمعية التعاونية لموظفي الحكومة الكويتيين (للادخار)</h1>
                 </div>
             </div>
+            <h1 style={{ fontSize: '28px', textAlign: 'center', fontWeight: 'bolder' }}>طلب زيادة رصيد الأسهم - المدخرات
+            </h1>
 
             <div style={{ fontFamily: 'Arial, sans-serif', fontSize: '14px', textAlign: 'right', width: '100%', margin: 'auto', padding: '5px', direction: 'rtl' }}>
                 {/* Addressing */}
@@ -85,7 +94,7 @@ const SharesAndSavingsForm = React.forwardRef((props, ref) => {
                 {/* Details */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', margin: '20px 0' }}>
                     <div>
-                        <p>التاريخ: {dateString}</p>
+                        <p>التاريخ: {formatDate(date)}</p>
                         <p>
                             اسم العضو:{' '}
                             {shareholder?.fName ? (
@@ -114,19 +123,19 @@ const SharesAndSavingsForm = React.forwardRef((props, ref) => {
                         </thead>
                         <tbody>
                             <tr>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}>رصيد الأسهم في 31/12/2020</td>
+                                <td style={{ padding: '2px', border: '1px solid #000' }}>رصيد الأسهم في 31/12/2024</td>
+                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
                                 <td style={{ padding: '2px', border: '1px solid #000' }}>
                                     {shareholder?.share?.[0]?.currentAmount ?? ''}
                                 </td>
                                 <td style={{ padding: '2px', border: '1px solid #000' }}></td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
                             </tr>
                             <tr>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}>رصيد المدخرات في 31/12/2020</td>
+                                <td style={{ padding: '2px', border: '1px solid #000' }}>رصيد المدخرات في 31/12/2024</td>
+                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
                                 <td style={{ padding: '2px', border: '1px solid #000' }}>
                                     {shareholder?.savings?.currentAmount ?? ''}
                                 </td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
                                 <td style={{ padding: '2px', border: '1px solid #000' }}></td>
                             </tr>
                             <tr>
