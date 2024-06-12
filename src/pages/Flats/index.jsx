@@ -47,7 +47,7 @@ const Flats = () => {
             field: 'flatNumber',
             headerName: t('flatNumber'),
             flex: 1,
-            valueGetter: (params) => `${params.row.flatNumber}`
+            valueGetter: (params) => `${params?.row?.flatNumber ? params?.row?.floorNumber : "N/A"}`
         },
         {
             field: 'floorNumber',
