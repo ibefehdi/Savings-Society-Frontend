@@ -151,17 +151,25 @@ const Shareholders = () => {
         return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
       },
     },
+    // {
+    //   field: 'initialInvestment',
+    //   headerName: t('initial_investment'),
+    //   flex: 1,
+    //   renderCell: (params) => params?.row.savings?.initialAmount?.toFixed(3) || "N/A",
+    // },
+    // {
+    //   field: 'currentAmount',
+    //   headerName: t('current_amount'),
+    //   flex: 1,
+    //   renderCell: (params) => params?.row?.savings?.currentAmount?.toFixed(3) || "N/A",
+    // },
     {
-      field: 'initialInvestment',
-      headerName: t('initial_investment'),
+      field: 'savingsForShareholder',
+      headerName: t('savings'),
       flex: 1,
-      renderCell: (params) => params?.row.savings?.initialAmount?.toFixed(3) || "N/A",
-    },
-    {
-      field: 'currentAmount',
-      headerName: t('current_amount'),
-      flex: 1,
-      renderCell: (params) => params?.row?.savings?.currentAmount?.toFixed(3) || "N/A",
+      renderCell: (params) => {
+        return params.row.savings && params.row.savings?.totalAmount?.toFixed(3)
+      }
     },
     ...(permissions?.shareholder?.view ? [{
       field: 'view',
@@ -274,22 +282,22 @@ const Shareholders = () => {
             autoComplete='off'
 
           />
-          
-            <TextField
-              label={t('workplace')}
-              variant="outlined"
-              select
-              onChange={(e) => setFilters({ ...filters, workplace: e.target.value })}
-              fullWidth
-              autoComplete='off'
-              value={filters.workplace}
-            >
-              {workplaces.map((place) => (
-                <MenuItem key={place.description} value={place.description}>
-                  {place.description}
-                </MenuItem>
-              ))}
-            </TextField>
+
+          <TextField
+            label={t('workplace')}
+            variant="outlined"
+            select
+            onChange={(e) => setFilters({ ...filters, workplace: e.target.value })}
+            fullWidth
+            autoComplete='off'
+            value={filters.workplace}
+          >
+            {workplaces.map((place) => (
+              <MenuItem key={place.description} value={place.description}>
+                {place.description}
+              </MenuItem>
+            ))}
+          </TextField>
           {/* <TextField
             label={t('membership_status')}
             variant="outlined"

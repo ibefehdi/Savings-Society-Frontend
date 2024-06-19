@@ -19,6 +19,7 @@ import rtlPlugin from 'stylis-plugin-rtl';
 import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
+import WithdrawalModalShare from './WithdrawalModalShare';
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
 
     const handleEditClick = () => {
@@ -137,7 +138,22 @@ const SharesWithdrawalPage = () => {
                 return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
             }
         },
-
+        {
+            field: 'shareAmount',
+            headerName: t('shareAmount'),
+            flex: 1,
+            renderCell: (params) => {
+                return params.row.share && params?.row?.share?.totalShareAmount
+            }
+        },
+        {
+            field: 'shareValue',
+            headerName: t('shareValue'),
+            flex: 1,
+            renderCell: (params) => {
+                return params.row.share && params?.row?.share?.totalAmount
+            }
+        },
         // {
         //     field: 'membershipStatus',
         //     headerName: t('membership_status'),
@@ -189,7 +205,7 @@ const SharesWithdrawalPage = () => {
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [pageNo, pageSize]);
     const [paginationModel, setPaginationModel] = useState({
         pageSize: pageSize,
         page: 0,
@@ -359,7 +375,7 @@ const SharesWithdrawalPage = () => {
                     }}
                 />
             </Box>
-            <WithdrawalModal savings={false} id={selectedShareholderId} open={editOpen} setOpen={setEditOpen} fetchData={fetchData} />
+            <WithdrawalModalShare savings={false} id={selectedShareholderId} open={editOpen} setOpen={setEditOpen} fetchData={fetchData} />
         </CacheProvider>
 
     )

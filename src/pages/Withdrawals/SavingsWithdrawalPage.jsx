@@ -138,21 +138,29 @@ const SavingsWithdrawalPage = () => {
             }
         },
         {
-            field: 'initialInvestment',
-            headerName: t('initial_investment'),
+            field: 'savingsForShareholder',
+            headerName: t('savings'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.savings && params.row.savings.initialAmount.toFixed(3)
+                return params.row.savings && params.row.savings?.totalAmount?.toFixed(3)
             }
         },
-        {
-            field: 'currentAmount',
-            headerName: t('current_amount'),
-            flex: 1,
-            renderCell: (params) => {
-                return params.row.savings && params.row.savings.currentAmount.toFixed(3)
-            }
-        },
+        // {
+        //     field: 'initialInvestment',
+        //     headerName: t('initial_investment'),
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         return params.row.savings && params.row.savings.initialAmount.toFixed(3)
+        //     }
+        // },
+        // {
+        //     field: 'currentAmount',
+        //     headerName: t('current_amount'),
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         return params.row.savings && params.row.savings.currentAmount.toFixed(3)
+        //     }
+        // },
         // {
         //     field: 'membershipStatus',
         //     headerName: t('membership_status'),
@@ -204,7 +212,7 @@ const SavingsWithdrawalPage = () => {
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [fetchData, pageNo, pageSize]);
     const [paginationModel, setPaginationModel] = useState({
         pageSize: pageSize,
         page: 0,

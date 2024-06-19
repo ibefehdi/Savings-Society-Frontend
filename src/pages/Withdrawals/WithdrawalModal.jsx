@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import MenuItem from "@mui/material/MenuItem"
+import MenuItem from "@mui/material/MenuItem";
 import { useTranslation } from 'react-i18next';
 import TextField from '@mui/material/TextField';
 
@@ -34,8 +34,8 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
         const fetchShareholderDetails = async () => {
             try {
                 if (id !== null) {
-                    const response = await axiosInstance.get(`shareholder/financials/${id}?year=${year}`);
-                    const shareholderData = savings ? response?.data?.response?.savings : response?.data?.response?.shares
+                    const response = await axiosInstance.get(`shareholder/financials/${id}`);
+                    const shareholderData = response?.data?.response
                     setShareholderDetails(shareholderData);
                     console.log("This is the details of the shareholder", shareholderData);
 
@@ -54,7 +54,7 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
         reset()
         fetchData();
     }
-    const url = savings ? `/shareholder/withdrawsavings/${id}` : `/shareholder/withdrawshares/${id}`
+    const url = `/shareholder/withdrawsavings/${id}`
     const onSubmit = async (data) => {
         console.log("Submitting form", data);
 
@@ -96,7 +96,7 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
                 noValidate
                 autoComplete="off"
             >
-                 {!savings && (
+                {/* {!savings && (
                     <TextField
                         id="currentAmount"
                         margin='normal'
@@ -106,8 +106,8 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
                         value={shareholderDetails?.amount}
 
                     />
-                )}
-                {!savings && (
+                )} */}
+                {/* {!savings && (
                     <TextField
                         id="amountOfShares"
                         margin='normal'
@@ -116,8 +116,8 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
                         {...register('amountOfShares', { required: true })}
 
                     />
-                )}
-                {!savings && (<TextField
+                )} */}
+                {/* {!savings && (<TextField
                     id="year"
                     select
                     label={t('year')}
@@ -135,12 +135,12 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
                             {currentYear - index}
                         </MenuItem>
                     ))}
-                </TextField>)}
+                </TextField>)} */}
                 {savings && (
                     <TextField
                         id="availableBalance"
                         margin="normal"
-                        value={shareholderDetails?.currentAmount}
+                        value={shareholderDetails?.savings}
                         fullWidth
                         label={t('availableBalance')}
                         disabled={true}
@@ -157,11 +157,12 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
                     disabled={!savings}
                 />
 
-                {savings && (<TextField
+                {savings &&
+                (<TextField
                     margin="normal"
                     fullWidth
                     label={t('amount_after_withdrawal')}
-                    value={totalAmount}
+                    value={Number(shareholderDetails?.savings) - Number(amountToWithdraw)}
                     disabled
                 />)}
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>

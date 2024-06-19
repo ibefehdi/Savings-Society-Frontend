@@ -21,11 +21,12 @@ const style = {
     pb: 3,
 };
 
-const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
+const DepositFormShare = ({ id, fetchData, setOpen, open }) => {
     const { register, handleSubmit, watch, setValue, reset, formState: { errors } } = useForm();
     const [shareholderDetails, setShareholderDetails] = useState();
     const adminData = JSON.parse(sessionStorage.getItem('userDetails') || '{}');
     const [totalAmount, setTotalAmount] = useState(0);
+    const [totalShareAmount, setTotalShareAmount] = useState(0);
     const { i18n, t } = useTranslation();
     const isRtl = i18n.dir() === 'rtl';
     const currentYear = new Date().getFullYear();
@@ -58,17 +59,20 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
         };
         fetchAllShareholderDetails();
         fetchShareholderDetails();
-    }, [id, savings]);
+    }, [id]);
 
-    const newAmount = watch('newAmount');
+    const newShareAmount = watch('newShareAmount');
 
     useEffect(() => {
         if (shareholderDetails) {
-            const currentAmount = Number(shareholderDetails.savings) || 0;
-            const additionAmount = parseFloat(newAmount) || 0;
+            const currentAmount = Number(shareholderDetails.sharesTotalAmount) || 0;
+            const currentShareAmount = Number(shareholderDetails.shareValue) || 0;
+            const additionShareAmount = parseFloat(newShareAmount) || 0;
+            const additionAmount = additionShareAmount * 2;
             setTotalAmount((currentAmount + additionAmount).toFixed(3));
+            setTotalShareAmount(currentShareAmount + additionShareAmount);
         }
-    }, [shareholderDetails, newAmount]);
+    }, [shareholderDetails, newShareAmount]);
 
     const handleClose = () => {
         setOpen(false);
@@ -79,11 +83,11 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
     const onSubmit = async (data) => {
         try {
             const formData = {
-                newAmount: data.newAmount,
+                newShareAmount: data.newShareAmount,
                 adminId: adminData.id,
                 year: currentYear,
             };
-            const url = `shareholder/depositsavings/${id}`;
+            const url = `shareholder/depositshares/${id}`;
             await axiosInstance.post(url, formData);
             handleClose();
         } catch (error) {
@@ -107,36 +111,58 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
             sx={{ direction: isRtl ? 'rtl' : 'ltr' }}
         >
             <Box sx={style} component="form" onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off">
-                {savings && (
-                    <TextField
-                        id="currentAmount"
-                        margin="normal"
-                        fullWidth
-                        // label={t('current_amount')}
-                        value={shareholderDetails?.savings}
-                        disabled
-                    />
-                )}
+                <TextField
+                    id="currentAmount"
+                    margin="normal"
+                    fullWidth
+                    label={t('current_amount')}
+                    value={shareholderDetails?.sharesTotalAmount?.toFixed(3)}
+                    disabled
+                />
+
+                <TextField
+                    id="currentShareAmount"
+                    margin="normal"
+                    fullWidth
+                    label={t('current_share_amount')}
+                    value={shareholderDetails?.shareValue?.toFixed(3)}
+                    disabled
+                />
+
+                <TextField
+                    id="newShareAmount"
+                    margin="normal"
+                    fullWidth
+                    label={t('new_share_amount')}
+                    {...register('newShareAmount', { required: true })}
+                    error={!!errors.newShareAmount}
+                    helperText={errors.newShareAmount ? t('this_field_is_required') : ''}
+                />
 
                 <TextField
                     id="newAmount"
                     margin="normal"
                     fullWidth
-                    label={t('required_addition')}
-                    {...register('newAmount')}
-                    error={!!errors.newAmount}
-                    helperText={errors.newAmount ? t('this_field_is_required') : ''}
+                    label={t('new_amount')}
+                    value={newShareAmount ? (parseFloat(newShareAmount) * 2).toFixed(3) : ''}
+                    disabled
                 />
 
-                {savings && (
-                    <TextField
-                        margin="normal"
-                        fullWidth
-                        label={t('amount_after_addition')}
-                        value={Number(totalAmount)}
-                        disabled
-                    />
-                )}
+                <TextField
+                    margin="normal"
+                    fullWidth
+                    label={t('amount_after_addition')}
+                    value={totalAmount}
+                    disabled
+                />
+
+                <TextField
+                    margin="normal"
+                    fullWidth
+                    label={t('share_amount_after_addition')}
+                    value={totalShareAmount}
+                    disabled
+                />
 
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
                     {t('edit')}
@@ -149,4 +175,4 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
     );
 };
 
-export default DepositForm;
+export default DepositFormShare;

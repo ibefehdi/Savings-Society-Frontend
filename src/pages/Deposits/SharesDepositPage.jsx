@@ -18,6 +18,7 @@ import rtlPlugin from 'stylis-plugin-rtl';
 import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
+import DepositFormShare from './DepositFormShare';
 
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
 
@@ -139,6 +140,22 @@ const SharesDepositPage = () => {
             renderCell: (params) => {
                 const { block, street, house, avenue, city } = params.value;
                 return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
+            }
+        },
+        {
+            field: 'shareAmount',
+            headerName: t('shareAmount'),
+            flex: 1,
+            renderCell: (params) => {
+                return params.row.share && params?.row?.share?.totalShareAmount
+            }
+        },
+        {
+            field: 'shareValue',
+            headerName: t('shareValue'),
+            flex: 1,
+            renderCell: (params) => {
+                return params.row.share && params?.row?.share?.totalAmount
             }
         },
         // {
@@ -356,7 +373,7 @@ const SharesDepositPage = () => {
                     }}
                 />
             </Box>
-            <DepositForm id={selectedShareholderId} open={editOpen} setOpen={setEditOpen} shares={true} fetchData={fetchData} />
+            <DepositFormShare id={selectedShareholderId} open={editOpen} setOpen={setEditOpen} shares={true} fetchData={fetchData} />
         </CacheProvider>
 
     )

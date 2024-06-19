@@ -139,6 +139,14 @@ const SavingsDepositPage = () => {
                 return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
             }
         },
+        {
+            field: 'savingsForShareholder',
+            headerName: t('savings'),
+            flex: 1,
+            renderCell: (params) => {
+                return params.row.savings && params.row.savings?.totalAmount?.toFixed(3)
+            }
+        },
         // {
         //     field: 'initialInvestment',
         //     headerName: t('initial_investment'),

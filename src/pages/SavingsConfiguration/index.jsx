@@ -54,7 +54,7 @@ const SavingsConfiguration = () => {
     ]
     useEffect(() => {
         fetchData();
-    }, [fetchData])
+    }, [])
     const [open, setOpen] = useState(false);
     const [year, setYear] = useState();
     const handleOpen = (id) => {
