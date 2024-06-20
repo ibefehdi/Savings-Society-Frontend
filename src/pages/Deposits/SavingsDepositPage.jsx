@@ -75,7 +75,8 @@ const SavingsDepositPage = () => {
             headerName: t('full_name'),
             flex: 1,
             renderCell: (params) => {
-                return `${params.row.fName} ${params.row.lName}`
+                const { fName, lName } = params.row;
+                return fName && lName ? `${fName} ${lName}` : 'N/A';
             }
         },
         {

@@ -104,15 +104,14 @@ const Amanat = () => {
         return params.row.mobileNumber && params.row.mobileNumber ? params.row.mobileNumber : "N/A"
       }
     },
-    {
-      field: 'address',
-      headerName: t('address'),
-      flex: 1,
-      renderCell: (params) => {
-        const { block, street, house, avenue, city } = params.value;
-        return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
-      }
-    },
+    // {
+    //   field: 'address',
+    //   headerName: t('address'),
+    //   flex: 1,
+    //   renderCell: (params) => {
+    //     return 1
+    //   }
+    // },
 
     {
       field: 'amount',
@@ -172,7 +171,7 @@ const Amanat = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [pageNo, pageSize, filters]);
   const [paginationModel, setPaginationModel] = useState({
     pageSize: pageSize,
     page: 0,

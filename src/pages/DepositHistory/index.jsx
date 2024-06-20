@@ -18,15 +18,19 @@ const DepositHistory = () => {
             field: 'membersCode',
             headerName: t('serial'),
             flex: 1,
-            valueGetter: (params) => `${params.row.shareholder.membersCode}`
+            valueGetter: (params) => `${params.row.shareholder?.membersCode}`
 
         },
         {
             field: 'Full Name',
             headerName: t('full_name'),
             flex: 1,
-            valueGetter: (params) => `${params.row.shareholder.fName} ${params.row.shareholder.lName}`
+            renderCell: (params) => {
+                const { fName, lName } = params.row?.shareholder;
+                return fName && lName ? `${fName} ${lName}` : 'N/A';
+            }
         },
+
         {
             field: 'civilId',
             headerName: t('civil_id'),
@@ -61,14 +65,22 @@ const DepositHistory = () => {
             field: 'newAmount',
             headerName: t('new_amount'),
             flex: 1,
-            valueGetter: (params) => params.row.newAmount
+            valueGetter: (params) => {
+                const newAmount = Number(params.row?.newAmount);
+                return newAmount ? newAmount.toFixed(3) : 'N/A';
+            }
         },
+
         {
             field: 'admin',
             headerName: t('admin'),
             flex: 1,
-            valueGetter: (params) => `${params.row.admin.fName} ${params.row.admin.lName}`
+            valueGetter: (params) => {
+                const { fName, lName } = params.row.admin || {};
+                return fName && lName ? `${fName} ${lName}` : 'N/A';
+            }
         }
+
     ];
 
     const isRtl = i18n.dir() === 'rtl';

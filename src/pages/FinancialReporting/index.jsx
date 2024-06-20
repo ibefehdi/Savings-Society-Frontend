@@ -87,10 +87,8 @@ const FinancialReporting = () => {
             headerName: t('share_initial_amount'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.shareDetails?.reduce(
-                    (total, share) => total + share.initialAmount,
-                    0
-                ).toFixed(3);
+                return params.row.shareDetails?.totalAmount
+                    .toFixed(3);
             },
         },
         {
@@ -98,10 +96,8 @@ const FinancialReporting = () => {
             headerName: t('share_current_amount'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.shareDetails?.reduce(
-                    (total, share) => total + share.currentAmount,
-                    0
-                ).toFixed(3);
+                return params.row.shareDetails?.totalAmount
+                    .toFixed(3);
             },
         },
         {
