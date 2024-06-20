@@ -70,19 +70,29 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
                 <StyledTable>
                     <thead>
                         <tr>
-                            <StyledTh>رقم العضو</StyledTh>
-                            <StyledTh>اسم العضو</StyledTh>
-                            <StyledTh>الاسهم</StyledTh>
-                            <StyledTh>الرقم المدني</StyledTh>
-                            <StyledTh>المدخرات </StyledTh>
-                            <StyledTh>أرباح الاسهم</StyledTh>
-                            <StyledTh>أرباح المدخرات</StyledTh>
-                            <StyledTh>الإجمالي</StyledTh>
-                            <StyledTh>أمانات</StyledTh>
+                            {/* <StyledTh>رقم العضو</StyledTh> */}
+                            {/* <StyledTh>اسم العضو</StyledTh> */}
+                            {/* <StyledTh>الاسهم</StyledTh> */}
+                            {/* <StyledTh>الرقم المدني</StyledTh> */}
+                            {/* <StyledTh>المدخرات </StyledTh> */}
+                            {/* <StyledTh>أرباح الاسهم</StyledTh> */}
+                            {/* <StyledTh>أرباح المدخرات</StyledTh> */}
+                            {/* <StyledTh>الإجمالي</StyledTh> */}
+                            {/* <StyledTh>أمانات</StyledTh> */}
                             {/* <StyledTh>الاستثمار المبدائي المدخرات</StyledTh>
                             <StyledTh>القيمة المبدائية للسهم</StyledTh> */}
-                            <StyledTh>الرصيد</StyledTh>
-                            <StyledTh>أجمالي</StyledTh>
+                            {/* <StyledTh>الرصيد</StyledTh> */}
+                            {/* <StyledTh>أجمالي</StyledTh> */}
+                            <StyledTh>رقم العضو</StyledTh>
+                            <StyledTh>اسم العضو</StyledTh>
+                            <StyledTh>الرقم المدني</StyledTh>
+                            <StyledTh>الاسهم</StyledTh>
+                            <StyledTh>المدخرات</StyledTh>
+                            <StyledTh>أرباح الاسهم</StyledTh>
+                            <StyledTh>أرباح المدخرات</StyledTh>
+                            <StyledTh>أمانات</StyledTh>
+                            <StyledTh>الإجمالي</StyledTh>
+                            {/* <StyledTh>أجمالي</StyledTh> */}
 
                         </tr>
                     </thead>
@@ -92,14 +102,13 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
                                 <StyledTd>{row?.membersCode}</StyledTd>
                                 <StyledTd>{row?.fullName}</StyledTd>
                                 <StyledTd>{row?.civilId}</StyledTd>
+                                <StyledTd>{row.shareDetails?.totalAmount.toFixed(3)}</StyledTd>
                                 <StyledTd>{row.savingsCurrentAmount ? row.savingsCurrentAmount.toFixed(3) : 'N/A'}</StyledTd>
-                                <StyledTd>{row.savingsDetails?.year || 'N/A'}</StyledTd>
-                                <StyledTd>{row.savingsIncrease ? row.savingsIncrease.toFixed(3) : 'N/A'}</StyledTd>
-                                <StyledTd>{row.shareDetails?.totalAmount.toFixed(3)}</StyledTd>
-                                <StyledTd>{row.shareDetails?.totalAmount.toFixed(3)}</StyledTd>
                                 <StyledTd>{row.totalShareIncrease ? row.totalShareIncrease.toFixed(3) : 'N/A'}</StyledTd>
+                                <StyledTd>{row.savingsIncrease ? row.savingsIncrease.toFixed(3) : 'N/A'}</StyledTd>
                                 <StyledTd>{row.amanatAmount ? row.amanatAmount.toFixed(3) : 'N/A'}</StyledTd>
                                 <StyledTd>{row.total ? row.total.toFixed(3) : 'N/A'}</StyledTd>
+                                {/* <StyledTd>{row.total ? row.total.toFixed(3) : 'N/A'}</StyledTd> */}
                             </TableRow>
                         ))}
                     </tbody>
