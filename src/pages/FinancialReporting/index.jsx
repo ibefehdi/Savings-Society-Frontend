@@ -44,23 +44,23 @@ const FinancialReporting = () => {
             headerName: t('civil_id'),
             flex: 1,
         },
-        {
-            field: 'initialInvestment',
-            headerName: t('initial_investment'),
-            flex: 1,
-            renderCell: (params) => {
-                return params.row.savingsDetails?.initialAmount
-                    ? params.row.savingsDetails.initialAmount.toFixed(3)
-                    : 'N/A';
-            },
-        },
+        // {
+        //     field: 'initialInvestment',
+        //     headerName: t('initial_investment'),
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         return params.row.savingsDetails?.initialAmount
+        //             ? params.row.savingsDetails.initialAmount.toFixed(3)
+        //             : 'N/A';
+        //     },
+        // },
         {
             field: 'currentAmount',
             headerName: t('current_amount'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.savingsDetails?.currentAmount
-                    ? params.row.savingsDetails.currentAmount.toFixed(3)
+                return params.row.savingsCurrentAmount
+                    ? params.row.savingsCurrentAmount.toFixed(3)
                     : 'N/A';
             },
         },
