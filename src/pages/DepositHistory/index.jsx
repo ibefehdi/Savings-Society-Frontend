@@ -18,43 +18,43 @@ const DepositHistory = () => {
             field: 'membersCode',
             headerName: t('serial'),
             flex: 1,
-            valueGetter: (params) => `${params.row.shareholder?.membersCode}`
-
+            valueGetter: (params) => params.row.shareholder?.membersCode || 'N/A'
         },
         {
             field: 'Full Name',
             headerName: t('full_name'),
             flex: 1,
             renderCell: (params) => {
-                const { fName, lName } = params.row?.shareholder;
+                const { fName, lName } = params.row?.shareholder || {};
                 return fName && lName ? `${fName} ${lName}` : 'N/A';
             }
         },
-
         {
             field: 'civilId',
             headerName: t('civil_id'),
             flex: 1,
-            valueGetter: (params) => params.row.shareholder.civilId
+            valueGetter: (params) => params.row.shareholder?.civilId || 'N/A'
         },
         {
             field: 'mobileNumber',
             headerName: t('phone_number'),
             flex: 1,
-            valueGetter: (params) => params.row.shareholder.mobileNumber
+            valueGetter: (params) => params.row.shareholder?.mobileNumber || 'N/A'
         },
         {
             field: 'type',
             headerName: t('type'),
             flex: 1,
-            valueGetter: (params) => params.row.type
+            valueGetter: (params) => params.row.type || 'N/A'
         },
         {
             field: 'depositDate',
             headerName: t('deposit_date'),
             flex: 1,
             valueGetter: (params) => {
+                if (!params.row.depositDate) return 'N/A';
                 const date = new Date(params.row.depositDate);
+                if (isNaN(date.getTime())) return 'N/A';
                 const day = date.getDate().toString().padStart(2, '0');
                 const month = (date.getMonth() + 1).toString().padStart(2, '0');
                 const year = date.getFullYear();
@@ -67,10 +67,9 @@ const DepositHistory = () => {
             flex: 1,
             valueGetter: (params) => {
                 const newAmount = Number(params.row?.newAmount);
-                return newAmount ? newAmount.toFixed(3) : 'N/A';
+                return !isNaN(newAmount) ? newAmount.toFixed(3) : 'N/A';
             }
         },
-
         {
             field: 'admin',
             headerName: t('admin'),
@@ -80,7 +79,6 @@ const DepositHistory = () => {
                 return fName && lName ? `${fName} ${lName}` : 'N/A';
             }
         }
-
     ];
 
     const isRtl = i18n.dir() === 'rtl';

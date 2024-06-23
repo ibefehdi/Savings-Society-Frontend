@@ -18,41 +18,44 @@ const WithdrawalHistory = () => {
             field: 'membersCode',
             headerName: t('serial'),
             flex: 1,
-            valueGetter: (params) => `${params.row.shareholder.membersCode} `
-
-
-
+            valueGetter: (params) => params.row.shareholder?.membersCode?.trim() || 'N/A'
         },
         {
             field: 'Full Name',
             headerName: t('full_name'),
             flex: 1,
-            valueGetter: (params) => `${params.row.shareholder.fName} ${params.row.shareholder.lName}`
+            valueGetter: (params) => {
+                const fName = params.row.shareholder?.fName;
+                const lName = params.row.shareholder?.lName;
+                return (fName && lName) ? `${fName} ${lName}`.trim() : 'N/A';
+            }
         },
         {
             field: 'civilId',
             headerName: t('civil_id'),
             flex: 1,
-            valueGetter: (params) => params.row.shareholder.civilId
+            valueGetter: (params) => params.row.shareholder?.civilId || 'N/A'
         },
         {
             field: 'mobileNumber',
             headerName: t('phone_number'),
             flex: 1,
-            valueGetter: (params) => params.row.shareholder.mobileNumber
+            valueGetter: (params) => params.row.shareholder?.mobileNumber || 'N/A'
         },
         {
             field: 'type',
             headerName: t('type'),
             flex: 1,
-            valueGetter: (params) => params.row.type
+            valueGetter: (params) => params.row.type || 'N/A'
         },
         {
             field: 'withdrawaldate',
             headerName: t('withdrawal_date'),
             flex: 1,
             valueGetter: (params) => {
+                if (!params.row.withdrawalDate) return 'N/A';
                 const date = new Date(params.row.withdrawalDate);
+                if (isNaN(date.getTime())) return 'N/A';
                 const day = date.getDate().toString().padStart(2, '0');
                 const month = (date.getMonth() + 1).toString().padStart(2, '0');
                 const year = date.getFullYear();
@@ -63,14 +66,16 @@ const WithdrawalHistory = () => {
             field: 'newAmount',
             headerName: t('new_amount'),
             flex: 1,
-            valueGetter: (params) => params.row.newAmount
+            valueGetter: (params) => params.row.newAmount ?? 'N/A'
         },
         {
             field: 'admin',
             headerName: t('admin'),
             flex: 1,
             valueGetter: (params) => {
-                return params.row.admin ? `${params.row.admin.fName} ${params.row.admin.lName}` : "N/A";
+                const fName = params.row.admin?.fName;
+                const lName = params.row.admin?.lName;
+                return (fName && lName) ? `${fName} ${lName}`.trim() : 'N/A';
             }
         }
     ];
