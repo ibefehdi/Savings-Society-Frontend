@@ -189,5 +189,15 @@
   "shares_savings_page": "Shares and Savings",
   "savings_withdrawal_form": "Savings Withdrawal",
   "periodic_leave_page": "Periodic Leave",
-  "special_leave_page": "Special Leave"
+  "special_leave_page": "Special Leave",
+  "Workplaces":"Workplaces",
+  "nameArabic":"Name in Arabic",
+  "rental_print_forms":"HR Print Forms",
+  "fetch":"Fetch",
+  "bankName":"Bank Name",
+  "inactive_shareholders":"Inactive Shareholders",
+  "active_shareholderss":"Active Shareholders",
+  "disable_shareholder":"Disable Shareholder",
+  "new_amount":"New Amount",
+  "deposit_date":"Deposit Date"
 }

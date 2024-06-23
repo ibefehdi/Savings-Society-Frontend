@@ -41,7 +41,9 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
         serial: 'رقم العضو',
         fName: 'اسم',
         civilId: 'الرقم المدني',
-        gender: "جنس"
+        gender: "جنس",
+        workplace: "مكان العمل",
+        year: "السنة"
     };
     // Function to create filter string
     const createFilterString = (filters) => {
@@ -49,7 +51,6 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
             .map(([key, value]) => `${keyTranslations[key] || key}: ${value}`)
             .join(', ');
     };
-    console.log(data)
     return (
         <div ref={ref}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', padding: "1rem" }}>
@@ -70,57 +71,45 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
                 <StyledTable>
                     <thead>
                         <tr>
+                            {/* <StyledTh>رقم العضو</StyledTh> */}
+                            {/* <StyledTh>اسم العضو</StyledTh> */}
+                            {/* <StyledTh>الاسهم</StyledTh> */}
+                            {/* <StyledTh>الرقم المدني</StyledTh> */}
+                            {/* <StyledTh>المدخرات </StyledTh> */}
+                            {/* <StyledTh>أرباح الاسهم</StyledTh> */}
+                            {/* <StyledTh>أرباح المدخرات</StyledTh> */}
+                            {/* <StyledTh>الإجمالي</StyledTh> */}
+                            {/* <StyledTh>أمانات</StyledTh> */}
+                            {/* <StyledTh>الاستثمار المبدائي المدخرات</StyledTh>
+                            <StyledTh>القيمة المبدائية للسهم</StyledTh> */}
+                            {/* <StyledTh>الرصيد</StyledTh> */}
+                            {/* <StyledTh>أجمالي</StyledTh> */}
                             <StyledTh>رقم العضو</StyledTh>
                             <StyledTh>اسم العضو</StyledTh>
                             <StyledTh>الرقم المدني</StyledTh>
-                            <StyledTh>الاستثمار المبدائي المدخرات</StyledTh>
-                            <StyledTh>المدخرات </StyledTh>
-                            <StyledTh>أرباح المدخرات</StyledTh>
                             <StyledTh>الاسهم</StyledTh>
-                            <StyledTh>القيمة المبدائية للسهم</StyledTh>
+                            <StyledTh>المدخرات</StyledTh>
                             <StyledTh>أرباح الاسهم</StyledTh>
+                            <StyledTh>أرباح المدخرات</StyledTh>
                             <StyledTh>أمانات</StyledTh>
                             <StyledTh>الإجمالي</StyledTh>
+                            {/* <StyledTh>أجمالي</StyledTh> */}
+
                         </tr>
                     </thead>
                     <tbody>
-                        {data.map((row) => (
-                            <TableRow key={row._id}>
+                        {data?.map((row) => (
+                            <TableRow key={row?._id}>
                                 <StyledTd>{row?.membersCode}</StyledTd>
                                 <StyledTd>{row?.fullName}</StyledTd>
                                 <StyledTd>{row?.civilId}</StyledTd>
-                                <StyledTd>{row?.savingsDetails ? row?.savingsDetails?.initialAmount : 'N/A'}</StyledTd>
-                                <StyledTd>{row?.savingsDetails ? row?.savingsDetails?.currentAmount : 'N/A'}</StyledTd>
-                                <StyledTd>{row?.savingsIncrease ? row?.savingsIncrease : 'N/A'}</StyledTd>
-                                <StyledTd>
-                                    {row.shareDetails && row.shareDetails?.length > 0 ? (
-                                        <ul>
-                                            {row?.shareDetails?.map((share, index) => (
-                                                <li key={index}>
-                                                    {share?.initialAmount}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    ) : (
-                                        'N/A'
-                                    )}
-                                </StyledTd>
-                                <StyledTd>
-                                    {row.shareDetails && row?.shareDetails?.length > 0 ? (
-                                        <ul>
-                                            {row?.shareDetails?.map((share, index) => (
-                                                <li key={index}>
-                                                    {share?.currentAmount}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    ) : (
-                                        'N/A'
-                                    )}
-                                </StyledTd>
-                                <StyledTd>{row.totalShareIncrease ? row.totalShareIncrease : 'N/A'}</StyledTd>
-                                <StyledTd>{row.amanatAmount ? row.amanatAmount : "N/A"}</StyledTd>
-                                <StyledTd>{row.total && row.total ? row.total : "N/A"}</StyledTd>
+                                <StyledTd>{row?.shareDetails?.totalAmount?.toFixed(3)}</StyledTd>
+                                <StyledTd>{row?.savingsCurrentAmount ? row.savingsCurrentAmount?.toFixed(3) : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.totalShareIncrease ? row.totalShareIncrease?.toFixed(3) : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.savingsIncrease ? row.savingsIncrease?.toFixed(3) : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.amanatAmount ? row.amanatAmount?.toFixed(3) : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.total ? row.total.toFixed(3) : 'N/A'}</StyledTd>
+                                {/* <StyledTd>{row.total ? row.total.toFixed(3) : 'N/A'}</StyledTd> */}
                             </TableRow>
                         ))}
                     </tbody>

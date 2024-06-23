@@ -44,23 +44,23 @@ const FinancialReportingYear = () => {
             headerName: t('civil_id'),
             flex: 1,
         },
-        {
-            field: 'initialInvestment',
-            headerName: t('initial_investment'),
-            flex: 1,
-            renderCell: (params) => {
-                return params?.row?.savingsDetails?.initialAmount
-                    ? params?.row?.savingsDetails?.initialAmount?.toFixed(3)
-                    : 'N/A';
-            },
-        },
+        // {
+        //     field: 'initialInvestment',
+        //     headerName: t('initial_investment'),
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         return params.row.savingsDetails?.initialAmount
+        //             ? params.row.savingsDetails.initialAmount.toFixed(3)
+        //             : 'N/A';
+        //     },
+        // },
         {
             field: 'currentAmount',
             headerName: t('current_amount'),
             flex: 1,
             renderCell: (params) => {
-                return params?.row?.savingsDetails?.currentAmount
-                    ? params?.row?.savingsDetails?.currentAmount?.toFixed(3)
+                return params.row.savingsCurrentAmount
+                    ? params.row.savingsCurrentAmount.toFixed(3)
                     : 'N/A';
             },
         },
@@ -69,7 +69,7 @@ const FinancialReportingYear = () => {
             headerName: t('year'),
             flex: 1,
             renderCell: (params) => {
-                return params?.row?.savingsDetails?.year || 'N/A';
+                return params.row.savingsDetails?.year || 'N/A';
             },
         },
         {
@@ -77,8 +77,8 @@ const FinancialReportingYear = () => {
             headerName: t('savings_increase'),
             flex: 1,
             renderCell: (params) => {
-                return params.row?.savingsIncrease
-                    ? params?.row?.savingsIncrease?.toFixed(3)
+                return params.row.savingsIncrease
+                    ? params.row.savingsIncrease.toFixed(3)
                     : 'N/A';
             },
         },
@@ -87,10 +87,8 @@ const FinancialReportingYear = () => {
             headerName: t('share_initial_amount'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.shareDetails?.reduce(
-                    (total, share) => total + share?.initialAmount,
-                    0
-                ).toFixed(3);
+                return params.row.shareDetails?.totalAmount
+                    .toFixed(3);
             },
         },
         {
@@ -98,10 +96,8 @@ const FinancialReportingYear = () => {
             headerName: t('share_current_amount'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.shareDetails?.reduce(
-                    (total, share) => total + share?.currentAmount,
-                    0
-                ).toFixed(3);
+                return params.row.shareDetails?.totalAmount
+                    .toFixed(3);
             },
         },
         {
@@ -109,8 +105,8 @@ const FinancialReportingYear = () => {
             headerName: t('share_increase'),
             flex: 1,
             renderCell: (params) => {
-                return params.row?.totalShareIncrease
-                    ? params.row?.totalShareIncrease?.toFixed(3)
+                return params.row.totalShareIncrease
+                    ? params.row.totalShareIncrease.toFixed(3)
                     : 'N/A';
             },
         },
@@ -119,8 +115,8 @@ const FinancialReportingYear = () => {
             headerName: t('amanat'),
             flex: 1,
             renderCell: (params) =>
-                params.row.savings && params.row.savings.amanat
-                    ? params.row.savings.amanat.amount.toFixed(3)
+                params.row.amanatAmount
+                    ? params.row.amanatAmount.toFixed(3)
                     : 'N/A',
         },
         {
@@ -131,6 +127,7 @@ const FinancialReportingYear = () => {
                 params.row.total ? params.row.total.toFixed(3) : 'N/A',
         },
     ];
+
 
 
     useEffect(() => {
@@ -187,6 +184,14 @@ const FinancialReportingYear = () => {
                         marginLeft: '1.2rem'
                     }}>
                         {t('financial_reporting')}
+                        <span style={{
+                            fontSize: '0.875rem',
+                            marginLeft: '0.5rem',
+                            marginRight: '0.5rem',
+                            color: '#999'
+                        }}>
+                            / {t('join_year')}
+                        </span>
                     </Typography>
 
 

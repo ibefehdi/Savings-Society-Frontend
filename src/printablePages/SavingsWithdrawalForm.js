@@ -61,7 +61,7 @@ const SavingsWithdrawalForm = React.forwardRef((props, ref) => {
                         <p>
                             اسم العضو:{' '}
                             {shareholder?.fName ? (
-                                <span>{shareholder.fName}</span>
+                                <span style={{ fontWeight: "bold" }}>{shareholder.fName}</span>
                             ) : (
                                 <span style={{ borderBottom: "1px solid black", paddingRight: '150px' }}>&nbsp;</span>
                             )}

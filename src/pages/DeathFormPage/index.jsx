@@ -44,13 +44,13 @@ const DeathFormPage = () => {
                     </Typography>
                     <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0 }}></Box>
                     <TextField
-                        label="Member's Code"
+                        label={t('serial')}
                         value={membersCode}
                         onChange={(e) => setMembersCode(e.target.value)}
                         sx={{ marginRight: '1rem' }}
                     />
-                    <Button variant="contained" onClick={handleFetch} sx={{ marginRight: '1rem' }}>
-                        Fetch
+                    <Button variant="contained" onClick={handleFetch} sx={{ marginRight: '1rem', marginLeft: '1rem' }}>
+                        {t('fetch')}
                     </Button>
 
                     <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>

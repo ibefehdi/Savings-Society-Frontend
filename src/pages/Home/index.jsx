@@ -85,10 +85,18 @@ const Home = () => {
                             {t('total_shareholders')}
                         </Typography>
                         <Typography sx={{
-                            color: '#64676c', fontWeight: "700", 
+                            color: '#64676c', fontWeight: "700",
                             direction: isRtl ? 'rtl' : 'ltr'
                         }}>
                             {shareholderCount}
+                        </Typography>
+                    </Box>
+                    <Box sx={{ width: "13rem", height: '5rem', padding: '1rem', borderRight: '2px solid #f1f1f1' }}>
+                        <Typography sx={{ color: '#795cae', marginBottom: '0.5rem', fontWeight: "700" }}>
+                            {t('active_shareholders')}
+                        </Typography>
+                        <Typography sx={{ color: '#64676c', fontWeight: "700" }}>
+                            {activeShareholders}
                         </Typography>
                     </Box>
                     <Box sx={{
@@ -105,14 +113,7 @@ const Home = () => {
                             {userCount}
                         </Typography>
                     </Box>
-                    <Box sx={{ width: "13rem", height: '5rem', padding: '1rem', borderRight: '2px solid #f1f1f1' }}>
-                        <Typography sx={{ color: '#795cae', marginBottom: '0.5rem', fontWeight: "700" }}>
-                            {t('active_shareholders')}
-                        </Typography>
-                        <Typography sx={{ color: '#64676c', fontWeight: "700" }}>
-                            {activeShareholders}
-                        </Typography>
-                    </Box>
+
                     <Box sx={{ width: "13rem", height: '5rem', padding: '1rem', borderRight: '2px solid #f1f1f1' }}>
                         <Typography sx={{ color: '#e56969', marginBottom: '0.5rem', fontWeight: "700" }}>
                             {t('deleted_users')}

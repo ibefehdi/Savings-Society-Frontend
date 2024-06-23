@@ -44,23 +44,23 @@ const FinancialReportsByQuitYear = () => {
             headerName: t('civil_id'),
             flex: 1,
         },
-        {
-            field: 'initialInvestment',
-            headerName: t('initial_investment'),
-            flex: 1,
-            renderCell: (params) => {
-                return params.row.savingsDetails?.initialAmount
-                    ? params.row.savingsDetails.initialAmount.toFixed(3)
-                    : 'N/A';
-            },
-        },
+        // {
+        //     field: 'initialInvestment',
+        //     headerName: t('initial_investment'),
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         return params.row.savingsDetails?.initialAmount
+        //             ? params.row.savingsDetails.initialAmount.toFixed(3)
+        //             : 'N/A';
+        //     },
+        // },
         {
             field: 'currentAmount',
             headerName: t('current_amount'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.savingsDetails?.currentAmount
-                    ? params.row.savingsDetails.currentAmount.toFixed(3)
+                return params.row.savingsCurrentAmount
+                    ? params.row.savingsCurrentAmount.toFixed(3)
                     : 'N/A';
             },
         },
@@ -87,10 +87,8 @@ const FinancialReportsByQuitYear = () => {
             headerName: t('share_initial_amount'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.shareDetails?.reduce(
-                    (total, share) => total + share.initialAmount,
-                    0
-                ).toFixed(3);
+                return params.row.shareDetails?.totalAmount
+                    .toFixed(3);
             },
         },
         {
@@ -98,10 +96,8 @@ const FinancialReportsByQuitYear = () => {
             headerName: t('share_current_amount'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.shareDetails?.reduce(
-                    (total, share) => total + share.currentAmount,
-                    0
-                ).toFixed(3);
+                return params.row.shareDetails?.totalAmount
+                    .toFixed(3);
             },
         },
         {
@@ -119,8 +115,8 @@ const FinancialReportsByQuitYear = () => {
             headerName: t('amanat'),
             flex: 1,
             renderCell: (params) =>
-                params.row.savings && params.row.savings.amanat
-                    ? params.row.savings.amanat.amount.toFixed(3)
+                params.row.amanatAmount
+                    ? params.row.amanatAmount.toFixed(3)
                     : 'N/A',
         },
         {
@@ -131,6 +127,7 @@ const FinancialReportsByQuitYear = () => {
                 params.row.total ? params.row.total.toFixed(3) : 'N/A',
         },
     ];
+
 
 
     useEffect(() => {
@@ -182,13 +179,23 @@ const FinancialReportsByQuitYear = () => {
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
                 <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
                     <Typography variant="h3" component="h2" sx={{
-                        fontStyle: 'normal', // Sets the font style
+                        fontStyle: 'normal',
                         fontWeight: 600,
-                        lineHeight: '1.875rem', flexGrow: 1,
+                        lineHeight: '1.875rem',
+                        flexGrow: 1,
                         marginLeft: '1.2rem'
                     }}>
                         {t('financial_reporting')}
+                        <span style={{
+                            fontSize: '0.875rem',
+                            marginLeft: '0.5rem',
+                            marginRight: '0.5rem',
+                            color: '#999'
+                        }}>
+                            / {t('quit_year')}
+                        </span>
                     </Typography>
+
 
 
                     <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>

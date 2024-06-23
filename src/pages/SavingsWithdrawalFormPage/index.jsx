@@ -50,8 +50,8 @@ const SavingsWithdrawalFormPage = () => {
                         onChange={(e) => setMembersCode(e.target.value)}
                         sx={{ marginRight: '1rem' }}
                     />
-                    <Button variant="contained" onClick={handleFetch} sx={{ marginRight: '1rem' }}>
-                        Fetch
+                    <Button variant="contained" onClick={handleFetch} sx={{ marginRight: '1rem', marginLeft: '1rem' }}>
+                        {t('fetch')}
                     </Button>
 
                     <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>

@@ -108,7 +108,7 @@
   "select_year": "اختر السنة",
   "join_year": "سنة الانضمام",
   "quit_year": "سنة الاستقالة",
-  "custom": "مخصص",
+  "custom": "تقرير مستحقات الأعضاء",
   "workplace": "مكان العمل",
   "disable": "تعطيل المساهم",
   "Male": "ذكر",
@@ -192,5 +192,15 @@
   "shares_savings_page": "الأسهم والمدخرات",
   "savings_withdrawal_form": "نموذج سحب المدخرات",
   "periodic_leave_page": "إجازة دورية",
-  "special_leave_page": "إجازة خاصة"
+  "special_leave_page": "إجازة خاصة",
+  "Workplaces":"مكان العمل",
+  "nameArabic":"الاسم باللغة العربية",
+  "rental_print_forms": "باعة النماذج HR",
+  "fetch":"بحث",
+  "bankName":"اسم البنك",
+  "inactive_shareholders":" المساهمون - غير نشط",
+  "active_shareholderss":"المساهمون - نشط",
+  "disable_shareholder":"تعطيل المساهمين",
+  "new_amount":"مبلغ جديد",
+  "deposit_date":"تاريخ الإيداع"
 }

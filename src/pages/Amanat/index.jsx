@@ -31,7 +31,7 @@ const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
   );
 };
 const Amanat = () => {
-  const [pageNo, setPageNo] = useState(1)
+  const [pageNo, setPageNo] = useState(0)
   const [pageSize, setPageSize] = useState(10)
   const [filters, setFilters] = useState({
     fName: '',
@@ -42,7 +42,8 @@ const Amanat = () => {
     membersCode: ''
   });
 
-  const { data, fetchData, count } = useFetch('/shareholders', pageNo, pageSize, filters);
+  const { data, fetchData, count } = useFetch('/shareholderwithamanat', pageNo + 1, pageSize, filters);
+
   const { i18n, t } = useTranslation();
   const navigate = useNavigate();
   const [userData, setUserdata] = useState(JSON.parse(sessionStorage.getItem('userDetails')))
@@ -103,15 +104,14 @@ const Amanat = () => {
         return params.row.mobileNumber && params.row.mobileNumber ? params.row.mobileNumber : "N/A"
       }
     },
-    {
-      field: 'address',
-      headerName: t('address'),
-      flex: 1,
-      renderCell: (params) => {
-        const { block, street, house, avenue, city } = params.value;
-        return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
-      }
-    },
+    // {
+    //   field: 'address',
+    //   headerName: t('address'),
+    //   flex: 1,
+    //   renderCell: (params) => {
+    //     return 1
+    //   }
+    // },
 
     {
       field: 'amount',
@@ -171,10 +171,10 @@ const Amanat = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [pageNo, pageSize, filters]);
   const [paginationModel, setPaginationModel] = useState({
     pageSize: pageSize,
-    page: pageNo,
+    page: 0,
   });
 
 
@@ -286,7 +286,7 @@ const Amanat = () => {
           }))}
           paginationModel={paginationModel}
           onPaginationModelChange={(newModel) => {
-            setPageNo(newModel.page + 1);
+            setPageNo(newModel.page);
             setPaginationModel(newModel);
           }}
           getRowId={(row) => row._id}
@@ -313,11 +313,15 @@ const Amanat = () => {
             },
             '& .MuiDataGrid-columnHeaders': {
               border: 'none',
-              fontStyle: 'normal', // Sets the font style
-              fontWeight: 600, // Sets the font weight
+              fontStyle: 'normal',
+              fontWeight: 600,
               lineHeight: '1.25rem',
               color: '#667085',
               fontSize: '0.875rem'
+            },
+            '& .MuiDataGrid-cell': {
+              fontSize: '1rem',
+              fontWeight: 'bold',
             },
           }}
         />

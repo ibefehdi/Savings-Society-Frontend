@@ -23,9 +23,12 @@ import AssignTenantModal from './AssignTenantModal';
 
 const Flats = () => {
     const { id } = useParams();
-    const [pageNo, setPageNo] = useState(1);
+    const [pageNo, setPageNo] = useState(0);
     const [pageSize, setPageSize] = useState(10);
-    const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 });
+    const [paginationModel, setPaginationModel] = useState({
+        pageSize: pageSize,
+        page: 0,
+    });
     const [openModal, setOpenModal] = useState(false);
     const [openRemoveTenantModal, setOpenRemoveTenantModal] = useState(false);
     const [selectedFlatId, setSelectedFlatId] = useState(null);
@@ -37,14 +40,14 @@ const Flats = () => {
     const [openAssignTenantModal, setOpenAssignTenantModal] = useState(false);
     const [buildings, setBuildings] = useState([]);
     const [selectedBuilding, setSelectedBuilding] = useState('');
-    const { data, fetchData, count } = useFetch(`/flatsbybuildingid/${selectedBuilding}`, pageNo, pageSize);
+    const { data, fetchData, count } = useFetch(`/flatsbybuildingid/${selectedBuilding}`, pageNo + 1, pageSize);
     useEffect(() => { fetchData() }, [selectedBuilding, paginationModel])
     const columns = [
         {
             field: 'flatNumber',
             headerName: t('flatNumber'),
             flex: 1,
-            valueGetter: (params) => `${params.row.flatNumber}`
+            valueGetter: (params) => `${params?.row?.flatNumber ? params?.row?.flatNumber : "N/A"}`
         },
         {
             field: 'floorNumber',
@@ -199,7 +202,7 @@ const Flats = () => {
                         }))}
                         paginationModel={paginationModel}
                         onPaginationModelChange={(newModel) => {
-                            setPageNo(newModel.page + 1);
+                            setPageNo(newModel.page);
                             setPaginationModel(newModel);
                         }}
                         getRowId={(row) => row._id}
@@ -232,8 +235,8 @@ const Flats = () => {
                                 fontSize: '0.875rem'
                             },
                             '& .MuiDataGrid-cell': {
-                                fontSize: '1rem', 
-                                fontWeight: 'bold', 
+                                fontSize: '1rem',
+                                fontWeight: 'bold',
                             },
                         }}
                     />

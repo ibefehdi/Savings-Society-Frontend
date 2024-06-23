@@ -40,7 +40,7 @@ const WithdrawalForm = React.forwardRef((props, ref) => {
                 <div>التاريخ: <br /><br /> ________</div>
                 <div>
                     اسم العضو:<br /><br />
-                    {shareholder?.fName ? shareholder.fName : '__________'}
+                    {shareholder?.fName ? <span style={{ fontWeight: "bold" }}>{shareholder.fName} </span> : '__________'}
                 </div>
                 <div>
                     توقيع موقع الطلب:<br /><br />
@@ -66,14 +66,14 @@ const WithdrawalForm = React.forwardRef((props, ref) => {
                     </tr>
                     <tr>
                         <td>رصيد الأسهم في 31/12/{year}</td>
-                        <td>{shareholder?.share?.[0]?.currentAmount ? shareholder.share[0].currentAmount : '__________'}</td>
                         <td>__________</td>
+                        <td>{shareholder?.share?.[0]?.currentAmount ? shareholder.share[0].currentAmount : '__________'}</td>
                         <td>__________</td>
                     </tr>
                     <tr>
                         <td>أجمالي</td>
                         <td>__________</td>
-                        <td>__________</td>
+                        <td>{shareholder?.share ? shareholder.share.reduce((total, share) => total + (share.currentAmount || 0), 0) : '__________'}</td>
                         <td>__________</td>
                     </tr>
                 </tbody>

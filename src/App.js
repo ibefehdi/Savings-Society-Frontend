@@ -50,10 +50,12 @@ import SharesAndSavingsPage from './pages/SharesAndSavingsPage';
 import SavingsWithdrawalFormPage from './pages/SavingsWithdrawalFormPage';
 import PeriodicLeavePage from './pages/PeriodicLeavePage';
 import SpecialLeavePage from './pages/SpecialLeavePage';
+import DisabledShareholders from './pages/Shareholders/DisabledShareholders';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [token, setToken] = useState(sessionStorage.getItem('token'))
+  const [userData, setUserdata] = useState(JSON.parse(sessionStorage.getItem('userDetails')))
 
   useEffect(() => {
 
@@ -71,7 +73,7 @@ function App() {
     {
       path: "/rental",
       element: authenticated ? <Layout /> : <Login />,
-      children: authenticated ? [
+      children: authenticated && userData?.isAdmin ? [
         { index: true, element: <Users /> },
         { path: 'Users', element: <Users /> },
         { path: 'Buildings', element: <Buildings /> },
@@ -86,17 +88,43 @@ function App() {
         { path: 'buildingtransactions', element: <BuildingTransactions /> },
         { path: 'contracts', element: <Contracts /> },
         { path: 'ProfitReport', element: <ProfitReport /> },
-        { path: 'Profitreportperflat', element: <TotalTransactionsPerFlat /> }
+        { path: 'Profitreportperflat', element: <TotalTransactionsPerFlat /> },
+        { path: "Forms/PeriodicLeavePage", element: <PeriodicLeavePage /> },
+        { path: "Forms/SpecialLeavePage", element: <SpecialLeavePage /> },
+        { path: "Forms/MembershipApplicationFormPage", element: <MembershipApplicationFormPage /> },
+        { path: 'Forms/BoardMemberReward', element: <BoardMemberRewardFormPage /> },
+        { path: "Forms/ReturnFromLeavePage", element: <ReturnFromLeavePage /> },
 
+      ] : authenticated ? [
+        { index: true, element: <Buildings /> },
+        { path: 'Buildings', element: <Buildings /> },
+        { path: 'Flats/', element: <Flats /> },
+        { path: 'Flats/:id', element: <Flats /> },
+        { path: 'Flat/:id', element: <FlatDetails /> },
+        { path: 'Halls', element: <Halls /> },
+        { path: 'booking', element: <Booking /> },
+        { path: 'bookhall/:id', element: <BookingTimeline /> },
+        { path: 'halltransactions', element: <Transactions /> },
+        { path: 'vouchers', element: <Vouchers /> },
+        { path: 'buildingtransactions', element: <BuildingTransactions /> },
+        { path: 'contracts', element: <Contracts /> },
+        { path: 'ProfitReport', element: <ProfitReport /> },
+        { path: 'Profitreportperflat', element: <TotalTransactionsPerFlat /> },
+        { path: "Forms/PeriodicLeavePage", element: <PeriodicLeavePage /> },
+        { path: "Forms/SpecialLeavePage", element: <SpecialLeavePage /> },
+        { path: "Forms/MembershipApplicationFormPage", element: <MembershipApplicationFormPage /> },
+        { path: 'Forms/BoardMemberReward', element: <BoardMemberRewardFormPage /> },
+        { path: "Forms/ReturnFromLeavePage", element: <ReturnFromLeavePage /> },
       ] : []
     },
     {
       path: '/shareholder',
       element: authenticated ? <Layout /> : <Login />,
-      children: authenticated ? [
+      children: authenticated && userData?.isAdmin ? [
         { index: true, element: <Home /> },
         { path: 'Users', element: <Users /> },
         { path: 'Shareholders', element: <Shareholders /> },
+        { path: 'DisabledShareholders', element: <DisabledShareholders /> },
         { path: "Financialreporting", element: <FinancialReporting /> },
         { path: "Financialreporting/year", element: <FinancialReportingYear /> },
         { path: "FinancialReporting/quityear", element: <FinancialReportsByQuitYear /> },
@@ -126,7 +154,39 @@ function App() {
         { path: 'deposithistory', element: <DepositHistory /> },
         { path: 'withdrawalhistory', element: <WithdrawalHistory /> },
         { path: 'workplaces', element: <Workplaces /> }
+      ] : authenticated ? [
+        { index: true, element: <Home /> },
+        { path: 'Shareholders', element: <Shareholders /> },
+        { path: 'DisabledShareholders', element: <DisabledShareholders /> },
 
+        { path: 'Shareholders/:id', element: <ShareholderDetails /> },
+        { path: 'Financial/Share', element: <ShareConfiguration /> },
+        { path: 'Financial/Savings', element: <SavingsConfiguration /> },
+        { path: 'Withdrawal/Savings', element: <SavingsWithdrawalPage /> },
+        { path: 'Withdrawal/Shares', element: <SharesWithdrawalPage /> },
+        { path: 'Deposit/Savings', element: <SavingsDepositPage /> },
+        { path: 'Deposit/Shares', element: <SharesDepositPage /> },
+        { path: 'Forms/ReceiptVoucher', element: <ReceiptVoucher /> },
+        { path: 'Forms/WithdrawalForm', element: <WithdrawalFormPage /> },
+        { path: 'Forms/DepositForm', element: <DepositFormPage /> },
+        { path: 'Forms/DeathForm', element: <DeathFormPage /> },
+        { path: 'Forms/RentPaymentNotice', element: <RentPaymentNoticePage /> },
+        { path: 'Forms/Checkwithdrawal', element: <CheckWithdrawalPage /> },
+        { path: 'Forms/BoardMemberReward', element: <BoardMemberRewardFormPage /> },
+        { path: "Forms/ReturnFromLeavePage", element: <ReturnFromLeavePage /> },
+        { path: "Forms/CashWithdrawalPage", element: <CashWithdrawalPage /> },
+        { path: "Forms/MembershipApplicationFormPage", element: <MembershipApplicationFormPage /> },
+        { path: "Forms/SharesAndSavingsPage", element: <SharesAndSavingsPage /> },
+        { path: "Forms/SavingsWithdrawalPage", element: <SavingsWithdrawalFormPage /> },
+        { path: "Forms/PeriodicLeavePage", element: <PeriodicLeavePage /> },
+        { path: "Forms/SpecialLeavePage", element: <SpecialLeavePage /> },
+        { path: 'Amanat', element: <Amanat /> },
+        { path: 'deposithistory', element: <DepositHistory /> },
+        { path: 'withdrawalhistory', element: <WithdrawalHistory /> },
+        { path: "Financialreporting", element: <FinancialReporting /> },
+        { path: "Financialreporting/year", element: <FinancialReportingYear /> },
+        { path: "FinancialReporting/quityear", element: <FinancialReportsByQuitYear /> },
+        { path: "FinancialReporting/workplace", element: <FinancialReportingByWorkplace /> },
       ] : [],
     },
     {

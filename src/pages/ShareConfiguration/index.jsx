@@ -62,7 +62,7 @@ const ShareConfiguration = () => {
     ]
     useEffect(() => {
         fetchData();
-    }, [fetchData])
+    }, [])
     const [open, setOpen] = useState(false);
     const [year, setYear] = useState();
     const handleOpen = (id) => {
@@ -132,6 +132,10 @@ const ShareConfiguration = () => {
                             lineHeight: '1.25rem',
                             color: '#667085',
                             fontSize: '0.875rem'
+                        },
+                        '& .MuiDataGrid-cell': {
+                            fontSize: '1rem',
+                            fontWeight: 'bold',
                         },
                     }}
                     disableRowSelectionOnClick

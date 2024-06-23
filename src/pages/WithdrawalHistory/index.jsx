@@ -140,11 +140,15 @@ const WithdrawalHistory = () => {
                         },
                         '& .MuiDataGrid-columnHeaders': {
                             border: 'none',
-                            fontStyle: 'normal', // Sets the font style
-                            fontWeight: 600, // Sets the font weight
+                            fontStyle: 'normal',
+                            fontWeight: 600,
                             lineHeight: '1.25rem',
                             color: '#667085',
                             fontSize: '0.875rem'
+                        },
+                        '& .MuiDataGrid-cell': {
+                            fontSize: '1rem',
+                            fontWeight: 'bold',
                         },
                     }}
                 />

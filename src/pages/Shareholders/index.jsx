@@ -59,27 +59,37 @@ const DisableButton = ({ id, setDisableOpen, setSelectedShareholderId }) => {
 };
 
 const Shareholders = () => {
-  const [pageNo, setPageNo] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
   const [disableOpen, setDisableOpen] = useState(false);
-
   const [filters, setFilters] = useState({
     fName: '',
     lName: '',
-    status: '',
-    membershipStatus: '',
+    status: 0,
+    workplace: '',
     civilId: '',
     membersCode: ''
   });
-  const { data, fetchData, count } = useFetch('/shareholders', pageNo, pageSize, filters);
+  const { data, fetchData, count } = useFetch('/shareholders', pageNo + 1, pageSize, filters);
   const [selectedShareholderId, setSelectedShareholderId] = useState(null);
   const { i18n, t } = useTranslation();
   const isRtl = i18n.dir() === 'rtl';
-
+  // const { data: workplaces, fetchData: workplaceFetchData, count: workplaceCount, updateFilters, filters: workplaceFilters } = useFetchNoPagination('/financialreportbyworkplace');
   const navigate = useNavigate();
-  const [userData, setUserdata] = useState(JSON.parse(sessionStorage.getItem('userDetails')))
-  const [permissions, setPermissions] = useState(userData?.permissions)
+  const [userData, setUserdata] = useState(JSON.parse(sessionStorage.getItem('userDetails')));
+  const [permissions, setPermissions] = useState(userData?.permissions);
+  const [showFilters, setShowFilters] = useState(false);
+  const [workplaces, setWorkplaces] = useState();
+  const cacheRtl = createCache({
+    key: 'muirtl',
+    stylisPlugins: [prefixer, rtlPlugin],
+  });
+  const cacheLtr = createCache({
+    key: 'muilt',
+  });
+
   const columns = [
+    // define your columns here
     {
       field: 'membersCode',
       headerName: t('serial'),
@@ -88,98 +98,77 @@ const Shareholders = () => {
     {
       field: 'Full Name',
       headerName: t('full_name'),
-      flex: 1,
-      renderCell: (params) => {
-        return `${params?.row?.fName} ${params?.row?.lName}`
-      }
+      flex: 3.2,
+      renderCell: (params) => `${params?.row?.fName} ${params?.row?.lName}`,
     },
     {
       field: 'DOB',
       headerName: t('date_of_birth'),
-      flex: 1,
+      flex: 1.5,
       renderCell: (params) => {
         const date = new Date(params.value);
         const day = date.getDate().toString().padStart(2, '0');
         const month = (date.getMonth() + 1).toString().padStart(2, '0');
         const year = date.getFullYear().toString();
-        const formattedDate = `${day}/${month}/${year}`;
-        return formattedDate;
-      }
+        return `${day}/${month}/${year}`;
+      },
     },
     {
       field: 'civilId',
       headerName: t('civil_id'),
-      flex: 1,
+      flex: 2,
     },
     {
-      field: 'email',
-      headerName: t('email'),
-      flex: 1,
+      field: 'joinDate',
+      headerName: t('join_date'),
+      flex: 1.5,
+      renderCell: (params) => {
+        const date = new Date(params.value);
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear().toString();
+        return `${day}/${month}/${year}`;
+      },
     },
     {
       field: 'ibanNumber',
       headerName: t('iban'),
-      flex: 1,
+      flex: 2,
+      renderCell: (params) => <Typography variant='p' sx={{ color: "#10A760" }}>{params.value}</Typography>,
     },
     {
       field: 'mobileNumber',
       headerName: t('phone_number'),
-      flex: 1,
-      renderCell: (params) => {
-        return params?.row?.mobileNumber && params?.row?.mobileNumber ? params?.row?.mobileNumber : "N/A"
-      }
+      flex: 1.50,
+      renderCell: (params) => params?.row?.mobileNumber || "N/A",
     },
     {
       field: 'address',
       headerName: t('address'),
-      flex: 1,
+      flex: 2,
       renderCell: (params) => {
         const { block, street, house, avenue, city } = params.value;
         return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
-      }
-    },
-    {
-      field: 'initialInvestment',
-      headerName: t('initial_investment'),
-      flex: 1,
-      renderCell: (params) => {
-        // Filter the savings array for the current year and display the initial amount
-        return params?.row.savings?.initialAmount ? params?.row?.savings?.initialAmount?.toFixed(3) : "N/A"
-      }
-    },
-    {
-      field: 'currentAmount',
-      headerName: t('current_amount'),
-      flex: 1,
-      renderCell: (params) => {
-
-        return params?.row?.savings?.currentAmount ? params?.row?.savings?.currentAmount?.toFixed(3) : "N/A"
-      }
+      },
     },
     // {
-    //   field: 'membershipStatus',
-    //   headerName: t('membership_status'),
+    //   field: 'initialInvestment',
+    //   headerName: t('initial_investment'),
     //   flex: 1,
-    //   renderCell: (params) => {
-    //     if (params.value === 0) {
-    //       return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
-    //     } else if (params.value === 1) {
-    //       return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
-    //     }
-    //   }
+    //   renderCell: (params) => params?.row.savings?.initialAmount?.toFixed(3) || "N/A",
+    // },
+    // {
+    //   field: 'currentAmount',
+    //   headerName: t('current_amount'),
+    //   flex: 1,
+    //   renderCell: (params) => params?.row?.savings?.currentAmount?.toFixed(3) || "N/A",
     // },
     {
-      field: 'status',
-      headerName: t('status'),
+      field: 'savingsForShareholder',
+      headerName: t('savings'),
       flex: 1,
       renderCell: (params) => {
-        if (params.value === 0) {
-          return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
-        } else if (params.value === 1) {
-          return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
-        } else if (params.value === 2) {
-          return <Typography sx={{ color: '#DA3E33', fontWeight: 600 }}>{t('death')}</Typography>
-        }
+        return params.row.savings && params.row.savings?.totalAmount?.toFixed(3)
       }
     },
     ...(permissions?.shareholder?.view ? [{
@@ -187,45 +176,29 @@ const Shareholders = () => {
       headerName: t('view'),
       sortable: false,
       width: 55,
-      renderCell: (params) => {
-        return <ViewButton id={params.id} />;
-      },
+      renderCell: (params) => <ViewButton id={params.id} />,
     }] : []),
     ...(permissions?.shareholder?.edit ? [{
       field: 'edit',
       headerName: t('edit'),
       sortable: false,
       width: 55,
-      renderCell: (params) => {
-        return <ViewButton id={params.id} edit={true} setEditOpen={setEditOpen} setSelectedShareholderId={setSelectedShareholderId} />;
-      },
+      renderCell: (params) => <ViewButton id={params.id} edit={true} setEditOpen={setEditOpen} setSelectedShareholderId={setSelectedShareholderId} />,
     }] : []),
     {
       field: 'disable',
       headerName: t('disable'),
       sortable: false,
       width: 55,
-      renderCell: (params) => {
-        if (params.row.status === 0 || params.row.membershipStatus === 0) {
-          return <DisableButton id={params.id} setDisableOpen={setDisableOpen} setSelectedShareholderId={setSelectedShareholderId} />;
-        }
-        return null;
-      },
+      renderCell: (params) => (params.row.status === 0 || params.row.membershipStatus === 0) ? <DisableButton id={params.id} setDisableOpen={setDisableOpen} setSelectedShareholderId={setSelectedShareholderId} /> : null,
     },
   ];
 
-  const cacheRtl = createCache({
-    key: 'muirtl',
-    stylisPlugins: [prefixer, rtlPlugin],
-  });
-  const cacheLtr = createCache({
-    key: 'muilt',
-  });
   useEffect(() => {
     fetchData();
   }, [fetchData, pageNo, pageSize]);
-  const [open, setOpen] = useState(false);
 
+  const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
 
   const handlePageSizeChange = (event) => {
@@ -233,10 +206,10 @@ const Shareholders = () => {
     setPageNo(1);
     setPaginationModel({ ...paginationModel, pageSize: event.target.value });
   };
+
   const handleOpen = () => {
     setOpen(true);
-
-  }
+  };
 
   const getCSV = () => {
     const filterParams = new URLSearchParams(filters).toString();
@@ -248,15 +221,25 @@ const Shareholders = () => {
       })
       .catch(error => console.error('Download error!', error));
   };
+
   const [paginationModel, setPaginationModel] = useState({
     pageSize: pageSize,
-    page: pageNo,
+    page: 0,
   });
-  const [showFilters, setShowFilters] = useState(false);
+
   const toggleFilters = () => {
     setShowFilters(!showFilters);
   };
+
   const orderedColumns = isRtl ? [...columns].reverse() : columns;
+
+  useEffect(() => {
+    async function fetchWorkplaces() {
+      const response = await axiosInstance.get('/workplacesdropdown');
+      setWorkplaces(response?.data?.data);
+    }
+    fetchWorkplaces();
+  }, []);
   return (
     <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
       <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
@@ -299,21 +282,23 @@ const Shareholders = () => {
             autoComplete='off'
 
           />
+
           <TextField
-            label={t('status')}
+            label={t('workplace')}
             variant="outlined"
             select
-            value={filters.status}
-            onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+            onChange={(e) => setFilters({ ...filters, workplace: e.target.value })}
             fullWidth
             autoComplete='off'
-
+            value={filters.workplace}
           >
-            <MenuItem value={0}>{t('active')}</MenuItem>
-            <MenuItem value={1}>{t('inactive')}</MenuItem>
-            <MenuItem value={2}>{t('death')}</MenuItem>
+            {workplaces.map((place) => (
+              <MenuItem key={place.description} value={place.description}>
+                {place.description}
+              </MenuItem>
+            ))}
           </TextField>
-          <TextField
+          {/* <TextField
             label={t('membership_status')}
             variant="outlined"
             select
@@ -324,7 +309,7 @@ const Shareholders = () => {
           >
             <MenuItem value={0}>{t('active')}</MenuItem>
             <MenuItem value={1}>{t('inactive')}</MenuItem>
-          </TextField>
+          </TextField> */}
         </Box>)}
       <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
 
@@ -356,7 +341,7 @@ const Shareholders = () => {
           }))}
           paginationModel={paginationModel}
           onPaginationModelChange={(newModel) => {
-            setPageNo(newModel.page + 1);
+            setPageNo(newModel.page);
             setPaginationModel(newModel);
           }}
           getRowId={(row) => row._id}
@@ -382,12 +367,18 @@ const Shareholders = () => {
             },
             '& .MuiDataGrid-columnHeaders': {
               border: 'none',
-              fontStyle: 'normal', // Sets the font style
-              fontWeight: 600, // Sets the font weight
+              fontStyle: 'normal',
+              fontWeight: 600,
               lineHeight: '1.25rem',
               color: '#667085',
-              fontSize: '0.875rem'
+              fontSize: '0.875rem',
             },
+            '& .MuiDataGrid-cell': {
+              fontSize: '1rem',
+              fontWeight: 'bold',
+
+            },
+
           }}
         />
       </Box>

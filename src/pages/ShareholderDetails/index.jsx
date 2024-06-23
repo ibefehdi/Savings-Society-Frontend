@@ -48,7 +48,7 @@ const ShareholderDetails = () => {
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
     // const savingsOfYear = shareholderDetails?.savings?.filter(s => parseInt(s.year, 10) === selectedYear);
-    const sharesOfYear = shareholderDetails?.share?.filter(s => s.year === selectedYear);
+    // const sharesOfYear = shareholderDetails?.share?.filter(s => s.year === selectedYear);
     useEffect(() => {
         const fetchShareholderDetails = async () => {
             try {
@@ -63,9 +63,9 @@ const ShareholderDetails = () => {
         };
         fetchShareholderDetails();
     }, [id]);
-    useEffect(() => {
-        console.log("Shares", sharesOfYear);
-    }, [sharesOfYear]);
+    // useEffect(() => {
+    //     console.log("Shares", sharesOfYear);
+    // }, [sharesOfYear]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -87,10 +87,10 @@ const ShareholderDetails = () => {
     }
     const DetailRow = ({ label, value }) => (
         <TableRow>
-            <TableCell component="th" scope="row" sx={{ border: 0, fontWeight: 'bold', minWidth: '14rem' }}>
+            <TableCell component="th" scope="row" sx={{ border: 0, fontWeight: 'bold', minWidth: '14rem', textAlign: i18n.language === 'ar' ? 'right' : 'left' }}>
                 {label}
             </TableCell>
-            <TableCell sx={{ border: 0, minWidth: '14rem' }}>{value}</TableCell>
+            <TableCell sx={{ border: 0, minWidth: '14rem', textAlign: i18n.language === 'ar' ? 'right' : 'left' }}>{value}</TableCell>
         </TableRow>
     );
     const FormatDate = (dob) => {
@@ -136,7 +136,7 @@ const ShareholderDetails = () => {
                                 <TableBody>
                                     <DetailRow label={<Typography variant="h5" sx={{ fontWeight: '600' }}>{t('personal_details')}</Typography>} />
                                     <DetailRow label={t('full_name')} value={`${shareholderDetails.fName} ${shareholderDetails.lName}`} />
-                                    <DetailRow label={t('serial')} value={shareholderDetails.serial} />
+                                    <DetailRow label={t('serial')} value={shareholderDetails.membersCode} />
                                     <DetailRow label={t('status')} value={StatusDetail(shareholderDetails.status)} />
                                     <DetailRow label={t('civil_id')} value={shareholderDetails.civilId} />
                                     <DetailRow label={t('nationality')} value={shareholderDetails.Country} />
@@ -148,7 +148,7 @@ const ShareholderDetails = () => {
                         </Box>
                     </TabPanel>
                     <TabPanel value={value} index={3}>
-                        <FormControl fullWidth margin="normal">
+                        {/* <FormControl fullWidth margin="normal">
                             <InputLabel>{t('select_year')}</InputLabel>
                             <Select
                                 value={selectedYear}
@@ -158,7 +158,7 @@ const ShareholderDetails = () => {
                                 {Array.from(new Set(shareholderDetails.share.map(item => item.year)))
                                     .map(year => <MenuItem key={year} value={year}>{year}</MenuItem>)}
                             </Select>
-                        </FormControl>
+                        </FormControl> */}
                         <Table>
                             <TableBody>
                                 <TableRow>
@@ -166,28 +166,29 @@ const ShareholderDetails = () => {
                                 </TableRow>
 
                                 <TableRow >
-                                    <TableCell>{t('initial_investment')}</TableCell>
-                                    <TableCell>{shareholderDetails?.savings?.initialAmount ? shareholderDetails?.savings?.initialAmount.toFixed(3) : "N/A"}</TableCell>
                                     <TableCell>{t('current_amount')}</TableCell>
-                                    <TableCell>{shareholderDetails?.savings?.currentAmount ? shareholderDetails?.savings?.currentAmount.toFixed(3) : "N/A"}</TableCell>
+                                    <TableCell>{shareholderDetails?.savings?.totalAmount ? shareholderDetails?.savings?.totalAmount?.toFixed(3) : "N/A"}</TableCell>
+                                    {/* <TableCell>{t('current_amount')}</TableCell> */}
+                                    {/* <TableCell>{shareholderDetails?.savings?.currentAmount ? shareholderDetails?.savings?.currentAmount.toFixed(3) : "N/A"}</TableCell> */}
                                 </TableRow>
 
 
                                 <TableRow>
                                     <TableCell variant="head">{t('share')}</TableCell>
                                 </TableRow>
-                                {sharesOfYear.map((share, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell>{t('amount_of_shares')}</TableCell>
-                                        <TableCell>{share.amount ? share.amount : "N/A"}</TableCell>
-                                        <TableCell>{t('initial_investment')}</TableCell>
-                                        <TableCell>{share.initialAmount ? share.initialAmount.toFixed(3) : "N/A"}</TableCell>
-                                        <TableCell>{t('current_amount')}</TableCell>
-                                        <TableCell>{share.currentAmount ? share.currentAmount.toFixed(5) : "N/A"}</TableCell>
-                                    </TableRow>
-                                ))}
+
+                                <TableRow >
+                                    <TableCell>{t('amount_of_shares')}</TableCell>
+                                    <TableCell>{shareholderDetails?.share?.totalShareAmount ? shareholderDetails?.share?.totalShareAmount?.toFixed(3) : "N/A"}</TableCell>
+
+                                    <TableCell>{t('current_amount')}</TableCell>
+                                    <TableCell>{shareholderDetails?.share?.totalAmount ? shareholderDetails?.share?.totalAmount?.toFixed(3) : "N/A"}</TableCell>
+                                </TableRow>
+
                                 <TableRow>
                                     <TableCell variant="head">{t('amanat')}</TableCell>
+                                    <TableCell>{shareholderDetails?.savings?.amanat ? shareholderDetails?.savings?.amanat?.amount?.toFixed(3) : "N/A"}</TableCell>
+
                                 </TableRow>
 
 

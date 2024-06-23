@@ -18,7 +18,7 @@ import axiosInstance from '../../constants/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import AddTransactions from './AddTransactions';
 const Transactions = () => {
-    const [pageNo, setPageNo] = useState(1)
+    const [pageNo, setPageNo] = useState(0)
     const [pageSize, setPageSize] = useState(10)
     const [openModal, setOpenModal] = useState(false);
     const { t, i18n } = useTranslation();
@@ -29,13 +29,13 @@ const Transactions = () => {
     const [open, setOpen] = useState(false);
 
 
-    const { data, fetchData, count } = useFetch(`/transactions`, pageNo, pageSize, { type: "Hall" });
+    const { data, fetchData, count } = useFetch(`/transactions`, pageNo + 1, pageSize, { type: "Hall" });
     useEffect(() => {
         fetchData();
     }, [pageNo, pageSize]);
     const [paginationModel, setPaginationModel] = useState({
         pageSize: pageSize,
-        page: pageNo,
+        page: 0,
     });
     const handlePageSizeChange = (event) => {
         setPageSize(event.target.value);
@@ -174,7 +174,7 @@ const Transactions = () => {
                     }))}
                     paginationModel={paginationModel}
                     onPaginationModelChange={(newModel) => {
-                        setPageNo(newModel.page + 1);
+                        setPageNo(newModel.page);
                         setPaginationModel(newModel);
                     }}
                     getRowId={(row) => row._id}
@@ -209,7 +209,7 @@ const Transactions = () => {
                         '& .MuiDataGrid-cell': {
                             fontSize: '1rem', // Increase the font size of the data cells
                             fontWeight: 'bold', // Make the data text bolder
-                          },
+                        },
                     }}
                 />
 

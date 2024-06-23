@@ -28,11 +28,11 @@ const AddBalanceForm = React.forwardRef((props, ref) => {
                 أتقدم لسيادتكم حيث أنني عضو بالجمعية تحت رقم (&nbsp;
                 {shareholder?.membersCode ? shareholder.membersCode : '__________'}
                 &nbsp;) وأرغب في زيادة عدد الأسهم وإيداع مبلغ في حسابي بالمدخرات طرفكم وهي كالتالي:<br /><br />
-                1 - الأسهم بعدد (&nbsp;
-                {shareholder?.share?.[0]?.amount ? shareholder.share[0].amount : '__________'}
-                &nbsp;) سهم بملغ: {shareholder?.share?.[0]?.currentAmount ? shareholder.share[0].currentAmount : '__________'} دينار (                              ).<br /><br />
-                2 - المدخرات بمبلغ: {shareholder?.savings?.currentAmount ? shareholder.savings.currentAmount : '__________'} دينار (                              ).<br /><br />
-                الإجمالي: {shareholder?.share?.[0]?.currentAmount && shareholder?.savings?.currentAmount ? shareholder.share[0].currentAmount + shareholder.savings.currentAmount : '__________'} دينار (                              ).<br /><br /><br />
+                1 - الأسهم بعدد 
+                &nbsp;{shareholder?.share?.[0]?.amount ? shareholder.share[0].amount : '__________'}&nbsp;
+                 سهم بمبلغ: &nbsp; {shareholder?.share?.[0]?.currentAmount ? shareholder.share[0].currentAmount : '__________'} &nbsp; دينار <br /><br />
+                2 - المدخرات بمبلغ: {shareholder?.savings?.currentAmount ? shareholder.savings.currentAmount : '__________'} دينار <br /><br />
+                الإجمالي: {shareholder?.share?.[0]?.currentAmount && shareholder?.savings?.currentAmount ? shareholder.share[0].currentAmount + shareholder.savings.currentAmount : '__________'} دينار <br /><br /><br />
                 لذا يرجى الموافقة على قبول المبلغ الموضح أعلاه وتزويدي بإيصال بالاستلام.<br />
                 وتفضلوا بقبول خالص التحية،،،
             </p>
@@ -47,7 +47,7 @@ const AddBalanceForm = React.forwardRef((props, ref) => {
                 <div>التاريخ: <br /><br /> ________</div>
                 <div>
                     اسم العضو:<br /><br />
-                    {shareholder?.fName ? shareholder.fName : '__________'}
+                    {shareholder?.fName ? <span style={{ fontWeight: "bold" }}>{shareholder.fName}</span> : '__________'}
                 </div>
                 <div>
                     توقيع موقع الطلب:<br /><br />
@@ -73,14 +73,14 @@ const AddBalanceForm = React.forwardRef((props, ref) => {
                     </tr>
                     <tr>
                         <td>رصيد الأسهم في 31/12/{year}</td>
-                        <td>{shareholder?.share?.[0]?.currentAmount ? shareholder.share[0].currentAmount : '__________'}</td>
                         <td>__________</td>
+                        <td>{shareholder?.share?.[0]?.currentAmount ? shareholder.share[0].currentAmount : '__________'}</td>
                         <td>__________</td>
                     </tr>
                     <tr>
                         <td>رصيد الأسهم في 31/12/{year}</td>
-                        <td>{shareholder?.savings?.currentAmount ? shareholder.savings.currentAmount : '__________'}</td>
                         <td>__________</td>
+                        <td>{shareholder?.savings?.currentAmount ? shareholder.savings.currentAmount : '__________'}</td>
                         <td>__________</td>
                     </tr>
                     <tr>

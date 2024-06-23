@@ -14,7 +14,7 @@ import createCache from '@emotion/cache';
 import PayVoucherModal from './PayVoucherModal';
 import AddVoucherModal from './AddVoucherModal';
 const Vouchers = () => {
-  const [pageNo, setPageNo] = useState(1)
+  const [pageNo, setPageNo] = useState(0)
   const [pageSize, setPageSize] = useState(10)
   const { t, i18n } = useTranslation();
   const isRtl = i18n.dir() === 'rtl';
@@ -36,7 +36,7 @@ const Vouchers = () => {
     setSelectedVoucherId(null);
     setModalOpen(false);
   };
-  const { data, fetchData, count } = useFetch('/vouchers', pageNo, pageSize);
+  const { data, fetchData, count } = useFetch('/vouchers', pageNo + 1, pageSize);
   const columns = [
     {
       field: 'description',
@@ -103,7 +103,7 @@ const Vouchers = () => {
   });
   const [paginationModel, setPaginationModel] = useState({
     pageSize: pageSize,
-    page: pageNo,
+    page: 0,
   });
   const orderedColumns = isRtl ? [...columns].reverse() : columns;
 
@@ -118,7 +118,7 @@ const Vouchers = () => {
             lineHeight: '1.875rem', flexGrow: 1,
             marginLeft: '1.2rem'
           }}>
-            {t('Vouchers')}
+            {t('vouchers')}
           </Typography>
           <Button variant='contained' onClick={handleOpenAddModal}>{t('add')}</Button>
         </Box>
@@ -131,7 +131,7 @@ const Vouchers = () => {
 
           paginationModel={paginationModel}
           onPaginationModelChange={(newModel) => {
-            setPageNo(newModel.page + 1);
+            setPageNo(newModel.page);
             setPaginationModel(newModel);
           }}
           getRowId={(row) => row._id}
