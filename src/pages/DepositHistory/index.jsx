@@ -8,11 +8,13 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { DataGrid } from '@mui/x-data-grid';
 const DepositHistory = () => {
-    const [pageNo, setPageNo] = useState(1)
-    const [pageSize, setPageSize] = useState(10)
+    const [pageNo, setPageNo] = useState(0);
+    const [pageSize, setPageSize] = useState(10);
     const { t, i18n } = useTranslation();
-    const { data, fetchData, count } = useFetch('/deposithistory', pageNo, pageSize);
-    useEffect(() => { fetchData() }, [])
+    const { data, fetchData, count } = useFetch('/deposithistory', pageNo + 1, pageSize);
+    useEffect(() => {
+        fetchData();
+    }, [pageNo, pageSize]);
     const columns = [
         {
             field: 'membersCode',
