@@ -42,7 +42,7 @@ const Amanat = () => {
     membersCode: ''
   });
 
-  const { data, fetchData, count } = useFetch('/shareholders', pageNo + 1, pageSize, filters);
+  const { data, fetchData, count } = useFetch('/shareholderwithamanat', pageNo + 1, pageSize, filters);
 
   const { i18n, t } = useTranslation();
   const navigate = useNavigate();

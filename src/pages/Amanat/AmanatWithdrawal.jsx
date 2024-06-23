@@ -29,7 +29,7 @@ const AmanatWithdrawal = ({ id, fetchData, setOpen, open }) => {
             try {
                 if (id !== null) {
                     const response = await axiosInstance.get(`shareholder/financials/${id}`);
-                    const shareholderData = response?.data?.response?.savings?.amanat
+                    const shareholderData = response?.data?.response
                     console.log(response?.data?.response?.savings?.amanat);
                     setShareholderDetails(shareholderData);
                 }
@@ -57,7 +57,7 @@ const AmanatWithdrawal = ({ id, fetchData, setOpen, open }) => {
     };
     const amountToWithdraw = watch('amountToWithdraw');
     useEffect(() => {
-        const currentAmount = shareholderDetails?.amount || 0;
+        const currentAmount = shareholderDetails?.amanat || 0;
         const additionAmount = parseFloat(amountToWithdraw) || 0;
         setTotalAmount((currentAmount - additionAmount));
     }, [shareholderDetails, amountToWithdraw]);
@@ -81,7 +81,7 @@ const AmanatWithdrawal = ({ id, fetchData, setOpen, open }) => {
                     margin='normal'
                     fullWidth
                     label={t('current_amount')}
-                    value={shareholderDetails?.amount}
+                    value={shareholderDetails?.amanat}
                     disabled
                 />
                 <TextField

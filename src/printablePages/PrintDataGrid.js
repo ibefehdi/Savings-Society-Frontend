@@ -41,7 +41,9 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
         serial: 'رقم العضو',
         fName: 'اسم',
         civilId: 'الرقم المدني',
-        gender: "جنس"
+        gender: "جنس",
+        workplace: "مكان العمل",
+        year: "السنة"
     };
     // Function to create filter string
     const createFilterString = (filters) => {
@@ -49,7 +51,6 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
             .map(([key, value]) => `${keyTranslations[key] || key}: ${value}`)
             .join(', ');
     };
-    console.log(data)
     return (
         <div ref={ref}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', padding: "1rem" }}>
@@ -97,17 +98,17 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {data.map((row) => (
-                            <TableRow key={row._id}>
+                        {data?.map((row) => (
+                            <TableRow key={row?._id}>
                                 <StyledTd>{row?.membersCode}</StyledTd>
                                 <StyledTd>{row?.fullName}</StyledTd>
                                 <StyledTd>{row?.civilId}</StyledTd>
-                                <StyledTd>{row.shareDetails?.totalAmount.toFixed(3)}</StyledTd>
-                                <StyledTd>{row.savingsCurrentAmount ? row.savingsCurrentAmount.toFixed(3) : 'N/A'}</StyledTd>
-                                <StyledTd>{row.totalShareIncrease ? row.totalShareIncrease.toFixed(3) : 'N/A'}</StyledTd>
-                                <StyledTd>{row.savingsIncrease ? row.savingsIncrease.toFixed(3) : 'N/A'}</StyledTd>
-                                <StyledTd>{row.amanatAmount ? row.amanatAmount.toFixed(3) : 'N/A'}</StyledTd>
-                                <StyledTd>{row.total ? row.total.toFixed(3) : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.shareDetails?.totalAmount?.toFixed(3)}</StyledTd>
+                                <StyledTd>{row?.savingsCurrentAmount ? row.savingsCurrentAmount?.toFixed(3) : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.totalShareIncrease ? row.totalShareIncrease?.toFixed(3) : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.savingsIncrease ? row.savingsIncrease?.toFixed(3) : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.amanatAmount ? row.amanatAmount?.toFixed(3) : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.total ? row.total.toFixed(3) : 'N/A'}</StyledTd>
                                 {/* <StyledTd>{row.total ? row.total.toFixed(3) : 'N/A'}</StyledTd> */}
                             </TableRow>
                         ))}
