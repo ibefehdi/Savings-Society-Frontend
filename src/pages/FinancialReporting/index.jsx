@@ -64,14 +64,14 @@ const FinancialReporting = () => {
                     : 'N/A';
             },
         },
-        {
-            field: 'year',
-            headerName: t('year'),
-            flex: 1,
-            renderCell: (params) => {
-                return params.row.savingsDetails?.year || 'N/A';
-            },
-        },
+        // {
+        //     field: 'year',
+        //     headerName: t('year'),
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         return params.row.savingsDetails?.year || 'N/A';
+        //     },
+        // },
         {
             field: 'savingsIncrease',
             headerName: t('savings_increase'),
@@ -147,7 +147,7 @@ const FinancialReporting = () => {
     });
     const isRtl = i18n.dir() === 'rtl';
     const orderedColumns = isRtl ? [...columns].reverse() : columns;
-
+    const year = new Date().getFullYear();
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
@@ -231,7 +231,12 @@ const FinancialReporting = () => {
                         lineHeight: '1.875rem', flexGrow: 1,
                         marginLeft: '1.2rem'
                     }}>
-                        {t('financial_reporting')}
+                        {t('financial_reporting')} <span style={{
+                            fontSize: '0.875rem',
+                            marginLeft: '0.5rem',
+                            marginRight: '0.5rem',
+                            color: '#999'
+                        }}>/ {year}</span>
                     </Typography>
 
 

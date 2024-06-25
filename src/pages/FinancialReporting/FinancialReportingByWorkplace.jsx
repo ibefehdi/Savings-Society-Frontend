@@ -65,14 +65,14 @@ const FinancialReportingByWorkplace = () => {
                     : 'N/A';
             },
         },
-        {
-            field: 'year',
-            headerName: t('year'),
-            flex: 1,
-            renderCell: (params) => {
-                return params.row.savingsDetails?.year || 'N/A';
-            },
-        },
+        // {
+        //     field: 'year',
+        //     headerName: t('year'),
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         return params.row.savingsDetails?.year || 'N/A';
+        //     },
+        // },
         {
             field: 'savingsIncrease',
             headerName: t('savings_increase'),
