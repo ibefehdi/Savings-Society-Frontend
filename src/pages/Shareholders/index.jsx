@@ -133,7 +133,7 @@ const Shareholders = () => {
     {
       field: 'ibanNumber',
       headerName: t('iban'),
-      flex: 2,
+      flex: 0.5,
       renderCell: (params) => <Typography variant='p' sx={{ color: "#10A760" }}>{params.value}</Typography>,
     },
     {
@@ -151,18 +151,18 @@ const Shareholders = () => {
         return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
       },
     },
-    // {
-    //   field: 'initialInvestment',
-    //   headerName: t('initial_investment'),
-    //   flex: 1,
-    //   renderCell: (params) => params?.row.savings?.initialAmount?.toFixed(3) || "N/A",
-    // },
-    // {
-    //   field: 'currentAmount',
-    //   headerName: t('current_amount'),
-    //   flex: 1,
-    //   renderCell: (params) => params?.row?.savings?.currentAmount?.toFixed(3) || "N/A",
-    // },
+    {
+      field: 'shareAmountForShareholder',
+      headerName: t('share_amount'),
+      flex: 1,
+      renderCell: (params) => params?.row.share?.totalShareAmount || "N/A",
+    },
+    {
+      field: 'shareValueForShareholder',
+      headerName: t('share_initial_amount'),
+      flex: 1,
+      renderCell: (params) => params?.row?.share?.totalAmount?.toFixed(3) || "N/A",
+    },
     {
       field: 'savingsForShareholder',
       headerName: t('savings'),
