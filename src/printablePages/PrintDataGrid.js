@@ -71,30 +71,16 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
                 <StyledTable>
                     <thead>
                         <tr>
-                            {/* <StyledTh>رقم العضو</StyledTh> */}
-                            {/* <StyledTh>اسم العضو</StyledTh> */}
-                            {/* <StyledTh>الاسهم</StyledTh> */}
-                            {/* <StyledTh>الرقم المدني</StyledTh> */}
-                            {/* <StyledTh>المدخرات </StyledTh> */}
-                            {/* <StyledTh>أرباح الاسهم</StyledTh> */}
-                            {/* <StyledTh>أرباح المدخرات</StyledTh> */}
-                            {/* <StyledTh>الإجمالي</StyledTh> */}
-                            {/* <StyledTh>أمانات</StyledTh> */}
-                            {/* <StyledTh>الاستثمار المبدائي المدخرات</StyledTh>
-                            <StyledTh>القيمة المبدائية للسهم</StyledTh> */}
-                            {/* <StyledTh>الرصيد</StyledTh> */}
-                            {/* <StyledTh>أجمالي</StyledTh> */}
                             <StyledTh>رقم العضو</StyledTh>
                             <StyledTh>اسم العضو</StyledTh>
-                            <StyledTh>الرقم المدني</StyledTh>
                             <StyledTh>الاسهم</StyledTh>
                             <StyledTh>المدخرات</StyledTh>
                             <StyledTh>أرباح الاسهم</StyledTh>
                             <StyledTh>أرباح المدخرات</StyledTh>
-                            <StyledTh>أمانات</StyledTh>
                             <StyledTh>الإجمالي</StyledTh>
-                            {/* <StyledTh>أجمالي</StyledTh> */}
-
+                            <StyledTh>أمانات</StyledTh>
+                            <StyledTh>ت. المدخرات</StyledTh>
+                            <StyledTh>الرصيد</StyledTh>
                         </tr>
                     </thead>
                     <tbody>
@@ -102,14 +88,21 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
                             <TableRow key={row?._id}>
                                 <StyledTd>{row?.membersCode}</StyledTd>
                                 <StyledTd>{row?.fullName}</StyledTd>
-                                <StyledTd>{row?.civilId}</StyledTd>
                                 <StyledTd>{row?.shareDetails?.totalAmount?.toFixed(3)}</StyledTd>
                                 <StyledTd>{row?.savingsCurrentAmount ? row.savingsCurrentAmount?.toFixed(3) : 'N/A'}</StyledTd>
                                 <StyledTd>{row?.totalShareIncrease ? row.totalShareIncrease?.toFixed(3) : 'N/A'}</StyledTd>
                                 <StyledTd>{row?.savingsIncrease ? row.savingsIncrease?.toFixed(3) : 'N/A'}</StyledTd>
+                                <StyledTd>
+                                    {(() => {
+                                        const shareIncrease = row?.totalShareIncrease || 0;
+                                        const savingsIncrease = row?.savingsIncrease || 0;
+                                        const total = shareIncrease + savingsIncrease;
+                                        return total !== 0 ? total.toFixed(3) : 'N/A';
+                                    })()}
+                                </StyledTd>
                                 <StyledTd>{row?.amanatAmount ? row.amanatAmount?.toFixed(3) : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.transferSavings ? row.transferSavings?.toFixed(3) : 'N/A'}</StyledTd>
                                 <StyledTd>{row?.total ? row.total.toFixed(3) : 'N/A'}</StyledTd>
-                                {/* <StyledTd>{row.total ? row.total.toFixed(3) : 'N/A'}</StyledTd> */}
                             </TableRow>
                         ))}
                     </tbody>

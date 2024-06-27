@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useReactToPrint } from 'react-to-print';
 import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
-
+import MoveSavingsToAmanatModal from './MoveSavingsToAmanatModal';
 import { useFetch } from '../../hooks/useFetch';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +19,7 @@ import rtlPlugin from 'stylis-plugin-rtl';
 import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
-
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
 
     const handleEditClick = () => {
@@ -36,6 +36,18 @@ const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
 
     );
 };
+const MoveToAmanatButton = ({ id, setMoveToAmanatOpen, setSelectedShareholderId }) => {
+    const handleClick = () => {
+        setSelectedShareholderId(id);
+        setMoveToAmanatOpen(true);
+    };
+
+    return (
+        <IconButton onClick={handleClick}>
+            <CompareArrowsIcon />
+        </IconButton>
+    );
+};
 const SavingsWithdrawalPage = () => {
     const cacheRtl = createCache({
         key: 'muirtl',
@@ -47,6 +59,7 @@ const SavingsWithdrawalPage = () => {
     const [pageNo, setPageNo] = useState(0)
     const [pageSize, setPageSize] = useState(10)
     const [selectedShareholderId, setSelectedShareholderId] = useState(null);
+    const [moveToAmanatOpen, setMoveToAmanatOpen] = useState(false);
     const [filters, setFilters] = useState({
         fName: '',
         lName: '',
@@ -190,16 +203,26 @@ const SavingsWithdrawalPage = () => {
                 }
             }
         },
-        ...(admin ? [{
-            field: 'deposit',
-            headerName: t('withdrawal'),
-            sortable: false,
-            width: 55,
-            renderCell: (params) => {
-                return <ViewButton id={params.id} edit={true} setEditOpen={setEditOpen} setSelectedShareholderId={setSelectedShareholderId} />;
-
+        ...(admin ? [
+            {
+                field: 'withdrawal',
+                headerName: t('withdrawal'),
+                sortable: false,
+                width: 55,
+                renderCell: (params) => {
+                    return <ViewButton id={params.id} edit={true} setEditOpen={setEditOpen} setSelectedShareholderId={setSelectedShareholderId} />;
+                },
             },
-        }] : []),
+            {
+                field: 'moveToAmanat',
+                headerName: t('move_to_amanat'),
+                sortable: false,
+                width: 55,
+                renderCell: (params) => {
+                    return <MoveToAmanatButton id={params.id} setMoveToAmanatOpen={setMoveToAmanatOpen} setSelectedShareholderId={setSelectedShareholderId} />;
+                },
+            }
+        ] : []),
 
 
     ];
@@ -389,6 +412,12 @@ const SavingsWithdrawalPage = () => {
                 />
             </Box>
             <WithdrawalModal savings={true} id={selectedShareholderId} open={editOpen} setOpen={setEditOpen} fetchData={fetchData} />
+            <MoveSavingsToAmanatModal
+                id={selectedShareholderId}
+                open={moveToAmanatOpen}
+                setOpen={setMoveToAmanatOpen}
+                fetchData={fetchData}
+            />
         </CacheProvider>
 
     )

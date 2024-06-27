@@ -42,7 +42,7 @@ const Amanat = () => {
     membersCode: ''
   });
 
-  const { data, fetchData, count } = useFetch('/shareholderwithamanat', pageNo + 1, pageSize, filters);
+  const { data, fetchData, count } = useFetch('/shareholders', pageNo + 1, pageSize, filters);
 
   const { i18n, t } = useTranslation();
   const navigate = useNavigate();
@@ -118,9 +118,11 @@ const Amanat = () => {
       headerName: t('current_amount'),
       flex: 1,
       renderCell: (params) => {
-        // Safely access deeply nested properties
         const amount = params.row.savings?.amanat?.amount;
-        return amount ? amount.toFixed(3) : 'N/A';  // Format and handle undefined
+        return amount !== undefined ? amount.toFixed(3) : null;
+      },
+      hide: (params) => {
+        return params.row.savings?.amanat?.amount === undefined;
       }
     },
     // {
@@ -197,7 +199,12 @@ const Amanat = () => {
   });
 
   const orderedColumns = isRtl ? [...columns].reverse() : columns;
-
+  const visibleColumns = orderedColumns.filter(column => {
+    if (column.field === 'amount') {
+      return data.some(row => row.savings?.amanat?.amount !== undefined);
+    }
+    return true;
+  });
   return (
     <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
       <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
@@ -280,7 +287,7 @@ const Amanat = () => {
         </Box>
         <DataGrid
           rows={data}
-          columns={orderedColumns.map((column) => ({
+          columns={visibleColumns.map((column) => ({
             ...column,
             disableColumnMenu: true,
           }))}

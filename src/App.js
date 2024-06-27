@@ -51,6 +51,7 @@ import SavingsWithdrawalFormPage from './pages/SavingsWithdrawalFormPage';
 import PeriodicLeavePage from './pages/PeriodicLeavePage';
 import SpecialLeavePage from './pages/SpecialLeavePage';
 import DisabledShareholders from './pages/Shareholders/DisabledShareholders';
+import TransferHistory from './pages/TransferHistory';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -153,6 +154,7 @@ function App() {
         { path: 'Amanat', element: <Amanat /> },
         { path: 'deposithistory', element: <DepositHistory /> },
         { path: 'withdrawalhistory', element: <WithdrawalHistory /> },
+        { path: 'TransferHistory', element: <TransferHistory /> },
         { path: 'workplaces', element: <Workplaces /> }
       ] : authenticated ? [
         { index: true, element: <Home /> },
@@ -183,6 +185,8 @@ function App() {
         { path: 'Amanat', element: <Amanat /> },
         { path: 'deposithistory', element: <DepositHistory /> },
         { path: 'withdrawalhistory', element: <WithdrawalHistory /> },
+        { path: 'TransferHistory', element: <TransferHistory /> },
+
         { path: "Financialreporting", element: <FinancialReporting /> },
         { path: "Financialreporting/year", element: <FinancialReportingYear /> },
         { path: "FinancialReporting/quityear", element: <FinancialReportsByQuitYear /> },

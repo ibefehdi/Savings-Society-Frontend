@@ -3,7 +3,7 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
 import { useForm } from 'react-hook-form';
 import axiosInstance from '../../constants/axiosInstance';
 import { useTranslation } from 'react-i18next';
@@ -31,7 +31,7 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
     const currentYear = new Date().getFullYear();
     const [year, setYear] = useState(currentYear);
     const [shareholderAllDetails, setShareholderAllDetails] = useState();
-    const [yearOptions, setYearOptions] = useState([]);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const fetchShareholderDetails = useCallback(async () => {
         if (id) {
@@ -46,7 +46,7 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                 console.error("Failed to fetch shareholder details:", error);
             }
         }
-    });
+    }, [id, year]);
 
     useEffect(() => {
         const fetchAllShareholderDetails = async () => {
@@ -58,7 +58,7 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
         };
         fetchAllShareholderDetails();
         fetchShareholderDetails();
-    }, [id, savings]);
+    }, [id, savings, fetchShareholderDetails]);
 
     const newAmount = watch('newAmount');
 
@@ -73,6 +73,7 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
     const handleClose = () => {
         setOpen(false);
         reset();
+        setErrorMessage('');
         fetchData();
     };
 
@@ -84,18 +85,21 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                 year: currentYear,
             };
             const url = `shareholder/depositsavings/${id}`;
-            await axiosInstance.post(url, formData);
-            handleClose();
+            const response = await axiosInstance.post(url, formData);
+
+            if (response.data.status === 2) {
+                setErrorMessage(isRtl ? response.data.messageArabic : response.data.message);
+            } else {
+                handleClose();
+            }
         } catch (error) {
             console.error('Error posting shareholder data:', error);
+            if (error.response && error.response.data && error.response.data.status === 2) {
+                setErrorMessage(isRtl ? error.response.data.messageArabic : error.response.data.message);
+            } else {
+                setErrorMessage(isRtl ? 'حدث خطأ أثناء معالجة طلبك.' : 'An error occurred while processing your request.');
+            }
         }
-    };
-
-    const handleYearChange = (e) => {
-        const newYear = parseInt(e.target.value);
-        console.log(`Year selected: ${newYear}`);
-        setYear(newYear);
-        fetchShareholderDetails();
     };
 
     return (
@@ -112,7 +116,7 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                         id="currentAmount"
                         margin="normal"
                         fullWidth
-                        // label={t('current_amount')}
+                        label={t('current_amount')}
                         value={shareholderDetails?.savings}
                         disabled
                     />
@@ -136,6 +140,12 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                         value={Number(totalAmount)}
                         disabled
                     />
+                )}
+
+                {errorMessage && (
+                    <Typography color="error" sx={{ mt: 2 }}>
+                        {errorMessage}
+                    </Typography>
                 )}
 
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>

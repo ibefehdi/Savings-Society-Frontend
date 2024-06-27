@@ -3,7 +3,7 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
 import { useForm } from 'react-hook-form';
 import axiosInstance from '../../constants/axiosInstance';
 import { useTranslation } from 'react-i18next';
@@ -32,7 +32,7 @@ const DepositFormShare = ({ id, fetchData, setOpen, open }) => {
     const currentYear = new Date().getFullYear();
     const [year, setYear] = useState(currentYear);
     const [shareholderAllDetails, setShareholderAllDetails] = useState();
-    const [yearOptions, setYearOptions] = useState([]);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const fetchShareholderDetails = useCallback(async () => {
         if (id) {
@@ -47,7 +47,7 @@ const DepositFormShare = ({ id, fetchData, setOpen, open }) => {
                 console.error("Failed to fetch shareholder details:", error);
             }
         }
-    });
+    }, [id, year]);
 
     useEffect(() => {
         const fetchAllShareholderDetails = async () => {
@@ -59,7 +59,7 @@ const DepositFormShare = ({ id, fetchData, setOpen, open }) => {
         };
         fetchAllShareholderDetails();
         fetchShareholderDetails();
-    }, [id]);
+    }, [id, fetchShareholderDetails]);
 
     const newShareAmount = watch('newShareAmount');
 
@@ -77,6 +77,7 @@ const DepositFormShare = ({ id, fetchData, setOpen, open }) => {
     const handleClose = () => {
         setOpen(false);
         reset();
+        setErrorMessage('');
         fetchData();
     };
 
@@ -88,18 +89,21 @@ const DepositFormShare = ({ id, fetchData, setOpen, open }) => {
                 year: currentYear,
             };
             const url = `shareholder/depositshares/${id}`;
-            await axiosInstance.post(url, formData);
-            handleClose();
+            const response = await axiosInstance.post(url, formData);
+
+            if (response.data.status === 2) {
+                setErrorMessage(isRtl ? response.data.messageArabic : response.data.message);
+            } else {
+                handleClose();
+            }
         } catch (error) {
             console.error('Error posting shareholder data:', error);
+            if (error.response && error.response.data && error.response.data.status === 2) {
+                setErrorMessage(isRtl ? error.response.data.messageArabic : error.response.data.message);
+            } else {
+                setErrorMessage(isRtl ? 'حدث خطأ أثناء معالجة طلبك.' : 'An error occurred while processing your request.');
+            }
         }
-    };
-
-    const handleYearChange = (e) => {
-        const newYear = parseInt(e.target.value);
-        console.log(`Year selected: ${newYear}`);
-        setYear(newYear);
-        fetchShareholderDetails();
     };
 
     return (
@@ -163,6 +167,12 @@ const DepositFormShare = ({ id, fetchData, setOpen, open }) => {
                     value={totalShareAmount}
                     disabled
                 />
+
+                {errorMessage && (
+                    <Typography color="error" sx={{ mt: 2 }}>
+                        {errorMessage}
+                    </Typography>
+                )}
 
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
                     {t('edit')}

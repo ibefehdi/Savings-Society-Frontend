@@ -199,5 +199,15 @@
   "active_shareholderss":"Active Shareholders",
   "disable_shareholder":"Disable Shareholder",
   "new_amount":"New Amount",
-  "deposit_date":"Deposit Date"
+  "deposit_date":"Deposit Date",
+  "move_to_amanat":"Move To Amanat",
+  "amount_to_move":"Amount To Move",
+  "transfer_history":"Transfer History",
+  "transfer":"Transfer",
+  "amount_after_transfer":"Amount After Transfer",
+  "transfer_date":"Transfer Date",
+  "to_amanat":"To Amanat",
+  "from_savings":"From Savings",
+  "alajmali":"Al Ajmali",
+  "transfer_savings":"Transfer Savings"
 }

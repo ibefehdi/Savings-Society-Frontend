@@ -8,7 +8,7 @@
   "financial_configuration": "نسبة العائد الخاص بالسنة",
   "print_forms": "طباعة النماذج",
   "share": "السهم",
-  "savings": "الادخار",
+  "savings": "مدخرات",
   "receipt_voucher": "سند قبض",
   "withdrawal_form": "نموذج السحب",
   "deposit_form": "نموذج الايداع",
@@ -202,5 +202,15 @@
   "active_shareholderss":"المساهمون - نشط",
   "disable_shareholder":"تعطيل المساهمين",
   "new_amount":"مبلغ جديد",
-  "deposit_date":"تاريخ الإيداع"
+  "deposit_date":"تاريخ الإيداع",
+  "move_to_amanat":"تحويل الى الامانات",
+  "amount_to_move":"قيمة التحويل",
+  "transfer_history":"التحويلات السابقة",
+  "transfer":"تحويل",
+  "amount_after_transfer":"الاجمالي بعد التحويل",
+  "transfer_date":"تاريخ التحويل",
+  "from_savings":"من الادخار",
+  "to_amanat":"إلى أمانات",
+  "alajmali":"الإجمالي",
+  "transfer_savings": "ت. مدخرات"
 }

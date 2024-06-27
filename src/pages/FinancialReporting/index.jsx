@@ -40,10 +40,19 @@ const FinancialReporting = () => {
             flex: 1,
         },
         {
-            field: 'civilId',
-            headerName: t('civil_id'),
+            field: 'initialShareAmount',
+            headerName: t('share'),
             flex: 1,
+            renderCell: (params) => {
+                return params.row.shareDetails?.totalAmount
+                    .toFixed(3);
+            },
         },
+        // {
+        //     field: 'civilId',
+        //     headerName: t('civil_id'),
+        //     flex: 1,
+        // },
         // {
         //     field: 'initialInvestment',
         //     headerName: t('initial_investment'),
@@ -56,11 +65,21 @@ const FinancialReporting = () => {
         // },
         {
             field: 'currentAmount',
-            headerName: t('current_amount'),
+            headerName: t('savings'),
             flex: 1,
             renderCell: (params) => {
                 return params.row.savingsCurrentAmount
                     ? params.row.savingsCurrentAmount.toFixed(3)
+                    : 'N/A';
+            },
+        },
+        {
+            field: 'shareIncrease',
+            headerName: t('share_increase'),
+            flex: 1,
+            renderCell: (params) => {
+                return params.row.totalShareIncrease
+                    ? params.row.totalShareIncrease.toFixed(3)
                     : 'N/A';
             },
         },
@@ -83,33 +102,25 @@ const FinancialReporting = () => {
             },
         },
         {
-            field: 'initialShareAmount',
-            headerName: t('share_initial_amount'),
+            field: 'alajmali',
+            headerName: t("alajmali"),
             flex: 1,
             renderCell: (params) => {
-                return params.row.shareDetails?.totalAmount
-                    .toFixed(3);
+                const shareIncrease = params.row.totalShareIncrease || 0;
+                const savingsIncrease = params.row.savingsIncrease || 0;
+                const total = shareIncrease + savingsIncrease;
+                return total !== 0 ? total.toFixed(3) : 'N/A';
             },
         },
-        {
-            field: 'currentShareAmount',
-            headerName: t('share_current_amount'),
-            flex: 1,
-            renderCell: (params) => {
-                return params.row.shareDetails?.totalAmount
-                    .toFixed(3);
-            },
-        },
-        {
-            field: 'shareIncrease',
-            headerName: t('share_increase'),
-            flex: 1,
-            renderCell: (params) => {
-                return params.row.totalShareIncrease
-                    ? params.row.totalShareIncrease.toFixed(3)
-                    : 'N/A';
-            },
-        },
+        // {
+        //     field: 'currentShareAmount',
+        //     headerName: t('share_current_amount'),
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         return params.row.shareDetails?.totalAmount
+        //             .toFixed(3);
+        //     },
+        // },
         {
             field: 'amanatAmount',
             headerName: t('amanat'),
@@ -117,6 +128,15 @@ const FinancialReporting = () => {
             renderCell: (params) =>
                 params.row.amanatAmount
                     ? params.row.amanatAmount.toFixed(3)
+                    : 'N/A',
+        },
+        {
+            field: 'transferSavings',
+            headerName: t('transfer_savings'),
+            flex: 1,
+            renderCell: (params) =>
+                params.row.transferSavings
+                    ? params.row.transferSavings.toFixed(3)
                     : 'N/A',
         },
         {
