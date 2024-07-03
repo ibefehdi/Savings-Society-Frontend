@@ -25,6 +25,7 @@ const MoveSavingsToAmanatModal = ({ id, fetchData, setOpen, open }) => {
     const adminData = JSON.parse(sessionStorage.getItem('userDetails') || '{}');
     const { i18n, t } = useTranslation();
     const isRtl = i18n.dir() === 'rtl';
+    const [selectedDate, setSelectedDate] = useState(new Date());
 
     const { register, handleSubmit, watch, reset, formState: { errors } } = useForm();
 
@@ -57,7 +58,7 @@ const MoveSavingsToAmanatModal = ({ id, fetchData, setOpen, open }) => {
         console.log("Submitting form", data);
 
         try {
-            const updatedData = { ...data, userId: adminData?.id }
+            const updatedData = { ...data, userId: adminData?.id, date: selectedDate, }
             await axiosInstance.post(url, updatedData);
             handleClose();
         } catch (error) {
@@ -110,6 +111,14 @@ const MoveSavingsToAmanatModal = ({ id, fetchData, setOpen, open }) => {
                     label={t('amount_after_transfer')}
                     value={(shareholderDetails?.savings || 0) - Number(amountToMove)}
                     disabled
+                />
+                <TextField
+                    id="date"
+                    type="date"
+                    fullWidth
+                    value={selectedDate}
+                    onChange={(e) => setSelectedDate(e.target.value)}
+                    required
                 />
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2, mr: 2 }}>
                     {t('transfer')}

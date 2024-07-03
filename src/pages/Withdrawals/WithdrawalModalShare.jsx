@@ -30,6 +30,7 @@ const WithdrawalModalShare = ({ id, fetchData, setOpen, open }) => {
     const [totalShareAmount, setTotalShareAmount] = useState(0);
     const { i18n, t } = useTranslation();
     const isRtl = i18n.dir() === 'rtl';
+    const [selectedDate, setSelectedDate] = useState(new Date());
 
     const { register, handleSubmit, watch, setValue, reset, formState: { errors } } = useForm();
 
@@ -61,7 +62,7 @@ const WithdrawalModalShare = ({ id, fetchData, setOpen, open }) => {
         console.log("Submitting form", data);
 
         try {
-            const updatedData = { ...data, userId: adminData?.id, year: year };
+            const updatedData = { ...data, userId: adminData?.id, year: year, date: selectedDate, };
             await axiosInstance.post(url, updatedData);
             handleClose();
         } catch (error) {
@@ -151,7 +152,14 @@ const WithdrawalModalShare = ({ id, fetchData, setOpen, open }) => {
                     value={Number(shareholderDetails?.sharesTotalAmount) - Number(amountOfShares)}
                     disabled
                 />
-
+                <TextField
+                    id="date"
+                    type="date"
+                    fullWidth
+                    value={selectedDate}
+                    onChange={(e) => setSelectedDate(e.target.value)}
+                    required
+                />
 
 
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>

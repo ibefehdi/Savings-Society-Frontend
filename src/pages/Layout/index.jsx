@@ -40,6 +40,8 @@ const Layout = () => {
                 { name: t('join_year'), path: "/shareholder/financialreporting/year" },
                 { name: t('quit_year'), path: "/shareholder/financialReporting/quityear" },
                 { name: t('workplace'), path: "/shareholder/FinancialReporting/workplace" },
+                { name: t('amanat'), path: "/shareholder/Financialreporting/amanat" },
+
                 { name: t('custom'), path: "/shareholder/financialreporting" },
             ]
         },
@@ -84,6 +86,7 @@ const Layout = () => {
                 { name: t('join_year'), path: "/shareholder/financialreporting/year" },
                 { name: t('quit_year'), path: "/shareholder/financialReporting/quityear" },
                 { name: t('workplace'), path: "/shareholder/FinancialReporting/workplace" },
+                { name: t('amanat'), path: "/shareholder/Financialreporting/amanat" },
                 { name: t('custom'), path: "/shareholder/financialreporting" },
             ]
         },

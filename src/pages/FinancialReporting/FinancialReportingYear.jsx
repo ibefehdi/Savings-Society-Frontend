@@ -124,7 +124,7 @@ const FinancialReportingYear = () => {
             headerName: t('total'),
             flex: 1,
             renderCell: (params) =>
-                params.row.total ? params.row.total.toFixed(3) : 'N/A',
+                params.row.savingsCurrentAmount ? params.row.savingsCurrentAmount.toFixed(3) : 'N/A',
         },
     ];
 

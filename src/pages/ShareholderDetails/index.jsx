@@ -143,6 +143,7 @@ const ShareholderDetails = () => {
                                     <DetailRow label={t('dob')} value={FormatDate(shareholderDetails.DOB)} />
                                     <DetailRow label={t('bankName')} value={shareholderDetails.bankName} />
                                     <DetailRow label={t('iban')} value={shareholderDetails.ibanNumber} />
+                                    <DetailRow label={t('join_date')} value={FormatDate(shareholderDetails.joinDate)} />
                                 </TableBody>
                             </Table>
                         </Box>
@@ -219,7 +220,7 @@ const ShareholderDetails = () => {
                                     <DetailRow label={t('block')} value={shareholderDetails.address.block} />
                                     <DetailRow label={t('street')} value={shareholderDetails.address.street} />
                                     <DetailRow label={t('house')} value={shareholderDetails.address.house} />
-                                    <DetailRow label={t('area')} value={shareholderDetails.address.city} />
+                                    <DetailRow label={t('area')} value={shareholderDetails.address.area} />
                                 </TableBody>
                             </Table>
                         </Box>

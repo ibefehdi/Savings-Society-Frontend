@@ -33,6 +33,7 @@ const DepositFormShare = ({ id, fetchData, setOpen, open }) => {
     const [year, setYear] = useState(currentYear);
     const [shareholderAllDetails, setShareholderAllDetails] = useState();
     const [errorMessage, setErrorMessage] = useState('');
+    const [selectedDate, setSelectedDate] = useState(new Date());
 
     const fetchShareholderDetails = useCallback(async () => {
         if (id) {
@@ -87,6 +88,7 @@ const DepositFormShare = ({ id, fetchData, setOpen, open }) => {
                 newShareAmount: data.newShareAmount,
                 adminId: adminData.id,
                 year: currentYear,
+                date: selectedDate,
             };
             const url = `shareholder/depositshares/${id}`;
             const response = await axiosInstance.post(url, formData);
@@ -167,7 +169,14 @@ const DepositFormShare = ({ id, fetchData, setOpen, open }) => {
                     value={totalShareAmount}
                     disabled
                 />
-
+                <TextField
+                    id="date"
+                    type="date"
+                    fullWidth
+                    value={selectedDate}
+                    onChange={(e) => setSelectedDate(e.target.value)}
+                    required
+                />
                 {errorMessage && (
                     <Typography color="error" sx={{ mt: 2 }}>
                         {errorMessage}

@@ -52,6 +52,7 @@ import PeriodicLeavePage from './pages/PeriodicLeavePage';
 import SpecialLeavePage from './pages/SpecialLeavePage';
 import DisabledShareholders from './pages/Shareholders/DisabledShareholders';
 import TransferHistory from './pages/TransferHistory';
+import FinancialReportingAmanat from './pages/FinancialReporting/FinancialReportingAmanat';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -130,6 +131,8 @@ function App() {
         { path: "Financialreporting/year", element: <FinancialReportingYear /> },
         { path: "FinancialReporting/quityear", element: <FinancialReportsByQuitYear /> },
         { path: "FinancialReporting/workplace", element: <FinancialReportingByWorkplace /> },
+        { path: "Financialreporting/amanat", element: <FinancialReportingAmanat /> },
+
         { path: 'Shareholders/:id', element: <ShareholderDetails /> },
         { path: 'Financial/Share', element: <ShareConfiguration /> },
         { path: 'Financial/Savings', element: <SavingsConfiguration /> },
@@ -191,6 +194,7 @@ function App() {
         { path: "Financialreporting/year", element: <FinancialReportingYear /> },
         { path: "FinancialReporting/quityear", element: <FinancialReportsByQuitYear /> },
         { path: "FinancialReporting/workplace", element: <FinancialReportingByWorkplace /> },
+        { path: "Financialreporting/amanat", element: <FinancialReportingAmanat /> }
       ] : [],
     },
     {
