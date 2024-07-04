@@ -156,6 +156,26 @@ const FinancialReportingByWorkplace = () => {
         }
         fetchWorkplaces();
     }, [])
+    const handleExport = async (format) => {
+        try {
+            const queryString = new URLSearchParams(filters).toString();
+
+            const response = await axiosInstance.get(`/financialReports/export?format=${format}&${queryString}`, {
+                responseType: 'blob', // Important for handling file downloads
+            });
+
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `financial_report.${format}`);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } catch (error) {
+            console.error(`Error exporting ${format}:`, error);
+            // Handle error (e.g., show an error message to the user)
+        }
+    };
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
@@ -200,8 +220,11 @@ const FinancialReportingByWorkplace = () => {
                     </Typography>
 
 
-                    <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
-                </Box>
+                    <Box sx={{ display: 'flex', gap: '1rem' }}>
+                        {/* <Button variant='contained' onClick={() => handleExport('csv')}>{t('export_csv')}</Button>
+                        <Button variant='contained' onClick={() => handleExport('xlsx')}>{t('export_xlsx')}</Button> */}
+                        <Button variant='contained' onClick={() => handlePrint}>{t('print_form')}</Button>
+                    </Box>                </Box>
 
                 <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0, display: 'none' }}>
                     <ReactToPrint

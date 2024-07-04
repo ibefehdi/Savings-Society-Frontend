@@ -156,7 +156,9 @@ const FinancialReporting = () => {
 
     const handleExport = async (format) => {
         try {
-            const response = await axiosInstance.get(`/financialReports/export?format=${format}`, {
+            const queryString = new URLSearchParams(filters).toString();
+
+            const response = await axiosInstance.get(`/financialReports/export?format=${format}&${queryString}`, {
                 responseType: 'blob', // Important for handling file downloads
             });
 
