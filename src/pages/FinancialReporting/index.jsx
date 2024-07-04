@@ -152,7 +152,7 @@ const FinancialReporting = () => {
 
     useEffect(() => {
         fetchData();
-    }, [filters]);
+    }, [fetchData, filters]);
 
     const handleExport = async (format) => {
         try {

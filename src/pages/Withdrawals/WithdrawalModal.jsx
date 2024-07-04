@@ -51,11 +51,18 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
 
         fetchShareholderDetails();
     }, [id, year, savings]);
-    const handleClose = () => {
-        setOpen(false)
-        reset()
+    const resetState = () => {
+        setShareholderDetails(null);
+        setYear(new Date().getFullYear());
+        setTotalAmount(0);
+        setSelectedDate(new Date());
+        reset(); // This resets the form
+      };
+      const handleClose = () => {
+        setOpen(false);
+        resetState();
         fetchData();
-    }
+      };
     const url = `/shareholder/withdrawsavings/${id}`
     const onSubmit = async (data) => {
         console.log("Submitting form", data);

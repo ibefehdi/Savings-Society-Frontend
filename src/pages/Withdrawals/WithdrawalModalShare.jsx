@@ -50,9 +50,17 @@ const WithdrawalModalShare = ({ id, fetchData, setOpen, open }) => {
         fetchShareholderDetails();
     }, [id, year,]);
 
+    const resetState = () => {
+        setShareholderDetails(null);
+        setYear(new Date().getFullYear());
+        setTotalAmount(0);
+        setTotalShareAmount(0);
+        setSelectedDate(new Date());
+        reset(); // This resets the form
+    };
     const handleClose = () => {
         setOpen(false);
-        reset();
+        resetState();
         fetchData();
     };
 

@@ -75,6 +75,7 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
     const handleClose = () => {
         setOpen(false);
         reset();
+        setSelectedDate(new Date());
         setErrorMessage('');
         fetchData();
     };
