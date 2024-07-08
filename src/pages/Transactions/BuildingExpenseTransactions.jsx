@@ -17,8 +17,8 @@ import { useTranslation } from 'react-i18next';
 import axiosInstance from '../../constants/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import AddTransactions from './AddTransactions';
-const Transactions = () => {
-    const [pageNo, setPageNo] = useState(0)
+const BuildingExpenseTransactions = () => {
+    const [pageNo, setPageNo] = useState(1)
     const [pageSize, setPageSize] = useState(10)
     const [openModal, setOpenModal] = useState(false);
     const { t, i18n } = useTranslation();
@@ -29,13 +29,13 @@ const Transactions = () => {
     const [open, setOpen] = useState(false);
 
 
-    const { data, fetchData, count } = useFetch(`/transactions`, pageNo + 1, pageSize, { type: "Hall", transactionType: "Income" });
+    const { data, fetchData, count } = useFetch(`/transactions`, pageNo, pageSize, { type: "Flat", transactionType: "Expense" });
     useEffect(() => {
         fetchData();
     }, [pageNo, pageSize]);
     const [paginationModel, setPaginationModel] = useState({
         pageSize: pageSize,
-        page: 0,
+        page: pageNo,
     });
     const handlePageSizeChange = (event) => {
         setPageSize(event.target.value);
@@ -50,44 +50,7 @@ const Transactions = () => {
             flex: 1,
             valueGetter: (params) => params.row.buildingId?.name || '',
         },
-        {
-            field: 'buildingId.type',
-            headerName: t('building_type'),
-            flex: 1,
-            valueGetter: (params) => params.row.buildingId?.type || '',
-        },
-        {
-            field: 'bookingId.date',
-            headerName: t('booking_date'),
-            flex: 1,
-            renderCell: (params) => {
 
-                const date = new Date(params?.row?.bookingId?.date);
-                const day = date.getDate().toString().padStart(2, '0');
-                const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                const year = date.getFullYear().toString();
-                const formattedDate = `${day}/${month}/${year}`;
-                return formattedDate;
-            }
-        },
-        {
-            field: 'bookingId.startTime',
-            headerName: t('start_date'),
-            flex: 1,
-            valueGetter: (params) => params.row.bookingId?.startTime || '',
-        },
-        {
-            field: 'bookingId.endTime',
-            headerName: t('end_date'),
-            flex: 1,
-            valueGetter: (params) => params.row.bookingId?.endTime || '',
-        },
-        {
-            field: 'bookingId.rate',
-            headerName: t('booking_rate'),
-            flex: 1,
-            valueGetter: (params) => params.row.bookingId?.rate || '',
-        },
         {
             field: 'amount',
             headerName: t('amount'),
@@ -152,7 +115,7 @@ const Transactions = () => {
 
                 <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
                     <Typography variant="h3" component="h2" sx={{ fontStyle: 'normal', fontWeight: 600, lineHeight: '1.875rem', flexGrow: 1, marginLeft: '1.2rem' }}>
-                        {t('hall_transactions')}
+                        {t('building_transactions')}
                     </Typography>
 
                     <Button onClick={() => setOpen(true)} variant="contained">
@@ -174,7 +137,7 @@ const Transactions = () => {
                     }))}
                     paginationModel={paginationModel}
                     onPaginationModelChange={(newModel) => {
-                        setPageNo(newModel.page);
+                        setPageNo(newModel.page + 1);
                         setPaginationModel(newModel);
                     }}
                     getRowId={(row) => row._id}
@@ -214,9 +177,10 @@ const Transactions = () => {
                 />
 
             </Box>
-            <AddTransactions fetchData={fetchData} setOpen={setOpen} open={open} />
+            <AddTransactions fetchData={fetchData} setOpen={setOpen} open={open} building={true} />
 
         </CacheProvider >)
+
 }
 
-export default Transactions
+export default BuildingExpenseTransactions

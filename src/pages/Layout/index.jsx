@@ -133,9 +133,25 @@ const Layout = () => {
                 { name: t('bookings'), path: "/rental/booking" }
             ]
         },
-        { name: t('hall_transactions'), icon: <ReceiptOutlinedIcon />, path: "/rental/halltransactions" },
+        {
+            name: t('hall_transactions'),
+            icon: <ReceiptOutlinedIcon />,
+            subMenus: [
+                { name: t('income'), path: "/rental/hallincome" },
+                { name: t('expenses'), path: "/rental/hallExpenses" }
+            ]
+        },
         { name: t('vouchers'), icon: <ConfirmationNumberOutlinedIcon />, path: "/rental/vouchers" },
-        { name: t('building_transaction'), icon: <AccountBalanceWalletOutlinedIcon />, path: "/rental/buildingtransactions" },
+        { name: t('tenants'), icon: <ConfirmationNumberOutlinedIcon />, path: "/rental/tenants" },
+
+        {
+            name: t('building_transaction'),
+            icon: <AccountBalanceWalletOutlinedIcon />,
+            subMenus: [
+                { name: t('income'), path: "/rental/flatIncome" },
+                { name: t('expenses'), path: "/rental/flatExpenses" }
+            ]
+        },
         { name: t('contracts'), icon: <DescriptionOutlinedIcon />, path: "/rental/contracts" },
         { name: t('profit_report_per_building'), icon: <LocalAtmIcon />, path: "/rental/ProfitReport" },
         { name: t('profit_report_per_flat'), icon: <LocalAtmIcon />, path: "/rental/Profitreportperflat" },

@@ -29,7 +29,7 @@ const BuildingTransactions = () => {
     const [open, setOpen] = useState(false);
 
 
-    const { data, fetchData, count } = useFetch(`/transactions`, pageNo, pageSize, { type: "Flat" });
+    const { data, fetchData, count } = useFetch(`/transactions`, pageNo, pageSize, { type: "Flat", transactionType: "Income" });
     useEffect(() => {
         fetchData();
     }, [pageNo, pageSize]);
@@ -172,7 +172,7 @@ const BuildingTransactions = () => {
                         '& .MuiDataGrid-cell': {
                             fontSize: '1rem', // Increase the font size of the data cells
                             fontWeight: 'bold', // Make the data text bolder
-                          },
+                        },
                     }}
                 />
 

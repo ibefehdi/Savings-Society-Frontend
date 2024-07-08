@@ -26,16 +26,16 @@ const Contracts = () => {
     });
 
     const [expired, setExpired] = useState(false);
-    const [pageNo, setPageNo] = useState(1)
+    const [pageNo, setPageNo] = useState(0)
     const [pageSize, setPageSize] = useState(10)
     const { t, i18n } = useTranslation();
     const [editMode, setEditMode] = useState(false);
     const [contractId, setContractId] = useState();
-    const { data, fetchData, count } = useFetch('/contracts', pageNo, pageSize, { expired });
+    const { data, fetchData, count } = useFetch('/contracts', pageNo + 1, pageSize, { expired });
     const isRtl = i18n.dir() === 'rtl';
     const [paginationModel, setPaginationModel] = useState({
         pageSize: pageSize,
-        page: pageNo,
+        page: 0,
     });
     const columns = [
         {

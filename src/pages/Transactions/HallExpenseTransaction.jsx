@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next';
 import axiosInstance from '../../constants/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import AddTransactions from './AddTransactions';
-const Transactions = () => {
+const HallExpenseTransaction = () => {
     const [pageNo, setPageNo] = useState(0)
     const [pageSize, setPageSize] = useState(10)
     const [openModal, setOpenModal] = useState(false);
@@ -29,7 +29,7 @@ const Transactions = () => {
     const [open, setOpen] = useState(false);
 
 
-    const { data, fetchData, count } = useFetch(`/transactions`, pageNo + 1, pageSize, { type: "Hall", transactionType: "Income" });
+    const { data, fetchData, count } = useFetch(`/transactions`, pageNo + 1, pageSize, { type: "Hall", transactionType: "Expense" });
     useEffect(() => {
         fetchData();
     }, [pageNo, pageSize]);
@@ -219,4 +219,4 @@ const Transactions = () => {
         </CacheProvider >)
 }
 
-export default Transactions
+export default HallExpenseTransaction

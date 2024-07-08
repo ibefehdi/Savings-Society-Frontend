@@ -53,6 +53,9 @@ import SpecialLeavePage from './pages/SpecialLeavePage';
 import DisabledShareholders from './pages/Shareholders/DisabledShareholders';
 import TransferHistory from './pages/TransferHistory';
 import FinancialReportingAmanat from './pages/FinancialReporting/FinancialReportingAmanat';
+import HallExpenseTransaction from './pages/Transactions/HallExpenseTransaction';
+import BuildingExpenseTransactions from './pages/Transactions/BuildingExpenseTransactions';
+import Tenants from './pages/Tenants';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -85,7 +88,11 @@ function App() {
         { path: 'Halls', element: <Halls /> },
         { path: 'booking', element: <Booking /> },
         { path: 'bookhall/:id', element: <BookingTimeline /> },
-        { path: 'halltransactions', element: <Transactions /> },
+        { path: 'hallincome', element: <Transactions /> },
+        { path: "hallExpenses", element: <HallExpenseTransaction /> },
+        { path: "flatIncome", element: <BuildingTransactions /> },
+        { path: "flatExpenses", element: <BuildingExpenseTransactions /> },
+        { path: "tenants", element: <Tenants /> },
         { path: 'vouchers', element: <Vouchers /> },
         { path: 'buildingtransactions', element: <BuildingTransactions /> },
         { path: 'contracts', element: <Contracts /> },
@@ -106,7 +113,12 @@ function App() {
         { path: 'Halls', element: <Halls /> },
         { path: 'booking', element: <Booking /> },
         { path: 'bookhall/:id', element: <BookingTimeline /> },
-        { path: 'halltransactions', element: <Transactions /> },
+        { path: 'hallincome', element: <Transactions /> },
+        { path: "hallExpenses", element: <HallExpenseTransaction /> },
+        { path: "flatIncome", element: <BuildingTransactions /> },
+        { path: "tenants", element: <Tenants /> },
+
+        { path: "flatExpenses", element: <BuildingExpenseTransactions /> },
         { path: 'vouchers', element: <Vouchers /> },
         { path: 'buildingtransactions', element: <BuildingTransactions /> },
         { path: 'contracts', element: <Contracts /> },

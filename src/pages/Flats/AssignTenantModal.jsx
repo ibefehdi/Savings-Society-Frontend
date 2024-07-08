@@ -11,7 +11,20 @@ const AssignTenantModal = ({ open, handleClose, flatId, fetchData }) => {
 
     const onSubmit = async (data) => {
         try {
-            await axiosInstance.put(`addtenant/${flatId}`, data);
+            const formData = new FormData();
+            Object.keys(data).forEach(key => {
+                if (key === 'civilIdDocument') {
+                    formData.append(key, data[key], data[key].name);
+                } else {
+                    formData.append(key, data[key]);
+                }
+            });
+
+            await axiosInstance.put(`addtenant/${flatId}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
             handleClose();
             fetchData();
         } catch (error) {
@@ -20,7 +33,7 @@ const AssignTenantModal = ({ open, handleClose, flatId, fetchData }) => {
     };
     useEffect(() => {
         if (!open) {
-            reset();
+            reset({}, { keepValues: false, keepErrors: false, keepDirty: false, keepIsSubmitted: false, keepTouched: false, keepIsValid: false, keepSubmitCount: false });
         }
     }, [open, reset]);
     return (
@@ -43,7 +56,7 @@ const AssignTenantModal = ({ open, handleClose, flatId, fetchData }) => {
                         <TextField {...field} label={t('tenantContactNumber')} fullWidth margin="normal" />
                     )}
                 />
-                <Controller
+                {/* <Controller
                     name="tenantType"
                     control={control}
                     defaultValue=""
@@ -53,7 +66,7 @@ const AssignTenantModal = ({ open, handleClose, flatId, fetchData }) => {
                             <MenuItem value="Public">{t('public')}</MenuItem>
                         </Select>
                     )}
-                />
+                /> */}
                 <Controller
                     name="startDate"
                     control={control}
@@ -102,6 +115,36 @@ const AssignTenantModal = ({ open, handleClose, flatId, fetchData }) => {
                     defaultValue=""
                     render={({ field }) => (
                         <TextField {...field} label={t('collectionDay')} type="number" fullWidth margin="normal" />
+                    )}
+                />
+                <Controller
+                    name="tenantCivilId"
+                    control={control}
+                    defaultValue=""
+                    render={({ field }) => (
+                        <TextField {...field} label={t('civil_id')} fullWidth margin="normal" />
+                    )}
+                />
+                <Controller
+                    name="civilIdDocument"
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { onChange, value, ...field } }) => (
+                        <TextField
+                            {...field}
+                            type="file"
+                            label={t('civil_id')}
+                            fullWidth
+                            margin="normal"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            onChange={(e) => onChange(e.target.files[0])}
+                            // Remove the value prop
+                            inputProps={{
+                                accept: "image/*,application/pdf"
+                            }}
+                        />
                     )}
                 />
             </DialogContent>

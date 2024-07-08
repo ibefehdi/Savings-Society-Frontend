@@ -16,8 +16,8 @@ import createCache from '@emotion/cache';
 import { useTranslation } from 'react-i18next';
 import axiosInstance from '../../constants/axiosInstance';
 import { useNavigate } from 'react-router-dom';
-import AddTransactions from './AddTransactions';
-const Transactions = () => {
+import { Link } from '@mui/material';
+const Tenants = () => {
     const [pageNo, setPageNo] = useState(0)
     const [pageSize, setPageSize] = useState(10)
     const [openModal, setOpenModal] = useState(false);
@@ -29,7 +29,7 @@ const Transactions = () => {
     const [open, setOpen] = useState(false);
 
 
-    const { data, fetchData, count } = useFetch(`/transactions`, pageNo + 1, pageSize, { type: "Hall", transactionType: "Income" });
+    const { data, fetchData, count } = useFetch(`/tenants`, pageNo + 1, pageSize);
     useEffect(() => {
         fetchData();
     }, [pageNo, pageSize]);
@@ -43,106 +43,49 @@ const Transactions = () => {
         setPaginationModel({ ...paginationModel, pageSize: event.target.value });
     };
     const columns = [
-
         {
-            field: 'buildingId.name',
-            headerName: t('building_name'),
+            field: 'name',
+            headerName: t('tenant_name'),
             flex: 1,
-            valueGetter: (params) => params.row.buildingId?.name || '',
+            valueGetter: (params) => params.row.name || '',
         },
         {
-            field: 'buildingId.type',
-            headerName: t('building_type'),
+            field: 'contactNumber',
+            headerName: t('contact_number'),
             flex: 1,
-            valueGetter: (params) => params.row.buildingId?.type || '',
+            valueGetter: (params) => params.row.contactNumber || '',
         },
         {
-            field: 'bookingId.date',
-            headerName: t('booking_date'),
+            field: 'civilId',
+            headerName: t('civil_id'),
+            flex: 1,
+            valueGetter: (params) => params.row.civilId || '',
+        },
+        {
+            field: 'tenantFrom',
+            headerName: t('tenant_from'),
+            flex: 1,
+            valueGetter: (params) => params.row.tenantFrom || '',
+        },
+        {
+            field: 'flatId.number',
+            headerName: t('flat_number'),
+            flex: 1,
+            valueGetter: (params) => params.row.flatId?.flatNumber || '',
+        },
+        {
+            field: 'civilIdDocument',
+            headerName: t('civil_id_document'),
             flex: 1,
             renderCell: (params) => {
+                if (params.row.civilIdDocument?.path) {
+                    return <Link href={params.row.civilIdDocument?.path}>Civil ID</Link>
 
-                const date = new Date(params?.row?.bookingId?.date);
-                const day = date.getDate().toString().padStart(2, '0');
-                const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                const year = date.getFullYear().toString();
-                const formattedDate = `${day}/${month}/${year}`;
-                return formattedDate;
-            }
-        },
-        {
-            field: 'bookingId.startTime',
-            headerName: t('start_date'),
-            flex: 1,
-            valueGetter: (params) => params.row.bookingId?.startTime || '',
-        },
-        {
-            field: 'bookingId.endTime',
-            headerName: t('end_date'),
-            flex: 1,
-            valueGetter: (params) => params.row.bookingId?.endTime || '',
-        },
-        {
-            field: 'bookingId.rate',
-            headerName: t('booking_rate'),
-            flex: 1,
-            valueGetter: (params) => params.row.bookingId?.rate || '',
-        },
-        {
-            field: 'amount',
-            headerName: t('amount'),
-            flex: 1,
-            valueGetter: (params) => params.row.amount || '',
-        },
-        {
-            field: 'date',
-            headerName: t('date'),
-            flex: 1,
-            renderCell: (params) => {
-                if (params.value) {
-                    const date = new Date(params.value);
-                    const day = date.getDate().toString().padStart(2, '0');
-                    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                    const year = date.getFullYear().toString();
-                    const formattedDate = `${day}/${month}/${year}`;
-                    return formattedDate;
                 }
                 return '';
-            }
+            },
         },
-        {
-            field: 'type',
-            headerName: t('type'),
-            flex: 1,
-            valueGetter: (params) => params.row.type || '',
-        },
-        {
-            field: 'transactionFrom',
-            headerName: t('transaction_from'),
-            flex: 1,
-            valueGetter: (params) => params.row.transactionFrom || '',
-        },
-        {
-            field: 'description',
-            headerName: t('description'),
-            flex: 1,
-            valueGetter: (params) => params.row.description || '',
-        },
-        // {
-        //     field: 'actions',
-        //     headerName: 'Actions',
-        //     flex: 1,
-        //     renderCell: (params) => (
-        //         <Button
-        //             variant="contained"
-        //             color="primary"
-        //             startIcon={<VisibilityIcon />}
-        //             onClick={() => navigate(`/transaction/${params.row._id}`)}
-        //         >
-        //             {t('view')}
-        //         </Button>
-        //     ),
-        // },
+        
     ];
     const orderedColumns = isRtl ? [...columns].reverse() : columns;
 
@@ -214,9 +157,9 @@ const Transactions = () => {
                 />
 
             </Box>
-            <AddTransactions fetchData={fetchData} setOpen={setOpen} open={open} />
 
-        </CacheProvider >)
+        </CacheProvider >
+    )
 }
 
-export default Transactions
+export default Tenants

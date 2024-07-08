@@ -33,14 +33,28 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open }) => {
 
     const onSubmit = async (data) => {
         try {
-            await axiosInstance.post(`createflat`, data);
+            const formData = new FormData();
+            Object.keys(data).forEach(key => {
+                if (key === 'civilIdDocument') {
+                    if (data[key]) {
+                        formData.append(key, data[key], data[key].name);
+                    }
+                } else {
+                    formData.append(key, data[key]);
+                }
+            });
+
+            await axiosInstance.post(`createflat`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
             handleClose();
             reset();
         } catch (error) {
             console.error('Error posting flat data:', error);
         }
     };
-
     useEffect(() => {
         const fetchBuildings = async () => {
             try {
@@ -120,6 +134,28 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open }) => {
                     {...register('tenantCivilId')}
                 />
                 <Controller
+                    name="civilIdDocument"
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { onChange, value, ...field } }) => (
+                        <TextField
+                            {...field}
+                            type="file"
+                            label={t('civilIdDocument')}
+                            fullWidth
+                            margin="normal"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            onChange={(e) => onChange(e.target.files[0])}
+                            // Remove the value prop
+                            inputProps={{
+                                accept: "image/*,application/pdf"
+                            }}
+                        />
+                    )}
+                />
+                {/* <Controller
                     name="tenantType"
                     control={control}
 
@@ -138,7 +174,7 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open }) => {
                             <MenuItem value="Private">{t('private')}</MenuItem>
                         </TextField>
                     )}
-                />
+                /> */}
                 <TextField
                     margin="normal"
                     fullWidth
