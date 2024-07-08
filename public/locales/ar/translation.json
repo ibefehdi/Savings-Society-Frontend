@@ -213,5 +213,7 @@
   "from_savings":"من الادخار",
   "to_amanat":"إلى أمانات",
   "alajmali":"الإجمالي",
-  "transfer_savings": "ت. مدخرات"
+  "transfer_savings": "ت. مدخرات",
+  "income":"دخل",
+  "expense":"مصروف"
 }
