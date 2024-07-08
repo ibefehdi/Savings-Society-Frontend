@@ -23,6 +23,7 @@ import axiosInstance from '../../constants/axiosInstance';
 import { saveAs } from 'file-saver';
 import DisableShareholderModal from './DisableShareholderModal';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
+import { AREAS } from '../../constants/areaConstants';
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
   const navigate = useNavigate();
 
@@ -68,7 +69,8 @@ const Shareholders = () => {
     status: 0,
     workplace: '',
     civilId: '',
-    membersCode: ''
+    membersCode: '',
+    area: ''
   });
   const { data, fetchData, count } = useFetch('/shareholders', pageNo + 1, pageSize, filters);
   const [selectedShareholderId, setSelectedShareholderId] = useState(null);
@@ -310,6 +312,21 @@ const Shareholders = () => {
             <MenuItem value={0}>{t('active')}</MenuItem>
             <MenuItem value={1}>{t('inactive')}</MenuItem>
           </TextField> */}
+          <TextField
+            label={t('area')}
+            variant="outlined"
+            select
+            value={filters.area}
+            onChange={(e) => setFilters({ ...filters, area: e.target.value })}
+            fullWidth
+            autoComplete='off'
+          >
+            {AREAS.map((area) => (
+              <MenuItem key={area.value} value={area.value}>
+                {area.description}
+              </MenuItem>
+            ))}
+          </TextField>
         </Box>)}
       <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
 

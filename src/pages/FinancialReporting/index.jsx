@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Box from '@mui/material/Box';
-
+import { AREAS } from '../../constants/areaConstants';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useReactToPrint } from 'react-to-print';
 import ReactToPrint from 'react-to-print';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridFooter, GridFooterContainer } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import { TextField, MenuItem } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +16,7 @@ import rtlPlugin from 'stylis-plugin-rtl';
 import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
+import axiosInstance from '../../constants/axiosInstance';
 const FinancialReporting = () => {
     const cacheRtl = createCache({
         key: 'muirtl',
@@ -24,7 +25,7 @@ const FinancialReporting = () => {
     const cacheLtr = createCache({
         key: 'muilt',
     });
-    const { data, fetchData, count, updateFilters, filters } = useFetchNoPagination('/financialReports');
+    const { data, fetchData, count, updateFilters, filters, grandTotal } = useFetchNoPagination('/financialReports');
     const navigate = useNavigate();
 
     const { i18n, t } = useTranslation()
@@ -144,16 +145,35 @@ const FinancialReporting = () => {
             headerName: t('total'),
             flex: 1,
             renderCell: (params) =>
-                params.row.total ? params.row.total.toFixed(3) : 'N/A',
+                params.row.savingsCurrentAmount ? params.row.savingsCurrentAmount.toFixed(3) : 'N/A',
         },
     ];
 
 
     useEffect(() => {
         fetchData();
-    }, [filters]);
+    }, [fetchData, filters]);
 
+    const handleExport = async (format) => {
+        try {
+            const queryString = new URLSearchParams(filters).toString();
 
+            const response = await axiosInstance.get(`/financialReports/export?format=${format}&${queryString}`, {
+                responseType: 'blob', // Important for handling file downloads
+            });
+
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `financial_report.${format}`);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } catch (error) {
+            console.error(`Error exporting ${format}:`, error);
+            // Handle error (e.g., show an error message to the user)
+        }
+    };
     const [showFilters, setShowFilters] = useState(false);
     const toggleFilters = () => {
         setShowFilters(!showFilters);
@@ -168,6 +188,16 @@ const FinancialReporting = () => {
     const isRtl = i18n.dir() === 'rtl';
     const orderedColumns = isRtl ? [...columns].reverse() : columns;
     const year = new Date().getFullYear();
+    const CustomFooter = () => (
+        <GridFooterContainer>
+            <GridFooter />
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', width: '100%', padding: '1rem' }}>
+                <Typography variant="h6" component="p">
+                    <strong>{t('grand_total')}:</strong> {grandTotal}
+                </Typography>
+            </Box>
+        </GridFooterContainer>
+    );
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
@@ -231,7 +261,7 @@ const FinancialReporting = () => {
                     <MenuItem value={1}>{t('inactive')}</MenuItem>
                     <MenuItem value={2}>{t('death')}</MenuItem>
                 </TextField>
-                <TextField
+                {/* <TextField
                     label={t('membership_status')}
                     variant="outlined"
                     select
@@ -241,6 +271,21 @@ const FinancialReporting = () => {
                 >
                     <MenuItem value={0}>{t('active')}</MenuItem>
                     <MenuItem value={1}>{t('inactive')}</MenuItem>
+                </TextField> */}
+                <TextField
+                    label={t('area')}
+                    variant="outlined"
+                    select
+                    value={filters.area}
+                    onChange={(e) => updateFilters({ ...filters, area: e.target.value })}
+                    fullWidth
+                    autoComplete='off'
+                >
+                    {AREAS.map((area) => (
+                        <MenuItem key={area.value} value={area.value}>
+                            {area.description}
+                        </MenuItem>
+                    ))}
                 </TextField>
             </Box>)}
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
@@ -260,7 +305,11 @@ const FinancialReporting = () => {
                     </Typography>
 
 
-                    <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
+                    <Box sx={{ display: 'flex', gap: '1rem' }}>
+                        <Button variant='contained' onClick={() => handleExport('csv')}>{t('export_csv')}</Button>
+                        <Button variant='contained' onClick={() => handleExport('xlsx')}>{t('export_xlsx')}</Button>
+                        <Button variant='contained' onClick={() => handlePrint}>{t('print_form')}</Button>
+                    </Box>
                 </Box>
 
                 <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0, display: 'none' }}>
@@ -268,7 +317,7 @@ const FinancialReporting = () => {
                         trigger={() => <button>Print this out!</button>}
                         content={() => componentRef.current}
                     />
-                    <PrintDataGrid ref={componentRef} data={data} filters={filters} />
+                    <PrintDataGrid ref={componentRef} data={data} filters={filters} grandTotal={grandTotal} />
                 </Box>
                 <DataGrid
                     rows={data}
@@ -278,6 +327,8 @@ const FinancialReporting = () => {
                     }))}
                     getRowId={(row) => row._id}
                     rowCount={count}
+                    components={{ Footer: CustomFooter }}
+
                     paginationMode="server"
                     sx={{
                         backgroundColor: '#FFF',

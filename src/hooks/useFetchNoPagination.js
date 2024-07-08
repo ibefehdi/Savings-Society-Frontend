@@ -5,7 +5,8 @@ export const useFetchNoPagination = (url, initialFilters = {}) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [count, setCount] = useState();
-    const [filters, setFilters] = useState(initialFilters); 
+    const [grandTotal, setGrandTotal] = useState();
+    const [filters, setFilters] = useState(initialFilters);
     const fetchData = useCallback(() => {
         setLoading(true);
         const filterParams = new URLSearchParams(filters).toString();
@@ -15,6 +16,7 @@ export const useFetchNoPagination = (url, initialFilters = {}) => {
             .then(res => {
                 setData(res?.data?.data);
                 setCount(res?.data?.count);
+                setGrandTotal(res?.data?.grandTotal);
             })
             .catch(error => {
                 console.error("There was an error!", error);
@@ -22,7 +24,7 @@ export const useFetchNoPagination = (url, initialFilters = {}) => {
             .finally(() => {
                 setLoading(false);
             });
-    }, [url, filters]);  
+    }, [url, filters]);
 
 
     const updateFilters = useCallback((newFilters) => {
@@ -35,5 +37,5 @@ export const useFetchNoPagination = (url, initialFilters = {}) => {
         fetchData();
     }, [fetchData]);
 
-    return { data, loading, fetchData, count, updateFilters, filters };
+    return { data, loading, fetchData, count, updateFilters, filters, grandTotal };
 };

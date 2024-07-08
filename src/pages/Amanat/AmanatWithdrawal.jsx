@@ -94,6 +94,16 @@ const AmanatWithdrawal = ({ id, fetchData, setOpen, open }) => {
                     helperText={errors.newAmount ? 'This is required' : ''}
                 />
                 <TextField
+                    id="date"
+                    margin="normal"
+                    fullWidth
+                    type='date'
+                    label={t('date')}
+                    {...register('date', { required: true })}
+                    error={!!errors.date}
+                    helperText={errors.date ? 'This is required' : ''}
+                />
+                <TextField
                     margin="normal"
                     fullWidth
                     label={t('amount_after_withdrawal')}

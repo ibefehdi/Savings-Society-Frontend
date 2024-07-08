@@ -38,24 +38,36 @@ const AddNewBooking = ({ editMode, setOpen, fetchData, open, hallId, booking, on
     const { i18n, t } = useTranslation();
     const isRtl = i18n.dir() === 'rtl';
 
+
     const onSubmit = async (data) => {
         try {
-            const payload = {
-                ...data,
-                hallId: hallId,
-            };
+            const formData = new FormData();
+            Object.keys(data).forEach(key => {
+                if (key === 'civilIdDocument') {
+                    if (data[key] && data[key][0]) {
+                        formData.append(key, data[key][0]);
+                    }
+                } else {
+                    formData.append(key, data[key]);
+                }
+            });
+            formData.append('hallId', hallId);
+
             if (editMode) {
-                await axiosInstance.put('/editbooking', payload);
+                await axiosInstance.put('/editbooking', formData, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                });
             } else {
-                await axiosInstance.post('/createbooking', payload);
+                await axiosInstance.post('/createbooking', formData, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                });
             }
             handleClose();
             reset();
         } catch (error) {
             console.error('Error posting/editing booking data:', error);
         }
-    };
-
+    }
 
 
     return (
@@ -77,6 +89,18 @@ const AddNewBooking = ({ editMode, setOpen, fetchData, open, hallId, booking, on
                         shrink: true,
                     }}
                     {...register('date', { required: editMode ? false : true })}
+                    error={!!errors.date}
+                    helperText={errors.date ? 'Date is required' : ''}
+                />
+                <TextField
+                    margin="normal"
+                    fullWidth
+                    label={t('date_of_event')}
+                    type="date"
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    {...register('dateOfEvent', { required: editMode ? false : true })}
                     error={!!errors.date}
                     helperText={errors.date ? 'Date is required' : ''}
                 />
@@ -129,7 +153,7 @@ const AddNewBooking = ({ editMode, setOpen, fetchData, open, hallId, booking, on
                     error={!!errors.tenantCivilId}
                     helperText={errors.tenantCivilId ? 'Tenant Civil ID is required' : ''}
                 />
-                <Controller
+                {/* <Controller
                     name="tenantType"
                     control={control}
                     rules={{ required: editMode ? false : true }}
@@ -148,7 +172,7 @@ const AddNewBooking = ({ editMode, setOpen, fetchData, open, hallId, booking, on
                             <MenuItem value="Private">{t('private')}</MenuItem>
                         </TextField>
                     )}
-                />
+                /> */}
                 <TextField
                     margin="normal"
                     fullWidth
@@ -156,6 +180,27 @@ const AddNewBooking = ({ editMode, setOpen, fetchData, open, hallId, booking, on
                     {...register('tenantContactNumber', { required: editMode ? false : true })}
                     error={!!errors.tenantContactNumber}
                     helperText={errors.tenantContactNumber ? 'Tenant Contact Number is required' : ''}
+                />
+                <Controller
+                    name="civilIdDocument"
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { onChange, value, ...field } }) => (
+                        <TextField
+                            {...field}
+                            type="file"
+                            label={t('civilIdDocument')}
+                            fullWidth
+                            margin="normal"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            onChange={(e) => onChange(e.target.files)}
+                            inputProps={{
+                                accept: "image/*,application/pdf"
+                            }}
+                        />
+                    )}
                 />
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
                     {editMode ? 'Update' : 'Submit'}

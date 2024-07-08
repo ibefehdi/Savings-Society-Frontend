@@ -12,3 +12,33 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+@media print {
+  .grand-total-row {
+    display: table-row;
+    position: static;  /* Change from fixed to static */
+    width: 100%;
+    background-color: white;
+  }
+  /* .grand-total-row:not(:last-child) {
+      display: none;
+  } */
+
+  @page {
+      margin-bottom: 0;
+  }
+}
+/* @media print {
+  .table-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .table-content {
+    flex-grow: 1;
+  }
+
+  .grand-total-row {
+    margin-top: auto;
+  }
+} */

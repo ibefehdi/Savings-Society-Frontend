@@ -7,6 +7,7 @@ import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { DataGrid } from '@mui/x-data-grid';
+import axiosInstance from '../../constants/axiosInstance';
 const DepositHistory = () => {
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, setPageSize] = useState(10);
@@ -97,21 +98,41 @@ const DepositHistory = () => {
         page: pageNo,
     });
     const orderedColumns = isRtl ? [...columns].reverse() : columns;
+    const handleExport = async (format) => {
+        try {
+            const response = await axiosInstance.get(`/deposit-history-report?format=${format}`, {
+                responseType: 'blob', // Important for handling file downloads
+            });
 
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `deposit_history_report.${format}`);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } catch (error) {
+            console.error(`Error exporting ${format}:`, error);
+            // Handle error (e.g., show an error message to the user)
+        }
+    };
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
 
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
                 <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
                     <Typography variant="h3" component="h2" sx={{
-                        fontStyle: 'normal', 
+                        fontStyle: 'normal',
                         fontWeight: 600,
                         lineHeight: '1.875rem', flexGrow: 1,
                         marginLeft: '1.2rem'
                     }}>
                         {t('deposit_history')}
                     </Typography>
-
+                    <Box sx={{ display: 'flex', gap: '1rem' }}>
+                        {/* <Button variant='contained' onClick={() => handleExport('csv')}>{t('export_csv')}</Button> */}
+                        <Button variant='contained' onClick={() => handleExport('xlsx')}>{t('export_xlsx')}</Button>
+                    </Box>
 
                 </Box>
                 <DataGrid

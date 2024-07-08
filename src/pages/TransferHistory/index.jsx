@@ -7,6 +7,7 @@ import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { DataGrid } from '@mui/x-data-grid';
+import axiosInstance from '../../constants/axiosInstance';
 const TransferHistory = () => {
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, setPageSize] = useState(10);
@@ -103,7 +104,24 @@ const TransferHistory = () => {
         page: pageNo,
     });
     const orderedColumns = isRtl ? [...columns].reverse() : columns;
+    const handleExport = async (format) => {
+        try {
+            const response = await axiosInstance.get(`/transfer-log-report?format=${format}`, {
+                responseType: 'blob', // Important for handling file downloads
+            });
 
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `transfer_logs.${format}`);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } catch (error) {
+            console.error(`Error exporting ${format}:`, error);
+            // Handle error (e.g., show an error message to the user)
+        }
+    };
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
 
@@ -117,7 +135,10 @@ const TransferHistory = () => {
                     }}>
                         {t('transfer_history')}
                     </Typography>
-
+                    <Box sx={{ display: 'flex', gap: '1rem' }}>
+                        {/* <Button variant='contained' onClick={() => handleExport('csv')}>{t('export_csv')}</Button> */}
+                        <Button variant='contained' onClick={() => handleExport('xlsx')}>{t('export_xlsx')}</Button>
+                    </Box>
 
                 </Box>
                 <DataGrid

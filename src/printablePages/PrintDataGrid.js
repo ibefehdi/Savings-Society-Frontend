@@ -35,8 +35,14 @@ const TableRow = styled.tr`
   direction: rtl;
 `;
 
+const GrandTotalRow = styled.tr`
+  position: sticky;
+  bottom: 0;
+  background-color: white;
+  font-weight: bold;
+`;
 
-const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
+const PrintDataGrid = React.forwardRef(({ data, filters, grandTotal }, ref) => {
     const keyTranslations = {
         serial: 'رقم العضو',
         fName: 'اسم',
@@ -45,12 +51,14 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
         workplace: "مكان العمل",
         year: "السنة"
     };
+
     // Function to create filter string
     const createFilterString = (filters) => {
         return Object.entries(filters)
             .map(([key, value]) => `${keyTranslations[key] || key}: ${value}`)
             .join(', ');
     };
+
     return (
         <div ref={ref}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', padding: "1rem" }}>
@@ -63,7 +71,7 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
                     <img src={logo} alt='logo' style={{ height: '100px', width: '100px' }} />
                 </div>
                 <div style={{ flex: 1, textAlign: 'right' }}>
-                    <h1 style={{ margin: '0', textAlign: 'center' }}>الجمعية التعاونية لموظفي الحكومة الكويتيين (للادخار)</h1>
+                    <h1 style={{ margin: '0', textAlign: 'center' }}>الجمعية التعاونية لموظفي الحكومة الكويتيين (للادخار)</h1>
                 </div>
             </div>
             <h3 style={{ textAlign: 'center' }}>{createFilterString(filters)}</h3>
@@ -102,10 +110,18 @@ const PrintDataGrid = React.forwardRef(({ data, filters }, ref) => {
                                 </StyledTd>
                                 <StyledTd>{row?.amanatAmount ? row.amanatAmount?.toFixed(3) : 'N/A'}</StyledTd>
                                 <StyledTd>{row?.transferSavings ? row.transferSavings?.toFixed(3) : 'N/A'}</StyledTd>
-                                <StyledTd>{row?.total ? row.total.toFixed(3) : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.savingsCurrentAmount ? row.savingsCurrentAmount.toFixed(3) : 'N/A'}</StyledTd>
                             </TableRow>
                         ))}
                     </tbody>
+                    <tfoot>
+                        <GrandTotalRow className="grand-total-row">
+                            <StyledTd colSpan="9" style={{ textAlign: 'right' }}>Grand Total</StyledTd>
+                            <StyledTd style={{ fontWeight: 'bold' }}>
+                                {grandTotal ? grandTotal : 'N/A'}
+                            </StyledTd>
+                        </GrandTotalRow>
+                    </tfoot>
                 </StyledTable>
             </TableContainer>
         </div>

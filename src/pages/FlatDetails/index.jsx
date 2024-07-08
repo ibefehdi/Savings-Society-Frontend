@@ -4,7 +4,7 @@ import axiosInstance from '../../constants/axiosInstance';
 import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
 import Typography from '@mui/material/Typography';
-import { Table, TableBody, TableRow, TableCell, Tab, Tabs } from '@mui/material';
+import { Table, TableBody, TableRow, TableCell, Tab, Tabs, Link } from '@mui/material';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -71,7 +71,23 @@ const FlatDetails = () => {
             <TableCell sx={{ border: 0, minWidth: '14rem' }}>{value}</TableCell>
         </TableRow>
     );
+    const DocumentRow = ({ label, document }) => {
+        if (!document) return null;
 
+        return (
+            <TableRow>
+                <TableCell component="th" scope="row" sx={{ border: 0, fontWeight: 'bold', minWidth: '14rem' }}>
+                    {label}
+                </TableCell>
+                <TableCell>
+                    <Link href={document.path} target="_blank" rel="noopener noreferrer">
+                        {t('view')}
+                    </Link>
+
+                </TableCell>
+            </TableRow>
+        );
+    };
     return (
         <React.Fragment>
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', display: 'flex' }}>
@@ -113,6 +129,8 @@ const FlatDetails = () => {
                                     <DetailRow label={t('contact_number')} value={flatDetails.tenant?.contactNumber} />
                                     <DetailRow label={t('civil_id')} value={flatDetails.tenant?.civilId} />
                                     <DetailRow label={t('type')} value={flatDetails.tenant?.type} />
+                                    <DocumentRow label={t('civil_id')} document={flatDetails.tenant?.civilIdDocument} />
+
                                 </TableBody>
                             </Table>
                         </Box>

@@ -144,7 +144,7 @@ const SharesDepositPage = () => {
         },
         {
             field: 'shareAmount',
-            headerName: t('shareAmount'),
+            headerName: t('amount_of_shares'),
             flex: 1,
             renderCell: (params) => {
                 return params.row.share && params?.row?.share?.totalShareAmount
@@ -152,7 +152,7 @@ const SharesDepositPage = () => {
         },
         {
             field: 'shareValue',
-            headerName: t('shareValue'),
+            headerName: t('share_initial_amount'),
             flex: 1,
             renderCell: (params) => {
                 return params.row.share && params?.row?.share?.totalAmount

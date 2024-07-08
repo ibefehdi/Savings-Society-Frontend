@@ -28,6 +28,8 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
     const [totalAmount, setTotalAmount] = useState(0);
     const { i18n, t } = useTranslation();
     const isRtl = i18n.dir() === 'rtl';
+    const [selectedDate, setSelectedDate] = useState(new Date());
+
 
     const { register, handleSubmit, watch, setValue, control, reset, formState: { errors } } = useForm();
     useEffect(() => {
@@ -49,17 +51,24 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
 
         fetchShareholderDetails();
     }, [id, year, savings]);
-    const handleClose = () => {
-        setOpen(false)
-        reset()
+    const resetState = () => {
+        setShareholderDetails(null);
+        setYear(new Date().getFullYear());
+        setTotalAmount(0);
+        setSelectedDate(new Date());
+        reset(); // This resets the form
+      };
+      const handleClose = () => {
+        setOpen(false);
+        resetState();
         fetchData();
-    }
+      };
     const url = `/shareholder/withdrawsavings/${id}`
     const onSubmit = async (data) => {
         console.log("Submitting form", data);
 
         try {
-            const updatedData = { ...data, adminId: [adminData?.id] }
+            const updatedData = { ...data, adminId: [adminData?.id], date: selectedDate, }
             await axiosInstance.post(url, updatedData);
             handleClose();
         } catch (error) {
@@ -158,13 +167,21 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
                 />
 
                 {savings &&
-                (<TextField
-                    margin="normal"
+                    (<TextField
+                        margin="normal"
+                        fullWidth
+                        label={t('amount_after_withdrawal')}
+                        value={Number(shareholderDetails?.savings) - Number(amountToWithdraw)}
+                        disabled
+                    />)}
+                <TextField
+                    id="date"
+                    type="date"
                     fullWidth
-                    label={t('amount_after_withdrawal')}
-                    value={Number(shareholderDetails?.savings) - Number(amountToWithdraw)}
-                    disabled
-                />)}
+                    value={selectedDate}
+                    onChange={(e) => setSelectedDate(e.target.value)}
+                    required
+                />
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
                     {t('withdraw')}
                 </Button>
