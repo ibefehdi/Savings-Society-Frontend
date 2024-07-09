@@ -22,7 +22,8 @@ import createCache from '@emotion/cache';
 import axiosInstance from '../../constants/axiosInstance';
 import { saveAs } from 'file-saver';
 import DisableShareholderModal from './DisableShareholderModal';
-import PersonOffIcon from '@mui/icons-material/PersonOff';
+import PersonAddAlt1 from '@mui/icons-material/PersonAddAlt1';
+import EnableShareholder from './EnableShareholder';
 const DisabledShareholders = () => {
     const navigate = useNavigate();
 
@@ -56,7 +57,7 @@ const DisabledShareholders = () => {
 
         return (
             <IconButton onClick={handleDisableClick}>
-                <PersonOffIcon />
+                <PersonAddAlt1 />
             </IconButton>
         );
     };
@@ -203,6 +204,13 @@ const DisabledShareholders = () => {
             width: 55,
             renderCell: (params) => <ViewButton id={params.id} edit={true} setEditOpen={setEditOpen} setSelectedShareholderId={setSelectedShareholderId} />,
         }] : []),
+        {
+            field: 'enable',
+            headerName: t('enable'),
+            sortable: false,
+            width: 55,
+            renderCell: (params) => <DisableButton id={params.id} setDisableOpen={setDisableOpen} setSelectedShareholderId={setSelectedShareholderId} />
+        },
 
     ];
 
@@ -229,7 +237,7 @@ const DisabledShareholders = () => {
         axiosInstance.get(queryString, { responseType: 'blob' })
             .then((response) => {
                 const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
-                saveAs(blob, "shareholder.csv");
+                saveAs(blob, "inactive_shareholder.csv");
             })
             .catch(error => console.error('Download error!', error));
     };
@@ -252,6 +260,7 @@ const DisabledShareholders = () => {
         }
         fetchWorkplaces();
     }, []);
+
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
@@ -335,12 +344,16 @@ const DisabledShareholders = () => {
                     }}>
                         {t('shareholders')}
                     </Typography>
+                    <Box>
+                        <Select value={pageSize} onChange={handlePageSizeChange} sx={{ ml: '1rem', mr: '1rem' }}>
+                            <MenuItem value={10}>10 {t('per_page')}</MenuItem>
+                            <MenuItem value={25}>25 {t('per_page')}</MenuItem>
+                            <MenuItem value={50}>50 {t('per_page')}</MenuItem>
+                        </Select>
+                        <Button variant='contained' onClick={() => { getCSV() }}>{t('export_csv')}</Button>
 
-                    <Select value={pageSize} onChange={handlePageSizeChange} sx={{ ml: '1rem', mr: '1rem' }}>
-                        <MenuItem value={10}>10 {t('per_page')}</MenuItem>
-                        <MenuItem value={25}>25 {t('per_page')}</MenuItem>
-                        <MenuItem value={50}>50 {t('per_page')}</MenuItem>
-                    </Select>
+                    </Box>
+
 
 
                 </Box>
@@ -395,9 +408,9 @@ const DisabledShareholders = () => {
             </Box>
             <AddShareholderModal open={open} setOpen={setOpen} fetchData={fetchData} />
             <EditShareholderModal open={editOpen} setOpen={setEditOpen} fetchData={fetchData} id={selectedShareholderId} />
-            <DisableShareholderModal open={disableOpen} setOpen={setDisableOpen} fetchData={fetchData} id={selectedShareholderId} />
+            <EnableShareholder open={disableOpen} setOpen={setDisableOpen} fetchData={fetchData} id={selectedShareholderId} />
 
-        </CacheProvider>)
+        </CacheProvider >)
 
 }
 export default DisabledShareholders

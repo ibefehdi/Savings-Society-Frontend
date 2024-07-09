@@ -219,7 +219,7 @@ const Shareholders = () => {
     axiosInstance.get(queryString, { responseType: 'blob' })
       .then((response) => {
         const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
-        saveAs(blob, "shareholder.csv");
+        saveAs(blob, "active_shareholder.csv");
       })
       .catch(error => console.error('Download error!', error));
   };

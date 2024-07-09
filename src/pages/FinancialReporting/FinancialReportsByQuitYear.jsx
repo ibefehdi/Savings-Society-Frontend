@@ -84,11 +84,11 @@ const FinancialReportsByQuitYear = () => {
         },
         {
             field: 'initialShareAmount',
-            headerName: t('share_initial_amount'),
+            headerName: t('share'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.shareDetails?.totalAmount
-                    .toFixed(3);
+                return Math.floor(params.row.shareDetails?.totalAmount)
+
             },
         },
         {
@@ -105,8 +105,8 @@ const FinancialReportsByQuitYear = () => {
             headerName: t('share_increase'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.totalShareIncrease
-                    ? params.row.totalShareIncrease.toFixed(3)
+                return params.row.shareIncrease
+                    ? params.row.shareIncrease.toFixed(3)
                     : 'N/A';
             },
         },
