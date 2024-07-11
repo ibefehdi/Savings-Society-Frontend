@@ -157,13 +157,13 @@ const Shareholders = () => {
       field: 'shareAmountForShareholder',
       headerName: t('share_amount'),
       flex: 1,
-      renderCell: (params) => params?.row.share?.totalShareAmount || "N/A",
+      renderCell: (params) => Math.floor(params?.row.share?.totalShareAmount) || "N/A",
     },
     {
       field: 'shareValueForShareholder',
       headerName: t('share_initial_amount'),
       flex: 1,
-      renderCell: (params) => params?.row?.share?.totalAmount?.toFixed(3) || "N/A",
+      renderCell: (params) => Math.floor(params?.row?.share?.totalAmount) || "N/A",
     },
     {
       field: 'savingsForShareholder',

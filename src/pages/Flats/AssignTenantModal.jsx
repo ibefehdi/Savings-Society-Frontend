@@ -13,8 +13,10 @@ const AssignTenantModal = ({ open, handleClose, flatId, fetchData }) => {
         try {
             const formData = new FormData();
             Object.keys(data).forEach(key => {
-                if (key === 'civilIdDocument') {
-                    formData.append(key, data[key], data[key].name);
+                if (key === 'civilIdDocument' || key === 'contractDocument') {
+                    if (data[key]) {
+                        formData.append(key, data[key], data[key].name);
+                    }
                 } else {
                     formData.append(key, data[key]);
                 }
@@ -141,6 +143,27 @@ const AssignTenantModal = ({ open, handleClose, flatId, fetchData }) => {
                             }}
                             onChange={(e) => onChange(e.target.files[0])}
                             // Remove the value prop
+                            inputProps={{
+                                accept: "image/*,application/pdf"
+                            }}
+                        />
+                    )}
+                />
+                <Controller
+                    name="contractDocument"
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { onChange, value, ...field } }) => (
+                        <TextField
+                            {...field}
+                            type="file"
+                            label={t('contractDocument')}
+                            fullWidth
+                            margin="normal"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            onChange={(e) => onChange(e.target.files[0])}
                             inputProps={{
                                 accept: "image/*,application/pdf"
                             }}

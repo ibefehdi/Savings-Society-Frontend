@@ -8,11 +8,14 @@ import { useFetch } from '../../hooks/useFetch';
 import { DataGrid } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
 import rtlPlugin from 'stylis-plugin-rtl';
+import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
 import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import PayVoucherModal from './PayVoucherModal';
 import AddVoucherModal from './AddVoucherModal';
+import { MenuItem, TextField } from '@mui/material';
+import axiosInstance from '../../constants/axiosInstance';
 const Vouchers = () => {
   const [pageNo, setPageNo] = useState(0)
   const [pageSize, setPageSize] = useState(10)
@@ -36,7 +39,14 @@ const Vouchers = () => {
     setSelectedVoucherId(null);
     setModalOpen(false);
   };
-  const { data, fetchData, count } = useFetch('/vouchers', pageNo + 1, pageSize);
+  const [filters, setFilters] = useState({
+    buildingId: '',
+    tenantName: '',
+    civilId: '',
+    contactNumber: '',
+
+  });
+  const { data, fetchData, count } = useFetch('/vouchers', pageNo + 1, pageSize, filters);
   const columns = [
     {
       field: 'description',
@@ -92,7 +102,7 @@ const Vouchers = () => {
 
   useEffect(() => {
     fetchData();
-  }, [pageNo, pageSize]);
+  }, [pageNo, pageSize, filters]);
 
   const cacheRtl = createCache({
     key: 'muirtl',
@@ -106,10 +116,74 @@ const Vouchers = () => {
     page: 0,
   });
   const orderedColumns = isRtl ? [...columns].reverse() : columns;
+  const [buildings, setBuildings] = useState([]);
 
+  useEffect(() => {
+    const fetchBuildings = async () => {
+      try {
+        const response = await axiosInstance.get('/buildingdropdown');
+        setBuildings(response?.data?.data);
+
+      } catch (error) {
+        console.error('Error fetching buildings:', error);
+      }
+    };
+
+    fetchBuildings();
+  }, []);
+  const [showFilters, setShowFilters] = useState(false);
+
+  const toggleFilters = () => {
+    setShowFilters(!showFilters);
+  };
   return (
     <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
-
+      <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
+        <FilterListOutlinedIcon /> {t('filter')}
+      </Button>
+      {showFilters && (
+        <Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', marginRight: isRtl ? "2rem" : 0 }}>
+          <TextField
+            label={t('building')}
+            variant="outlined"
+            select
+            value={filters.buildingId}
+            onChange={(e) => setFilters({ ...filters, buildingId: e.target.value })}
+            fullWidth
+            autoComplete='off'
+          >
+            {buildings.map((building) => (
+              <MenuItem key={building._id} value={building._id}>
+                {building.name}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            label={t('tenant_name')}
+            variant="outlined"
+            value={filters.tenantName}
+            onChange={(e) => setFilters({ ...filters, tenantName: e.target.value })}
+            fullWidth
+            autoComplete='off'
+          />
+          <TextField
+            label={t('civil_id')}
+            variant="outlined"
+            value={filters.civilId}
+            onChange={(e) => setFilters({ ...filters, civilId: e.target.value })}
+            fullWidth
+            autoComplete='off'
+          />
+          <TextField
+            label={t('contact_number')}
+            variant="outlined"
+            value={filters.contactNumber}
+            onChange={(e) => setFilters({ ...filters, contactNumber: e.target.value })}
+            fullWidth
+            autoComplete='off'
+          />
+        </Box>
+      )}
       <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
         <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
           <Typography variant="h3" component="h2" sx={{

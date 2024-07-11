@@ -150,7 +150,7 @@ const SharesDepositPage = () => {
             headerName: t('amount_of_shares'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.share && params?.row?.share?.totalShareAmount
+                return params.row.share && Math.floor(params?.row?.share?.totalShareAmount)
             }
         },
         {
@@ -158,7 +158,7 @@ const SharesDepositPage = () => {
             headerName: t('share_initial_amount'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.share && params?.row?.share?.totalAmount
+                return params.row.share && Math.floor(params?.row?.share?.totalAmount)
             }
         },
         // {

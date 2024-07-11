@@ -15,6 +15,8 @@ import rtlPlugin from 'stylis-plugin-rtl';
 import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { Modal } from '@mui/material';
 
 const Contracts = () => {
     const cacheRtl = createCache({
@@ -31,6 +33,19 @@ const Contracts = () => {
     const { t, i18n } = useTranslation();
     const [editMode, setEditMode] = useState(false);
     const [contractId, setContractId] = useState();
+    const [openModal, setOpenModal] = useState(false);
+    const [selectedContract, setSelectedContract] = useState(null);
+
+    const handleOpenModal = (contract) => {
+        setSelectedContract(contract);
+        setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+        setSelectedContract(null);
+    };
+
     const { data, fetchData, count } = useFetch('/contracts', pageNo + 1, pageSize, { expired });
     const isRtl = i18n.dir() === 'rtl';
     const [paginationModel, setPaginationModel] = useState({
@@ -48,7 +63,7 @@ const Contracts = () => {
             field: 'tenantName',
             headerName: t('tenant_name'),
             flex: 1,
-            valueGetter: (params) => params.row.tenantId.name,
+            valueGetter: (params) => params.row.tenantId?.name,
         },
         {
             field: 'startDate',
@@ -71,11 +86,31 @@ const Contracts = () => {
             field: 'expired',
             headerName: t('expired'),
             flex: 1,
+            renderCell: (params) => (
+                <span style={{
+                    color: params.value ? 'red' : 'green',
+                    fontWeight: 'bold'
+                }}>
+                    {params.value ? 'Inactive' : 'Active'}
+                </span>
+            ),
         },
         {
             field: 'collectionDay',
             headerName: t('collection_day'),
             flex: 1,
+        },
+        {
+            field: 'view',
+            headerName: t('view'),
+            flex: 1,
+            renderCell: (params) => (
+                params.row.contractDocument ? (
+                    <IconButton onClick={() => handleOpenModal(params.row)}>
+                        <VisibilityIcon />
+                    </IconButton>
+                ) : null
+            ),
         },
         // {
         //     field: 'edit',
@@ -183,6 +218,51 @@ const Contracts = () => {
                         },
                     }}
                 />
+                <Modal
+                    open={openModal}
+                    onClose={handleCloseModal}
+                    aria-labelledby="contract-modal-title"
+                    aria-describedby="contract-modal-description"
+                >
+                    <Box sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: 400,
+                        bgcolor: 'background.paper',
+                        border: '2px solid #000',
+                        boxShadow: 24,
+                        p: 4,
+                    }}>
+                        <Typography id="contract-modal-title" variant="h6" component="h2">
+                            {t('contract_document')}
+                        </Typography>
+                        {selectedContract && selectedContract.contractDocument && selectedContract.contractDocument.path ? (
+                            <Box sx={{ mt: 2 }}>
+                                {selectedContract.contractDocument.fileType === 'pdf' ? (
+                                    <iframe
+                                        src={selectedContract.contractDocument.path}
+                                        width="100%"
+                                        height="500px"
+                                        style={{ border: 'none' }}
+                                    />
+                                ) : (
+                                    <img
+                                        src={selectedContract.contractDocument.path}
+                                        alt="Contract Document"
+                                        style={{ maxWidth: '100%', maxHeight: '500px' }}
+                                    />
+                                )}
+                            </Box>
+                        ) : (
+                            <Typography>{t('no_document_available')}</Typography>
+                        )}
+                        <Button onClick={handleCloseModal} sx={{ mt: 2 }}>
+                            {t('close')}
+                        </Button>
+                    </Box>
+                </Modal>
             </Box>
         </CacheProvider>
     );

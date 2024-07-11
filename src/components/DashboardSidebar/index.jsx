@@ -22,6 +22,8 @@ const DashboardSidebar = ({ menuItems }) => {
     const { t, i18n } = useTranslation();
     const [collapsed, setCollapsed] = useState(false);
     const navigate = useNavigate();
+    const [userData, setUserdata] = useState(JSON.parse(sessionStorage.getItem('userDetails')))
+    const [admin, setAdmin] = useState(userData?.isAdmin)
 
     useEffect(() => {
         const handleResize = () => setCollapsed(window.innerWidth < 768);
@@ -36,6 +38,47 @@ const DashboardSidebar = ({ menuItems }) => {
         if (menuItem.path) {
             navigate(menuItem.path);
         }
+    };
+    const renderMenuItem = (menuItem, index) => {
+        // Check if the menuItem should be displayed based on admin status
+        if (menuItem.isAdmin && !admin) {
+            return null;
+        }
+
+        if (menuItem.divider) {
+            return <CustomDivider key={`divider-${index}`} />;
+        }
+
+        if (menuItem.subMenus) {
+            return (
+                <SubMenu
+                    key={menuItem.name}
+                    label={menuItem.name}
+                    icon={menuItem.icon}
+                    onClick={() => handleMenuItemClick(menuItem)}
+                >
+                    {menuItem.subMenus.map(sub => (
+                        <MenuItem
+                            key={sub.name}
+                            style={{ backgroundColor: '#15533B' }}
+                            component={<Link to={sub.path} />}
+                        >
+                            {sub.name}
+                        </MenuItem>
+                    ))}
+                </SubMenu>
+            );
+        }
+
+        return (
+            <MenuItem
+                key={menuItem.name}
+                component={<Link to={menuItem.path} />}
+                icon={menuItem.icon}
+            >
+                {menuItem.name}
+            </MenuItem>
+        );
     };
 
     return (
@@ -54,36 +97,7 @@ const DashboardSidebar = ({ menuItems }) => {
                         },
                     }}
                 >
-                    {menuItems?.map((menuItem, index) =>
-                        menuItem.divider ? (
-                            <CustomDivider key={`divider-${index}`} />
-                        ) : menuItem.subMenus ? (
-                            <SubMenu
-                                key={menuItem.name}
-                                label={menuItem.name}
-                                icon={menuItem.icon}
-                                onClick={() => handleMenuItemClick(menuItem)}
-                            >
-                                {menuItem.subMenus.map(sub => (
-                                    <MenuItem
-                                        key={sub.name}
-                                        style={{ backgroundColor: '#15533B' }}
-                                        component={<Link to={sub.path} />}
-                                    >
-                                        {sub.name}
-                                    </MenuItem>
-                                ))}
-                            </SubMenu>
-                        ) : (
-                            <MenuItem
-                                key={menuItem.name}
-                                component={<Link to={menuItem.path} />}
-                                icon={menuItem.icon}
-                            >
-                                {menuItem.name}
-                            </MenuItem>
-                        )
-                    )}
+                    {menuItems?.map((menuItem, index) => renderMenuItem(menuItem, index))}
                 </Menu>
             </div>
         </Sidebar >

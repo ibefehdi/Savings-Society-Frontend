@@ -13,7 +13,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 600,
     bgcolor: 'background.paper',
     boxShadow: 24,
     p: 4,
@@ -35,7 +35,7 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open }) => {
         try {
             const formData = new FormData();
             Object.keys(data).forEach(key => {
-                if (key === 'civilIdDocument') {
+                if (key === 'civilIdDocument' || key === 'contractDocument') {
                     if (data[key]) {
                         formData.append(key, data[key], data[key].name);
                     }
@@ -149,6 +149,27 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open }) => {
                             }}
                             onChange={(e) => onChange(e.target.files[0])}
                             // Remove the value prop
+                            inputProps={{
+                                accept: "image/*,application/pdf"
+                            }}
+                        />
+                    )}
+                />
+                <Controller
+                    name="contractDocument"
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { onChange, value, ...field } }) => (
+                        <TextField
+                            {...field}
+                            type="file"
+                            label={t('contractDocument')}
+                            fullWidth
+                            margin="normal"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            onChange={(e) => onChange(e.target.files[0])}
                             inputProps={{
                                 accept: "image/*,application/pdf"
                             }}
