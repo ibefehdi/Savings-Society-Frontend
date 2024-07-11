@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import { saveAs } from 'file-saver';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useFetch } from '../../hooks/useFetch';
@@ -54,8 +55,8 @@ const Vouchers = () => {
       flex: 1,
       renderCell: (params) => {
         // Check if flatId exists, and if not, use the buildingId directly from the root of the data object
-        const buildingInfo = params.row.flatId ? params.row.flatId.buildingId : params.row.buildingId;
-        const flatNumber = params.row.flatId ? `, Flat Number: ${params.row.flatId.flatNumber}` : "";
+        const buildingInfo = params.row.flatId ? params.row.flatId?.buildingId : params.row.buildingId;
+        const flatNumber = params.row.flatId ? `, Flat Number: ${params.row.flatId?.flatNumber}` : "";
         return `${buildingInfo.name}${flatNumber}`;
       }
     },
@@ -63,27 +64,27 @@ const Vouchers = () => {
       field: 'name',
       headerName: t('tenantName'),
       flex: 1,
-      valueGetter: (params) => params.row.tenantId.name
+      valueGetter: (params) => params.row.tenantId?.name
     },
     {
       field: 'amount',
       headerName: t('rentAmount'),
       flex: 1,
       renderCell: (params) => {
-        return `${params.value} (Status: ${params.row.status})`;
+        return `${params.value} (Status: ${params.row?.status})`;
       }
     },
     {
       field: 'pendingDate',
       headerName: t('pendingDate'),
       flex: 1,
-      valueGetter: (params) => params.value ? new Date(params.value).toLocaleDateString() : ''
+      valueGetter: (params) => params.value ? new Date(params.value)?.toLocaleDateString() : ''
     },
     {
       field: 'paidDate',
       headerName: t('paidDate'),
       flex: 1,
-      valueGetter: (params) => params.value ? new Date(params.value).toLocaleDateString() : ''
+      valueGetter: (params) => params.value ? new Date(params.value)?.toLocaleDateString() : ''
     },
     {
       field: 'actions',
@@ -117,7 +118,16 @@ const Vouchers = () => {
   });
   const orderedColumns = isRtl ? [...columns].reverse() : columns;
   const [buildings, setBuildings] = useState([]);
-
+  const getCSV = (format = 'xlsx') => {
+    const filterParams = new URLSearchParams(filters).toString();
+    const queryString = `voucher-report/?${filterParams}&format=${format}`;
+    axiosInstance.get(queryString, { responseType: 'blob' })
+      .then((response) => {
+        const blob = new Blob([response.data], { type: format === 'csv' ? 'text/csv;charset=utf-8' : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8' });
+        saveAs(blob, `voucher-report.${format}`);
+      })
+      .catch(error => console.error('Download error!', error));
+  };
   useEffect(() => {
     const fetchBuildings = async () => {
       try {
@@ -195,6 +205,8 @@ const Vouchers = () => {
             {t('vouchers')}
           </Typography>
           <Button variant='contained' onClick={handleOpenAddModal}>{t('add')}</Button>
+          <Button variant='contained' onClick={() => { getCSV('xlsx'); }}>{t('export_xlsx')}</Button>
+
         </Box>
         <DataGrid
           rows={data}
