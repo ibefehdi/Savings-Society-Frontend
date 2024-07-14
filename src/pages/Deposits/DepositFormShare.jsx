@@ -124,7 +124,7 @@ const DepositFormShare = ({ id, fetchData, setOpen, open }) => {
                     margin="normal"
                     fullWidth
                     label={t('current_amount')}
-                    value={shareholderDetails?.sharesTotalAmount?.toFixed(3)}
+                    value={shareholderDetails?.sharesTotalAmount}
                     disabled
                 />
 
@@ -133,7 +133,7 @@ const DepositFormShare = ({ id, fetchData, setOpen, open }) => {
                     margin="normal"
                     fullWidth
                     label={t('current_share_amount')}
-                    value={shareholderDetails?.shareValue?.toFixed(3)}
+                    value={shareholderDetails?.shareValue}
                     disabled
                 />
 

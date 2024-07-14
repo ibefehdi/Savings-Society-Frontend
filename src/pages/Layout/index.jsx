@@ -52,21 +52,21 @@ const Layout = () => {
         { name: t('active_shareholderss'), icon: <RecentActorsOutlinedIcon />, path: "/shareholder/Shareholders" },
         { name: t('inactive_shareholders'), icon: <RecentActorsOutlinedIcon />, path: "/shareholder/DisabledShareholders" },
         {
-            name: t('deposits'),
+            name: t('deposit_and_withdrawal'),
             icon: <LocalAtmIcon />,
             subMenus: [
                 { name: t('share'), path: "/shareholder/Deposit/Shares" },
                 { name: t('savings'), path: "/shareholder/Deposit/Savings" }
             ]
         },
-        {
-            name: t('withdrawals'),
-            icon: <LocalAtmIcon />,
-            subMenus: [
-                { name: t('share'), path: "/shareholder/Withdrawal/Shares" },
-                { name: t('savings'), path: "/shareholder/Withdrawal/Savings" }
-            ]
-        },
+        // {
+        //     name: t('withdrawals'),
+        //     icon: <LocalAtmIcon />,
+        //     subMenus: [
+        //         { name: t('share'), path: "/shareholder/Withdrawal/Shares" },
+        //         { name: t('savings'), path: "/shareholder/Withdrawal/Savings" }
+        //     ]
+        // },
         { name: t('amanat'), icon: <HandshakeOutlinedIcon />, path: "/shareholder/Amanat" },
         { name: t('deposit_history'), icon: <HistoryOutlinedIcon />, path: "/shareholder/deposithistory" },
         { name: t('withdrawal_history'), icon: <HistoryOutlinedIcon />, path: "/shareholder/withdrawalhistory" },

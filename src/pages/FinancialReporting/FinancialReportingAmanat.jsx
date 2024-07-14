@@ -141,7 +141,7 @@ const FinancialReportingAmanat = () => {
                     <MenuItem value={"male"}>{t('Male')}</MenuItem>
                     <MenuItem value={"female"}>{t('Female')}</MenuItem>
                 </TextField>
-                <TextField
+                {/* <TextField
                     label={t('status')}
                     variant="outlined"
                     select
@@ -153,7 +153,7 @@ const FinancialReportingAmanat = () => {
                     <MenuItem value={0}>{t('active')}</MenuItem>
                     <MenuItem value={1}>{t('inactive')}</MenuItem>
                     <MenuItem value={2}>{t('death')}</MenuItem>
-                </TextField>
+                </TextField> */}
 
                 <TextField
                     label={t('area')}

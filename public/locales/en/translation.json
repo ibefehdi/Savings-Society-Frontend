@@ -212,5 +212,7 @@
   "transfer_savings":"Transfer Savings",
   "income":"Income",
   "expense":"Expense",
-  "tenants":"Tenants"
+  "tenants":"Tenants",
+  "deposit_and_withdrawal":"Deposit and Withdrawal",
+  "move_interest_to_savings":"Move Interest to Savings"
 }

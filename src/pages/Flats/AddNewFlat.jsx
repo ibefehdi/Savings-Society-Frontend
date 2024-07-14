@@ -119,7 +119,9 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open }) => {
                     margin="normal"
                     fullWidth
                     label={t('tenant_name')}
-                    {...register('tenantName')}
+                    {...register('tenantName', { required: true })}
+                    error={!!errors.tenantName}
+                    helperText={errors.tenantName ? 'Tenant Name is required' : ''}
                 />
                 <TextField
                     margin="normal"
@@ -127,11 +129,26 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open }) => {
                     label={t('tenant_contact_number')}
                     {...register('tenantContactNumber')}
                 />
-                <TextField
-                    margin="normal"
-                    fullWidth
-                    label={t('tenant_civil_id')}
-                    {...register('tenantCivilId')}
+                <Controller
+                    name="tenantCivilId"
+                    control={control}
+                    defaultValue=""
+                    rules={{ minLength: 12, maxLength: 12 }}
+                    render={({ field, fieldState: { error } }) => (
+                        <TextField
+                            {...field}
+                            label={t('tenant_civil_id')}
+                            fullWidth
+                            margin="normal"
+                            error={!!error}
+                            helperText={error ? t('max_length_exceeded') : ''}
+                            InputProps={{
+                                style: {
+                                    color: error ? 'red' : 'inherit'
+                                }
+                            }}
+                        />
+                    )}
                 />
                 <Controller
                     name="civilIdDocument"
@@ -221,7 +238,9 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open }) => {
                     fullWidth
                     label={t('rent_amount')}
                     type="number"
-                    {...register('rentAmount')}
+                    {...register('rentAmount', { required: true })}
+                    error={!!errors.rentAmount}
+                    helperText={errors.rentAmount ? 'Rent Amount is required' : ''}
                 />
                 <TextField
                     margin="normal"

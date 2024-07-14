@@ -123,8 +123,21 @@ const AssignTenantModal = ({ open, handleClose, flatId, fetchData }) => {
                     name="tenantCivilId"
                     control={control}
                     defaultValue=""
-                    render={({ field }) => (
-                        <TextField {...field} label={t('civil_id')} fullWidth margin="normal" />
+                    rules={{ minLength: 12, maxLength: 12 }}
+                    render={({ field, fieldState: { error } }) => (
+                        <TextField
+                            {...field}
+                            label={t('civil_id')}
+                            fullWidth
+                            margin="normal"
+                            error={!!error}
+                            helperText={error ? t('max_length_exceeded') : ''}
+                            InputProps={{
+                                style: {
+                                    color: error ? 'red' : 'inherit'
+                                }
+                            }}
+                        />
                     )}
                 />
                 <Controller

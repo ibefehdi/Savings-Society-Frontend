@@ -84,7 +84,10 @@ const PrintDataGrid = React.forwardRef(({ data, filters, grandTotal }, ref) => {
                             <StyledTh>الاسهم</StyledTh>
                             <StyledTh>المدخرات</StyledTh>
                             <StyledTh>أرباح الاسهم</StyledTh>
-                            <StyledTh>أرباح المدخرات</StyledTh>
+                            <StyledTh>
+                                أرباح المدخرات
+
+                            </StyledTh>
                             <StyledTh>الإجمالي</StyledTh>
                             <StyledTh>أمانات</StyledTh>
                             <StyledTh>ت. المدخرات</StyledTh>
@@ -116,7 +119,7 @@ const PrintDataGrid = React.forwardRef(({ data, filters, grandTotal }, ref) => {
                     </tbody>
                     <tfoot>
                         <GrandTotalRow className="grand-total-row">
-                            <StyledTd colSpan="9" style={{ textAlign: 'right' }}>Grand Total</StyledTd>
+                            <StyledTd colSpan="9" style={{ textAlign: 'right' }}>لإجمالي الكلي</StyledTd>
                             <StyledTd style={{ fontWeight: 'bold' }}>
                                 {grandTotal ? grandTotal : 'N/A'}
                             </StyledTd>

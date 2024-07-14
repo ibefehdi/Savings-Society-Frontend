@@ -20,7 +20,7 @@ const style = {
     px: 4,
     pb: 3,
 };
-const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
+const MoveInterestToSavings = ({ id, fetchData, setOpen, open, savings }) => {
     const [shareholderDetails, setShareholderDetails] = useState();
     const adminData = JSON.parse(sessionStorage.getItem('userDetails') || '{}');
     const currentYear = new Date().getFullYear();
@@ -63,7 +63,7 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
         resetState();
         fetchData();
     };
-    const url = `/shareholder/withdrawsavings/${id}`
+    const url = `/shareholder/moveinteresttosavings/${id}`
     const onSubmit = async (data) => {
         console.log("Submitting form", data);
 
@@ -151,7 +151,7 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
                     <TextField
                         id="availableBalance"
                         margin="normal"
-                        value={shareholderDetails?.savings}
+                        value={shareholderDetails?.savingsIncrease}
                         fullWidth
                         label={t('availableBalance')}
                         disabled={true}
@@ -173,7 +173,7 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
                         margin="normal"
                         fullWidth
                         label={t('amount_after_withdrawal')}
-                        value={Number(shareholderDetails?.savings) - Number(amountToWithdraw)}
+                        value={Number(shareholderDetails?.savingsIncrease) - Number(amountToWithdraw)}
                         disabled
                     />)}
                 <TextField
@@ -195,4 +195,4 @@ const WithdrawalModal = ({ id, fetchData, setOpen, open, savings }) => {
     );
 }
 
-export default WithdrawalModal
+export default MoveInterestToSavings

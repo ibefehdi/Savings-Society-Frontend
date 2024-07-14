@@ -21,6 +21,7 @@ import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
+import MoveInterestToSavings from './MoveInterestToSavings';
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
 
     const handleEditClick = () => {
@@ -157,6 +158,14 @@ const SavingsWithdrawalPage = () => {
             flex: 1,
             renderCell: (params) => {
                 return params.row.savings && params.row.savings?.totalAmount?.toFixed(3)
+            }
+        },
+        {
+            field: 'savingsIncrease',
+            headerName: t('savings_increase'),
+            flex: 1,
+            renderCell: (params) => {
+                return params.row.savings && params.row.savings?.savingsIncrease?.toFixed(3)
             }
         },
         // {
@@ -422,7 +431,9 @@ const SavingsWithdrawalPage = () => {
                     }}
                 />
             </Box>
-            <WithdrawalModal savings={true} id={selectedShareholderId} open={editOpen} setOpen={setEditOpen} fetchData={fetchData} />
+            {/* <WithdrawalModal savings={true} id={selectedShareholderId} open={editOpen} setOpen={setEditOpen} fetchData={fetchData} /> */}
+            <MoveInterestToSavings savings={true} id={selectedShareholderId} open={editOpen} setOpen={setEditOpen} fetchData={fetchData} />
+
             <MoveSavingsToAmanatModal
                 id={selectedShareholderId}
                 open={moveToAmanatOpen}

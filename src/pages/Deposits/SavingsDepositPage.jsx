@@ -19,8 +19,13 @@ import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import axiosInstance from '../../constants/axiosInstance';
+import SellIcon from '@mui/icons-material/Sell';
+import WithdrawalModal from "../Withdrawals/WithdrawalModal"
+import MoveInterestToSavings from '../Withdrawals/MoveInterestToSavings';
+import MoveSavingsToAmanatModal from '../Withdrawals/MoveSavingsToAmanatModal';
 
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
+    const { i18n, t } = useTranslation();
 
     const handleEditClick = () => {
         setSelectedShareholderId(id); // Set the selected shareholder ID
@@ -30,10 +35,52 @@ const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
     return (
 
 
-        <IconButton onClick={handleEditClick}>
-            <LocalAtmIcon />
-        </IconButton>
 
+        <Button onClick={handleEditClick} variant="text">
+            {t('deposit')}
+        </Button>
+    );
+};
+const WithdrawalButton = ({ id, fetchData, setOpen, open, setSelectedShareholderId }) => {
+    const { i18n, t } = useTranslation();
+
+    const handleWithdrawClick = () => {
+        setSelectedShareholderId(id);
+        setOpen(true);
+    };
+
+    return (
+        <Button onClick={handleWithdrawClick} variant="text">
+            {t("withdraw")}
+        </Button>
+    );
+};
+const MoveToAmanat = ({ id, fetchData, setOpen, open, setSelectedShareholderId }) => {
+    const { i18n, t } = useTranslation();
+
+    const MoveToAmanatClick = () => {
+        setSelectedShareholderId(id);
+        setOpen(true);
+    };
+
+    return (
+        <Button onClick={MoveToAmanatClick} variant="outlined">
+            {t("move_to_amanat")}
+        </Button>
+    );
+};
+const InterestToSavings = ({ id, fetchData, setOpen, open, setSelectedShareholderId }) => {
+    const { i18n, t } = useTranslation();
+
+    const InterestToSavingsClick = () => {
+        setSelectedShareholderId(id);
+        setOpen(true);
+    };
+
+    return (
+        <Button onClick={InterestToSavingsClick} variant="contained">
+            {t("move_interest_to_savings")}
+        </Button>
     );
 };
 const SavingsDepositPage = () => {
@@ -63,6 +110,9 @@ const SavingsDepositPage = () => {
     const [admin, setAdmin] = useState(userData?.isAdmin)
     const [adminId, setAdminId] = useState(userData?.id)
     const [showFilters, setShowFilters] = useState(false);
+    const [withdrawalOpen, setWithdrawalOpen] = useState(false);
+    const [moveToAmanat, setMoveToAmanat] = useState(false);
+    const [moveInterestToSavings, setMoveInterestToSavings] = useState(false);
     const toggleFilters = () => {
         setShowFilters(!showFilters);
     };
@@ -120,11 +170,11 @@ const SavingsDepositPage = () => {
                 return formattedDate;
             }
         },
-        {
-            field: 'ibanNumber',
-            headerName: t('iban'),
-            flex: 1,
-        },
+        // {
+        //     field: 'ibanNumber',
+        //     headerName: t('iban'),
+        //     flex: 1,
+        // },
         {
             field: 'mobileNumber',
             headerName: t('phone_number'),
@@ -133,21 +183,29 @@ const SavingsDepositPage = () => {
                 return params.row.mobileNumber && params.row.mobileNumber ? params.row.mobileNumber : "N/A"
             }
         },
-        {
-            field: 'address',
-            headerName: t('address'),
-            flex: 1,
-            renderCell: (params) => {
-                const { block, street, house, avenue, city } = params.value;
-                return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
-            }
-        },
+        // {
+        //     field: 'address',
+        //     headerName: t('address'),
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         const { block, street, house, avenue, city } = params.value;
+        //         return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
+        //     }
+        // },
         {
             field: 'savingsForShareholder',
             headerName: t('savings'),
             flex: 1,
             renderCell: (params) => {
                 return params.row.savings && params.row.savings?.totalAmount?.toFixed(3)
+            }
+        },
+        {
+            field: 'savingsIncrease',
+            headerName: t('savings'),
+            flex: 1,
+            renderCell: (params) => {
+                return params.row.savings && params.row.savings?.savingsIncrease?.toFixed(3)
             }
         },
         // {
@@ -179,33 +237,59 @@ const SavingsDepositPage = () => {
         //         }
         //     }
         // },
-        {
-            field: 'status',
-            headerName: t('status'),
-            flex: 1,
-            renderCell: (params) => {
-                if (params.value === 0) {
-                    return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
-                }
-                else if (params.value === 1) {
-                    return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
-                }
-                else if (params.value === 2) {
-                    return <Typography sx={{ color: '#DA3E33', fontWeight: 600 }}>{t('death')}</Typography>
-                }
-            }
-        },
+        // {
+        //     field: 'status',
+        //     headerName: t('status'),
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         if (params.value === 0) {
+        //             return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
+        //         }
+        //         else if (params.value === 1) {
+        //             return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
+        //         }
+        //         else if (params.value === 2) {
+        //             return <Typography sx={{ color: '#DA3E33', fontWeight: 600 }}>{t('death')}</Typography>
+        //         }
+        //     }
+        // },
         ...(admin ? [{
             field: 'deposit',
             headerName: t('deposit'),
             sortable: false,
-            width: 55,
+            flex: 1,
             renderCell: (params) => {
                 return <ViewButton id={params.id} edit={true} setEditOpen={setEditOpen} setSelectedShareholderId={setSelectedShareholderId} />;
 
             },
         }] : []),
-
+        ...(admin ? [{
+            field: 'withdrawal',
+            headerName: t('withdrawal'),
+            sortable: false,
+            flex: 1,
+            renderCell: (params) => {
+                return <WithdrawalButton id={params.id} fetchData={fetchData} setOpen={setWithdrawalOpen} setSelectedShareholderId={setSelectedShareholderId} open={withdrawalOpen} />;
+            },
+        }] : []),
+        ...(admin ? [{
+            field: 'moveToAmanat',
+            headerName: t('move_to_amanat'),
+            sortable: false,
+            flex: 1.5,
+            renderCell: (params) => {
+                return <MoveToAmanat id={params.id} fetchData={fetchData} setOpen={setMoveToAmanat} setSelectedShareholderId={setSelectedShareholderId} open={moveToAmanat} />;
+            },
+        }] : []),
+        ...(admin ? [{
+            field: 'interestToSavings',
+            headerName: t('move_interest_to_savings'),
+            sortable: false,
+            flex: 1.75,
+            renderCell: (params) => {
+                return <InterestToSavings id={params.id} fetchData={fetchData} setOpen={setMoveToAmanat} setSelectedShareholderId={setSelectedShareholderId} open={moveToAmanat} />;
+            },
+        }] : []),
 
     ];
 
@@ -242,12 +326,14 @@ const SavingsDepositPage = () => {
             })
             .catch(error => console.error('Download error!', error));
     };
+
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
                 <FilterListOutlinedIcon /> {t('filter')}
             </Button>
-            {showFilters && (<Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', marginRight: isRtl ? "2rem" : 0, direction: isRtl ? 'rtl' : 'ltr' }}>
+            {showFilters && (<Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', marginRight: isRtl ? "2rem" : 0 }}>
+
                 <TextField
                     label={t('serial')}
                     variant="outlined"
@@ -377,6 +463,9 @@ const SavingsDepositPage = () => {
                 />
             </Box>
             <DepositForm id={selectedShareholderId} open={editOpen} setOpen={setEditOpen} savings={true} fetchData={fetchData} />
+            <WithdrawalModal savings={true} open={withdrawalOpen} setOpen={setWithdrawalOpen} id={selectedShareholderId} fetchData={fetchData} />
+            <MoveInterestToSavings id={selectedShareholderId} fetchData={fetchData} savings={true} open={moveInterestToSavings} setOpen={setMoveInterestToSavings} />
+            <MoveSavingsToAmanatModal id={selectedShareholderId} fetchData={fetchData} open={moveToAmanat} setOpen={setMoveToAmanat} />
         </CacheProvider>
 
     )
