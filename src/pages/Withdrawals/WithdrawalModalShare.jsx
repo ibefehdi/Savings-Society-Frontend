@@ -112,14 +112,14 @@ const WithdrawalModalShare = ({ id, fetchData, setOpen, open }) => {
                 <TextField
                     id="availableShares"
                     margin="normal"
-                    value={shareholderDetails?.sharesTotalAmount?.toFixed(3)}
+                    value={shareholderDetails?.sharesTotalAmount}
                     fullWidth
                     disabled
                 />
                 <TextField
                     id="availableBalance"
                     margin="normal"
-                    value={shareholderDetails?.shareValue?.toFixed(3)}
+                    value={shareholderDetails?.shareValue}
                     fullWidth
                     disabled
                 />

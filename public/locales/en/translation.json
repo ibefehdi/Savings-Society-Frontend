@@ -209,5 +209,10 @@
   "to_amanat":"To Amanat",
   "from_savings":"From Savings",
   "alajmali":"Al Ajmali",
-  "transfer_savings":"Transfer Savings"
+  "transfer_savings":"Transfer Savings",
+  "income":"Income",
+  "expense":"Expense",
+  "tenants":"Tenants",
+  "deposit_and_withdrawal":"Deposit and Withdrawal",
+  "move_interest_to_savings":"Move Interest to Savings"
 }

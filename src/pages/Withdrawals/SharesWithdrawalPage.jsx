@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useReactToPrint } from 'react-to-print';
-
+import { saveAs } from 'file-saver';
 import { useFetch } from '../../hooks/useFetch';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
@@ -143,7 +143,7 @@ const SharesWithdrawalPage = () => {
             headerName: t('shareAmount'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.share && params?.row?.share?.totalShareAmount
+                return params.row.share && Math.floor(params?.row?.share?.totalShareAmount)
             }
         },
         {
@@ -151,7 +151,7 @@ const SharesWithdrawalPage = () => {
             headerName: t('shareValue'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.share && params?.row?.share?.totalAmount
+                return params.row.share && Math.floor(params?.row?.share?.totalAmount)
             }
         },
         // {
@@ -243,7 +243,16 @@ const SharesWithdrawalPage = () => {
         setShowFilters(!showFilters);
     };
     const orderedColumns = isRtl ? [...columns].reverse() : columns;
-
+    const getCSV = () => {
+        const filterParams = new URLSearchParams(filters).toString();
+        const queryString = `shareholder-share/?${filterParams}`;
+        axiosInstance.get(queryString, { responseType: 'blob' })
+            .then((response) => {
+                const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
+                saveAs(blob, "shares_shareholder.csv");
+            })
+            .catch(error => console.error('Download error!', error));
+    };
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
@@ -327,7 +336,9 @@ const SharesWithdrawalPage = () => {
                         <WithdrawalForm ref={componentRef} />
                     </Box>
 
-                    <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
+                    {/* <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button> */}
+                    <Button variant='contained' onClick={() => { getCSV() }}>{t('export_csv')}</Button>
+
                 </Box>
                 <DataGrid
                     rows={data}

@@ -157,13 +157,13 @@ const Shareholders = () => {
       field: 'shareAmountForShareholder',
       headerName: t('share_amount'),
       flex: 1,
-      renderCell: (params) => params?.row.share?.totalShareAmount || "N/A",
+      renderCell: (params) => Math.floor(params?.row.share?.totalShareAmount) || "N/A",
     },
     {
       field: 'shareValueForShareholder',
       headerName: t('share_initial_amount'),
       flex: 1,
-      renderCell: (params) => params?.row?.share?.totalAmount?.toFixed(3) || "N/A",
+      renderCell: (params) => Math.floor(params?.row?.share?.totalAmount) || "N/A",
     },
     {
       field: 'savingsForShareholder',
@@ -219,7 +219,7 @@ const Shareholders = () => {
     axiosInstance.get(queryString, { responseType: 'blob' })
       .then((response) => {
         const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
-        saveAs(blob, "shareholder.csv");
+        saveAs(blob, "active_shareholder.csv");
       })
       .catch(error => console.error('Download error!', error));
   };
@@ -244,11 +244,11 @@ const Shareholders = () => {
   }, []);
   return (
     <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
-      <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
+      <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0, direction: isRtl ? 'rtl' : 'ltr' }}>
         <FilterListOutlinedIcon /> {t('filter')}
       </Button>
       {showFilters &&
-        (<Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', marginRight: isRtl ? "2rem" : 0 }}>
+        (<Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', marginRight: isRtl ? "2rem" : 0, direction: isRtl ? 'rtl' : 'ltr' }}>
           <TextField
             label={t('serial')}
             variant="outlined"
@@ -345,6 +345,9 @@ const Shareholders = () => {
             <MenuItem value={10}>10 {t('per_page')}</MenuItem>
             <MenuItem value={25}>25 {t('per_page')}</MenuItem>
             <MenuItem value={50}>50 {t('per_page')}</MenuItem>
+            <MenuItem value={100}>100 {t('per_page')}</MenuItem>
+
+
           </Select>
           <Box display={"flex"} gap={2}>{permissions?.shareholder?.create && (<Button variant='contained' onClick={() => { handleOpen() }}>{t('add')}</Button>)}
             <Button variant='contained' onClick={() => { getCSV() }}>{t('export_csv')}</Button></Box>
@@ -364,6 +367,15 @@ const Shareholders = () => {
           getRowId={(row) => row._id}
           rowCount={count}
           paginationMode="server"
+          pageSizeOptions={[5, 10, 25, 50, 100]}
+          pagination
+          rowsPerPageOptions={[5, 10, 25, 50, 100]}
+          componentsProps={{
+            pagination: {
+              boundaryCount: 2,
+              siblingCount: 1,
+            },
+          }}
           sx={{
             backgroundColor: '#FFF',
             padding: '1rem',
@@ -393,9 +405,7 @@ const Shareholders = () => {
             '& .MuiDataGrid-cell': {
               fontSize: '1rem',
               fontWeight: 'bold',
-
             },
-
           }}
         />
       </Box>

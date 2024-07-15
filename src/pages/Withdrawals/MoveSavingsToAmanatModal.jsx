@@ -86,7 +86,7 @@ const MoveSavingsToAmanatModal = ({ id, fetchData, setOpen, open }) => {
                 <TextField
                     id="availableBalance"
                     margin="normal"
-                    value={shareholderDetails?.savings?.totalAmount || 0}
+                    value={shareholderDetails?.savingsIncrease || 0}
                     fullWidth
                     label={t('availableBalance')}
                     disabled={true}
@@ -98,7 +98,7 @@ const MoveSavingsToAmanatModal = ({ id, fetchData, setOpen, open }) => {
                     label={t('amount_to_move')}
                     {...register('amountToMove', {
                         required: true,
-                        max: shareholderDetails?.savings || 0
+                        max: shareholderDetails?.savingsIncrease || 0
                     })}
                     error={!!errors.amountToMove}
                     helperText={errors.amountToMove ?
@@ -109,7 +109,7 @@ const MoveSavingsToAmanatModal = ({ id, fetchData, setOpen, open }) => {
                     margin="normal"
                     fullWidth
                     label={t('amount_after_transfer')}
-                    value={(shareholderDetails?.savings || 0) - Number(amountToMove)}
+                    value={(shareholderDetails?.savingsIncrease || 0) - Number(amountToMove)}
                     disabled
                 />
                 <TextField

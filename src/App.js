@@ -56,6 +56,11 @@ import FinancialReportingAmanat from './pages/FinancialReporting/FinancialReport
 import HallExpenseTransaction from './pages/Transactions/HallExpenseTransaction';
 import BuildingExpenseTransactions from './pages/Transactions/BuildingExpenseTransactions';
 import Tenants from './pages/Tenants';
+import WithdrawalFormPageNew from './pages/WithdrawalFormPage/WithdrawalFormPageNew';
+import ResignationForm from './printablePages/ResignationForm';
+import PropertyEvacuationFormPage from './pages/PropertyEvacuationForm/index.jsx';
+import ResignationFormPage from './pages/ResignationFormPage';
+import CheckDisbursementFormPage from './pages/CheckDisbursementFormPage.jsx';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -103,6 +108,11 @@ function App() {
         { path: "Forms/MembershipApplicationFormPage", element: <MembershipApplicationFormPage /> },
         { path: 'Forms/BoardMemberReward', element: <BoardMemberRewardFormPage /> },
         { path: "Forms/ReturnFromLeavePage", element: <ReturnFromLeavePage /> },
+        { path: 'Forms/savingswithdrawalpage', element: <WithdrawalFormPageNew /> },
+        { path: 'Forms/Rentnoticeform', element: <RentPaymentNoticePage /> },
+        { path: "Forms/ResignationForm", element: <ResignationFormPage /> },
+        { path: 'Forms/PropertyEvacuationForm', element: <PropertyEvacuationFormPage /> },
+        { path: 'Forms/CheckdisbursementForm', element: <CheckDisbursementFormPage /> }
 
       ] : authenticated ? [
         { index: true, element: <Buildings /> },
@@ -117,7 +127,6 @@ function App() {
         { path: "hallExpenses", element: <HallExpenseTransaction /> },
         { path: "flatIncome", element: <BuildingTransactions /> },
         { path: "tenants", element: <Tenants /> },
-
         { path: "flatExpenses", element: <BuildingExpenseTransactions /> },
         { path: 'vouchers', element: <Vouchers /> },
         { path: 'buildingtransactions', element: <BuildingTransactions /> },
@@ -129,6 +138,11 @@ function App() {
         { path: "Forms/MembershipApplicationFormPage", element: <MembershipApplicationFormPage /> },
         { path: 'Forms/BoardMemberReward', element: <BoardMemberRewardFormPage /> },
         { path: "Forms/ReturnFromLeavePage", element: <ReturnFromLeavePage /> },
+        { path: 'Forms/savingswithdrawalpage', element: <WithdrawalFormPageNew /> },
+        { path: 'Forms/Rentnoticeform', element: <RentPaymentNoticePage /> },
+        { path: "Forms/ResignationForm", element: <ResignationFormPage /> },
+        { path: 'Forms/PropertyEvacuationForm', element: <PropertyEvacuationFormPage /> },
+        { path: 'Forms/CheckdisbursementForm', element: <CheckDisbursementFormPage /> }
       ] : []
     },
     {
@@ -144,7 +158,6 @@ function App() {
         { path: "FinancialReporting/quityear", element: <FinancialReportsByQuitYear /> },
         { path: "FinancialReporting/workplace", element: <FinancialReportingByWorkplace /> },
         { path: "Financialreporting/amanat", element: <FinancialReportingAmanat /> },
-
         { path: 'Shareholders/:id', element: <ShareholderDetails /> },
         { path: 'Financial/Share', element: <ShareConfiguration /> },
         { path: 'Financial/Savings', element: <SavingsConfiguration /> },
@@ -166,6 +179,11 @@ function App() {
         { path: "Forms/SavingsWithdrawalPage", element: <SavingsWithdrawalFormPage /> },
         { path: "Forms/PeriodicLeavePage", element: <PeriodicLeavePage /> },
         { path: "Forms/SpecialLeavePage", element: <SpecialLeavePage /> },
+        { path: 'Forms/savingswithdrawalpage', element: <WithdrawalFormPageNew /> },
+        { path: 'Forms/Rentnoticeform', element: <RentPaymentNoticePage /> },
+        { path: "Forms/ResignationForm", element: <ResignationFormPage /> },
+        { path: 'Forms/PropertyEvacuationForm', element: <PropertyEvacuationFormPage /> },
+        { path: 'Forms/CheckdisbursementForm', element: <CheckDisbursementFormPage /> },
         { path: 'Amanat', element: <Amanat /> },
         { path: 'deposithistory', element: <DepositHistory /> },
         { path: 'withdrawalhistory', element: <WithdrawalHistory /> },
@@ -197,11 +215,15 @@ function App() {
         { path: "Forms/SavingsWithdrawalPage", element: <SavingsWithdrawalFormPage /> },
         { path: "Forms/PeriodicLeavePage", element: <PeriodicLeavePage /> },
         { path: "Forms/SpecialLeavePage", element: <SpecialLeavePage /> },
+        { path: 'Forms/savingswithdrawalpage', element: <WithdrawalFormPageNew /> },
+        { path: 'Forms/Rentnoticeform', element: <RentPaymentNoticePage /> },
+        { path: "Forms/ResignationForm", element: <ResignationFormPage /> },
+        { path: 'Forms/PropertyEvacuationForm', element: <PropertyEvacuationFormPage /> },
+        { path: 'Forms/CheckdisbursementForm', element: <CheckDisbursementFormPage /> },
         { path: 'Amanat', element: <Amanat /> },
         { path: 'deposithistory', element: <DepositHistory /> },
         { path: 'withdrawalhistory', element: <WithdrawalHistory /> },
         { path: 'TransferHistory', element: <TransferHistory /> },
-
         { path: "Financialreporting", element: <FinancialReporting /> },
         { path: "Financialreporting/year", element: <FinancialReportingYear /> },
         { path: "FinancialReporting/quityear", element: <FinancialReportsByQuitYear /> },

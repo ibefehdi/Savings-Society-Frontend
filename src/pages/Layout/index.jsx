@@ -52,21 +52,21 @@ const Layout = () => {
         { name: t('active_shareholderss'), icon: <RecentActorsOutlinedIcon />, path: "/shareholder/Shareholders" },
         { name: t('inactive_shareholders'), icon: <RecentActorsOutlinedIcon />, path: "/shareholder/DisabledShareholders" },
         {
-            name: t('deposits'),
+            name: t('deposit_and_withdrawal'),
             icon: <LocalAtmIcon />,
             subMenus: [
                 { name: t('share'), path: "/shareholder/Deposit/Shares" },
                 { name: t('savings'), path: "/shareholder/Deposit/Savings" }
             ]
         },
-        {
-            name: t('withdrawals'),
-            icon: <LocalAtmIcon />,
-            subMenus: [
-                { name: t('share'), path: "/shareholder/Withdrawal/Shares" },
-                { name: t('savings'), path: "/shareholder/Withdrawal/Savings" }
-            ]
-        },
+        // {
+        //     name: t('withdrawals'),
+        //     icon: <LocalAtmIcon />,
+        //     subMenus: [
+        //         { name: t('share'), path: "/shareholder/Withdrawal/Shares" },
+        //         { name: t('savings'), path: "/shareholder/Withdrawal/Savings" }
+        //     ]
+        // },
         { name: t('amanat'), icon: <HandshakeOutlinedIcon />, path: "/shareholder/Amanat" },
         { name: t('deposit_history'), icon: <HistoryOutlinedIcon />, path: "/shareholder/deposithistory" },
         { name: t('withdrawal_history'), icon: <HistoryOutlinedIcon />, path: "/shareholder/withdrawalhistory" },
@@ -107,7 +107,11 @@ const Layout = () => {
                 { name: t("shares_savings_page"), path: "/shareholder/Forms/SharesAndSavingsPage" },
                 { name: t('savings_withdrawal_form'), path: "/shareholder/Forms/SavingsWithdrawalPage" },
                 { name: t('periodic_leave_page'), path: "/shareholder/Forms/PeriodicLeavePage" },
-                { name: t('special_leave_page'), path: "/shareholder/Forms/SpecialLeavePage" }
+                { name: t('special_leave_page'), path: "/shareholder/Forms/SpecialLeavePage" },
+                { name: t('savings_withdrawal_form'), path: "/rental/Forms/SavingsWithdrawalPage" },
+                { name: t('resignation_form'), path: "/rental/Forms/ResignationForm" },
+
+
             ]
         },
     ];
@@ -149,7 +153,7 @@ const Layout = () => {
             icon: <AccountBalanceWalletOutlinedIcon />,
             subMenus: [
                 { name: t('income'), path: "/rental/flatIncome" },
-                { name: t('expenses'), path: "/rental/flatExpenses" }
+                { name: t('expenses'), path: "/rental/flatExpenses", isAdmin: true }
             ]
         },
         { name: t('contracts'), icon: <DescriptionOutlinedIcon />, path: "/rental/contracts" },
@@ -162,7 +166,11 @@ const Layout = () => {
                 { name: t('board_member_reward'), path: "/rental/Forms/BoardMemberReward" },
                 { name: t('return_from_leave'), path: "/rental/Forms/ReturnFromLeavePage" },
                 { name: t('periodic_leave_page'), path: "/rental/Forms/PeriodicLeavePage" },
-                { name: t('special_leave_page'), path: "/rental/Forms/SpecialLeavePage" }
+                { name: t('special_leave_page'), path: "/rental/Forms/SpecialLeavePage" },
+                { name: t('property_evacuation_form'), path: "/rental/Forms/PropertyEvacuationForm" },
+                { name: t('check_disbursement_form'), path: "/rental/Forms/CheckDisbursementForm" },
+                { name: t('rent_notice'), path: "/rental/Forms/RentNoticeForm" },
+
             ]
         },
     ];

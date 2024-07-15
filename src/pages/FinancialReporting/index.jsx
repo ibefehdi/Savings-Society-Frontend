@@ -45,8 +45,8 @@ const FinancialReporting = () => {
             headerName: t('share'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.shareDetails?.totalAmount
-                    .toFixed(3);
+                return Math.floor(params.row.shareDetails?.totalAmount)
+
             },
         },
         // {
@@ -79,8 +79,8 @@ const FinancialReporting = () => {
             headerName: t('share_increase'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.totalShareIncrease
-                    ? params.row.totalShareIncrease.toFixed(3)
+                return params.row.shareIncrease
+                    ? params.row.shareIncrease.toFixed(3)
                     : 'N/A';
             },
         },
@@ -248,7 +248,7 @@ const FinancialReporting = () => {
                     <MenuItem value={"male"}>{t('Male')}</MenuItem>
                     <MenuItem value={"female"}>{t('Female')}</MenuItem>
                 </TextField>
-                <TextField
+                {/* <TextField
                     label={t('status')}
                     variant="outlined"
                     select
@@ -260,7 +260,7 @@ const FinancialReporting = () => {
                     <MenuItem value={0}>{t('active')}</MenuItem>
                     <MenuItem value={1}>{t('inactive')}</MenuItem>
                     <MenuItem value={2}>{t('death')}</MenuItem>
-                </TextField>
+                </TextField> */}
                 {/* <TextField
                     label={t('membership_status')}
                     variant="outlined"

@@ -13,7 +13,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 600,
     bgcolor: 'background.paper',
     boxShadow: 24,
     p: 4,
@@ -35,7 +35,7 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open }) => {
         try {
             const formData = new FormData();
             Object.keys(data).forEach(key => {
-                if (key === 'civilIdDocument') {
+                if (key === 'civilIdDocument' || key === 'contractDocument') {
                     if (data[key]) {
                         formData.append(key, data[key], data[key].name);
                     }
@@ -119,7 +119,9 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open }) => {
                     margin="normal"
                     fullWidth
                     label={t('tenant_name')}
-                    {...register('tenantName')}
+                    {...register('tenantName', { required: true })}
+                    error={!!errors.tenantName}
+                    helperText={errors.tenantName ? 'Tenant Name is required' : ''}
                 />
                 <TextField
                     margin="normal"
@@ -127,11 +129,26 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open }) => {
                     label={t('tenant_contact_number')}
                     {...register('tenantContactNumber')}
                 />
-                <TextField
-                    margin="normal"
-                    fullWidth
-                    label={t('tenant_civil_id')}
-                    {...register('tenantCivilId')}
+                <Controller
+                    name="tenantCivilId"
+                    control={control}
+                    defaultValue=""
+                    rules={{ minLength: 12, maxLength: 12 }}
+                    render={({ field, fieldState: { error } }) => (
+                        <TextField
+                            {...field}
+                            label={t('tenant_civil_id')}
+                            fullWidth
+                            margin="normal"
+                            error={!!error}
+                            helperText={error ? t('max_length_exceeded') : ''}
+                            InputProps={{
+                                style: {
+                                    color: error ? 'red' : 'inherit'
+                                }
+                            }}
+                        />
+                    )}
                 />
                 <Controller
                     name="civilIdDocument"
@@ -149,6 +166,27 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open }) => {
                             }}
                             onChange={(e) => onChange(e.target.files[0])}
                             // Remove the value prop
+                            inputProps={{
+                                accept: "image/*,application/pdf"
+                            }}
+                        />
+                    )}
+                />
+                <Controller
+                    name="contractDocument"
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { onChange, value, ...field } }) => (
+                        <TextField
+                            {...field}
+                            type="file"
+                            label={t('contractDocument')}
+                            fullWidth
+                            margin="normal"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            onChange={(e) => onChange(e.target.files[0])}
                             inputProps={{
                                 accept: "image/*,application/pdf"
                             }}
@@ -200,7 +238,9 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open }) => {
                     fullWidth
                     label={t('rent_amount')}
                     type="number"
-                    {...register('rentAmount')}
+                    {...register('rentAmount', { required: true })}
+                    error={!!errors.rentAmount}
+                    helperText={errors.rentAmount ? 'Rent Amount is required' : ''}
                 />
                 <TextField
                     margin="normal"

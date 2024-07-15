@@ -46,20 +46,34 @@ const Flats = () => {
         {
             field: 'flatNumber',
             headerName: t('flatNumber'),
-            flex: 1,
+            flex: 0.25,
             valueGetter: (params) => `${params?.row?.flatNumber ? params?.row?.flatNumber : "N/A"}`
         },
         {
             field: 'floorNumber',
             headerName: t('floorNumber'),
-            flex: 1,
+            flex: 0.25,
             valueGetter: (params) => `${params?.row?.floorNumber ? params?.row?.floorNumber : "N/A"}`
         },
         {
             field: 'vacant',
             headerName: t('vacant'),
-            flex: 1,
+            flex: 0.25,
             valueGetter: (params) => params.row.vacant ? 'Yes' : 'No'
+        },
+        {
+            field: 'contract.expired',
+            headerName: t('expired'),
+            flex: 0.5,
+            valueGetter: (params) => params.row.contract?.expired,
+            renderCell: (params) => (
+                <span style={{
+                    color: params.value ? 'red' : 'green',
+                    fontWeight: 'bold'
+                }}>
+                    {params.value ? 'Inactive' : 'Active'}
+                </span>
+            ),
         },
         {
             field: 'tenant.name',
@@ -70,7 +84,7 @@ const Flats = () => {
         {
             field: 'contract.rentAmount',
             headerName: t('rentAmount'),
-            flex: 1,
+            flex: 0.3,
             valueGetter: (params) => params.row.contract ? `${params.row.contract.rentAmount}` : ''
         },
         {

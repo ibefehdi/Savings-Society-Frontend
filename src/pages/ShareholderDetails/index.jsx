@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axiosInstance from '../../constants/axiosInstance';
 import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
-import Typography from '@mui/material/Typography';
-import { Table, TableBody, TableRow, TableCell, Tab, Tabs, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import PrintDataGrid from '../../printablePages/PrintDataGrid';
+import ReactToPrint, { useReactToPrint } from 'react-to-print';
 
+import Typography from '@mui/material/Typography';
+import { Table, TableBody, TableRow, TableCell, Tab, Tabs, Select, MenuItem, FormControl, InputLabel, Button } from '@mui/material';
+import MoveInterestToSavings from '../Withdrawals/MoveInterestToSavings';
 import { t } from 'i18next';
+import MoveSavingsToAmanatModal from '../Withdrawals/MoveSavingsToAmanatModal';
+import { useFetchNoPagination } from '../../hooks/useFetchNoPagination';
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -34,11 +39,21 @@ function a11yProps(index) {
     };
 }
 const ShareholderDetails = () => {
+
+    const componentRef = useRef();
+
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+    });
     const { id } = useParams();
+    const { data, fetchData, count, updateFilters, filters, grandTotal } = useFetchNoPagination(`/financialreportofuser/${id}`);
+    useEffect(() => { fetchData() }, [])
     const [shareholderDetails, setShareholderDetails] = useState()
     useEffect(() => {
         console.log("This is the id: ", id)
     }, [id])
+    const [editOpen, setEditOpen] = useState(false);
+    const [moveToAmanatOpen, setMoveToAmanatOpen] = useState(false);
 
     const [value, setValue] = useState(0);
     const [userData, setUserdata] = useState(JSON.parse(sessionStorage.getItem('userDetails')))
@@ -115,14 +130,27 @@ const ShareholderDetails = () => {
 
     return (
         <React.Fragment>
+
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', display: 'flex' }}>
+                {/* <Button variant='contained' onClick={handlePrint}>{t('print_form')}</Button> */}
+                <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0, display: 'none' }}>
+
+
+                    <PrintDataGrid ref={componentRef} data={data} grandTotal={grandTotal} filters={filters} />
+                </Box>
 
                 <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
-                    <Typography variant='h2' style={{ direction: 'rtl', unicodeBidi: 'embed', textAlign: 'start' }}>
-                        {shareholderDetails.fName} {shareholderDetails.lName} - #{shareholderDetails.membersCode}
-                    </Typography>
+                    <Box display={"flex"} justifyContent={"space-between"}>
+                        <Typography variant='h2' style={{ direction: 'rtl', unicodeBidi: 'embed', textAlign: 'start' }}>
+                            {shareholderDetails.fName} {shareholderDetails.lName} - #{shareholderDetails.membersCode}
+                        </Typography>
+                        <Button variant='contained' onClick={handlePrint}>{t('print_form')}</Button>
+                    </Box>
+
 
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+
+
                         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                             <Tab label={t('overview')} {...a11yProps(0)} />
                             <Tab label={t('contact_details')} {...a11yProps(1)} />
@@ -149,17 +177,6 @@ const ShareholderDetails = () => {
                         </Box>
                     </TabPanel>
                     <TabPanel value={value} index={3}>
-                        {/* <FormControl fullWidth margin="normal">
-                            <InputLabel>{t('select_year')}</InputLabel>
-                            <Select
-                                value={selectedYear}
-                                label={t('select_year')}
-                                onChange={handleYearChange}
-                            >
-                                {Array.from(new Set(shareholderDetails.share.map(item => item.year)))
-                                    .map(year => <MenuItem key={year} value={year}>{year}</MenuItem>)}
-                            </Select>
-                        </FormControl> */}
                         <Table>
                             <TableBody>
                                 <TableRow>
@@ -169,10 +186,29 @@ const ShareholderDetails = () => {
                                 <TableRow >
                                     <TableCell>{t('current_amount')}</TableCell>
                                     <TableCell>{shareholderDetails?.savings?.totalAmount ? shareholderDetails?.savings?.totalAmount?.toFixed(3) : "N/A"}</TableCell>
-                                    {/* <TableCell>{t('current_amount')}</TableCell> */}
-                                    {/* <TableCell>{shareholderDetails?.savings?.currentAmount ? shareholderDetails?.savings?.currentAmount.toFixed(3) : "N/A"}</TableCell> */}
+                                    <TableCell>{t('savings_increase')}</TableCell>
+                                    <TableCell>{shareholderDetails?.savings?.savingsIncrease ? shareholderDetails?.savings?.savingsIncrease?.toFixed(3) : "N/A"}</TableCell>
                                 </TableRow>
 
+                                <TableRow>
+                                    <TableCell colSpan={4}>
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            style={{ marginRight: '10px', marginLeft: '10px' }}
+                                            onClick={() => setMoveToAmanatOpen(true)}
+                                        >
+                                            {t('Move to Amanat')}
+                                        </Button>
+                                        <Button
+                                            variant="contained"
+                                            color="secondary"
+                                            onClick={() => setEditOpen(true)}
+                                        >
+                                            {t('Move to Savings')}
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
 
                                 <TableRow>
                                     <TableCell variant="head">{t('share')}</TableCell>
@@ -181,7 +217,6 @@ const ShareholderDetails = () => {
                                 <TableRow >
                                     <TableCell>{t('amount_of_shares')}</TableCell>
                                     <TableCell>{shareholderDetails?.share?.totalShareAmount ? shareholderDetails?.share?.totalShareAmount?.toFixed(3) : "N/A"}</TableCell>
-
                                     <TableCell>{t('current_amount')}</TableCell>
                                     <TableCell>{shareholderDetails?.share?.totalAmount ? shareholderDetails?.share?.totalAmount?.toFixed(3) : "N/A"}</TableCell>
                                 </TableRow>
@@ -189,10 +224,7 @@ const ShareholderDetails = () => {
                                 <TableRow>
                                     <TableCell variant="head">{t('amanat')}</TableCell>
                                     <TableCell>{shareholderDetails?.savings?.amanat ? shareholderDetails?.savings?.amanat?.amount?.toFixed(3) : "N/A"}</TableCell>
-
                                 </TableRow>
-
-
                             </TableBody>
                         </Table>
                     </TabPanel>
@@ -227,6 +259,20 @@ const ShareholderDetails = () => {
                     </TabPanel>
                 </Box>
             </Box>
+            <MoveInterestToSavings
+                savings={true}
+                id={id}
+                open={editOpen}
+                setOpen={setEditOpen}
+                fetchData={() => { window.location.reload(); }}
+            />
+            <MoveSavingsToAmanatModal
+                id={id}
+                open={moveToAmanatOpen}
+                setOpen={setMoveToAmanatOpen}
+                fetchData={() => { window.location.reload(); }}
+
+            />
         </React.Fragment>
     );
 }

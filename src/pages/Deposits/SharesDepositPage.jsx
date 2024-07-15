@@ -6,12 +6,13 @@ import Typography from '@mui/material/Typography';
 import { useReactToPrint } from 'react-to-print';
 import { TextField } from '@mui/material'
 import { MenuItem } from '@mui/material'
+import { saveAs } from 'file-saver';
+import SellIcon from '@mui/icons-material/Sell';
 import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
 import { useFetch } from '../../hooks/useFetch';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
-import DepositForm from './DepositForm';
 import AddBalanceForm from '../../printablePages/AddBalanceForm';
 import { useTranslation } from 'react-i18next';
 import rtlPlugin from 'stylis-plugin-rtl';
@@ -19,23 +20,42 @@ import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import DepositFormShare from './DepositFormShare';
-
+import axiosInstance from '../../constants/axiosInstance';
+import WithdrawalModalShare from "../Withdrawals/WithdrawalModalShare"
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
 
     const handleEditClick = () => {
         setSelectedShareholderId(id); // Set the selected shareholder ID
         setEditOpen(true); // Open the edit modal
     };
+    const { i18n, t } = useTranslation();
 
     return (
 
 
-        <IconButton onClick={handleEditClick}>
-            <LocalAtmIcon />
-        </IconButton>
+        <Button onClick={handleEditClick} variant="text">
+            {t('deposit')}
+        </Button>
 
     );
 };
+const WithdrawalButton = ({ id, fetchData, setOpen, open, setSelectedShareholderId }) => {
+    const { i18n, t } = useTranslation();
+
+    const handleWithdrawClick = () => {
+        setSelectedShareholderId(id);
+        setOpen(true);
+        // Perform other withdrawal logic here if needed
+    };
+
+    return (
+
+        <Button onClick={handleWithdrawClick} variant="contained">
+            {t("withdraw")}
+        </Button>
+    );
+};
+
 const SharesDepositPage = () => {
     const cacheRtl = createCache({
         key: 'muirtl',
@@ -75,7 +95,7 @@ const SharesDepositPage = () => {
         {
             field: 'Full Name',
             headerName: t('full_name'),
-            flex: 1,
+            flex: 1.5,
             renderCell: (params) => {
                 return `${params.row.fName} ${params.row.lName}`
             }
@@ -120,11 +140,11 @@ const SharesDepositPage = () => {
             }
         },
 
-        {
-            field: 'ibanNumber',
-            headerName: t('iban'),
-            flex: 1,
-        },
+        // {
+        //     field: 'ibanNumber',
+        //     headerName: t('iban'),
+        //     flex: 1,
+        // },
         {
             field: 'mobileNumber',
             headerName: t('phone_number'),
@@ -133,21 +153,21 @@ const SharesDepositPage = () => {
                 return params.row.mobileNumber && params.row.mobileNumber ? params.row.mobileNumber : "N/A"
             }
         },
-        {
-            field: 'address',
-            headerName: t('address'),
-            flex: 1,
-            renderCell: (params) => {
-                const { block, street, house, avenue, city } = params.value;
-                return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
-            }
-        },
+        // {
+        //     field: 'address',
+        //     headerName: t('address'),
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         const { block, street, house, avenue, city } = params.value;
+        //         return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
+        //     }
+        // },
         {
             field: 'shareAmount',
             headerName: t('amount_of_shares'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.share && params?.row?.share?.totalShareAmount
+                return params.row.share && Math.floor(params?.row?.share?.totalShareAmount)
             }
         },
         {
@@ -155,7 +175,7 @@ const SharesDepositPage = () => {
             headerName: t('share_initial_amount'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.share && params?.row?.share?.totalAmount
+                return params.row.share && Math.floor(params?.row?.share?.totalAmount)
             }
         },
         // {
@@ -187,30 +207,38 @@ const SharesDepositPage = () => {
         //         }
         //     }
         // },
-        {
-            field: 'status',
-            headerName: t('status'),
-            flex: 1,
-            renderCell: (params) => {
-                if (params.value === 0) {
-                    return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
-                }
-                else if (params.value === 1) {
-                    return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
-                }
-                else if (params.value === 2) {
-                    return <Typography sx={{ color: '#DA3E33', fontWeight: 600 }}>{t('death')}</Typography>
-                }
-            }
-        },
+        // {
+        //     field: 'status',
+        //     headerName: t('status'),
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         if (params.value === 0) {
+        //             return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
+        //         }
+        //         else if (params.value === 1) {
+        //             return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
+        //         }
+        //         else if (params.value === 2) {
+        //             return <Typography sx={{ color: '#DA3E33', fontWeight: 600 }}>{t('death')}</Typography>
+        //         }
+        //     }
+        // },
         ...(admin ? [{
             field: 'deposit',
             headerName: t('deposit'),
             sortable: false,
-            width: 55,
+            flex: 1,
             renderCell: (params) => {
-                return <ViewButton id={params.id} edit={true} setEditOpen={setEditOpen} setSelectedShareholderId={setSelectedShareholderId} />;
-
+                return <ViewButton id={params.id} setEditOpen={setEditOpen} setSelectedShareholderId={setSelectedShareholderId} />;
+            },
+        }] : []),
+        ...(admin ? [{
+            field: 'withdrawal',
+            headerName: t('withdrawal'),
+            sortable: false,
+            flex: 1,
+            renderCell: (params) => {
+                return <WithdrawalButton id={params.id} fetchData={fetchData} setOpen={setWithdrawalOpen} setSelectedShareholderId={setSelectedShareholderId} open={withdrawalOpen} />;
             },
         }] : []),
 
@@ -218,6 +246,7 @@ const SharesDepositPage = () => {
     ];
 
     const [editOpen, setEditOpen] = useState(false);
+    const [withdrawalOpen, setWithdrawalOpen] = useState(false);
     const handleWithdraw = (user) => {
         setSelectedShareholderId(user);
         setEditOpen(true);
@@ -240,13 +269,22 @@ const SharesDepositPage = () => {
     const componentRef = useRef()
     const isRtl = i18n.dir() === 'rtl';
     const orderedColumns = isRtl ? [...columns].reverse() : columns;
-
+    const getCSV = () => {
+        const filterParams = new URLSearchParams(filters).toString();
+        const queryString = `shareholder-share/?${filterParams}`;
+        axiosInstance.get(queryString, { responseType: 'blob' })
+            .then((response) => {
+                const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
+                saveAs(blob, "shares_shareholder.csv");
+            })
+            .catch(error => console.error('Download error!', error));
+    };
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
-            <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0, direction: isRtl ? 'rtl' : 'ltr' }}>
+            <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
                 <FilterListOutlinedIcon /> {t('filter')}
             </Button>
-            {showFilters && (<Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', marginRight: isRtl ? "2rem" : 0, direction: isRtl ? 'rtl' : 'ltr' }}>
+            {showFilters && (<Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', marginRight: isRtl ? "2rem" : 0 }}>
                 <TextField
                     label={t('serial')}
                     variant="outlined"
@@ -324,7 +362,10 @@ const SharesDepositPage = () => {
                         <AddBalanceForm ref={componentRef} />
                     </Box>
 
-                    <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
+                    {/* <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
+                     */}
+                    <Button variant='contained' onClick={() => { getCSV() }}>{t('export_csv')}</Button>
+
                 </Box>
                 <DataGrid
                     rows={data}
@@ -374,6 +415,8 @@ const SharesDepositPage = () => {
                 />
             </Box>
             <DepositFormShare id={selectedShareholderId} open={editOpen} setOpen={setEditOpen} shares={true} fetchData={fetchData} />
+            <WithdrawalModalShare open={withdrawalOpen} setOpen={setWithdrawalOpen} id={selectedShareholderId} fetchData={fetchData} />
+
         </CacheProvider>
 
     )
