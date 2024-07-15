@@ -202,7 +202,7 @@ const SavingsDepositPage = () => {
         },
         {
             field: 'savingsIncrease',
-            headerName: t('savings'),
+            headerName: t('savingsIncrease'),
             flex: 1,
             renderCell: (params) => {
                 return params.row.savings && params.row.savings?.savingsIncrease?.toFixed(3)
