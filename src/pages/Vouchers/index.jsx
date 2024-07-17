@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box';
+import moment from 'moment';
+
 import IconButton from '@mui/material/IconButton';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { saveAs } from 'file-saver';
@@ -17,19 +19,24 @@ import PayVoucherModal from './PayVoucherModal';
 import AddVoucherModal from './AddVoucherModal';
 import { MenuItem, TextField } from '@mui/material';
 import axiosInstance from '../../constants/axiosInstance';
+import DeleteConfirmationModal from './DeleteConfirmationModal ';
+
 const Vouchers = () => {
-  const [pageNo, setPageNo] = useState(0)
-  const [pageSize, setPageSize] = useState(10)
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
   const { t, i18n } = useTranslation();
   const isRtl = i18n.dir() === 'rtl';
   const [modalOpen, setModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [selectedVoucherId, setSelectedVoucherId] = useState(null);
 
   const handleOpenAddModal = () => setAddModalOpen(true);
-  const handleCloseAddModal = () => setAddModalOpen(false);
-  const handleOpen = () => setModalOpen(true);
+  const handleCloseAddModal = () => {
+    setAddModalOpen(false);
+    setEditingVoucher(null);
+  }; const handleOpen = () => setModalOpen(true);
   const handleClose = () => setModalOpen(false);
-  const [selectedVoucherId, setSelectedVoucherId] = useState(null);
 
   const handlePayVoucher = (voucherId) => {
     setSelectedVoucherId(voucherId);
@@ -40,21 +47,42 @@ const Vouchers = () => {
     setSelectedVoucherId(null);
     setModalOpen(false);
   };
+
+  const handleDeleteVoucher = (voucherId) => {
+    setSelectedVoucherId(voucherId);
+    setDeleteModalOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    try {
+      await axiosInstance.delete(`deletevoucher/${selectedVoucherId}`);
+      setDeleteModalOpen(false);
+      fetchData(); // Refresh data after deletion
+    } catch (error) {
+      console.error('Error deleting voucher:', error);
+    }
+  };
+
+  const handleCloseDeleteModal = () => {
+    setSelectedVoucherId(null);
+    setDeleteModalOpen(false);
+  };
+
   const [filters, setFilters] = useState({
     buildingId: '',
     tenantName: '',
     civilId: '',
     contactNumber: '',
-
   });
+
   const { data, fetchData, count } = useFetch('/vouchers', pageNo + 1, pageSize, filters);
+
   const columns = [
     {
       field: 'description',
       headerName: t('description'),
       flex: 1,
       renderCell: (params) => {
-        // Check if flatId exists, and if not, use the buildingId directly from the root of the data object
         const buildingInfo = params.row.flatId ? params.row.flatId?.buildingId : params.row.buildingId;
         const flatNumber = params.row.flatId ? `, Flat Number: ${params.row.flatId?.flatNumber}` : "";
         return `${buildingInfo.name}${flatNumber}`;
@@ -70,21 +98,25 @@ const Vouchers = () => {
       field: 'amount',
       headerName: t('rentAmount'),
       flex: 1,
-      renderCell: (params) => {
-        return `${params.value} (Status: ${params.row?.status})`;
-      }
+      renderCell: (params) => `${params.value} (Status: ${params.row?.status})`
     },
     {
       field: 'pendingDate',
       headerName: t('pendingDate'),
       flex: 1,
-      valueGetter: (params) => params.value ? new Date(params.value)?.toLocaleDateString() : ''
+      valueGetter: (params) => {
+        if (!params.value) return '';
+        return moment(params.value).format('DD-MM-YYYY');
+      }
     },
     {
       field: 'paidDate',
       headerName: t('paidDate'),
       flex: 1,
-      valueGetter: (params) => params.value ? new Date(params.value)?.toLocaleDateString() : ''
+      valueGetter: (params) => {
+        if (!params.value) return '';
+        return moment(params.value).format('DD-MM-YYYY');
+      }
     },
     {
       field: 'actions',
@@ -98,12 +130,39 @@ const Vouchers = () => {
         ) : null
       ),
     },
-  ];
+    {
+      field: 'edit',
+      headerName: t('edit'),
+      flex: 1,
+      renderCell: (params) => (
+        <Button variant="contained" onClick={() => handleEditVoucher(params.row)}>
+          {t('edit')}
+        </Button>
+      ),
+    },
+    {
+      field: 'delete',
+      headerName: t('delete'),
+      flex: 1,
+      renderCell: (params) => (
 
+        <Button variant="contained" onClick={() => handleDeleteVoucher(params.row._id)}>
+          {t('delete')}
+        </Button>
+
+      ),
+    },
+  ];
 
   useEffect(() => {
     fetchData();
   }, [pageNo, pageSize, filters]);
+  const [editingVoucher, setEditingVoucher] = useState(null);
+  const handleEditVoucher = (voucher) => {
+    setEditingVoucher(voucher);
+    setAddModalOpen(true);
+  };
+
 
   const cacheRtl = createCache({
     key: 'muirtl',
@@ -128,12 +187,12 @@ const Vouchers = () => {
       })
       .catch(error => console.error('Download error!', error));
   };
+
   useEffect(() => {
     const fetchBuildings = async () => {
       try {
         const response = await axiosInstance.get('/buildingdropdown');
         setBuildings(response?.data?.data);
-
       } catch (error) {
         console.error('Error fetching buildings:', error);
       }
@@ -141,11 +200,13 @@ const Vouchers = () => {
 
     fetchBuildings();
   }, []);
+
   const [showFilters, setShowFilters] = useState(false);
 
   const toggleFilters = () => {
     setShowFilters(!showFilters);
   };
+
   return (
     <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
       <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
@@ -172,6 +233,7 @@ const Vouchers = () => {
             label={t('tenant_name')}
             variant="outlined"
             value={filters.tenantName}
+
             onChange={(e) => setFilters({ ...filters, tenantName: e.target.value })}
             fullWidth
             autoComplete='off'
@@ -197,7 +259,7 @@ const Vouchers = () => {
       <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
         <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
           <Typography variant="h3" component="h2" sx={{
-            fontStyle: 'normal', // Sets the font style
+            fontStyle: 'normal',
             fontWeight: 600,
             lineHeight: '1.875rem', flexGrow: 1,
             marginLeft: '1.2rem'
@@ -206,7 +268,6 @@ const Vouchers = () => {
           </Typography>
           <Button variant='contained' onClick={handleOpenAddModal}>{t('add')}</Button>
           <Button variant='contained' onClick={() => { getCSV('xlsx'); }}>{t('export_xlsx')}</Button>
-
         </Box>
         <DataGrid
           rows={data}
@@ -214,7 +275,6 @@ const Vouchers = () => {
             ...column,
             disableColumnMenu: true,
           }))}
-
           paginationModel={paginationModel}
           onPaginationModelChange={(newModel) => {
             setPageNo(newModel.page);
@@ -243,23 +303,34 @@ const Vouchers = () => {
             },
             '& .MuiDataGrid-columnHeaders': {
               border: 'none',
-              fontStyle: 'normal', // Sets the font style
-              fontWeight: 600, // Sets the font weight
+              fontStyle: 'normal',
+              fontWeight: 600,
               lineHeight: '1.25rem',
               color: '#667085',
               fontSize: '0.875rem'
             },
             '& .MuiDataGrid-cell': {
-              fontSize: '1rem', // Increase the font size of the data cells
-              fontWeight: 'bold', // Make the data text bolder
+              fontSize: '1rem',
+              fontWeight: 'bold',
             },
           }}
         />
       </Box>
       <PayVoucherModal open={modalOpen} onClose={handleCloseModal} voucherId={selectedVoucherId} fetchData={fetchData} />
-      <AddVoucherModal open={addModalOpen} onClose={handleCloseAddModal} fetchData={fetchData} />
+      <AddVoucherModal
+        open={addModalOpen}
+        onClose={handleCloseAddModal}
+        fetchData={fetchData}
+        editingVoucher={editingVoucher}
+      />
+      <DeleteConfirmationModal
+        open={deleteModalOpen}
+        onClose={handleCloseDeleteModal}
+        onConfirm={handleConfirmDelete}
+      />
     </CacheProvider>
-  )
-}
+  );
+};
 
-export default Vouchers
+export default Vouchers;
+

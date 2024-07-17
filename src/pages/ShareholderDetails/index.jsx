@@ -198,14 +198,14 @@ const ShareholderDetails = () => {
                                             style={{ marginRight: '10px', marginLeft: '10px' }}
                                             onClick={() => setMoveToAmanatOpen(true)}
                                         >
-                                            {t('Move to Amanat')}
+                                            {t('move_to_amanat')}
                                         </Button>
                                         <Button
                                             variant="contained"
                                             color="secondary"
                                             onClick={() => setEditOpen(true)}
                                         >
-                                            {t('Move to Savings')}
+                                            {t('move_interest_to_savings')}
                                         </Button>
                                     </TableCell>
                                 </TableRow>

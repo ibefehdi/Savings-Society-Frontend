@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
@@ -16,7 +17,7 @@ import createCache from '@emotion/cache';
 import { useTranslation } from 'react-i18next';
 import axiosInstance from '../../constants/axiosInstance';
 import { useNavigate } from 'react-router-dom';
-import { Link } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Link } from '@mui/material';
 const Tenants = () => {
     const [pageNo, setPageNo] = useState(0)
     const [pageSize, setPageSize] = useState(10)
@@ -27,8 +28,40 @@ const Tenants = () => {
     const cacheLtr = createCache({ key: 'muilt' });
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
+    const [editModalOpen, setEditModalOpen] = useState(false);
+    const [editingTenant, setEditingTenant] = useState(null);
+    const [civilIdFile, setCivilIdFile] = useState(null);
 
+    const handleEditClick = (tenant) => {
+        setEditingTenant(tenant);
+        setEditModalOpen(true);
+    };
+    const handleEditSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const formData = new FormData();
+            formData.append('name', editingTenant.name);
+            formData.append('contactNumber', editingTenant.contactNumber);
+            formData.append('civilId', editingTenant.civilId);
+            formData.append('flatId', editingTenant.flatId._id); // Assuming flatId is an object with _id
 
+            if (civilIdFile) {
+                formData.append('civilIdDocument', civilIdFile);
+            }
+
+            const response = await axiosInstance.put(`/editTenant/${editingTenant._id}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            console.log(response.data);
+            setEditModalOpen(false);
+            setCivilIdFile(null);
+            fetchData(); // Refresh the data
+        } catch (error) {
+            console.error("Error updating tenant:", error);
+        }
+    };
     const { data, fetchData, count } = useFetch(`/tenants`, pageNo + 1, pageSize);
     useEffect(() => {
         fetchData();
@@ -41,6 +74,9 @@ const Tenants = () => {
         setPageSize(event.target.value);
         setPageNo(1);
         setPaginationModel({ ...paginationModel, pageSize: event.target.value });
+    };
+    const handleViewDocument = (url) => {
+        window.open(url, '_blank', 'noopener,noreferrer');
     };
     const columns = [
         {
@@ -78,17 +114,93 @@ const Tenants = () => {
             headerName: t('civil_id_document'),
             flex: 1,
             renderCell: (params) => {
-                if (params.row.civilIdDocument?.path) {
-                    return <Link href={params.row.civilIdDocument?.path}>Civil ID</Link>
+                if (params.row.civilIdDocument) {
+                    return <Link href={params.row.civilIdDocument?.path} target="_blank" rel="noopener noreferrer">{t('civil_id')}</Link>
 
                 }
                 return '';
             },
         },
-        
-    ];
-    const orderedColumns = isRtl ? [...columns].reverse() : columns;
+        {
+            field: 'actions',
+            headerName: t('actions'),
+            flex: 1,
+            renderCell: (params) => (
+                <IconButton onClick={() => handleEditClick(params.row)}>
+                    <EditIcon />
+                </IconButton>
+            ),
+        },
 
+    ];
+    const handleFileChange = (e) => {
+        setCivilIdFile(e.target.files[0]);
+    };
+    const orderedColumns = isRtl ? [...columns].reverse() : columns;
+    const EditTenantModal = () => (
+        <Dialog open={editModalOpen} onClose={() => setEditModalOpen(false)}>
+            <DialogTitle>{t('edit_tenant')}</DialogTitle>
+            <DialogContent>
+                <form onSubmit={handleEditSubmit}>
+                    <TextField
+                        fullWidth
+                        margin="normal"
+                        label={t('tenant_name')}
+                        value={editingTenant?.name || ''}
+                        onChange={(e) => setEditingTenant({ ...editingTenant, name: e.target.value })}
+                    />
+                    <TextField
+                        fullWidth
+                        margin="normal"
+                        label={t('contact_number')}
+                        value={editingTenant?.contactNumber || ''}
+                        onChange={(e) => setEditingTenant({ ...editingTenant, contactNumber: e.target.value })}
+                    />
+                    <TextField
+                        fullWidth
+                        margin="normal"
+                        label={t('civil_id')}
+                        value={editingTenant?.civilId || ''}
+                        onChange={(e) => setEditingTenant({ ...editingTenant, civilId: e.target.value })}
+                    />
+                    <TextField
+                        fullWidth
+                        margin="normal"
+                        label={t('flat_number')}
+                        value={editingTenant?.flatId?.flatNumber || ''}
+                        onChange={(e) => setEditingTenant({ ...editingTenant, flatId: { ...editingTenant.flatId, flatNumber: e.target.value } })}
+                    />
+                    <Box sx={{ mt: 2 }}>
+                        <input
+                            accept="image/*,application/pdf"
+                            style={{ display: 'none' }}
+                            id="civilIdDocument"
+                            type="file"
+                            onChange={handleFileChange}
+                        />
+                        <label htmlFor="civilIdDocument">
+                            <Button variant="contained" component="span">
+                                {t('upload_civil_id_document')}
+                            </Button>
+                        </label>
+                        {civilIdFile && <Typography variant="body2">{civilIdFile.name}</Typography>}
+                    </Box>
+                    {editingTenant?.civilIdDocument?.path && (
+                        <Box sx={{ mt: 1 }}>
+                            <Typography variant="body2">{t('current_document')}:</Typography>
+                            <Link href={editingTenant.civilIdDocument.path} target="_blank" rel="noopener noreferrer">
+                                {t('view_current_document')}
+                            </Link>
+                        </Box>
+                    )}
+                </form>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={() => setEditModalOpen(false)}>{t('cancel')}</Button>
+                <Button onClick={handleEditSubmit} variant="contained">{t('save')}</Button>
+            </DialogActions>
+        </Dialog>
+    );
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
@@ -157,6 +269,7 @@ const Tenants = () => {
                 />
 
             </Box>
+            <EditTenantModal />
 
         </CacheProvider >
     )

@@ -221,6 +221,6 @@
   "tenants":"المستأجرين",
   "floorNumber":"الدور",
   "max_length_exceeded":"مطلوب 12 رقم",
-  "move_interest_to_savings":"نقل الفائدة إلى المدخرات",
-  "savingsIncrease":"أرباح المدخرات"
+  "move_interest_to_savings":"تحويل الفائدة إلى المدخرات",
+  "savingsIncrease":"فائدة المدخرات"
 }

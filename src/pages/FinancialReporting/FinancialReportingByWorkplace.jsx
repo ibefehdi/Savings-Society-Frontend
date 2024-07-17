@@ -223,7 +223,7 @@ const FinancialReportingByWorkplace = () => {
                     <Box sx={{ display: 'flex', gap: '1rem' }}>
                         {/* <Button variant='contained' onClick={() => handleExport('csv')}>{t('export_csv')}</Button>
                         <Button variant='contained' onClick={() => handleExport('xlsx')}>{t('export_xlsx')}</Button> */}
-                        <Button variant='contained' onClick={() => handlePrint}>{t('print_form')}</Button>
+                        <Button variant='contained' onClick={handlePrint}>{t('print_form')}</Button>
                     </Box>                </Box>
 
                 <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0, display: 'none' }}>

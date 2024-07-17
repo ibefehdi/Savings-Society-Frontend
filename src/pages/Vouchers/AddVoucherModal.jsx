@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Box, Typography, Button, TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { useForm, Controller, } from 'react-hook-form';
 import axiosInstance from '../../constants/axiosInstance';
-
-const AddVoucherModal = ({ open, onClose, fetchData }) => {
+const AddVoucherModal = ({ open, onClose, fetchData, editingVoucher }) => {
     const { control, handleSubmit, reset, watch, setValue } = useForm();
     const [buildings, setBuildings] = useState([]);
     const [flats, setFlats] = useState([]);
@@ -11,6 +10,22 @@ const AddVoucherModal = ({ open, onClose, fetchData }) => {
 
     const selectedBuildingId = watch('buildingId');
     const selectedFlatId = watch('flatId');
+
+    useEffect(() => {
+        if (editingVoucher) {
+            // Populate form fields with editing voucher data
+            setValue('buildingId', editingVoucher.buildingId._id);
+            setValue('flatId', editingVoucher.flatId._id);
+            setValue('tenantId', editingVoucher.tenantId._id);
+            setValue('amount', editingVoucher.amount);
+            setValue('pendingDate', editingVoucher.pendingDate?.split('T')[0]);
+            setValue('paidDate', editingVoucher.paidDate?.split('T')[0]);
+            setValue('status', editingVoucher.status);
+        } else {
+            // Reset form when not editing
+            reset();
+        }
+    }, [editingVoucher, setValue, reset]);
 
     useEffect(() => {
         const fetchBuildings = async () => {
@@ -72,15 +87,18 @@ const AddVoucherModal = ({ open, onClose, fetchData }) => {
         fetchTenants();
     }, [selectedFlatId, setValue]);
 
-
     const onSubmit = async (data) => {
         try {
-            await axiosInstance.post('/createvoucher', data);
+            if (editingVoucher) {
+                await axiosInstance.put(`/updatevoucher/${editingVoucher._id}`, data);
+            } else {
+                await axiosInstance.post('/createvoucher', data);
+            }
             reset();
             onClose();
             fetchData();
         } catch (error) {
-            console.error('Error creating voucher:', error);
+            console.error('Error saving voucher:', error);
         }
     };
 
@@ -96,7 +114,7 @@ const AddVoucherModal = ({ open, onClose, fetchData }) => {
                 outline: 'none',
             }}>
                 <Typography variant="h6" component="h2">
-                    Add Voucher
+                    {editingVoucher ? 'Edit Voucher' : 'Add Voucher'}
                 </Typography>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <FormControl fullWidth margin="normal">
@@ -138,14 +156,11 @@ const AddVoucherModal = ({ open, onClose, fetchData }) => {
                             control={control}
                             render={({ field }) => (
                                 <Select {...field} disabled={!selectedFlatId || tenants.length === 1}>
-                                    {tenants.map((tenant) =>
-                                    (
-
+                                    {tenants.map((tenant) => (
                                         <MenuItem key={tenant?.tenant?._id} value={tenant?.tenant?._id}>
                                             {tenant?.tenant?.name}
                                         </MenuItem>
-                                    )
-                                    )}
+                                    ))}
                                 </Select>
                             )}
                         />
@@ -155,7 +170,7 @@ const AddVoucherModal = ({ open, onClose, fetchData }) => {
                         control={control}
                         defaultValue=""
                         render={({ field }) => (
-                            <TextField {...field} label="Amount" fullWidth margin="normal" disabled />
+                            <TextField {...field} label="Amount" fullWidth margin="normal" disabled={editingVoucher ? false : true} />
                         )}
                     />
                     <Controller
@@ -186,7 +201,9 @@ const AddVoucherModal = ({ open, onClose, fetchData }) => {
                         )}
                     />
                     <Button onClick={onClose}>Cancel</Button>
-                    <Button type="submit" variant="contained">Save</Button>
+                    <Button type="submit" variant="contained">
+                        {editingVoucher ? 'Update' : 'Save'}
+                    </Button>
                 </form>
             </Box>
         </Modal>
