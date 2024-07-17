@@ -20,6 +20,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import AddNewFlat from './AddNewFlat';
 import RemoveTenantModal from './RemoveTenantModal';
 import AssignTenantModal from './AssignTenantModal';
+import BackButton from '../../components/BackButton';
 
 const Flats = () => {
     const { id } = useParams();
@@ -205,6 +206,8 @@ const Flats = () => {
                     >
                         {t('add')}
                     </Button>
+                    <BackButton />
+
                 </Box>
 
                 {selectedBuilding && (

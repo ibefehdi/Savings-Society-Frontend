@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import axiosInstance from '../../constants/axiosInstance';
 import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
@@ -39,9 +39,15 @@ function a11yProps(index) {
     };
 }
 const ShareholderDetails = () => {
-
+    const navigate = useNavigate();
+    const location = useLocation();
     const componentRef = useRef();
-
+    const handleBackClick = () => {
+        const searchParams = new URLSearchParams(location.search);
+        const page = searchParams.get('page') || 0;
+        const pageSize = searchParams.get('pageSize') || 10;
+        navigate(`/shareholder/shareholders?page=${page}&pageSize=${pageSize}`);
+    };
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
     });
@@ -133,6 +139,7 @@ const ShareholderDetails = () => {
 
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', display: 'flex' }}>
                 {/* <Button variant='contained' onClick={handlePrint}>{t('print_form')}</Button> */}
+
                 <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0, display: 'none' }}>
 
 
@@ -145,6 +152,9 @@ const ShareholderDetails = () => {
                             {shareholderDetails.fName} {shareholderDetails.lName} - #{shareholderDetails.membersCode}
                         </Typography>
                         <Button variant='contained' onClick={handlePrint}>{t('print_form')}</Button>
+                        <Button variant="contained" onClick={handleBackClick} sx={{ marginRight: '1rem' }}>
+                            {t('back')}
+                        </Button>
                     </Box>
 
 

@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import { useReactToPrint } from 'react-to-print';
 import CashWithdrawalVoucher from '../../printablePages/CashWithdrawalVoucher';
 import { useTranslation } from 'react-i18next';
+import BackButton from '../../components/BackButton';
 const CashWithdrawalPage = () => {
     const componentRef = useRef();
     const { t } = useTranslation();
@@ -33,6 +34,8 @@ const CashWithdrawalPage = () => {
                     </Box>
 
                     <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
+                    <BackButton />
+
                 </Box>
                 <CashWithdrawalVoucher ref={componentRef} />
             </Box>

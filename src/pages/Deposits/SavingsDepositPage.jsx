@@ -23,6 +23,7 @@ import SellIcon from '@mui/icons-material/Sell';
 import WithdrawalModal from "../Withdrawals/WithdrawalModal"
 import MoveInterestToSavings from '../Withdrawals/MoveInterestToSavings';
 import MoveSavingsToAmanatModal from '../Withdrawals/MoveSavingsToAmanatModal';
+import BackButton from '../../components/BackButton';
 
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
     const { i18n, t } = useTranslation();
@@ -413,6 +414,8 @@ const SavingsDepositPage = () => {
 
                     {/* <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button> */}
                     <Button variant='contained' onClick={() => { getCSV() }}>{t('export_csv')}</Button>
+                    <BackButton />
+
 
                 </Box>
                 <DataGrid

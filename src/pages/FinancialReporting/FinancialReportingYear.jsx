@@ -16,6 +16,7 @@ import rtlPlugin from 'stylis-plugin-rtl';
 import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
+import BackButton from '../../components/BackButton';
 const FinancialReportingYear = () => {
     const cacheRtl = createCache({
         key: 'muirtl',
@@ -196,6 +197,8 @@ const FinancialReportingYear = () => {
 
 
                     <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
+                    <BackButton />
+
                 </Box>
 
                 <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0, display: 'none' }}>

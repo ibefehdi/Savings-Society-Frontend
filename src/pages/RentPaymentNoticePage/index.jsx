@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import { useReactToPrint } from 'react-to-print';
 import RentPaymentNotice from '../../printablePages/RentPaymentNotice';
 import { useTranslation } from 'react-i18next';
+import BackButton from '../../components/BackButton';
 const RentPaymentNoticePage = () => {
     const componentRef = useRef();
     const { t } = useTranslation();
@@ -33,6 +34,8 @@ const RentPaymentNoticePage = () => {
                     </Box>
 
                     <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
+                    <BackButton />
+
                 </Box>
                 <RentPaymentNotice ref={componentRef} />
             </Box>

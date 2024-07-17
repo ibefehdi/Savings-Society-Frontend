@@ -22,6 +22,7 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import MoveInterestToSavings from './MoveInterestToSavings';
+import BackButton from '../../components/BackButton';
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
 
     const handleEditClick = () => {
@@ -380,6 +381,8 @@ const SavingsWithdrawalPage = () => {
 
                     {/* <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button> */}
                     <Button variant='contained' onClick={() => { getCSV() }}>{t('export_csv')}</Button>
+                    <BackButton />
+
 
                 </Box>
 

@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useReactToPrint } from 'react-to-print';
 import axiosInstance from '../../constants/axiosInstance';
 import MoneyForm from '../../printablePages/MoneyForm';
+import BackButton from '../../components/BackButton';
 
 const ReceiptVoucher = () => {
     const componentRef = useRef();
@@ -48,6 +49,8 @@ const ReceiptVoucher = () => {
                     <Button variant='contained' onClick={fetchDataAndPrint} disabled={loading}>
                         {t('print_form')}
                     </Button>
+                    <BackButton />
+
                 </Box>
                 <MoneyForm ref={componentRef} serial={serial} />
             </Box>

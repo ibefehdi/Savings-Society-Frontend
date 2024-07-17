@@ -222,5 +222,9 @@
   "floorNumber":"الدور",
   "max_length_exceeded":"مطلوب 12 رقم",
   "move_interest_to_savings":"تحويل الفائدة إلى المدخرات",
-  "savingsIncrease":"فائدة المدخرات"
+  "savingsIncrease":"فائدة المدخرات",
+  "delete_voucher": "حذف القسيمة",
+  "confirm_delete": "هل أنت متأكد أنك تريد حذف هذه القسيمة؟",
+  "back":"رجوع"
+
 }

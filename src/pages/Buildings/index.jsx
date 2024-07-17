@@ -10,6 +10,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import AddNewBuilding from './AddNewBuilding';
 import EditBuilding from './EditBuilding';
 import { useNavigate } from 'react-router-dom';
+import BackButton from '../../components/BackButton';
 
 const Buildings = () => {
     const [pageNo, setPageNo] = useState(0);
@@ -117,6 +118,8 @@ const Buildings = () => {
                     <Button onClick={() => setOpen(true)} variant="contained">
                         {t('add')}
                     </Button>
+                    <BackButton />
+
                 </Box>
                 <DataGrid
                     rows={data}

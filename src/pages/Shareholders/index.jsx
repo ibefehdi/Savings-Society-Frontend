@@ -10,7 +10,7 @@ import Select from '@mui/material/Select';
 import { useFetch } from '../../hooks/useFetch';
 import { DataGrid } from '@mui/x-data-grid';
 import AddShareholderModal from './AddShareholderModal';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import EditShareholderModal from './EditShareholderModal';
 import { useTranslation } from 'react-i18next';
@@ -24,14 +24,17 @@ import { saveAs } from 'file-saver';
 import DisableShareholderModal from './DisableShareholderModal';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
 import { AREAS } from '../../constants/areaConstants';
-const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
+import BackButton from '../../components/BackButton';
+const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId, pageNo, pageSize, paginationModel }) => {
   const navigate = useNavigate();
 
   const handleEditClick = () => {
     setSelectedShareholderId(id);
     setEditOpen(true);
   };
-
+  const handleViewClick = () => {
+    navigate(`/shareholderno/${id}?page=${paginationModel.page}&pageSize=${paginationModel.pageSize}`);
+  };
   return (
     <div>
       {edit ? (
@@ -39,11 +42,12 @@ const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
           <ModeEditIcon />
         </IconButton>
       ) : (
-        <IconButton onClick={() => navigate(`/shareholderno/${id}`)}>
+        <IconButton onClick={handleViewClick}>
           <VisibilityIcon />
         </IconButton>
-      )}
-    </div>
+      )
+      }
+    </div >
   );
 };
 const DisableButton = ({ id, setDisableOpen, setSelectedShareholderId }) => {
@@ -60,8 +64,13 @@ const DisableButton = ({ id, setDisableOpen, setSelectedShareholderId }) => {
 };
 
 const Shareholders = () => {
-  const [pageNo, setPageNo] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const initialPage = parseInt(searchParams.get('page'), 10) || 0;
+  const initialPageSize = parseInt(searchParams.get('pageSize'), 10) || 10;
+
+  const [pageNo, setPageNo] = useState(initialPage);
+  const [pageSize, setPageSize] = useState(initialPageSize);
   const [disableOpen, setDisableOpen] = useState(false);
   const [filters, setFilters] = useState({
     fName: '',
@@ -178,7 +187,7 @@ const Shareholders = () => {
       headerName: t('view'),
       sortable: false,
       width: 55,
-      renderCell: (params) => <ViewButton id={params.id} />,
+      renderCell: (params) => <ViewButton id={params.id} pageNo={pageNo} pageSize={pageSize} paginationModel={paginationModel} />,
     }] : []),
     ...(permissions?.shareholder?.edit ? [{
       field: 'edit',
@@ -196,9 +205,9 @@ const Shareholders = () => {
     },
   ];
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData, pageNo, pageSize]);
+  // useEffect(() => {
+  //   fetchData();
+  // }, [fetchData, pageNo, pageSize]);
 
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
@@ -225,16 +234,37 @@ const Shareholders = () => {
   };
 
   const [paginationModel, setPaginationModel] = useState({
-    pageSize: pageSize,
+    pageSize: 10,
     page: 0,
   });
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const page = parseInt(searchParams.get('page'), 10);
+    const size = parseInt(searchParams.get('pageSize'), 10);
+
+    if (!isNaN(page)) setPageNo(page);
+    if (!isNaN(size)) setPageSize(size);
+
+    setPaginationModel({
+      pageSize: !isNaN(size) ? size : 10,
+      page: !isNaN(page) ? page : 0,
+    });
+  }, [location.search]);
+  useEffect(() => {
+    fetchData();
+  }, [pageNo, pageSize]);
 
   const toggleFilters = () => {
     setShowFilters(!showFilters);
   };
 
   const orderedColumns = isRtl ? [...columns].reverse() : columns;
-
+  const handlePaginationModelChange = (newModel) => {
+    setPageNo(newModel.page);
+    setPageSize(newModel.pageSize);
+    setPaginationModel(newModel);
+    navigate(`/shareholder/shareholders?page=${newModel.page}&pageSize=${newModel.pageSize}`, { replace: true });
+  };
   useEffect(() => {
     async function fetchWorkplaces() {
       const response = await axiosInstance.get('/workplacesdropdown');
@@ -350,7 +380,11 @@ const Shareholders = () => {
 
           </Select>
           <Box display={"flex"} gap={2}>{permissions?.shareholder?.create && (<Button variant='contained' onClick={() => { handleOpen() }}>{t('add')}</Button>)}
-            <Button variant='contained' onClick={() => { getCSV() }}>{t('export_csv')}</Button></Box>
+            <Button variant='contained' onClick={() => { getCSV() }}>{t('export_csv')}</Button>
+            <BackButton />
+
+            </Box>
+
 
         </Box>
         <DataGrid
@@ -360,10 +394,7 @@ const Shareholders = () => {
             disableColumnMenu: true,
           }))}
           paginationModel={paginationModel}
-          onPaginationModelChange={(newModel) => {
-            setPageNo(newModel.page);
-            setPaginationModel(newModel);
-          }}
+          onPaginationModelChange={handlePaginationModelChange}
           getRowId={(row) => row._id}
           rowCount={count}
           paginationMode="server"

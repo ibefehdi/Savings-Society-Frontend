@@ -11,6 +11,7 @@ import WithdrawalForm from '../../printablePages/WithdrawalForm';
 import { useTranslation } from 'react-i18next';
 import { TextField } from '@mui/material';
 import axiosInstance from '../../constants/axiosInstance';
+import BackButton from '../../components/BackButton';
 const RentNoticeFormPage = () => {
     const componentRef = useRef();
     const { t } = useTranslation();
@@ -53,6 +54,8 @@ const RentNoticeFormPage = () => {
                     </Button>
 
                     <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
+                    <BackButton />
+
                 </Box>
                 <WithdrawalForm ref={componentRef} shareholder={shareholder} />
             </Box>

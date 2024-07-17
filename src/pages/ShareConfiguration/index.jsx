@@ -12,6 +12,7 @@ import rtlPlugin from 'stylis-plugin-rtl';
 import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
+import BackButton from '../../components/BackButton';
 const ShareConfiguration = () => {
     const cacheRtl = createCache({
         key: 'muirtl',
@@ -89,7 +90,9 @@ const ShareConfiguration = () => {
                     }}>
                         {t('share_percentage')}
                     </Typography>
+
                     <Button variant='contained' onClick={() => { handleOpen() }}>{t('add')}</Button>
+                    <BackButton />
                 </Box>
                 <DataGrid
                     rows={data}

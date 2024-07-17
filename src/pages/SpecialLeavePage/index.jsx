@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import { useReactToPrint } from 'react-to-print';
 import { useTranslation } from 'react-i18next';
 import SpecialLeaveForm from '../../printablePages/SpecialLeaveForm';
+import BackButton from '../../components/BackButton';
 
 const SpecialLeavePage = () => {
     const componentRef = useRef();
@@ -34,6 +35,8 @@ const SpecialLeavePage = () => {
                     </Box>
 
                     <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
+                    <BackButton />
+
                 </Box>
                 <SpecialLeaveForm ref={componentRef} />
             </Box>

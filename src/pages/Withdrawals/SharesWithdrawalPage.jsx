@@ -20,6 +20,7 @@ import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import WithdrawalModalShare from './WithdrawalModalShare';
+import BackButton from '../../components/BackButton';
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
 
     const handleEditClick = () => {
@@ -338,6 +339,8 @@ const SharesWithdrawalPage = () => {
 
                     {/* <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button> */}
                     <Button variant='contained' onClick={() => { getCSV() }}>{t('export_csv')}</Button>
+                    <BackButton />
+
 
                 </Box>
                 <DataGrid

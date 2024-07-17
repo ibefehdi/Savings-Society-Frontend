@@ -17,6 +17,7 @@ import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import axiosInstance from '../../constants/axiosInstance';
+import BackButton from '../../components/BackButton';
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
 
   const handleEditClick = () => {
@@ -305,6 +306,8 @@ const Amanat = () => {
           <Box sx={{ display: 'flex', gap: '1rem' }}>
             {/* <Button variant='contained' onClick={() => handleExport('csv')}>{t('export_csv')}</Button> */}
             <Button variant='contained' onClick={() => handleExport('xlsx')}>{t('export_xlsx')}</Button>
+            <BackButton />
+
           </Box>
         </Box>
         <DataGrid

@@ -8,6 +8,7 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { DataGrid } from '@mui/x-data-grid';
 import axiosInstance from '../../constants/axiosInstance';
+import BackButton from '../../components/BackButton';
 const TransferHistory = () => {
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, setPageSize] = useState(10);
@@ -138,6 +139,8 @@ const TransferHistory = () => {
                     <Box sx={{ display: 'flex', gap: '1rem' }}>
                         {/* <Button variant='contained' onClick={() => handleExport('csv')}>{t('export_csv')}</Button> */}
                         <Button variant='contained' onClick={() => handleExport('xlsx')}>{t('export_xlsx')}</Button>
+                        <BackButton />
+
                     </Box>
 
                 </Box>

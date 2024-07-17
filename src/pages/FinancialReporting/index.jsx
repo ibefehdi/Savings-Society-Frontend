@@ -17,6 +17,7 @@ import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import axiosInstance from '../../constants/axiosInstance';
+import BackButton from '../../components/BackButton';
 const FinancialReporting = () => {
     const cacheRtl = createCache({
         key: 'muirtl',
@@ -309,6 +310,8 @@ const FinancialReporting = () => {
                         <Button variant='contained' onClick={() => handleExport('csv')}>{t('export_csv')}</Button>
                         <Button variant='contained' onClick={() => handleExport('xlsx')}>{t('export_xlsx')}</Button>
                         <Button variant='contained' onClick={handlePrint}>{t('print_form')}</Button>
+                        <BackButton />
+
                     </Box>
                 </Box>
 

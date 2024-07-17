@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 import axiosInstance from '../../constants/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import AddTransactions from './AddTransactions';
+import BackButton from '../../components/BackButton';
 const BuildingExpenseTransactions = () => {
     const [pageNo, setPageNo] = useState(1)
     const [pageSize, setPageSize] = useState(10)
@@ -129,6 +130,8 @@ const BuildingExpenseTransactions = () => {
                     <Button onClick={() => setOpen(true)} variant="contained">
                         {t('add')}
                     </Button>
+                    <BackButton />
+
                     <Select value={pageSize} onChange={handlePageSizeChange} sx={{ ml: '1rem', mr: '1rem' }}>
                         <MenuItem value={10}>10 {t('per_page')}</MenuItem>
                         <MenuItem value={25}>25 {t('per_page')}</MenuItem>

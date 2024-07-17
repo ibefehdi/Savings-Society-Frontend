@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import { useReactToPrint } from 'react-to-print';
 import { useTranslation } from 'react-i18next';
 import PeriodicLeaveForm from '../../printablePages/PeriodicLeaveForm';
+import BackButton from '../../components/BackButton';
 
 const PeriodicLeavePage = () => {
     const componentRef = useRef();
@@ -34,6 +35,8 @@ const PeriodicLeavePage = () => {
                     </Box>
 
                     <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
+                    <BackButton />
+
                 </Box>
                 <PeriodicLeaveForm ref={componentRef} />
             </Box>

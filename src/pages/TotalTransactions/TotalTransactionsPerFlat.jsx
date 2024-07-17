@@ -8,6 +8,7 @@ import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import axiosInstance from '../../constants/axiosInstance';
+import BackButton from '../../components/BackButton';
 
 const TotalTransactionsPerFlat = () => {
     const cacheRtl = createCache({
@@ -122,6 +123,8 @@ const TotalTransactionsPerFlat = () => {
                 >
                     {t('profit_report_per_flat')}
                 </Typography>
+                <BackButton />
+
                 <DataGrid
                     rows={rows}
                     columns={orderedColumns.map((column) => ({

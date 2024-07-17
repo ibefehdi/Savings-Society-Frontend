@@ -20,6 +20,7 @@ import AddVoucherModal from './AddVoucherModal';
 import { MenuItem, TextField } from '@mui/material';
 import axiosInstance from '../../constants/axiosInstance';
 import DeleteConfirmationModal from './DeleteConfirmationModal ';
+import BackButton from '../../components/BackButton';
 
 const Vouchers = () => {
   const [pageNo, setPageNo] = useState(0);
@@ -268,6 +269,8 @@ const Vouchers = () => {
           </Typography>
           <Button variant='contained' onClick={handleOpenAddModal}>{t('add')}</Button>
           <Button variant='contained' onClick={() => { getCSV('xlsx'); }}>{t('export_xlsx')}</Button>
+          <BackButton />
+
         </Box>
         <DataGrid
           rows={data}

@@ -10,6 +10,7 @@ import { useReactToPrint } from 'react-to-print';
 import { useTranslation } from 'react-i18next';
 import { TextField } from '@mui/material';
 import ResignationForm from '../../printablePages/ResignationForm';
+import BackButton from '../../components/BackButton';
 const ResignationFormPage = () => {
     const componentRef = useRef();
     const { t } = useTranslation();
@@ -38,6 +39,8 @@ const ResignationFormPage = () => {
                     />
 
                     <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
+                    <BackButton />
+
                 </Box>
                 <ResignationForm ref={componentRef} />
             </Box>

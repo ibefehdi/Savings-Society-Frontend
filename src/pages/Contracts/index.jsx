@@ -17,6 +17,7 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Modal } from '@mui/material';
+import BackButton from '../../components/BackButton';
 
 const Contracts = () => {
     const cacheRtl = createCache({
@@ -139,6 +140,7 @@ const Contracts = () => {
                     <Typography variant="h3" component="h2" sx={{ fontStyle: 'normal', fontWeight: 600, lineHeight: '1.875rem', flexGrow: 1, marginLeft: '1.2rem' }}>
                         {t('contracts')}
                     </Typography>
+                    <BackButton />
 
                 </Box>
                 <Box

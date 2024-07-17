@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { TextField } from '@mui/material';
 import axiosInstance from '../../constants/axiosInstance';
 import PropertyEvacuationForm from '../../printablePages/PropertyEvacuationForm';
+import BackButton from '../../components/BackButton';
 const PropertyEvacuationFormPage = () => {
     const componentRef = useRef();
     const { t } = useTranslation();
@@ -36,6 +37,8 @@ const PropertyEvacuationFormPage = () => {
 
 
                     <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
+                    <BackButton />
+
                 </Box>
                 <PropertyEvacuationForm ref={componentRef} />
             </Box>

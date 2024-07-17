@@ -24,6 +24,7 @@ import { saveAs } from 'file-saver';
 import DisableShareholderModal from './DisableShareholderModal';
 import PersonAddAlt1 from '@mui/icons-material/PersonAddAlt1';
 import EnableShareholder from './EnableShareholder';
+import BackButton from '../../components/BackButton';
 const DisabledShareholders = () => {
     const navigate = useNavigate();
 
@@ -351,6 +352,8 @@ const DisabledShareholders = () => {
                             <MenuItem value={50}>50 {t('per_page')}</MenuItem>
                         </Select>
                         <Button variant='contained' onClick={() => { getCSV() }}>{t('export_csv')}</Button>
+                        <BackButton />
+
 
                     </Box>
 

@@ -12,6 +12,7 @@ import rtlPlugin from 'stylis-plugin-rtl';
 import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
+import BackButton from '../../components/BackButton';
 const SavingsConfiguration = () => {
     const [pageNo, setPageNo] = useState(1)
     const [pageSize, setPageSize] = useState(10)
@@ -89,6 +90,8 @@ const SavingsConfiguration = () => {
                         {t('savings_percentage')}
                     </Typography>
                     <Button variant='contained' onClick={() => { handleOpen() }}>{t('add')}</Button>
+                    <BackButton />
+
                 </Box>
                 <DataGrid
                     rows={data}

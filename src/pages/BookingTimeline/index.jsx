@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Box, Button, TextField, Tooltip } from '@mui/material';
 import AddNewBooking from './AddNewBooking';
+import BackButton from '../../components/BackButton';
 
 const BookingTimeline = () => {
     const [bookings, setBookings] = useState([]);
@@ -146,6 +147,8 @@ const BookingTimeline = () => {
                 <Button onClick={handleAddClick} variant='contained'>
                     {t('add')}
                 </Button>
+                <BackButton />
+
             </Box>
             <FullCalendar
                 key={selectedDate.toISOString()}

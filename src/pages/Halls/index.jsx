@@ -8,6 +8,7 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { DataGrid } from '@mui/x-data-grid';
 import AddNewHall from './AddNewHall';
+import BackButton from '../../components/BackButton';
 const Halls = () => {
     const [pageNo, setPageNo] = useState(0)
     const [pageSize, setPageSize] = useState(10)
@@ -65,6 +66,8 @@ const Halls = () => {
                     <Button onClick={() => setOpen(true)} variant="contained">
                         {t('add')}
                     </Button>
+                    <BackButton />
+
 
                 </Box>
                 <DataGrid

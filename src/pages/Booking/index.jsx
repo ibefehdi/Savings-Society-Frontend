@@ -9,6 +9,7 @@ import createCache from '@emotion/cache';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import BackButton from '../../components/BackButton';
 
 const Booking = () => {
     const [pageNo, setPageNo] = useState(1)
@@ -78,6 +79,7 @@ const Booking = () => {
                     }}>
                         {t('bookings')}
                     </Typography>
+                    <BackButton />
 
 
                 </Box>

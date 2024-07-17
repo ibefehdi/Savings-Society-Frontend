@@ -7,6 +7,7 @@ import AddBalanceForm from '../../printablePages/AddBalanceForm';
 import { useTranslation } from 'react-i18next';
 import axiosInstance from '../../constants/axiosInstance';
 import { TextField } from '@mui/material';
+import BackButton from '../../components/BackButton';
 
 const DepositFormPage = () => {
     const componentRef = useRef();
@@ -52,6 +53,8 @@ const DepositFormPage = () => {
                     </Button>
 
                     <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
+                    <BackButton />
+
                 </Box>
                 <AddBalanceForm ref={componentRef} shareholder={shareholder} />
             </Box>

@@ -214,5 +214,8 @@
   "expense":"Expense",
   "tenants":"Tenants",
   "deposit_and_withdrawal":"Deposit and Withdrawal",
-  "move_interest_to_savings":"Move Interest to Savings"
+  "move_interest_to_savings":"Move Interest to Savings",
+  "delete_voucher":"Delete Voucher",
+  "confirm_delete":"Are you sure you want to delete this voucher?",
+  "back":"Back"
 }

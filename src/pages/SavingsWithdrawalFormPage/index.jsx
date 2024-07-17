@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import SavingsWithdrawalForm from '../../printablePages/SavingsWithdrawalForm'
 import axiosInstance from '../../constants/axiosInstance';
 import { TextField } from '@mui/material';
+import BackButton from '../../components/BackButton';
 const SavingsWithdrawalFormPage = () => {
     const componentRef = useRef();
     const { t } = useTranslation();
@@ -55,6 +56,8 @@ const SavingsWithdrawalFormPage = () => {
                     </Button>
 
                     <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
+                    <BackButton />
+
                 </Box>
                 <SavingsWithdrawalForm ref={componentRef} shareholder={shareholder} />
             </Box>

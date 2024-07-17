@@ -26,6 +26,7 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
+import BackButton from '../../components/BackButton';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -327,6 +328,8 @@ const Users = () => {
                         {t('users')}
                     </Typography>
                     <Button variant='contained' onClick={() => { setMissingFields([]); setEditMode(false); handleOpen() }}>{t('add')}</Button>
+                    <BackButton />
+
                 </Box>
                 <DataGrid
                     rows={data}

@@ -13,6 +13,7 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import NewWorkplaceModal from './NewWorkplaceModal';
 import axiosInstance from '../../constants/axiosInstance';
+import BackButton from '../../components/BackButton';
 
 const Workplaces = () => {
     const [pageNo, setPageNo] = useState(1)
@@ -75,6 +76,8 @@ const Workplaces = () => {
                         {t('Workplaces')}
                     </Typography>
                     <Button variant='contained' onClick={() => { handleOpen() }}>{t('add')}</Button>
+                    <BackButton />
+
                 </Box>
                 <DataGrid
                     rows={data}

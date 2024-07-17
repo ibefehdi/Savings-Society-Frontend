@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import DeathForm from '../../printablePages/DeathForm';
 import axiosInstance from '../../constants/axiosInstance';
 import { TextField } from '@mui/material';
+import BackButton from '../../components/BackButton';
 const DeathFormPage = () => {
     const componentRef = useRef();
     const { t } = useTranslation();
@@ -54,6 +55,8 @@ const DeathFormPage = () => {
                     </Button>
 
                     <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
+                    <BackButton />
+
                 </Box>
                 <DeathForm ref={componentRef} shareholder={shareholder} />
             </Box>

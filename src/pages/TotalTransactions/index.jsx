@@ -9,6 +9,7 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import axios from 'axios';
 import axiosInstance from '../../constants/axiosInstance';
+import BackButton from '../../components/BackButton';
 
 const ProfitReport = () => {
     const cacheRtl = createCache({
@@ -124,6 +125,8 @@ const ProfitReport = () => {
                 >
                     {t('profit_report_per_building')}
                 </Typography>
+                <BackButton />
+
                 <DataGrid
                     rows={rows}
                     columns={orderedColumns.map((column) => ({

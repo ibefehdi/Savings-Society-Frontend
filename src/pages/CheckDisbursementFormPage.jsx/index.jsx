@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { TextField } from '@mui/material';
 import axiosInstance from '../../constants/axiosInstance';
 import CheckDisbursementForm from '../../printablePages/CheckDisbursementForm';
+import BackButton from '../../components/BackButton';
 
 const CheckDisbursementFormPage = () => {
     const componentRef = useRef();
@@ -37,6 +38,8 @@ const CheckDisbursementFormPage = () => {
 
 
                     <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
+                    <BackButton />
+
                 </Box>
                 <CheckDisbursementForm ref={componentRef} />
             </Box>

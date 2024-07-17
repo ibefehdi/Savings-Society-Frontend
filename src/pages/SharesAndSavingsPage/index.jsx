@@ -7,6 +7,7 @@ import { useReactToPrint } from 'react-to-print';
 import { useTranslation } from 'react-i18next';
 import SharesAndSavingsForm from '../../printablePages/SharesAndSavingsForm';
 import axiosInstance from '../../constants/axiosInstance';
+import BackButton from '../../components/BackButton';
 
 
 const SharesAndSavingsPage = () => {
@@ -78,6 +79,8 @@ const SharesAndSavingsPage = () => {
                     <Button variant="contained" onClick={() => handlePrint()}>
                         {t('print_form')}
                     </Button>
+                    <BackButton />
+
                 </Box>
                 <SharesAndSavingsForm ref={componentRef} shareholder={shareholder} />
             </Box>

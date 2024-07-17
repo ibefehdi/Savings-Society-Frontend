@@ -22,6 +22,7 @@ import createCache from '@emotion/cache';
 import DepositFormShare from './DepositFormShare';
 import axiosInstance from '../../constants/axiosInstance';
 import WithdrawalModalShare from "../Withdrawals/WithdrawalModalShare"
+import BackButton from '../../components/BackButton';
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
 
     const handleEditClick = () => {
@@ -365,6 +366,7 @@ const SharesDepositPage = () => {
                     {/* <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
                      */}
                     <Button variant='contained' onClick={() => { getCSV() }}>{t('export_csv')}</Button>
+                    <BackButton />
 
                 </Box>
                 <DataGrid
