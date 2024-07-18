@@ -63,9 +63,9 @@ const Halls = () => {
                     }}>
                         {t('halls')}
                     </Typography>
-                    <Button onClick={() => setOpen(true)} variant="contained">
+                    {/* <Button onClick={() => setOpen(true)} variant="contained">
                         {t('add')}
-                    </Button>
+                    </Button> */}
                     <BackButton />
 
 

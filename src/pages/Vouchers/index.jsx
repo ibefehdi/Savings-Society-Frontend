@@ -230,7 +230,7 @@ const Vouchers = () => {
               </MenuItem>
             ))}
           </TextField>
-          <TextField
+          {/* <TextField
             label={t('tenant_name')}
             variant="outlined"
             value={filters.tenantName}
@@ -254,7 +254,7 @@ const Vouchers = () => {
             onChange={(e) => setFilters({ ...filters, contactNumber: e.target.value })}
             fullWidth
             autoComplete='off'
-          />
+          /> */}
         </Box>
       )}
       <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
