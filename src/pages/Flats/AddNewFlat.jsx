@@ -19,8 +19,8 @@ const style = {
     p: 4,
 };
 
-const AddNewFlat = ({ editMode, setOpen, fetchData, open }) => {
-    const { register, handleSubmit, control, reset, formState: { errors } } = useForm();
+const AddNewFlat = ({ editMode, setOpen, fetchData, open, flatData }) => {
+    const { register, handleSubmit, control, reset, setValue, formState: { errors } } = useForm();
     const [buildings, setBuildings] = useState([]);
 
     const handleClose = () => {
@@ -30,13 +30,31 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open }) => {
 
     const { i18n, t } = useTranslation();
     const isRtl = i18n.dir() === 'rtl';
-
+    useEffect(() => {
+        if (editMode && flatData) {
+            // Populate form fields with existing data
+            Object.keys(flatData).forEach(key => {
+                if (key === 'tenant') {
+                    setValue('tenantName', flatData.tenant?.name);
+                    setValue('tenantContactNumber', flatData.tenant?.contactNumber);
+                    setValue('tenantCivilId', flatData.tenant?.civilId);
+                } else if (key === 'contract') {
+                    setValue('rentAmount', flatData.contract?.rentAmount);
+                    setValue('startDate', flatData.contract?.startDate?.split('T')[0]);
+                    setValue('endDate', flatData.contract?.endDate?.split('T')[0]);
+                    setValue('collectionDay', flatData.contract?.collectionDay);
+                } else {
+                    setValue(key, flatData[key]);
+                }
+            });
+        }
+    }, [editMode, flatData, setValue]);
     const onSubmit = async (data) => {
         try {
             const formData = new FormData();
             Object.keys(data).forEach(key => {
                 if (key === 'civilIdDocument' || key === 'contractDocument') {
-                    if (data[key]) {
+                    if (data[key] && data[key] instanceof File) {
                         formData.append(key, data[key], data[key].name);
                     }
                 } else {
@@ -44,15 +62,23 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open }) => {
                 }
             });
 
-            await axiosInstance.post(`createflat`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
+            if (editMode) {
+                await axiosInstance.put(`/flat/${flatData._id}`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+            } else {
+                await axiosInstance.post(`createflat`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+            }
             handleClose();
             reset();
         } catch (error) {
-            console.error('Error posting flat data:', error);
+            console.error('Error posting/editing flat data:', error);
         }
     };
     useEffect(() => {
@@ -103,7 +129,7 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open }) => {
                     margin="normal"
                     fullWidth
                     label={t('flat_number')}
-                    {...register('flatNumber', { required: true })}
+                    {...register('flatNumber')}
                     error={!!errors.flatNumber}
                     helperText={errors.flatNumber ? 'Flat Number is required' : ''}
                 />
@@ -119,7 +145,7 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open }) => {
                     margin="normal"
                     fullWidth
                     label={t('tenant_name')}
-                    {...register('tenantName', { required: true })}
+                    {...register('tenantName')}
                     error={!!errors.tenantName}
                     helperText={errors.tenantName ? 'Tenant Name is required' : ''}
                 />
@@ -238,7 +264,7 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open }) => {
                     fullWidth
                     label={t('rent_amount')}
                     type="number"
-                    {...register('rentAmount', { required: true })}
+                    {...register('rentAmount')}
                     error={!!errors.rentAmount}
                     helperText={errors.rentAmount ? 'Rent Amount is required' : ''}
                 />

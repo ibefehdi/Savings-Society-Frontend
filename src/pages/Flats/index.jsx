@@ -41,6 +41,11 @@ const Flats = () => {
     const [openAssignTenantModal, setOpenAssignTenantModal] = useState(false);
     const [buildings, setBuildings] = useState([]);
     const [selectedBuilding, setSelectedBuilding] = useState('');
+    const [editFlatData, setEditFlatData] = useState(null);
+    const handleEdit = (flatData) => {
+        setEditFlatData(flatData);
+        setOpenModal(true);
+    };
     const { data, fetchData, count } = useFetch(`/flatsbybuildingid/${selectedBuilding}`, pageNo + 1, pageSize);
     useEffect(() => { fetchData() }, [selectedBuilding, paginationModel])
     const columns = [
@@ -100,6 +105,14 @@ const Flats = () => {
                         onClick={() => navigate(`/rental/flat/${params.row._id}`)}
                     >
                         {t('view')}
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => handleEdit(params.row)}
+                        sx={{ marginLeft: '1rem' }}
+                    >
+                        {t('edit')}
                     </Button>
                     {params.row.vacant && (
                         <Button
@@ -263,7 +276,8 @@ const Flats = () => {
                 open={openModal}
                 setOpen={setOpenModal}
                 fetchData={fetchData}
-                editMode={false}
+                editMode={!!editFlatData}
+                flatData={editFlatData}
             />
             <RemoveTenantModal
                 open={openRemoveTenantModal}

@@ -104,6 +104,7 @@ const Tenants = () => {
             flex: 1,
             valueGetter: (params) => params.row.tenantFrom || '',
         },
+
         {
             field: 'flatId.number',
             headerName: t('flat_number'),
