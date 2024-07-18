@@ -225,6 +225,7 @@
   "savingsIncrease":"فائدة المدخرات",
   "delete_voucher": "حذف القسيمة",
   "confirm_delete": "هل أنت متأكد أنك تريد حذف هذه القسيمة؟",
-  "back":"رجوع"
+  "back":"رجوع",
+  "clear_filters":"مرشحات واضحة"
 
 }

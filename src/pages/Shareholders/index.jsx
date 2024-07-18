@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import ClearIcon from '@mui/icons-material/Clear';
+
+
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -272,6 +275,17 @@ const Shareholders = () => {
     }
     fetchWorkplaces();
   }, []);
+  const clearFilters = () => {
+    setFilters({
+      fName: '',
+      lName: '',
+      status: 0,
+      workplace: '',
+      civilId: '',
+      membersCode: '',
+      area: ''
+    });
+  };
   return (
     <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
       <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0, direction: isRtl ? 'rtl' : 'ltr' }}>
@@ -381,6 +395,15 @@ const Shareholders = () => {
           </Select>
           <Box display={"flex"} gap={2}>{permissions?.shareholder?.create && (<Button variant='contained' onClick={() => { handleOpen() }}>{t('add')}</Button>)}
             <Button variant='contained' onClick={() => { getCSV() }}>{t('export_csv')}</Button>
+            {(filters.fName || filters.lName || filters.status || filters.workplace || filters.civilId || filters.membersCode || filters.area) && (
+              <Button
+                variant='outlined'
+                onClick={clearFilters}
+                startIcon={<ClearIcon />}
+              >
+                {t('clear_filters')}
+              </Button>
+            )}
             <BackButton />
 
           </Box>
