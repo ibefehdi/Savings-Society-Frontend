@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
 import Typography from '@mui/material/Typography';
 import { Table, TableBody, TableRow, TableCell, Tab, Tabs, Link } from '@mui/material';
+import BackButton from '../../components/BackButton';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -94,6 +95,8 @@ const FlatDetails = () => {
                 <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
                     <Typography variant='h2' style={{ direction: 'rtl', unicodeBidi: 'embed', textAlign: 'start' }}>
                         {flatDetails?.buildingId?.name ?? 'N/A'} - Flat {flatDetails?.flatNumber}
+                        <BackButton />
+
                     </Typography>
 
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
