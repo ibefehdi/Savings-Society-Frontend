@@ -293,6 +293,15 @@ const Shareholders = () => {
     // Update URL to reflect cleared filters but keep the same page
     navigate(`/shareholder/shareholders?page=${currentPage}&pageSize=${currentPageSize}`, { replace: true });
 
+    // Update paginationModel to ensure it keeps the current page
+    setPaginationModel({
+      page: currentPage,
+      pageSize: currentPageSize
+    });
+
+    // Update pageNo state
+    setPageNo(currentPage);
+
     // Fetch data with cleared filters but same page
     fetchData();
   };

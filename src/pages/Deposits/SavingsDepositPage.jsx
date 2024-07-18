@@ -97,10 +97,10 @@ const SavingsDepositPage = () => {
     const [filters, setFilters] = useState({
         fName: '',
         lName: '',
-        status: '',
+        status: '0',
         membershipStatus: '',
         civilId: '',
-        membersCode: ''
+        membersCode: '0'
     });
     const { data, fetchData, count } = useFetch('/shareholders', pageNo + 1, pageSize, filters);
 
@@ -370,7 +370,7 @@ const SavingsDepositPage = () => {
                     autoComplete='off'
 
                 />
-                <TextField
+                {/* <TextField
                     label={t('status')}
                     variant="outlined"
                     select
@@ -379,13 +379,13 @@ const SavingsDepositPage = () => {
                     fullWidth
                     autoComplete='off'
 
-                >
-                    {/* Replace these with your actual status options */}
-                    <MenuItem value={0}>{t('active')}</MenuItem>
-                    <MenuItem value={1}>{t('inactive')}</MenuItem>
-                    <MenuItem value={2}>{t('death')}</MenuItem>
-                </TextField>
-                <TextField
+                > */}
+                {/* Replace these with your actual status options */}
+                {/* <MenuItem value={0}>{t('active')}</MenuItem> */}
+                {/* <MenuItem value={1}>{t('inactive')}</MenuItem> */}
+                {/* <MenuItem value={2}>{t('death')}</MenuItem> */}
+                {/* </TextField> */}
+                {/* <TextField
                     label={t('membership_status')}
                     variant="outlined"
                     select
@@ -396,7 +396,7 @@ const SavingsDepositPage = () => {
                 >
                     <MenuItem value={0}>{t('active')}</MenuItem>
                     <MenuItem value={1}>{t('inactive')}</MenuItem>
-                </TextField>
+                </TextField> */}
             </Box>)}
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
                 <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
