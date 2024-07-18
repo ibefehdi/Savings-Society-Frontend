@@ -285,6 +285,16 @@ const Shareholders = () => {
       membersCode: '',
       area: ''
     });
+
+    // Maintain the current page and page size
+    const currentPage = paginationModel.page;
+    const currentPageSize = paginationModel.pageSize;
+
+    // Update URL to reflect cleared filters but keep the same page
+    navigate(`/shareholder/shareholders?page=${currentPage}&pageSize=${currentPageSize}`, { replace: true });
+
+    // Fetch data with cleared filters but same page
+    fetchData();
   };
   return (
     <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
