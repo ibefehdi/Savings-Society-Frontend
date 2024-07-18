@@ -98,9 +98,9 @@ const SavingsDepositPage = () => {
         fName: '',
         lName: '',
         status: '0',
-        membershipStatus: '',
+        membershipStatus: '0',
         civilId: '',
-        membersCode: '0'
+        membersCode: ''
     });
     const { data, fetchData, count } = useFetch('/shareholders', pageNo + 1, pageSize, filters);
 
