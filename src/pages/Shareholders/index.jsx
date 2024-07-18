@@ -252,7 +252,7 @@ const Shareholders = () => {
   }, [location.search]);
   useEffect(() => {
     fetchData();
-  }, [pageNo, pageSize]);
+  }, [pageNo, pageSize, filters]);
 
   const toggleFilters = () => {
     setShowFilters(!showFilters);
@@ -383,7 +383,7 @@ const Shareholders = () => {
             <Button variant='contained' onClick={() => { getCSV() }}>{t('export_csv')}</Button>
             <BackButton />
 
-            </Box>
+          </Box>
 
 
         </Box>
