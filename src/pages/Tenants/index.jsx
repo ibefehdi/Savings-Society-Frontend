@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
@@ -24,6 +25,8 @@ const Tenants = () => {
     const [pageSize, setPageSize] = useState(10)
     const [openModal, setOpenModal] = useState(false);
     const { t, i18n } = useTranslation();
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [deletingTenant, setDeletingTenant] = useState(null);
     const isRtl = i18n.dir() === 'rtl';
     const cacheRtl = createCache({ key: 'muirtl', stylisPlugins: [prefixer, rtlPlugin] });
     const cacheLtr = createCache({ key: 'muilt' });
@@ -63,7 +66,7 @@ const Tenants = () => {
             console.error("Error updating tenant:", error);
         }
     };
-    const { data, fetchData, count } = useFetch(`/tenants`, pageNo + 1, pageSize);
+    const { data, fetchData, count } = useFetch(`/active_tenants`, pageNo + 1, pageSize);
     useEffect(() => {
         fetchData();
     }, [pageNo, pageSize]);
@@ -128,17 +131,47 @@ const Tenants = () => {
             headerName: t('actions'),
             flex: 1,
             renderCell: (params) => (
-                <IconButton onClick={() => handleEditClick(params.row)}>
-                    <EditIcon />
-                </IconButton>
+                <>
+                    <IconButton onClick={() => handleEditClick(params.row)}>
+                        <EditIcon />
+                    </IconButton>
+                    <IconButton onClick={() => handleDeleteClick(params.row)}>
+                        <DeleteIcon />
+                    </IconButton>
+                </>
             ),
         },
 
     ];
+    const handleDeleteClick = (tenant) => {
+        setDeletingTenant(tenant);
+        setDeleteModalOpen(true);
+    };
+    const handleDeleteSubmit = async () => {
+        try {
+            await axiosInstance.delete(`/deleteTenant/${deletingTenant._id}`);
+            setDeleteModalOpen(false);
+            fetchData(); // Refresh the data
+        } catch (error) {
+            console.error("Error deleting tenant:", error);
+        }
+    };
     const handleFileChange = (e) => {
         setCivilIdFile(e.target.files[0]);
     };
     const orderedColumns = isRtl ? [...columns].reverse() : columns;
+    const DeleteTenantModal = () => (
+        <Dialog open={deleteModalOpen} onClose={() => setDeleteModalOpen(false)}>
+            <DialogTitle>{t('delete_tenant')}</DialogTitle>
+            <DialogContent>
+                <Typography>{t('are_you_sure_delete_tenant')}</Typography>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={() => setDeleteModalOpen(false)}>{t('cancel')}</Button>
+                <Button onClick={handleDeleteSubmit} variant="contained" color="error">{t('delete')}</Button>
+            </DialogActions>
+        </Dialog>
+    );
     const EditTenantModal = () => (
         <Dialog open={editModalOpen} onClose={() => setEditModalOpen(false)}>
             <DialogTitle>{t('edit_tenant')}</DialogTitle>
@@ -209,7 +242,7 @@ const Tenants = () => {
 
                 <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
                     <Typography variant="h3" component="h2" sx={{ fontStyle: 'normal', fontWeight: 600, lineHeight: '1.875rem', flexGrow: 1, marginLeft: '1.2rem' }}>
-                        {t('hall_transactions')}
+                        {t('tenants')}
                     </Typography>
 
                     <Button onClick={() => setOpen(true)} variant="contained">
@@ -274,6 +307,7 @@ const Tenants = () => {
 
             </Box>
             <EditTenantModal />
+            <DeleteTenantModal />
 
         </CacheProvider >
     )

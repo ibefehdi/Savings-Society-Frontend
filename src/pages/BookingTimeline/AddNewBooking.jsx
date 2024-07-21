@@ -20,7 +20,7 @@ const style = {
 };
 
 const AddNewBooking = ({ editMode, setOpen, fetchData, open, hallId, booking, onDelete }) => {
-    const { register, handleSubmit, control, reset, formState: { errors } } = useForm();
+    const { register, handleSubmit, control, reset, formState: { errors }, setValue } = useForm();
 
     useEffect(() => {
         if (editMode && booking) {
@@ -41,6 +41,8 @@ const AddNewBooking = ({ editMode, setOpen, fetchData, open, hallId, booking, on
 
     const onSubmit = async (data) => {
         try {
+            setValue('startTime', '00:00');
+            setValue('endTime', '23:59');
             const formData = new FormData();
             Object.keys(data).forEach(key => {
                 if (key === 'civilIdDocument') {
@@ -104,30 +106,8 @@ const AddNewBooking = ({ editMode, setOpen, fetchData, open, hallId, booking, on
                     error={!!errors.date}
                     helperText={errors.date ? 'Date is required' : ''}
                 />
-                <TextField
-                    margin="normal"
-                    fullWidth
-                    label={t('start_time')}
-                    type="time"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    {...register('startTime', { required: editMode ? false : true })}
-                    error={!!errors.startTime}
-                    helperText={errors.startTime ? 'Start Time is required' : ''}
-                />
-                <TextField
-                    margin="normal"
-                    fullWidth
-                    label={t('end_time')}
-                    type="time"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    {...register('endTime', { required: editMode ? false : true })}
-                    error={!!errors.endTime}
-                    helperText={errors.endTime ? 'End Time is required' : ''}
-                />
+                <input type="hidden" {...register('startTime')} />
+                <input type="hidden" {...register('endTime')} />
                 <TextField
                     margin="normal"
                     fullWidth

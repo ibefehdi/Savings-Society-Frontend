@@ -107,7 +107,7 @@ const Vouchers = () => {
       flex: 1,
       valueGetter: (params) => {
         if (!params.value) return '';
-        return moment(params.value).format('DD-MM-YYYY');
+        return moment(params.value).format('MMMM');
       }
     },
     {

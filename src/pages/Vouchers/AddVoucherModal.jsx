@@ -74,6 +74,7 @@ const AddVoucherModal = ({ open, onClose, fetchData, editingVoucher }) => {
                         const contract = tenants[0].contract;
                         setValue('tenantId', tenant._id, { shouldValidate: true });
                         setValue('amount', contract.rentAmount, { shouldValidate: true });
+
                     }
                 } else {
                     setTenants([]);
@@ -178,7 +179,20 @@ const AddVoucherModal = ({ open, onClose, fetchData, editingVoucher }) => {
                         control={control}
                         defaultValue=""
                         render={({ field }) => (
-                            <TextField {...field} label="Pending Date" type="date" fullWidth margin="normal" InputLabelProps={{ shrink: true }} />
+                            <TextField
+                                {...field}
+                                label="Pending Month"
+                                type="month"
+                                fullWidth
+                                margin="normal"
+                                InputLabelProps={{ shrink: true }}
+                                value={field.value ? field.value.substring(0, 7) : ''} // Only use YYYY-MM part
+                                onChange={(e) => {
+                                    const selectedMonth = e.target.value; // Format: "YYYY-MM"
+                                    const formattedDate = `${selectedMonth}-05`; // Set to 5th of the selected month
+                                    field.onChange(formattedDate);
+                                }}
+                            />
                         )}
                     />
                     <Controller

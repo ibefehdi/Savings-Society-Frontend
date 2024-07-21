@@ -207,11 +207,13 @@ const Flats = () => {
                         <MenuItem value="" disabled>
                             ----{t('select_building')}----
                         </MenuItem>
-                        {buildings.map((building) => (
-                            <MenuItem key={building._id} value={building._id}>
-                                {building.name}
-                            </MenuItem>
-                        ))}
+                        {buildings
+                            .filter(building => building.type === "Building")
+                            .map((building) => (
+                                <MenuItem key={building._id} value={building._id}>
+                                    {building.name}
+                                </MenuItem>
+                            ))}
                     </Select>
                     <Button
                         variant='contained'
