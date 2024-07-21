@@ -68,7 +68,7 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
         if (shareholderDetails) {
             const currentAmount = Number(shareholderDetails.savings) || 0;
             const additionAmount = parseFloat(newAmount) || 0;
-            setTotalAmount((currentAmount + additionAmount).toFixed(3));
+            setTotalAmount((currentAmount + additionAmount));
         }
     }, [shareholderDetails, newAmount]);
 

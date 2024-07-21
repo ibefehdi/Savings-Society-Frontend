@@ -99,21 +99,21 @@ const PrintDataGrid = React.forwardRef(({ data, filters, grandTotal }, ref) => {
                             <TableRow key={row?._id}>
                                 <StyledTd>{row?.membersCode}</StyledTd>
                                 <StyledTd>{row?.fullName}</StyledTd>
-                                <StyledTd>{row?.shareDetails?.totalAmount?.toFixed(3)}</StyledTd>
-                                <StyledTd>{row?.savingsCurrentAmount ? row.savingsCurrentAmount?.toFixed(3) : 'N/A'}</StyledTd>
-                                <StyledTd>{row?.totalShareIncrease ? row.totalShareIncrease?.toFixed(3) : 'N/A'}</StyledTd>
-                                <StyledTd>{row?.savingsIncrease ? row.savingsIncrease?.toFixed(3) : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.shareDetails?.totalAmount}</StyledTd>
+                                <StyledTd>{row?.savingsCurrentAmount ? row.savingsCurrentAmount : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.totalShareIncrease ? row.totalShareIncrease : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.savingsIncrease ? row.savingsIncrease : 'N/A'}</StyledTd>
                                 <StyledTd>
                                     {(() => {
                                         const shareIncrease = row?.totalShareIncrease || 0;
                                         const savingsIncrease = row?.savingsIncrease || 0;
                                         const total = shareIncrease + savingsIncrease;
-                                        return total !== 0 ? total.toFixed(3) : 'N/A';
+                                        return total !== 0 ? total : 'N/A';
                                     })()}
                                 </StyledTd>
-                                <StyledTd>{row?.amanatAmount ? row.amanatAmount?.toFixed(3) : 'N/A'}</StyledTd>
-                                <StyledTd>{row?.transferSavings ? row.transferSavings?.toFixed(3) : 'N/A'}</StyledTd>
-                                <StyledTd>{row?.savingsCurrentAmount ? row.savingsCurrentAmount.toFixed(3) : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.amanatAmount ? row.amanatAmount : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.transferSavings ? row.transferSavings : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.savingsCurrentAmount ? row.savingsCurrentAmount : 'N/A'}</StyledTd>
                             </TableRow>
                         ))}
                     </tbody>

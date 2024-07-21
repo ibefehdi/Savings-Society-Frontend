@@ -141,7 +141,7 @@ const WithdrawalModalShare = ({ id, fetchData, setOpen, open }) => {
                     margin="normal"
                     fullWidth
                     label={t('withdrawal_amount')}
-                    value={(parseFloat(amountOfShares) * 2).toFixed(3)}
+                    value={(parseFloat(amountOfShares) * 2)}
                     disabled
                 />
 

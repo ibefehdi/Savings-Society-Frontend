@@ -66,8 +66,8 @@ const SharesAndSavingsForm = React.forwardRef((props, ref) => {
 
                 <p>
                     2 - المدخرات بمبلغ :{' '}
-                    {shareholder?.savings?.currentAmount ? (
-                        <span>{shareholder?.savings?.currentAmount}</span>
+                    {shareholder?.savings?.totalAmount ? (
+                        <span>{shareholder?.savings?.totalAmount}</span>
                     ) : (
                         <span style={{ borderBottom: "1px solid black", paddingRight: '50px' }}>&nbsp;</span>
                     )}
@@ -134,7 +134,7 @@ const SharesAndSavingsForm = React.forwardRef((props, ref) => {
                                 <td style={{ padding: '2px', border: '1px solid #000' }}>رصيد المدخرات في 31/12/2024</td>
                                 <td style={{ padding: '2px', border: '1px solid #000' }}></td>
                                 <td style={{ padding: '2px', border: '1px solid #000' }}>
-                                    {shareholder?.savings?.currentAmount ?? ''}
+                                    {shareholder?.savings?.totalAmount ?? ''}
                                 </td>
                                 <td style={{ padding: '2px', border: '1px solid #000' }}></td>
                             </tr>

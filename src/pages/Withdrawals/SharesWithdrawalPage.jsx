@@ -295,7 +295,7 @@ const SharesWithdrawalPage = () => {
                     autoComplete='off'
 
                 />
-                <TextField
+                {/* <TextField
                     label={t('status')}
                     variant="outlined"
                     select
@@ -305,12 +305,11 @@ const SharesWithdrawalPage = () => {
                     autoComplete='off'
 
                 >
-                    {/* Replace these with your actual status options */}
                     <MenuItem value={0}>{t('active')}</MenuItem>
                     <MenuItem value={1}>{t('inactive')}</MenuItem>
                     <MenuItem value={2}>{t('death')}</MenuItem>
-                </TextField>
-                <TextField
+                </TextField> */}
+                {/* <TextField
                     label={t('membership_status')}
                     variant="outlined"
                     select
@@ -321,7 +320,7 @@ const SharesWithdrawalPage = () => {
                 >
                     <MenuItem value={0}>{t('active')}</MenuItem>
                     <MenuItem value={1}>{t('inactive')}</MenuItem>
-                </TextField>
+                </TextField> */}
             </Box>)}
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
                 <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>

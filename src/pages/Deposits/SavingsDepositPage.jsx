@@ -198,7 +198,7 @@ const SavingsDepositPage = () => {
             headerName: t('savings'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.savings && params.row.savings?.totalAmount?.toFixed(3)
+                return params.row.savings && params.row.savings?.totalAmount
             }
         },
         {
@@ -206,7 +206,7 @@ const SavingsDepositPage = () => {
             headerName: t('savingsIncrease'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.savings && params.row.savings?.savingsIncrease?.toFixed(3)
+                return params.row.savings && params.row.savings?.savingsIncrease
             }
         },
         // {
@@ -214,7 +214,7 @@ const SavingsDepositPage = () => {
         //     headerName: t('initial_investment'),
         //     flex: 1,
         //     renderCell: (params) => {
-        //         return params.row.savings && params.row.savings?.initialAmount?.toFixed(3)
+        //         return params.row.savings && params.row.savings?.initialAmount? 
         //     }
         // },
         // {
@@ -222,7 +222,7 @@ const SavingsDepositPage = () => {
         //     headerName: t('current_amount'),
         //     flex: 1,
         //     renderCell: (params) => {
-        //         return params.row.savings && params.row.savings?.currentAmount?.toFixed(3)
+        //         return params.row.savings && params.row.savings?.currentAmount? 
         //     }
         // },
         // {

@@ -70,8 +70,8 @@ const SharesDepositPage = () => {
     const [filters, setFilters] = useState({
         fName: '',
         lName: '',
-        status: '',
-        membershipStatus: '',
+        status: '0',
+        membershipStatus: '0',
         civilId: '',
         membersCode: ''
     });

@@ -66,8 +66,8 @@ const SavingsWithdrawalPage = () => {
     const [filters, setFilters] = useState({
         fName: '',
         lName: '',
-        status: '',
-        membershipStatus: '',
+        status: '0',
+        membershipStatus: '0',
         civilId: '',
         membersCode: ''
     });
@@ -158,15 +158,15 @@ const SavingsWithdrawalPage = () => {
             headerName: t('savings'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.savings && params.row.savings?.totalAmount?.toFixed(3)
+                return params.row.savings && params.row.savings?.totalAmount 
             }
         },
         {
             field: 'savingsIncrease',
-            headerName: t('savings_increase'),
+            headerName: t('savingsIncrease'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.savings && params.row.savings?.savingsIncrease?.toFixed(3)
+                return params.row.savings && params.row.savings?.savingsIncrease
             }
         },
         // {
@@ -174,7 +174,7 @@ const SavingsWithdrawalPage = () => {
         //     headerName: t('initial_investment'),
         //     flex: 1,
         //     renderCell: (params) => {
-        //         return params.row.savings && params.row.savings.initialAmount.toFixed(3)
+        //         return params.row.savings && params.row.savings.initialAmount 
         //     }
         // },
         // {
@@ -182,7 +182,7 @@ const SavingsWithdrawalPage = () => {
         //     headerName: t('current_amount'),
         //     flex: 1,
         //     renderCell: (params) => {
-        //         return params.row.savings && params.row.savings.currentAmount.toFixed(3)
+        //         return params.row.savings && params.row.savings.currentAmount 
         //     }
         // },
         // {
@@ -198,22 +198,22 @@ const SavingsWithdrawalPage = () => {
         //         }
         //     }
         // },
-        {
-            field: 'status',
-            headerName: t('status'),
-            flex: 1,
-            renderCell: (params) => {
-                if (params.value === 0) {
-                    return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
-                }
-                else if (params.value === 1) {
-                    return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
-                }
-                else if (params.value === 2) {
-                    return <Typography sx={{ color: '#DA3E33', fontWeight: 600 }}>{t('death')}</Typography>
-                }
-            }
-        },
+        // {
+        //     field: 'status',
+        //     headerName: t('status'),
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         if (params.value === 0) {
+        //             return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
+        //         }
+        //         else if (params.value === 1) {
+        //             return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
+        //         }
+        //         else if (params.value === 2) {
+        //             return <Typography sx={{ color: '#DA3E33', fontWeight: 600 }}>{t('death')}</Typography>
+        //         }
+        //     }
+        // },
         ...(admin ? [
             {
                 field: 'withdrawal',

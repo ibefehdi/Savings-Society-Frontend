@@ -90,7 +90,10 @@ const MoveInterestToSavings = ({ id, fetchData, setOpen, open, savings }) => {
         const additionAmount = parseFloat(amountToWithdraw) || 0;
         setTotalAmount(currentAmount - additionAmount);
     }, [shareholderDetails, amountToWithdraw]);
-
+    const handleMaxClick = () => {
+        const maxAmount = savings ? shareholderDetails?.savingsIncrease : shareholderDetails?.amount;
+        setValue('amountToWithdraw', maxAmount.toString());
+    };
     useEffect(() => { console.log(shareholderDetails?.savings) }, [shareholderDetails, id])
     return (
         <Modal
@@ -157,16 +160,25 @@ const MoveInterestToSavings = ({ id, fetchData, setOpen, open, savings }) => {
                         disabled={true}
                     />
                 )}
-                <TextField
-                    id="amountToWithdraw"
-                    margin="normal"
-                    fullWidth
-                    label={t('withdrawal_amount')}
-                    {...register('amountToWithdraw', { required: true })}
-                    error={!!errors.amountToWithdraw}
-                    helperText={errors.amountToWithdraw ? t('required_field') : ''}
-                    disabled={!savings}
-                />
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                    <TextField
+                        id="amountToWithdraw"
+                        margin="normal"
+                        fullWidth
+                        label={t('withdrawal_amount')}
+                        {...register('amountToWithdraw', { required: true })}
+                        error={!!errors.amountToWithdraw}
+                        helperText={errors.amountToWithdraw ? t('required_field') : ''}
+                        disabled={!savings}
+                    />
+                    <Button
+                        variant="outlined"
+                        onClick={handleMaxClick}
+                        sx={{ height: '56px', marginTop: '16px' }}
+                    >
+                        {t('max')}
+                    </Button>
+                </Box>
 
                 {savings &&
                     (<TextField

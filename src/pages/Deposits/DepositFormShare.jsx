@@ -70,7 +70,7 @@ const DepositFormShare = ({ id, fetchData, setOpen, open }) => {
             const currentShareAmount = Number(shareholderDetails.shareValue) || 0;
             const additionShareAmount = parseFloat(newShareAmount) || 0;
             const additionAmount = additionShareAmount * 2;
-            setTotalAmount((currentAmount + additionAmount).toFixed(3));
+            setTotalAmount((currentAmount + additionAmount));
             setTotalShareAmount(currentShareAmount + additionShareAmount);
         }
     }, [shareholderDetails, newShareAmount]);
@@ -152,7 +152,7 @@ const DepositFormShare = ({ id, fetchData, setOpen, open }) => {
                     margin="normal"
                     fullWidth
                     label={t('new_amount')}
-                    value={newShareAmount ? (parseFloat(newShareAmount) * 2).toFixed(3) : ''}
+                    value={newShareAmount ? (parseFloat(newShareAmount) * 2) : ''}
                     disabled
                 />
 

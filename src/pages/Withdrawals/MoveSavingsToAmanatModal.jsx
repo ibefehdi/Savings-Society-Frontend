@@ -27,7 +27,7 @@ const MoveSavingsToAmanatModal = ({ id, fetchData, setOpen, open }) => {
     const isRtl = i18n.dir() === 'rtl';
     const [selectedDate, setSelectedDate] = useState(new Date());
 
-    const { register, handleSubmit, watch, reset, formState: { errors } } = useForm();
+    const { register, handleSubmit, watch, reset, setValue, formState: { errors } } = useForm();
 
     useEffect(() => {
         const fetchShareholderDetails = async () => {
@@ -67,7 +67,10 @@ const MoveSavingsToAmanatModal = ({ id, fetchData, setOpen, open }) => {
     };
 
     const amountToMove = watch('amountToMove');
-
+    const handleMaxClick = () => {
+        const maxAmount = shareholderDetails?.savingsIncrease || 0;
+        setValue('amountToMove', maxAmount.toString());
+    };
     return (
         <Modal
             open={open}
@@ -91,20 +94,29 @@ const MoveSavingsToAmanatModal = ({ id, fetchData, setOpen, open }) => {
                     label={t('availableBalance')}
                     disabled={true}
                 />
-                <TextField
-                    id="amountToMove"
-                    margin="normal"
-                    fullWidth
-                    label={t('amount_to_move')}
-                    {...register('amountToMove', {
-                        required: true,
-                        max: shareholderDetails?.savingsIncrease || 0
-                    })}
-                    error={!!errors.amountToMove}
-                    helperText={errors.amountToMove ?
-                        errors.amountToMove.type === 'required' ? t('required_field') : t('exceeds_available_balance')
-                        : ''}
-                />
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                    <TextField
+                        id="amountToMove"
+                        margin="normal"
+                        fullWidth
+                        label={t('amount_to_move')}
+                        {...register('amountToMove', {
+                            required: true,
+                            max: shareholderDetails?.savingsIncrease || 0
+                        })}
+                        error={!!errors.amountToMove}
+                        helperText={errors.amountToMove ?
+                            errors.amountToMove.type === 'required' ? t('required_field') : t('exceeds_available_balance')
+                            : ''}
+                    />
+                    <Button
+                        variant="outlined"
+                        onClick={handleMaxClick}
+                        sx={{ height: '56px', marginTop: '16px' }}
+                    >
+                        {t('max')}
+                    </Button>
+                </Box>
                 <TextField
                     margin="normal"
                     fullWidth

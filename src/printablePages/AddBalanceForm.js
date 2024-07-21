@@ -31,8 +31,8 @@ const AddBalanceForm = React.forwardRef((props, ref) => {
                 1 - الأسهم بعدد 
                 &nbsp;{shareholder?.share?.[0]?.amount ? shareholder.share[0].amount : '__________'}&nbsp;
                  سهم بمبلغ: &nbsp; {shareholder?.share?.[0]?.currentAmount ? shareholder.share[0].currentAmount : '__________'} &nbsp; دينار <br /><br />
-                2 - المدخرات بمبلغ: {shareholder?.savings?.currentAmount ? shareholder.savings.currentAmount : '__________'} دينار <br /><br />
-                الإجمالي: {shareholder?.share?.[0]?.currentAmount && shareholder?.savings?.currentAmount ? shareholder.share[0].currentAmount + shareholder.savings.currentAmount : '__________'} دينار <br /><br /><br />
+                2 - المدخرات بمبلغ: {shareholder?.savings?.totalAmount ? shareholder.savings.totalAmount : '__________'} دينار <br /><br />
+                الإجمالي: {shareholder?.share?.[0]?.currentAmount && shareholder?.savings?.currentAmount ? shareholder.share[0].currentAmount + shareholder.savings.totalAmount : '__________'} دينار <br /><br /><br />
                 لذا يرجى الموافقة على قبول المبلغ الموضح أعلاه وتزويدي بإيصال بالاستلام.<br />
                 وتفضلوا بقبول خالص التحية،،،
             </p>

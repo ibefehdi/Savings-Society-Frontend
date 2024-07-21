@@ -160,20 +160,20 @@ const DisabledShareholders = () => {
             headerName: t('savings'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.savings && params.row.savings?.totalAmount?.toFixed(3)
+                return params.row.savings && params.row.savings?.totalAmount 
             }
         },
         // {
         //     field: 'initialInvestment',
         //     headerName: t('initial_investment'),
         //     flex: 1,
-        //     renderCell: (params) => params?.row.savings?.initialAmount?.toFixed(3) || "N/A",
+        //     renderCell: (params) => params?.row.savings?.initialAmount?  || "N/A",
         // },
         // {
         //     field: 'currentAmount',
         //     headerName: t('current_amount'),
         //     flex: 1,
-        //     renderCell: (params) => params?.row?.savings?.currentAmount?.toFixed(3) || "N/A",
+        //     renderCell: (params) => params?.row?.savings?.currentAmount?  || "N/A",
         // },
         {
             field: 'status',

@@ -31,10 +31,10 @@ const SavingsWithdrawalForm = React.forwardRef((props, ref) => {
                 {/* Main Content */}
                 <p>
                     يرجى التفضل بالموافقة على صرف مبلغ{' '}
-                    {shareholder?.savings?.currentAmount ? (
+                    {shareholder?.savings?.totalAmount ? (
                         <>
-                            <span>{shareholder.savings.currentAmount.toFixed(3)}</span>/<span>{shareholder.savings.currentAmount.toFixed(3)}</span> د.ك ( فقط
-                            <span>{shareholder.savings.currentAmount.toFixed(3)}</span>)
+                            <span>{shareholder.savings.totalAmount}</span>/<span>{shareholder.savings.totalAmount}</span> د.ك ( فقط
+                            <span>{shareholder.savings.totalAmount}</span>)
                         </>
                     ) : (
                         <>

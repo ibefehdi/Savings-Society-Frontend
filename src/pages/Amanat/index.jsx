@@ -38,8 +38,8 @@ const Amanat = () => {
   const [filters, setFilters] = useState({
     fName: '',
     lName: '',
-    status: '',
-    membershipStatus: '',
+    status: '0',
+    membershipStatus: '0',
     civilId: '',
     membersCode: ''
   });
@@ -121,10 +121,18 @@ const Amanat = () => {
       flex: 1,
       renderCell: (params) => {
         const amount = params.row.savings?.amanat?.amount;
-        return amount !== undefined ? amount.toFixed(3) : null;
+        return amount !== undefined ? amount : null;
       },
       hide: (params) => {
         return params.row.savings?.amanat?.amount === undefined;
+      }
+    },
+    {
+      field: 'savingsIncrease',
+      headerName: t('savingsIncrease'),
+      flex: 1,
+      renderCell: (params) => {
+        return params.row.savings && params.row.savings?.savingsIncrease
       }
     },
     // {
@@ -140,22 +148,22 @@ const Amanat = () => {
     //     }
     //   }
     // },
-    {
-      field: 'status',
-      headerName: t('status'),
-      flex: 1,
-      renderCell: (params) => {
-        if (params.value === 0) {
-          return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
-        }
-        else if (params.value === 1) {
-          return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
-        }
-        else if (params.value === 2) {
-          return <Typography sx={{ color: '#DA3E33', fontWeight: 600 }}>{t('death')}</Typography>
-        }
-      }
-    },
+    // {
+    //   field: 'status',
+    //   headerName: t('status'),
+    //   flex: 1,
+    //   renderCell: (params) => {
+    //     if (params.value === 0) {
+    //       return <Typography sx={{ color: '#10A760', fontWeight: 600 }}>{t('active')}</Typography>
+    //     }
+    //     else if (params.value === 1) {
+    //       return <Typography sx={{ color: '#E19133', fontWeight: 600 }}>{t('inactive')}</Typography>
+    //     }
+    //     else if (params.value === 2) {
+    //       return <Typography sx={{ color: '#DA3E33', fontWeight: 600 }}>{t('death')}</Typography>
+    //     }
+    //   }
+    // },
     ...(admin ? [{
       field: 'withdrawal',
       headerName: t('withdrawal'),
@@ -266,7 +274,7 @@ const Amanat = () => {
           autoComplete='off'
 
         />
-        <TextField
+        {/* <TextField
           label={t('status')}
           variant="outlined"
           select
@@ -291,7 +299,7 @@ const Amanat = () => {
         >
           <MenuItem value={0}>{t('active')}</MenuItem>
           <MenuItem value={1}>{t('inactive')}</MenuItem>
-        </TextField>
+        </TextField> */}
       </Box>)}
       <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
         <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>

@@ -47,7 +47,7 @@ const FinancialReportingAmanat = () => {
             flex: 1,
             renderCell: (params) =>
                 params.row.amanatAmount
-                    ? params.row.amanatAmount.toFixed(3)
+                    ? params.row.amanatAmount
                     : 'N/A',
         },
 
@@ -56,7 +56,7 @@ const FinancialReportingAmanat = () => {
             headerName: t('total'),
             flex: 1,
             renderCell: (params) =>
-                params.row.total ? params.row.total.toFixed(3) : 'N/A',
+                params.row.total ? params.row.total : 'N/A',
         },
     ];
 

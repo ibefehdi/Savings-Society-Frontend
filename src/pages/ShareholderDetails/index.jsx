@@ -195,9 +195,9 @@ const ShareholderDetails = () => {
 
                                 <TableRow >
                                     <TableCell>{t('current_amount')}</TableCell>
-                                    <TableCell>{shareholderDetails?.savings?.totalAmount ? shareholderDetails?.savings?.totalAmount?.toFixed(3) : "N/A"}</TableCell>
+                                    <TableCell>{shareholderDetails?.savings?.totalAmount ? shareholderDetails?.savings?.totalAmount : "N/A"}</TableCell>
                                     <TableCell>{t('savings_increase')}</TableCell>
-                                    <TableCell>{shareholderDetails?.savings?.savingsIncrease ? shareholderDetails?.savings?.savingsIncrease?.toFixed(3) : "N/A"}</TableCell>
+                                    <TableCell>{shareholderDetails?.savings?.savingsIncrease ? shareholderDetails?.savings?.savingsIncrease : "N/A"}</TableCell>
                                 </TableRow>
 
                                 <TableRow>
@@ -226,14 +226,14 @@ const ShareholderDetails = () => {
 
                                 <TableRow >
                                     <TableCell>{t('amount_of_shares')}</TableCell>
-                                    <TableCell>{shareholderDetails?.share?.totalShareAmount ? shareholderDetails?.share?.totalShareAmount?.toFixed(3) : "N/A"}</TableCell>
+                                    <TableCell>{shareholderDetails?.share?.totalShareAmount ? shareholderDetails?.share?.totalShareAmount : "N/A"}</TableCell>
                                     <TableCell>{t('current_amount')}</TableCell>
-                                    <TableCell>{shareholderDetails?.share?.totalAmount ? shareholderDetails?.share?.totalAmount?.toFixed(3) : "N/A"}</TableCell>
+                                    <TableCell>{shareholderDetails?.share?.totalAmount ? shareholderDetails?.share?.totalAmount : "N/A"}</TableCell>
                                 </TableRow>
 
                                 <TableRow>
                                     <TableCell variant="head">{t('amanat')}</TableCell>
-                                    <TableCell>{shareholderDetails?.savings?.amanat ? shareholderDetails?.savings?.amanat?.amount?.toFixed(3) : "N/A"}</TableCell>
+                                    <TableCell>{shareholderDetails?.savings?.amanat ? shareholderDetails?.savings?.amanat?.amount : "N/A"}</TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>

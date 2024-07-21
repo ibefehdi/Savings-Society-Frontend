@@ -61,7 +61,7 @@ const FinancialReporting = () => {
         //     flex: 1,
         //     renderCell: (params) => {
         //         return params.row.savingsDetails?.initialAmount
-        //             ? params.row.savingsDetails.initialAmount.toFixed(3)
+        //             ? params.row.savingsDetails.initialAmount 
         //             : 'N/A';
         //     },
         // },
@@ -71,7 +71,7 @@ const FinancialReporting = () => {
             flex: 1,
             renderCell: (params) => {
                 return params.row.savingsCurrentAmount
-                    ? params.row.savingsCurrentAmount.toFixed(3)
+                    ? params.row.savingsCurrentAmount
                     : 'N/A';
             },
         },
@@ -81,7 +81,7 @@ const FinancialReporting = () => {
             flex: 1,
             renderCell: (params) => {
                 return params.row.shareIncrease
-                    ? params.row.shareIncrease.toFixed(3)
+                    ? params.row.shareIncrease
                     : 'N/A';
             },
         },
@@ -99,7 +99,7 @@ const FinancialReporting = () => {
             flex: 1,
             renderCell: (params) => {
                 return params.row.savingsIncrease
-                    ? params.row.savingsIncrease.toFixed(3)
+                    ? params.row.savingsIncrease
                     : 'N/A';
             },
         },
@@ -111,7 +111,7 @@ const FinancialReporting = () => {
                 const shareIncrease = params.row.totalShareIncrease || 0;
                 const savingsIncrease = params.row.savingsIncrease || 0;
                 const total = shareIncrease + savingsIncrease;
-                return total !== 0 ? total.toFixed(3) : 'N/A';
+                return total !== 0 ? total : 'N/A';
             },
         },
         // {
@@ -120,7 +120,7 @@ const FinancialReporting = () => {
         //     flex: 1,
         //     renderCell: (params) => {
         //         return params.row.shareDetails?.totalAmount
-        //             .toFixed(3);
+        //              ;
         //     },
         // },
         {
@@ -129,7 +129,7 @@ const FinancialReporting = () => {
             flex: 1,
             renderCell: (params) =>
                 params.row.amanatAmount
-                    ? params.row.amanatAmount.toFixed(3)
+                    ? params.row.amanatAmount
                     : 'N/A',
         },
         {
@@ -138,7 +138,7 @@ const FinancialReporting = () => {
             flex: 1,
             renderCell: (params) =>
                 params.row.transferSavings
-                    ? params.row.transferSavings.toFixed(3)
+                    ? params.row.transferSavings
                     : 'N/A',
         },
         {
@@ -146,7 +146,7 @@ const FinancialReporting = () => {
             headerName: t('total'),
             flex: 1,
             renderCell: (params) =>
-                params.row.savingsCurrentAmount ? params.row.savingsCurrentAmount.toFixed(3) : 'N/A',
+                params.row.savingsCurrentAmount ? params.row.savingsCurrentAmount : 'N/A',
         },
     ];
 

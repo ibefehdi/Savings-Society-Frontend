@@ -182,7 +182,15 @@ const Shareholders = () => {
       headerName: t('savings'),
       flex: 1,
       renderCell: (params) => {
-        return params.row.savings && params.row.savings?.totalAmount?.toFixed(3)
+        return params.row.savings && params.row.savings?.totalAmount
+      }
+    },
+    {
+      field: 'savingsIncrease',
+      headerName: t('savingsIncrease'),
+      flex: 1,
+      renderCell: (params) => {
+        return params.row.savings && params.row.savings?.savingsIncrease
       }
     },
     ...(permissions?.shareholder?.view ? [{

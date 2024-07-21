@@ -119,18 +119,18 @@ const Vouchers = () => {
         return moment(params.value).format('DD-MM-YYYY');
       }
     },
-    {
-      field: 'actions',
-      headerName: t('Actions'),
-      flex: 1,
-      renderCell: (params) => (
-        !params.row.paidDate ? (
-          <Button variant="contained" onClick={() => handlePayVoucher(params.row._id)}>
-            {t('Pay')}
-          </Button>
-        ) : null
-      ),
-    },
+    // {
+    //   field: 'actions',
+    //   headerName: t('Actions'),
+    //   flex: 1,
+    //   renderCell: (params) => (
+    //     !params.row.paidDate ? (
+    //       <Button variant="contained" onClick={() => handlePayVoucher(params.row._id)}>
+    //         {t('Pay')}
+    //       </Button>
+    //     ) : null
+    //   ),
+    // },
     {
       field: 'edit',
       headerName: t('edit'),

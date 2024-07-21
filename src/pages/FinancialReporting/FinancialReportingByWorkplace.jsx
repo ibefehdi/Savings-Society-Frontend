@@ -52,7 +52,7 @@ const FinancialReportingByWorkplace = () => {
         //     flex: 1,
         //     renderCell: (params) => {
         //         return params.row.savingsDetails?.initialAmount
-        //             ? params.row.savingsDetails.initialAmount.toFixed(3)
+        //             ? params.row.savingsDetails.initialAmount 
         //             : 'N/A';
         //     },
         // },
@@ -62,7 +62,7 @@ const FinancialReportingByWorkplace = () => {
             flex: 1,
             renderCell: (params) => {
                 return params.row.savingsCurrentAmount
-                    ? params.row.savingsCurrentAmount.toFixed(3)
+                    ? params.row.savingsCurrentAmount
                     : 'N/A';
             },
         },
@@ -80,7 +80,7 @@ const FinancialReportingByWorkplace = () => {
             flex: 1,
             renderCell: (params) => {
                 return params.row.savingsIncrease
-                    ? params.row.savingsIncrease.toFixed(3)
+                    ? params.row.savingsIncrease
                     : 'N/A';
             },
         },
@@ -99,7 +99,7 @@ const FinancialReportingByWorkplace = () => {
             flex: 1,
             renderCell: (params) => {
                 return params.row.shareDetails?.totalAmount
-                    .toFixed(3);
+                    ;
             },
         },
         {
@@ -108,7 +108,7 @@ const FinancialReportingByWorkplace = () => {
             flex: 1,
             renderCell: (params) => {
                 return params.row.shareIncrease
-                    ? params.row.shareIncrease.toFixed(3)
+                    ? params.row.shareIncrease
                     : 'N/A';
             },
         },
@@ -118,7 +118,7 @@ const FinancialReportingByWorkplace = () => {
             flex: 1,
             renderCell: (params) =>
                 params.row.amanatAmount
-                    ? params.row.amanatAmount.toFixed(3)
+                    ? params.row.amanatAmount
                     : 'N/A',
         },
         {
@@ -126,7 +126,7 @@ const FinancialReportingByWorkplace = () => {
             headerName: t('total'),
             flex: 1,
             renderCell: (params) =>
-                params.row.savingsCurrentAmount ? params.row.savingsCurrentAmount.toFixed(3) : 'N/A',
+                params.row.savingsCurrentAmount ? params.row.savingsCurrentAmount : 'N/A',
         },
     ];
 
