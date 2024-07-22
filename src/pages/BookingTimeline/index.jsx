@@ -24,19 +24,19 @@ const BookingTimeline = () => {
             if (bookingData) {
                 setBooking({
                     group: bookingData.group,
-                    startTime: new Date(`${formattedDate}T${bookingData.startTime}`).toLocaleTimeString([], {
-                        hour: 'numeric',
-                        minute: 'numeric',
-                        hour12: true,
-                    }),
-                    endTime: new Date(`${formattedDate}T${bookingData.endTime}`).toLocaleTimeString([], {
-                        hour: 'numeric',
-                        minute: 'numeric',
-                        hour12: true,
-                    }),
-                    civilId: bookingData.customerCivilId,
-                    phoneNumber: bookingData.mobile,
-                    rent: bookingData.rent,
+                    // startTime: new Date(`${formattedDate}T${bookingData.startTime}`).toLocaleTimeString([], {
+                    //     hour: 'numeric',
+                    //     minute: 'numeric',
+                    //     hour12: false,
+                    // }),
+                    // endTime: new Date(`${formattedDate}T${bookingData.endTime}`).toLocaleTimeString([], {
+                    //     hour: 'numeric',
+                    //     minute: 'numeric',
+                    //     hour12: false,
+                    // }),
+                    civilId: bookingData.customer.civilId,
+                    phoneNumber: bookingData.customer.contactNumber,
+                    rent: bookingData.rate,
                     bookingId: bookingData._id,
                 });
             } else {
@@ -97,7 +97,7 @@ const BookingTimeline = () => {
                             {booking.group}
                         </Typography>
                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                            {`${booking.startTime} - ${booking.endTime}`}
+                            {/* {`${booking.startTime} - ${booking.endTime}`} */}
                         </Typography>
                         <Typography variant="body2">
                             {`Civil ID: ${booking.civilId}`}<br />
