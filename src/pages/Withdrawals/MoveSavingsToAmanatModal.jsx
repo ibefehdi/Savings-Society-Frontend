@@ -59,6 +59,7 @@ const MoveSavingsToAmanatModal = ({ id, fetchData, setOpen, open }) => {
 
         try {
             const updatedData = { ...data, userId: adminData?.id, date: selectedDate, }
+            console.log(updatedData)
             await axiosInstance.post(url, updatedData);
             handleClose();
         } catch (error) {

@@ -113,6 +113,7 @@ const SavingsDepositPage = () => {
     const [showFilters, setShowFilters] = useState(false);
     const [withdrawalOpen, setWithdrawalOpen] = useState(false);
     const [moveToAmanat, setMoveToAmanat] = useState(false);
+    const [interestToSavings, setInterestToSavings] = useState(false);
     const [moveInterestToSavings, setMoveInterestToSavings] = useState(false);
     const toggleFilters = () => {
         setShowFilters(!showFilters);
@@ -194,6 +195,22 @@ const SavingsDepositPage = () => {
         //     }
         // },
         {
+            field: 'shareAmount',
+            headerName: t('amount_of_shares'),
+            flex: 1,
+            renderCell: (params) => {
+                return params.row.share && Math.floor(params?.row?.share?.totalShareAmount)
+            }
+        },
+        {
+            field: 'shareValue',
+            headerName: t('share_initial_amount'),
+            flex: 1,
+            renderCell: (params) => {
+                return params.row.share && Math.floor(params?.row?.share?.totalAmount)
+            }
+        },
+        {
             field: 'savingsForShareholder',
             headerName: t('savings'),
             flex: 1,
@@ -207,6 +224,18 @@ const SavingsDepositPage = () => {
             flex: 1,
             renderCell: (params) => {
                 return params.row.savings && params.row.savings?.savingsIncrease
+            }
+        },
+        {
+            field: 'amount',
+            headerName: t('amanat'),
+            flex: 1,
+            renderCell: (params) => {
+                const amount = params.row.savings?.amanat?.amount;
+                return amount !== undefined ? amount : null;
+            },
+            hide: (params) => {
+                return params.row.savings?.amanat?.amount === undefined;
             }
         },
         // {
@@ -277,7 +306,7 @@ const SavingsDepositPage = () => {
             field: 'moveToAmanat',
             headerName: t('move_to_amanat'),
             sortable: false,
-            flex: 1.5,
+            flex: 2.5,
             renderCell: (params) => {
                 return <MoveToAmanat id={params.id} fetchData={fetchData} setOpen={setMoveToAmanat} setSelectedShareholderId={setSelectedShareholderId} open={moveToAmanat} />;
             },
@@ -286,9 +315,15 @@ const SavingsDepositPage = () => {
             field: 'interestToSavings',
             headerName: t('move_interest_to_savings'),
             sortable: false,
-            flex: 1.75,
+            flex: 2.5,
             renderCell: (params) => {
-                return <InterestToSavings id={params.id} fetchData={fetchData} setOpen={setMoveToAmanat} setSelectedShareholderId={setSelectedShareholderId} open={moveToAmanat} />;
+                return <InterestToSavings
+                    id={params.id}
+                    fetchData={fetchData}
+                    setOpen={setMoveInterestToSavings}  // Change this line
+                    setSelectedShareholderId={setSelectedShareholderId}
+                    open={moveInterestToSavings}  // Change this line
+                />
             },
         }] : []),
 
@@ -468,7 +503,7 @@ const SavingsDepositPage = () => {
             <DepositForm id={selectedShareholderId} open={editOpen} setOpen={setEditOpen} savings={true} fetchData={fetchData} />
             <WithdrawalModal savings={true} open={withdrawalOpen} setOpen={setWithdrawalOpen} id={selectedShareholderId} fetchData={fetchData} />
             <MoveInterestToSavings id={selectedShareholderId} fetchData={fetchData} savings={true} open={moveInterestToSavings} setOpen={setMoveInterestToSavings} />
-            <MoveSavingsToAmanatModal id={selectedShareholderId} fetchData={fetchData} open={moveToAmanat} setOpen={setMoveToAmanat} />
+            <MoveSavingsToAmanatModal id={selectedShareholderId} fetchData={fetchData} open={interestToSavings} setOpen={setInterestToSavings} />
         </CacheProvider>
 
     )

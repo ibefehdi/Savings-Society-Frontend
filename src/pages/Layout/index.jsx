@@ -127,16 +127,25 @@ const Layout = () => {
     ];
 
     const nonAdminRentalMenuItems = [
-        { name: t('buildings'), icon: <ApartmentOutlinedIcon />, path: "/rental/buildings" },
-        { name: t('flats'), icon: <MapsHomeWorkOutlinedIcon />, path: "/rental/flats" },
         {
-            name: t('halls'),
-            icon: <MeetingRoomOutlinedIcon />,
-            path: "/rental/halls",
+            name: t('real_estate'),
+            icon: <ApartmentOutlinedIcon />,
             subMenus: [
+                { name: t('buildings'), path: "/rental/buildings" },
+                { name: t('flats'), path: "/rental/flats" },
+                // { name: t('halls'), path: "/rental/halls" },
+                { name: t('tenants'), path: "/rental/tenants" },
                 { name: t('bookings'), path: "/rental/booking" }
+
             ]
         },
+        // {
+        //     name: t('halls'),
+        //     icon: <MeetingRoomOutlinedIcon />,
+        //     path: "/rental/halls",
+        //     subMenus: [
+        //     ]
+        // },
         {
             name: t('hall_transactions'),
             icon: <ReceiptOutlinedIcon />,
@@ -146,8 +155,6 @@ const Layout = () => {
             ]
         },
         { name: t('vouchers'), icon: <ConfirmationNumberOutlinedIcon />, path: "/rental/vouchers" },
-        { name: t('tenants'), icon: <ConfirmationNumberOutlinedIcon />, path: "/rental/tenants" },
-
         {
             name: t('building_transaction'),
             icon: <AccountBalanceWalletOutlinedIcon />,
@@ -170,11 +177,9 @@ const Layout = () => {
                 { name: t('property_evacuation_form'), path: "/rental/Forms/PropertyEvacuationForm" },
                 { name: t('check_disbursement_form'), path: "/rental/Forms/CheckDisbursementForm" },
                 { name: t('rent_notice'), path: "/rental/Forms/RentNoticeForm" },
-
             ]
         },
     ];
-
     const rentalMenuItems = userDetails?.isAdmin
         ? [...nonAdminRentalMenuItems, ...adminRentalMenuItems]
         : nonAdminRentalMenuItems;

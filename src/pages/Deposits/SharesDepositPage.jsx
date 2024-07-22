@@ -179,6 +179,34 @@ const SharesDepositPage = () => {
                 return params.row.share && Math.floor(params?.row?.share?.totalAmount)
             }
         },
+        {
+            field: 'savingsForShareholder',
+            headerName: t('savings'),
+            flex: 1,
+            renderCell: (params) => {
+                return params.row.savings && params.row.savings?.totalAmount
+            }
+        },
+        {
+            field: 'savingsIncrease',
+            headerName: t('savingsIncrease'),
+            flex: 1,
+            renderCell: (params) => {
+                return params.row.savings && params.row.savings?.savingsIncrease
+            }
+        },
+        {
+            field: 'amount',
+            headerName: t('amanat'),
+            flex: 1,
+            renderCell: (params) => {
+                const amount = params.row.savings?.amanat?.amount;
+                return amount !== undefined ? amount : null;
+            },
+            hide: (params) => {
+                return params.row.savings?.amanat?.amount === undefined;
+            }
+        },
         // {
         //     field: 'initialInvestment',
         //     headerName: t('initial_investment'),

@@ -94,7 +94,7 @@ const MoveInterestToSavings = ({ id, fetchData, setOpen, open, savings }) => {
         const maxAmount = savings ? shareholderDetails?.savingsIncrease : shareholderDetails?.amount;
         setValue('amountToWithdraw', maxAmount.toString());
     };
-    useEffect(() => { console.log(shareholderDetails?.savings) }, [shareholderDetails, id])
+    useEffect(() => { console.log(shareholderDetails?.savings); console.log("Component Mounted") }, [shareholderDetails, id])
     return (
         <Modal
             open={open}

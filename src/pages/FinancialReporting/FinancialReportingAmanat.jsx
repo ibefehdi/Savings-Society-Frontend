@@ -17,6 +17,7 @@ import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import BackButton from '../../components/BackButton';
+import axiosInstance from '../../constants/axiosInstance';
 const FinancialReportingAmanat = () => {
     const cacheRtl = createCache({
         key: 'muirtl',
@@ -90,7 +91,26 @@ const FinancialReportingAmanat = () => {
             </Box>
         </GridFooterContainer>
     );
+    const handleExport = async (format) => {
+        try {
+            const queryString = new URLSearchParams(filters).toString();
 
+            const response = await axiosInstance.get(`/financialreportsbyamanatexport?format=${format}&${queryString}`, {
+                responseType: 'blob', // Important for handling file downloads
+            });
+
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `shareholder_amanat_report.${format}`);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } catch (error) {
+            console.error(`Error exporting ${format}:`, error);
+            // Handle error (e.g., show an error message to the user)
+        }
+    };
 
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
@@ -189,7 +209,13 @@ const FinancialReportingAmanat = () => {
                     </Typography>
 
 
-                    <Button variant='contained' onClick={() => { handlePrint() }}>{t('print_form')}</Button>
+                    <Box sx={{ display: 'flex', gap: '1rem' }}>
+                        <Button variant='contained' onClick={() => handleExport('csv')}>{t('export_csv')}</Button>
+                        {/* <Button variant='contained' onClick={() => handleExport('xlsx')}>{t('export_xlsx')}</Button> */}
+                        <Button variant='contained' onClick={handlePrint}>{t('print_form')}</Button>
+                        <BackButton />
+
+                    </Box>
                     <BackButton />
 
                 </Box>

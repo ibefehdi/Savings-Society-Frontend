@@ -226,6 +226,9 @@
   "delete_voucher": "حذف القسيمة",
   "confirm_delete": "هل أنت متأكد أنك تريد حذف هذه القسيمة؟",
   "back":"رجوع",
-  "clear_filters":"مرشحات واضحة"
-
+  "clear_filters":"مرشحات واضحة",
+  "delete_tenant":"حذف المستأجر",
+  "are_you_sure_delete_tenant":"هل أنت متأكد أنك تريد حذف هذا المستأجر؟",
+  "real_estate":"العقارات",
+  "resignation_form":"نموذج الاستقالة"
 }

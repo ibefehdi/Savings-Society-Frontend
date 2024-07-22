@@ -44,8 +44,8 @@ const Booking = () => {
             headerName: t('address'),
             flex: 1,
             renderCell: (params) => {
-                // const { block, street, house, avenue, city } = params.value;
-                // return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
+                const { block, street, house, avenue, city } = params.value;
+                return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
             }
         },
         {
