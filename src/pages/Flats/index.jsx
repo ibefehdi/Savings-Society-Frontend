@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+import DeleteFlatModal from './DeleteFlatModal';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
@@ -32,6 +32,7 @@ const Flats = () => {
     });
     const [openModal, setOpenModal] = useState(false);
     const [openRemoveTenantModal, setOpenRemoveTenantModal] = useState(false);
+    const [openDeleteFlatModal, setOpenDeleteFlatModal] = useState(false);
     const [selectedFlatId, setSelectedFlatId] = useState(null);
     const { t, i18n } = useTranslation();
     const isRtl = i18n.dir() === 'rtl';
@@ -140,6 +141,17 @@ const Flats = () => {
                             {t('removeTenant')}
                         </Button>
                     )}
+                    <Button
+                        variant="contained"
+                        color="error"
+                        onClick={() => {
+                            setSelectedFlatId(params.row._id);
+                            setOpenDeleteFlatModal(true);
+                        }}
+                        sx={{ marginLeft: '1rem' }}
+                    >
+                        {t('delete')}
+                    </Button>
                 </Box>
             ),
         },
@@ -172,6 +184,15 @@ const Flats = () => {
             fetchData();
         } catch (error) {
             console.error('Error removing tenant:', error);
+        }
+    };
+    const handleDeleteFlat = async () => {
+        try {
+            await axiosInstance.delete(`/deleteflat/${selectedFlatId}`);
+            setOpenDeleteFlatModal(false);
+            fetchData();
+        } catch (error) {
+            console.error('Error deleting flat:', error);
         }
     };
     const orderedColumns = isRtl ? [...columns].reverse() : columns;
@@ -291,6 +312,11 @@ const Flats = () => {
                 handleClose={() => setOpenAssignTenantModal(false)}
                 flatId={selectedFlatId}
                 fetchData={fetchData}
+            />
+            <DeleteFlatModal
+                open={openDeleteFlatModal}
+                handleClose={() => setOpenDeleteFlatModal(false)}
+                handleDeleteFlat={handleDeleteFlat}
             />
         </CacheProvider>
     );
