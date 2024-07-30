@@ -10,6 +10,7 @@ export const useFetch = (url, pageNo, resultsPerPage, filters = {}) => {
         setLoading(true)
         // Convert filters object to query string
         const filterParams = new URLSearchParams(filters).toString();
+        
         const queryString = pageNo ? `?page=${pageNo}&resultsPerPage=${resultsPerPage}&${filterParams}`:`&${filterParams}`
 
         axiosInstance.get(`${url}${queryString}`)

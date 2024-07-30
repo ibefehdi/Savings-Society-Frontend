@@ -66,7 +66,8 @@ const Tenants = () => {
             console.error("Error updating tenant:", error);
         }
     };
-    const { data, fetchData, count } = useFetch(`/active_tenants`, pageNo + 1, pageSize);
+    const { data, fetchData, count } = useFetch(`/active_tenants`, pageNo+1, pageSize);
+
     useEffect(() => {
         fetchData();
     }, [pageNo, pageSize]);
@@ -78,6 +79,10 @@ const Tenants = () => {
         setPageSize(event.target.value);
         setPageNo(1);
         setPaginationModel({ ...paginationModel, pageSize: event.target.value });
+    };
+    const handlePageChange = (newPage) => {
+        setPageNo(newPage);
+        setPaginationModel({ ...paginationModel, page: newPage });
     };
     const handleViewDocument = (url) => {
         window.open(url, '_blank', 'noopener,noreferrer');
@@ -266,8 +271,7 @@ const Tenants = () => {
                     }))}
                     paginationModel={paginationModel}
                     onPaginationModelChange={(newModel) => {
-                        setPageNo(newModel.page);
-                        setPaginationModel(newModel);
+                        handlePageChange(newModel.page);
                     }}
                     getRowId={(row) => row._id}
                     rowCount={count}
