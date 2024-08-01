@@ -85,7 +85,7 @@ const Flats = () => {
         {
             field: 'tenant.name',
             headerName: t('tenantName'),
-            flex: 1,
+            flex: 0.75,
             valueGetter: (params) => params.row.tenant ? `${params.row.tenant.name}` : ''
         },
         {
