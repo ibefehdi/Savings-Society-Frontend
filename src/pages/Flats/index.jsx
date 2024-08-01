@@ -95,6 +95,24 @@ const Flats = () => {
             valueGetter: (params) => params.row.contract ? `${params.row.contract.rentAmount}` : ''
         },
         {
+            field: 'contract.startDate',
+            headerName: t('startDate'),
+            flex: 0.3,
+            valueGetter: (params) => {
+                const date = params?.row?.contract?.startDate;
+                return date ? new Date(date).toLocaleDateString('en-GB') : '';
+            }
+        },
+        {
+            field: 'contract.endDate',
+            headerName: t('endDate'),
+            flex: 0.3,
+            valueGetter: (params) => {
+                const date = params?.row?.contract?.endDate;
+                return date ? new Date(date).toLocaleDateString('en-GB') : '';
+            }
+        },
+        {
             field: 'actions',
             headerName: t('actions'),
             flex: 1,
