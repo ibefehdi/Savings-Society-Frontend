@@ -97,7 +97,7 @@ const Flats = () => {
         {
             field: 'contract.startDate',
             headerName: t('startDate'),
-            flex: 0.3,
+            flex: 0.4,
             valueGetter: (params) => {
                 const date = params?.row?.contract?.startDate;
                 return date ? new Date(date).toLocaleDateString('en-GB') : '';
@@ -106,7 +106,7 @@ const Flats = () => {
         {
             field: 'contract.endDate',
             headerName: t('endDate'),
-            flex: 0.3,
+            flex: 0.4,
             valueGetter: (params) => {
                 const date = params?.row?.contract?.endDate;
                 return date ? new Date(date).toLocaleDateString('en-GB') : '';
