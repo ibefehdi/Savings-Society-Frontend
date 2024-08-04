@@ -503,7 +503,12 @@ const SavingsDepositPage = () => {
             <DepositForm id={selectedShareholderId} open={editOpen} setOpen={setEditOpen} savings={true} fetchData={fetchData} />
             <WithdrawalModal savings={true} open={withdrawalOpen} setOpen={setWithdrawalOpen} id={selectedShareholderId} fetchData={fetchData} />
             <MoveInterestToSavings id={selectedShareholderId} fetchData={fetchData} savings={true} open={moveInterestToSavings} setOpen={setMoveInterestToSavings} />
-            <MoveSavingsToAmanatModal id={selectedShareholderId} fetchData={fetchData} open={interestToSavings} setOpen={setInterestToSavings} />
+            <MoveSavingsToAmanatModal
+                id={selectedShareholderId}
+                fetchData={fetchData}
+                open={moveToAmanat}
+                setOpen={setMoveToAmanat}
+            />
         </CacheProvider>
 
     )
