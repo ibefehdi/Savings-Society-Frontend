@@ -67,20 +67,20 @@ const HallExpenseTransaction = () => {
             flex: 1,
             valueGetter: (params) => params.row.buildingId?.type || '',
         },
-        {
-            field: 'bookingId.date',
-            headerName: t('booking_date'),
-            flex: 1,
-            renderCell: (params) => {
+        // {
+        //     field: 'bookingId.date',
+        //     headerName: t('booking_date'),
+        //     flex: 1,
+        //     renderCell: (params) => {
 
-                const date = new Date(params?.row?.bookingId?.date);
-                const day = date.getDate().toString().padStart(2, '0');
-                const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                const year = date.getFullYear().toString();
-                const formattedDate = `${day}/${month}/${year}`;
-                return formattedDate;
-            }
-        },
+        //         const date = new Date(params?.row?.bookingId?.date);
+        //         const day = date.getDate().toString().padStart(2, '0');
+        //         const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        //         const year = date.getFullYear().toString();
+        //         const formattedDate = `${day}/${month}/${year}`;
+        //         return formattedDate;
+        //     }
+        // },
 
         {
             field: 'amount',
