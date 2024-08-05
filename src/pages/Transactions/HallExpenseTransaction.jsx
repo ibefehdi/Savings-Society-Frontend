@@ -81,24 +81,7 @@ const HallExpenseTransaction = () => {
                 return formattedDate;
             }
         },
-        {
-            field: 'bookingId.startTime',
-            headerName: t('start_date'),
-            flex: 1,
-            valueGetter: (params) => params.row.bookingId?.startTime || '',
-        },
-        {
-            field: 'bookingId.endTime',
-            headerName: t('end_date'),
-            flex: 1,
-            valueGetter: (params) => params.row.bookingId?.endTime || '',
-        },
-        {
-            field: 'bookingId.rate',
-            headerName: t('booking_rate'),
-            flex: 1,
-            valueGetter: (params) => params.row.bookingId?.rate || '',
-        },
+
         {
             field: 'amount',
             headerName: t('expense'),
@@ -179,13 +162,17 @@ const HallExpenseTransaction = () => {
                 <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
                     <Typography variant="h3" component="h2" sx={{ fontStyle: 'normal', fontWeight: 600, lineHeight: '1.875rem', flexGrow: 1, marginLeft: '1.2rem' }}>
                         {t('hall_transactions')}
-                        <span style={{
-                            fontSize: '1.875rem',
-                            marginLeft: '0.5rem',
-                            marginRight: '0.5rem',
-                            color: '#999'
-                        }}>
-                            / {t('expense')}
+                        <span>
+                            /
+                            <span style={{
+                                fontSize: '1.875rem',
+                                marginLeft: '0.5rem',
+                                marginRight: '0.5rem',
+                                color: '#999',
+                                background: "yellow"
+                            }}>
+                                {t('expense')}
+                            </span>
                         </span>
                     </Typography>
 

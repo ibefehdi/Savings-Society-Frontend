@@ -43,16 +43,7 @@ const ViewBookings = () => {
             flex: 1,
             valueGetter: (params) => new Date(params.row.date).toLocaleDateString()
         },
-        {
-            field: 'startTime',
-            headerName: t('start_time'),
-            flex: 1
-        },
-        {
-            field: 'endTime',
-            headerName: t('end_time'),
-            flex: 1
-        },
+
         {
             field: 'rate',
             headerName: t('rate'),

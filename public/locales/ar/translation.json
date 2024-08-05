@@ -238,6 +238,8 @@
   "confirmDeleteFlatText": "هل أنت متأكد أنك تريد حذف هذه الشقة؟ سيؤدي هذا أيضًا إلى حذف المستأجر من النظام",
   "date_of_event":"تاريخ الحدث",
   "total_buildings": "إجمالي المباني",
-  "total_flats": "إجمالي الشقق"
+  "total_flats": "إجمالي الشقق",
+  "view_bookings":"الحجوزات",
+  "hall_bookings":"حجوزات الصالة"
 
 }
