@@ -34,6 +34,8 @@ const BookingTimeline = () => {
                     //     minute: 'numeric',
                     //     hour12: false,
                     // }),
+                    name: bookingData.customer.name,
+                    mobileNo: bookingData.customer.contactNumber,
                     civilId: bookingData.customer.civilId,
                     phoneNumber: bookingData.customer.contactNumber,
                     rent: bookingData.rate,
@@ -100,6 +102,8 @@ const BookingTimeline = () => {
                             {/* {`${booking.startTime} - ${booking.endTime}`} */}
                         </Typography>
                         <Typography variant="body2">
+                            {`Name: ${booking.name}`}<br />
+                            {`Mobile Number: ${booking.mobileNo}`}<br />
                             {`Civil ID: ${booking.civilId}`}<br />
                             {`Mobile: ${booking.phoneNumber}`}<br />
                             {`Rent: ${booking.rent}`}

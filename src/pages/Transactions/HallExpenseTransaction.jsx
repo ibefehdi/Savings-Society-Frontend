@@ -18,6 +18,7 @@ import axiosInstance from '../../constants/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import AddTransactions from './AddTransactions';
 import BackButton from '../../components/BackButton';
+import TransactionDetailsModal from './TransactionDetails';
 const HallExpenseTransaction = () => {
     const [pageNo, setPageNo] = useState(0)
     const [pageSize, setPageSize] = useState(10)
@@ -28,9 +29,18 @@ const HallExpenseTransaction = () => {
     const cacheLtr = createCache({ key: 'muilt' });
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
+    const [selectedTransaction, setSelectedTransaction] = useState(null);
+    const [detailsModalOpen, setDetailsModalOpen] = useState(false);
 
-
-    const { data, fetchData, count } = useFetch(`/transactions`, pageNo + 1, pageSize, { type: "Hall", transactionType: "Expense" });
+    const handleViewDetails = (transaction) => {
+        setSelectedTransaction(transaction);
+        setDetailsModalOpen(true);
+    };
+    const handleCloseModal = () => {
+        setDetailsModalOpen(false);
+        setSelectedTransaction(null);
+    };
+    const { data, fetchData, count } = useFetch(`/transactions`, pageNo + 1, pageSize, { transactionType: "Expense" });
     useEffect(() => {
         fetchData();
     }, [pageNo, pageSize]);
@@ -91,7 +101,7 @@ const HallExpenseTransaction = () => {
         },
         {
             field: 'amount',
-            headerName: t('amount'),
+            headerName: t('expense'),
             flex: 1,
             valueGetter: (params) => params.row.amount || '',
         },
@@ -111,12 +121,12 @@ const HallExpenseTransaction = () => {
                 return '';
             }
         },
-        {
-            field: 'type',
-            headerName: t('type'),
-            flex: 1,
-            valueGetter: (params) => params.row.type || '',
-        },
+        // {
+        //     field: 'type',
+        //     headerName: t('type'),
+        //     flex: 1,
+        //     valueGetter: (params) => params.row.type || '',
+        // },
         {
             field: 'transactionFrom',
             headerName: t('transaction_from'),
@@ -129,6 +139,21 @@ const HallExpenseTransaction = () => {
             flex: 1,
             valueGetter: (params) => params.row.description || '',
         },
+        {
+            field: 'actions',
+            headerName: t('actions'),
+            flex: 1,
+            renderCell: (params) => (
+                <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    onClick={() => handleViewDetails(params.row)}
+                >
+                    {t('view')}
+                </Button>
+            ),
+        }
         // {
         //     field: 'actions',
         //     headerName: 'Actions',
@@ -155,7 +180,7 @@ const HallExpenseTransaction = () => {
                     <Typography variant="h3" component="h2" sx={{ fontStyle: 'normal', fontWeight: 600, lineHeight: '1.875rem', flexGrow: 1, marginLeft: '1.2rem' }}>
                         {t('hall_transactions')}
                         <span style={{
-                            fontSize: '0.875rem',
+                            fontSize: '1.875rem',
                             marginLeft: '0.5rem',
                             marginRight: '0.5rem',
                             color: '#999'
@@ -226,7 +251,11 @@ const HallExpenseTransaction = () => {
 
             </Box>
             <AddTransactions fetchData={fetchData} setOpen={setOpen} open={open} />
-
+            <TransactionDetailsModal
+                transaction={selectedTransaction}
+                open={detailsModalOpen}
+                onClose={handleCloseModal}
+            />
         </CacheProvider >)
 }
 

@@ -61,6 +61,7 @@ import ResignationForm from './printablePages/ResignationForm';
 import PropertyEvacuationFormPage from './pages/PropertyEvacuationForm/index.jsx';
 import ResignationFormPage from './pages/ResignationFormPage';
 import CheckDisbursementFormPage from './pages/CheckDisbursementFormPage.jsx';
+import ViewBookings from './pages/ViewBookings.jsx/index.jsx';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -93,6 +94,7 @@ function App() {
         { path: 'Halls', element: <Halls /> },
         { path: 'booking', element: <Booking /> },
         { path: 'bookhall/:id', element: <BookingTimeline /> },
+        { path: 'bookings/:id', element: <ViewBookings /> },
         { path: 'hallincome', element: <Transactions /> },
         { path: "hallExpenses", element: <HallExpenseTransaction /> },
         { path: "flatIncome", element: <BuildingTransactions /> },
@@ -123,6 +125,7 @@ function App() {
         { path: 'Halls', element: <Halls /> },
         { path: 'booking', element: <Booking /> },
         { path: 'bookhall/:id', element: <BookingTimeline /> },
+        { path: 'bookings/:id', element: <ViewBookings /> },
         { path: 'hallincome', element: <Transactions /> },
         { path: "hallExpenses", element: <HallExpenseTransaction /> },
         { path: "flatIncome", element: <BuildingTransactions /> },

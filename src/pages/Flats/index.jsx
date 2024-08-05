@@ -78,7 +78,7 @@ const Flats = () => {
                     color: params.value ? 'red' : 'green',
                     fontWeight: 'bold'
                 }}>
-                    {params.value ? 'Inactive' : 'Active'}
+                    {params.value ? 'No' : 'Yes'}
                 </span>
             ),
         },

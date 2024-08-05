@@ -18,9 +18,12 @@ import axiosInstance from '../../constants/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import AddTransactions from './AddTransactions';
 import BackButton from '../../components/BackButton';
+import TransactionDetails from './TransactionDetails';
+import TransactionDetailsModal from './TransactionDetails';
 const Transactions = () => {
     const [pageNo, setPageNo] = useState(0)
     const [pageSize, setPageSize] = useState(10)
+
     const [openModal, setOpenModal] = useState(false);
     const { t, i18n } = useTranslation();
     const isRtl = i18n.dir() === 'rtl';
@@ -28,9 +31,20 @@ const Transactions = () => {
     const cacheLtr = createCache({ key: 'muilt' });
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
+    const [selectedTransaction, setSelectedTransaction] = useState(null);
+    const [detailsModalOpen, setDetailsModalOpen] = useState(false);
 
+    const handleViewDetails = (transaction) => {
+        setSelectedTransaction(transaction);
+        setDetailsModalOpen(true);
+    };
 
-    const { data, fetchData, count } = useFetch(`/transactions`, pageNo + 1, pageSize, { type: "Hall", transactionType: "Income" });
+    const handleCloseModal = () => {
+        setDetailsModalOpen(false);
+        setSelectedTransaction(null);
+    };
+
+    const { data, fetchData, count } = useFetch(`/transactions`, pageNo + 1, pageSize, { transactionType: "Income" });
     useEffect(() => {
         fetchData();
     }, [pageNo, pageSize]);
@@ -91,7 +105,7 @@ const Transactions = () => {
         },
         {
             field: 'amount',
-            headerName: t('amount'),
+            headerName: t('income'),
             flex: 1,
             valueGetter: (params) => params.row.amount || '',
         },
@@ -111,12 +125,12 @@ const Transactions = () => {
                 return '';
             }
         },
-        {
-            field: 'type',
-            headerName: t('type'),
-            flex: 1,
-            valueGetter: (params) => params.row.type || '',
-        },
+        // {
+        //     field: 'type',
+        //     headerName: t('type'),
+        //     flex: 1,
+        //     valueGetter: (params) => params.row.type || '',
+        // },
         {
             field: 'transactionFrom',
             headerName: t('transaction_from'),
@@ -128,6 +142,21 @@ const Transactions = () => {
             headerName: t('description'),
             flex: 1,
             valueGetter: (params) => params.row.description || '',
+        },
+        {
+            field: 'actions',
+            headerName: t('actions'),
+            flex: 1,
+            renderCell: (params) => (
+                <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    onClick={() => handleViewDetails(params.row)}
+                >
+                    {t('view')}
+                </Button>
+            ),
         },
         // {
         //     field: 'actions',
@@ -155,7 +184,7 @@ const Transactions = () => {
                     <Typography variant="h3" component="h2" sx={{ fontStyle: 'normal', fontWeight: 600, lineHeight: '1.875rem', flexGrow: 1, marginLeft: '1.2rem' }}>
                         {t('hall_transactions')}
                         <span style={{
-                            fontSize: '0.875rem',
+                            fontSize: '1.875rem',
                             marginLeft: '0.5rem',
                             marginRight: '0.5rem',
                             color: '#999'
@@ -226,7 +255,11 @@ const Transactions = () => {
 
             </Box>
             <AddTransactions fetchData={fetchData} setOpen={setOpen} open={open} />
-
+            <TransactionDetailsModal
+                transaction={selectedTransaction}
+                open={detailsModalOpen}
+                onClose={handleCloseModal}
+            />
         </CacheProvider >)
 }
 

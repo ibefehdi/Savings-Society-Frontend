@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useFetch } from '../../hooks/useFetch';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { DataGrid } from '@mui/x-data-grid';
+import BackButton from '../../components/BackButton';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
-import { DataGrid } from '@mui/x-data-grid';
-import { useNavigate } from 'react-router-dom';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import BackButton from '../../components/BackButton';
-
-const Booking = () => {
-    const [pageNo, setPageNo] = useState(1)
-    const [pageSize, setPageSize] = useState(10)
-    const navigate = useNavigate();
+const ViewBookings = () => {
+    const { id } = useParams();
     const { t, i18n } = useTranslation();
-    const { data, fetchData, count } = useFetch('/halls', pageNo, pageSize);
     const isRtl = i18n.dir() === 'rtl';
-    useEffect(() => { fetchData() }, [])
+
+    const { data, fetchData, count } = useFetch(`/bookingbyhall/${id}`, 1, 10);
+    const [paginationModel, setPaginationModel] = useState({
+        pageSize: 10,
+        page: 0,
+    });
     const cacheRtl = createCache({
         key: 'muirtl',
         stylisPlugins: [prefixer, rtlPlugin],
@@ -26,53 +26,46 @@ const Booking = () => {
     const cacheLtr = createCache({
         key: 'muilt',
     });
-    const [paginationModel, setPaginationModel] = useState({
-        pageSize: pageSize,
-        page: pageNo,
-    });
+    useEffect(() => {
+        fetchData();
+    }, []);
+    useEffect(() => { console.log('Mounted') })
     const columns = [
         {
-            field: 'name',
-            headerName: t('hall_name'),
+            field: 'dateOfEvent',
+            headerName: t('date_of_event'),
             flex: 1,
-            valueGetter: (params) => `${params.row.name}`
-
-        },
-
-        {
-            field: 'address',
-            headerName: t('address'),
-            flex: 1,
-            renderCell: (params) => {
-                const { block, street, house, avenue, city } = params.value;
-                return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
-            }
+            valueGetter: (params) => params.row.dateOfEvent ? new Date(params.row.dateOfEvent).toLocaleDateString() : ''
         },
         {
-            field: 'actions',
-            headerName: t('actions'),
+            field: 'date',
+            headerName: t('booking_date'),
             flex: 1,
-            renderCell: (params) => (
-                <Box>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => navigate(`/rental/bookhall/${params.row._id}`)}
-                        sx={{ marginRight: 1 }}
-                    >
-                        {t('book')}
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => navigate(`/rental/bookings/${params.row._id}`)}
-                        startIcon={<VisibilityIcon />}
-                    >
-                        {t('view_bookings')}
-                    </Button>
-                </Box>
-            ),
+            valueGetter: (params) => new Date(params.row.date).toLocaleDateString()
         },
+        {
+            field: 'startTime',
+            headerName: t('start_time'),
+            flex: 1
+        },
+        {
+            field: 'endTime',
+            headerName: t('end_time'),
+            flex: 1
+        },
+        {
+            field: 'rate',
+            headerName: t('rate'),
+            flex: 1,
+            valueGetter: (params) => `${params.row.rate}`
+        },
+        {
+            field: 'customerName',
+            headerName: t('tenantName'),
+            flex: 1,
+            valueGetter: (params) => params.row.customer?.name || ''
+        },
+
 
     ];
     const orderedColumns = isRtl ? [...columns].reverse() : columns;
@@ -83,16 +76,15 @@ const Booking = () => {
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
                 <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
                     <Typography variant="h3" component="h2" sx={{
-                        fontStyle: 'normal', // Sets the font style
+                        fontStyle: 'normal',
                         fontWeight: 600,
-                        lineHeight: '1.875rem', flexGrow: 1,
+                        lineHeight: '1.875rem',
+                        flexGrow: 1,
                         marginLeft: '1.2rem'
                     }}>
-                        {t('bookings')}
+                        {t('hall_bookings')}
                     </Typography>
                     <BackButton />
-
-
                 </Box>
                 <DataGrid
                     rows={data}
@@ -101,10 +93,7 @@ const Booking = () => {
                         disableColumnMenu: true,
                     }))}
                     paginationModel={paginationModel}
-                    onPaginationModelChange={(newModel) => {
-                        setPageNo(newModel.page + 1);
-                        setPaginationModel(newModel);
-                    }}
+                    onPaginationModelChange={setPaginationModel}
                     getRowId={(row) => row._id}
                     rowCount={count}
                     paginationMode="server"
@@ -141,8 +130,8 @@ const Booking = () => {
                     }}
                 />
             </Box>
+        </CacheProvider>
+    );
+};
 
-        </CacheProvider>)
-}
-
-export default Booking
+export default ViewBookings;

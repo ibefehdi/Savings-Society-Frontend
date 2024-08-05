@@ -26,53 +26,58 @@ const Layout = () => {
     const isRtl = i18n.dir() === 'rtl';
     const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
 
+    // Function to create a unique key for each menu item
+    const createKey = (item) => {
+        return item.nameKey || item.path || JSON.stringify(item.subMenus?.map(sub => sub.path));
+    };
+
+    // Create a Map to store unique menu items
+    const uniqueMenuItems = new Map();
+
+    // Function to add items to the Map
+    const addToMap = (items) => {
+        items.forEach(item => {
+            const key = createKey(item);
+            if (!uniqueMenuItems.has(key)) {
+                uniqueMenuItems.set(key, item);
+            }
+        });
+    };
+
     const adminShareholderMenuItems = [
-        { name: t('users'), icon: <GroupOutlinedIcon />, path: "/shareholder/Users" },
+        { name: t('users'), nameKey: 'users', icon: <GroupOutlinedIcon />, path: "/shareholder/Users" },
+        { name: t('workplaces'), nameKey: 'workplaces', icon: <FileCopyOutlinedIcon />, path: "/shareholder/workplaces" },
         {
-            name: t('workplaces'),
-            icon: <FileCopyOutlinedIcon />,
-            path: "/shareholder/workplaces"
-        },
-        {
-            name: t('financial_reporting'),
+            name: t('financial_reporting'), nameKey: 'financial_reporting',
             icon: <RecentActorsOutlinedIcon />,
             subMenus: [
                 { name: t('join_year'), path: "/shareholder/financialreporting/year" },
                 { name: t('quit_year'), path: "/shareholder/financialReporting/quityear" },
                 { name: t('workplace'), path: "/shareholder/FinancialReporting/workplace" },
                 { name: t('amanat'), path: "/shareholder/Financialreporting/amanat" },
-
                 { name: t('custom'), path: "/shareholder/financialreporting" },
             ]
         },
     ];
 
     const nonAdminShareholderMenuItems = [
-        { name: t('home'), icon: <HomeOutlinedIcon />, path: "/shareholder/" },
-        { name: t('active_shareholderss'), icon: <RecentActorsOutlinedIcon />, path: "/shareholder/Shareholders" },
-        { name: t('inactive_shareholders'), icon: <RecentActorsOutlinedIcon />, path: "/shareholder/DisabledShareholders" },
+        { name: t('home'), nameKey: 'home', icon: <HomeOutlinedIcon />, path: "/shareholder/" },
+        { name: t('active_shareholderss'), nameKey: 'active_shareholders', icon: <RecentActorsOutlinedIcon />, path: "/shareholder/Shareholders" },
+        { name: t('inactive_shareholders'), nameKey: 'inactive_shareholders', icon: <RecentActorsOutlinedIcon />, path: "/shareholder/DisabledShareholders" },
         {
-            name: t('deposit_and_withdrawal'),
+            name: t('deposit_and_withdrawal'), nameKey: 'deposit_and_withdrawal',
             icon: <LocalAtmIcon />,
             subMenus: [
                 { name: t('share'), path: "/shareholder/Deposit/Shares" },
                 { name: t('savings'), path: "/shareholder/Deposit/Savings" }
             ]
         },
-        // {
-        //     name: t('withdrawals'),
-        //     icon: <LocalAtmIcon />,
-        //     subMenus: [
-        //         { name: t('share'), path: "/shareholder/Withdrawal/Shares" },
-        //         { name: t('savings'), path: "/shareholder/Withdrawal/Savings" }
-        //     ]
-        // },
-        { name: t('amanat'), icon: <HandshakeOutlinedIcon />, path: "/shareholder/Amanat" },
-        { name: t('deposit_history'), icon: <HistoryOutlinedIcon />, path: "/shareholder/deposithistory" },
-        { name: t('withdrawal_history'), icon: <HistoryOutlinedIcon />, path: "/shareholder/withdrawalhistory" },
-        { name: t('transfer_history'), icon: <HistoryOutlinedIcon />, path: "/shareholder/TransferHistory" },
+        { name: t('amanat'), nameKey: 'amanat', icon: <HandshakeOutlinedIcon />, path: "/shareholder/Amanat" },
+        { name: t('deposit_history'), nameKey: 'deposit_history', icon: <HistoryOutlinedIcon />, path: "/shareholder/deposithistory" },
+        { name: t('withdrawal_history'), nameKey: 'withdrawal_history', icon: <HistoryOutlinedIcon />, path: "/shareholder/withdrawalhistory" },
+        { name: t('transfer_history'), nameKey: 'transfer_history', icon: <HistoryOutlinedIcon />, path: "/shareholder/TransferHistory" },
         {
-            name: t('financial_configuration'),
+            name: t('financial_configuration'), nameKey: 'financial_configuration',
             icon: <SettingsOutlinedIcon />,
             subMenus: [
                 { name: t('share'), path: "/shareholder/Financial/Share" },
@@ -80,18 +85,7 @@ const Layout = () => {
             ]
         },
         {
-            name: t('financial_reporting'),
-            icon: <RecentActorsOutlinedIcon />,
-            subMenus: [
-                { name: t('join_year'), path: "/shareholder/financialreporting/year" },
-                { name: t('quit_year'), path: "/shareholder/financialReporting/quityear" },
-                { name: t('workplace'), path: "/shareholder/FinancialReporting/workplace" },
-                { name: t('amanat'), path: "/shareholder/Financialreporting/amanat" },
-                { name: t('custom'), path: "/shareholder/financialreporting" },
-            ]
-        },
-        {
-            name: t('print_forms'),
+            name: t('print_forms'), nameKey: 'shareholder_print_forms',
             icon: <FileCopyOutlinedIcon />,
             subMenus: [
                 { name: t('receipt_voucher'), path: "/shareholder/Forms/ReceiptVoucher" },
@@ -108,66 +102,48 @@ const Layout = () => {
                 { name: t('savings_withdrawal_form'), path: "/shareholder/Forms/SavingsWithdrawalPage" },
                 { name: t('periodic_leave_page'), path: "/shareholder/Forms/PeriodicLeavePage" },
                 { name: t('special_leave_page'), path: "/shareholder/Forms/SpecialLeavePage" },
-                { name: t('savings_withdrawal_form'), path: "/rental/Forms/SavingsWithdrawalPage" },
                 { name: t('resignation_form'), path: "/rental/Forms/ResignationForm" },
-
-
             ]
         },
     ];
 
-    const shareholderMenuItems = userDetails?.isAdmin
-        ? [...nonAdminShareholderMenuItems, ...adminShareholderMenuItems]
-        : nonAdminShareholderMenuItems;
-
-
-
     const adminRentalMenuItems = [
-        { name: t('users'), icon: <GroupOutlinedIcon />, path: "/rental/Users" },
+        { name: t('users'), nameKey: 'rental_users', icon: <GroupOutlinedIcon />, path: "/rental/Users" },
     ];
 
     const nonAdminRentalMenuItems = [
         {
-            name: t('real_estate'),
+            name: t('real_estate'), nameKey: 'real_estate',
             icon: <ApartmentOutlinedIcon />,
             subMenus: [
                 { name: t('buildings'), path: "/rental/buildings" },
                 { name: t('flats'), path: "/rental/flats" },
-                // { name: t('halls'), path: "/rental/halls" },
                 { name: t('tenants'), path: "/rental/tenants" },
                 { name: t('bookings'), path: "/rental/booking" }
-
             ]
         },
-        // {
-        //     name: t('halls'),
-        //     icon: <MeetingRoomOutlinedIcon />,
-        //     path: "/rental/halls",
-        //     subMenus: [
-        //     ]
-        // },
         {
-            name: t('hall_transactions'),
+            name: t('hall_transactions'), nameKey: 'hall_transactions',
             icon: <ReceiptOutlinedIcon />,
             subMenus: [
                 { name: t('income'), path: "/rental/hallincome" },
                 { name: t('expenses'), path: "/rental/hallExpenses" }
             ]
         },
-        { name: t('vouchers'), icon: <ConfirmationNumberOutlinedIcon />, path: "/rental/vouchers" },
+        { name: t('vouchers'), nameKey: 'vouchers', icon: <ConfirmationNumberOutlinedIcon />, path: "/rental/vouchers" },
+        // {
+        //     name: t('building_transaction'), nameKey: 'building_transaction',
+        //     icon: <AccountBalanceWalletOutlinedIcon />,
+        //     subMenus: [
+        //         { name: t('income'), path: "/rental/flatIncome" },
+        //         { name: t('expenses'), path: "/rental/flatExpenses", isAdmin: true }
+        //     ]
+        // },
+        { name: t('contracts'), nameKey: 'contracts', icon: <DescriptionOutlinedIcon />, path: "/rental/contracts" },
+        { name: t('profit_report_per_building'), nameKey: 'profit_report_per_building', icon: <LocalAtmIcon />, path: "/rental/ProfitReport" },
+        { name: t('profit_report_per_flat'), nameKey: 'profit_report_per_flat', icon: <LocalAtmIcon />, path: "/rental/Profitreportperflat" },
         {
-            name: t('building_transaction'),
-            icon: <AccountBalanceWalletOutlinedIcon />,
-            subMenus: [
-                { name: t('income'), path: "/rental/flatIncome" },
-                { name: t('expenses'), path: "/rental/flatExpenses", isAdmin: true }
-            ]
-        },
-        { name: t('contracts'), icon: <DescriptionOutlinedIcon />, path: "/rental/contracts" },
-        { name: t('profit_report_per_building'), icon: <LocalAtmIcon />, path: "/rental/ProfitReport" },
-        { name: t('profit_report_per_flat'), icon: <LocalAtmIcon />, path: "/rental/Profitreportperflat" },
-        {
-            name: t('rental_print_forms'),
+            name: t('rental_print_forms'), nameKey: 'rental_print_forms',
             icon: <FileCopyOutlinedIcon />,
             subMenus: [
                 { name: t('board_member_reward'), path: "/rental/Forms/BoardMemberReward" },
@@ -180,22 +156,27 @@ const Layout = () => {
             ]
         },
     ];
-    const rentalMenuItems = userDetails?.isAdmin
-        ? [...nonAdminRentalMenuItems, ...adminRentalMenuItems]
-        : nonAdminRentalMenuItems;
-    let menuItems = [];
+
+    // Add all menu items to the Map
     if (userDetails?.type.includes('Shareholder')) {
-        menuItems = [...menuItems, ...shareholderMenuItems];
+        addToMap(userDetails?.isAdmin ? [...nonAdminShareholderMenuItems, ...adminShareholderMenuItems] : nonAdminShareholderMenuItems);
     }
     if (userDetails?.type.includes('Rental')) {
-        if (menuItems.length > 0) {
-            menuItems.push({ divider: true }); // Add the custom divider
+        addToMap(userDetails?.isAdmin ? [...nonAdminRentalMenuItems, ...adminRentalMenuItems] : nonAdminRentalMenuItems);
+    }
+
+    // Convert the Map back to an array
+    const menuItems = Array.from(uniqueMenuItems.values());
+
+    // Add divider if both Shareholder and Rental types are present
+    if (userDetails?.type.includes('Shareholder') && userDetails?.type.includes('Rental')) {
+        const dividerIndex = menuItems.findIndex(item => item.path && item.path.startsWith('/rental'));
+        if (dividerIndex !== -1) {
+            menuItems.splice(dividerIndex, 0, { divider: true });
         }
-        menuItems = [...menuItems, ...rentalMenuItems];
     }
 
     return (
-
         <div className={`app-container ${isRtl ? 'flex-container-rtl' : ''}`}>
             <Topbar />
             <div className={`flex-container ${isRtl ? 'flex-container-rtl' : ''}`}>
@@ -206,7 +187,6 @@ const Layout = () => {
             </div>
         </div>
     );
-
 };
 
 export default Layout;

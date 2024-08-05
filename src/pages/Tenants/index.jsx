@@ -66,7 +66,7 @@ const Tenants = () => {
             console.error("Error updating tenant:", error);
         }
     };
-    const { data, fetchData, count } = useFetch(`/active_tenants`, pageNo+1, pageSize);
+    const { data, fetchData, count } = useFetch(`/active_tenants?sortField=name&sortOrder=asc`, pageNo + 1, pageSize);
 
     useEffect(() => {
         fetchData();

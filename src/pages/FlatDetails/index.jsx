@@ -148,6 +148,7 @@ const FlatDetails = () => {
                                     <DetailRow label={t('rent_amount')} value={flatDetails.contract?.rentAmount} />
                                     <DetailRow label={t('collection_day')} value={flatDetails.contract?.collectionDay} />
                                     <DetailRow label={t('expired')} value={flatDetails.contract?.expired ? 'Yes' : 'No'} />
+                                    <DocumentRow label={t('contract')} document={flatDetails.contract?.contractDocument} />
                                 </TableBody>
                             </Table>
                         </Box>

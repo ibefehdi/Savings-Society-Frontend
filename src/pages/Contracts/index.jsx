@@ -46,13 +46,22 @@ const Contracts = () => {
         setOpenModal(false);
         setSelectedContract(null);
     };
-
-    const { data, fetchData, count } = useFetch('/contracts', pageNo + 1, pageSize, { expired });
-    const isRtl = i18n.dir() === 'rtl';
+    const [contractStatus, setContractStatus] = useState('active');
     const [paginationModel, setPaginationModel] = useState({
         pageSize: pageSize,
         page: 0,
     });
+    const { data, fetchData, count } = useFetch(
+        `/contracts/${contractStatus}`,
+        paginationModel.page + 1,
+        paginationModel.pageSize
+    );
+
+    useEffect(() => {
+        fetchData();
+    }, [contractStatus, paginationModel]);
+    const isRtl = i18n.dir() === 'rtl';
+
     const columns = [
         {
             field: 'flatNumber',
@@ -158,20 +167,22 @@ const Contracts = () => {
                     }}
                 >
                     <FormControl sx={{ width: '100%' }}>
-                        <InputLabel id="expired-select-label">{t('status')}</InputLabel>
+                        <InputLabel id="contract-status-select-label">{t('status')}</InputLabel>
                         <Select
-                            labelId="expired-select-label"
-                            id="expired-select"
-                            value={expired}
-                            label={t('expired')}
-                            onChange={(e) => setExpired(e.target.value)}
+                            labelId="contract-status-select-label"
+                            id="contract-status-select"
+                            value={contractStatus}
+                            label={t('status')}
+                            onChange={(e) => {
+                                setContractStatus(e.target.value);
+                                setPaginationModel({ ...paginationModel, page: 0 }); // Reset to first page on status change
+                            }}
                             fullWidth={true}
                         >
-                            <MenuItem value={false}>{t('active')}</MenuItem>
-                            <MenuItem value={true}>{t('expired')}</MenuItem>
+                            <MenuItem value="active">{t('active')}</MenuItem>
+                            <MenuItem value="inactive">{t('inactive')}</MenuItem>
                         </Select>
                     </FormControl>
-
                 </Box>
 
                 <DataGrid
