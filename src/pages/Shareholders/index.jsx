@@ -147,7 +147,7 @@ const Shareholders = () => {
     {
       field: 'ibanNumber',
       headerName: t('iban'),
-      flex: 0.5,
+      flex: 1.5,
       renderCell: (params) => <Typography variant='p' sx={{ color: "#10A760" }}>{params.value}</Typography>,
     },
     {
@@ -156,31 +156,31 @@ const Shareholders = () => {
       flex: 1.50,
       renderCell: (params) => params?.row?.mobileNumber || "N/A",
     },
-    {
-      field: 'address',
-      headerName: t('address'),
-      flex: 2,
-      renderCell: (params) => {
-        const { block, street, house, avenue, city } = params.value;
-        return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
-      },
-    },
+    // {
+    //   field: 'address',
+    //   headerName: t('address'),
+    //   flex: 2,
+    //   renderCell: (params) => {
+    //     const { block, street, house, avenue, city } = params.value;
+    //     return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
+    //   },
+    // },
     {
       field: 'shareAmountForShareholder',
       headerName: t('share_amount'),
-      flex: 1,
+      flex: 2,
       renderCell: (params) => Math.floor(params?.row.share?.totalShareAmount) || "N/A",
     },
     {
       field: 'shareValueForShareholder',
       headerName: t('share_initial_amount'),
-      flex: 1,
+      flex: 2,
       renderCell: (params) => Math.floor(params?.row?.share?.totalAmount) || "N/A",
     },
     {
       field: 'savingsForShareholder',
       headerName: t('savings'),
-      flex: 1,
+      flex: 2,
       renderCell: (params) => {
         return params.row.savings && params.row.savings?.totalAmount
       }
@@ -188,7 +188,7 @@ const Shareholders = () => {
     {
       field: 'savingsIncrease',
       headerName: t('savingsIncrease'),
-      flex: 1,
+      flex: 2,
       renderCell: (params) => {
         return params.row.savings && params.row.savings?.savingsIncrease
       }
@@ -399,7 +399,7 @@ const Shareholders = () => {
             ))}
           </TextField>
         </Box>)}
-      <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
+      <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '1rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
 
 
         <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
@@ -488,6 +488,7 @@ const Shareholders = () => {
               fontWeight: 'bold',
             },
           }}
+
         />
       </Box>
       <AddShareholderModal open={open} setOpen={setOpen} fetchData={fetchData} />
