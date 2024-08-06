@@ -188,11 +188,11 @@ const SharesDepositPage = () => {
             }
         },
         {
-            field: 'savingsIncrease',
-            headerName: t('savingsIncrease'),
+            field: 'shareIncrease',
+            headerName: t('shareIncrease'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.savings && params.row.savings?.savingsIncrease
+                return params.row.share && params.row.share?.shareIncrease
             }
         },
         {

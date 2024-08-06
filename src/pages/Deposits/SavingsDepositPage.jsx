@@ -215,15 +215,15 @@ const SavingsDepositPage = () => {
             headerName: t('savings'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.savings && params.row.savings?.totalAmount
+                return params.row.savings && params.row.savings?.totalAmount.toFixed(3)
             }
         },
         {
-            field: 'savingsIncrease',
-            headerName: t('savingsIncrease'),
+            field: 'totalInterest',
+            headerName: t('interest'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.savings && params.row.savings?.savingsIncrease
+                return params.row.totalInterest && params.row.totalInterest
             }
         },
         {

@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import Typography from '@mui/material/Typography';
 import { Table, TableBody, TableRow, TableCell, Tab, Tabs, Link } from '@mui/material';
 import BackButton from '../../components/BackButton';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -39,7 +40,17 @@ const FlatDetails = () => {
     const [flatDetails, setFlatDetails] = useState(null);
     const [value, setValue] = useState(0);
     const { t } = useTranslation();
+    const navigate = useNavigate();
+    const location = useLocation();
 
+    const handleBackClick = () => {
+        const searchParams = new URLSearchParams(location.search);
+        const buildingId = searchParams.get('buildingId');
+        const page = searchParams.get('page') || 0;
+        const pageSize = searchParams.get('pageSize') || 10;
+
+        navigate(`/rental/flats?buildingId=${buildingId}&page=${page}&pageSize=${pageSize}`);
+    };
     useEffect(() => {
         const fetchFlatDetails = async () => {
             try {
@@ -95,7 +106,7 @@ const FlatDetails = () => {
                 <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
                     <Typography variant='h2' style={{ direction: 'rtl', unicodeBidi: 'embed', textAlign: 'start' }}>
                         {flatDetails?.buildingId?.name ?? 'N/A'} - Flat {flatDetails?.flatNumber}
-                        <BackButton />
+                        <BackButton onClick={handleBackClick} />
 
                     </Typography>
 

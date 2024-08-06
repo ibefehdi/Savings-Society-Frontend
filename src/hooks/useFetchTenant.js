@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react"
 import axiosInstance from "../constants/axiosInstance"
 
-export const useFetch = (url, pageNo, resultsPerPage, filters = {}) => {
+export const useFetchTenant = (url, pageNo, resultsPerPage, filters = {}) => {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const [count, setCount] = useState()
@@ -11,7 +11,7 @@ export const useFetch = (url, pageNo, resultsPerPage, filters = {}) => {
         // Convert filters object to query string
         const filterParams = new URLSearchParams(filters).toString();
 
-        const queryString = pageNo ? `?page=${pageNo}&resultsPerPage=${resultsPerPage}&${filterParams}` : `&${filterParams}`
+        const queryString = pageNo ? `&page=${pageNo}&resultsPerPage=${resultsPerPage}&${filterParams}` : `&${filterParams}`
 
         axiosInstance.get(`${url}${queryString}`)
             .then(res => {

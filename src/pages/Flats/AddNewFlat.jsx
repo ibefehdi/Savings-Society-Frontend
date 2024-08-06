@@ -7,7 +7,8 @@ import { useForm, Controller } from 'react-hook-form';
 import axiosInstance from '../../constants/axiosInstance';
 import { useTranslation } from 'react-i18next';
 import MenuItem from '@mui/material/MenuItem';
-
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 const style = {
     position: 'absolute',
     top: '50%',
@@ -239,25 +240,42 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open, flatData }) => {
                         </TextField>
                     )}
                 /> */}
-                <TextField
-                    margin="normal"
-                    fullWidth
-                    label={t('start_date')}
-                    type="date"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    {...register('startDate')}
+                <Controller
+                    name="startDate"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                        <DatePicker
+                            selected={value ? new Date(value) : null}
+                            onChange={(date) => onChange(date)}
+                            dateFormat="yyyy-MM-dd"
+                            customInput={
+                                <TextField
+                                    fullWidth
+                                    label={t('start_date')}
+                                    margin="normal"
+                                />
+                            }
+                        />
+                    )}
                 />
-                <TextField
-                    margin="normal"
-                    fullWidth
-                    label={t('end_date')}
-                    type="date"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    {...register('endDate')}
+
+                <Controller
+                    name="endDate"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                        <DatePicker
+                            selected={value ? new Date(value) : null}
+                            onChange={(date) => onChange(date)}
+                            dateFormat="yyyy-MM-dd"
+                            customInput={
+                                <TextField
+                                    fullWidth
+                                    label={t('end_date')}
+                                    margin="normal"
+                                />
+                            }
+                        />
+                    )}
                 />
                 <TextField
                     margin="normal"

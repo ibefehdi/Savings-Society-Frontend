@@ -91,7 +91,7 @@ const MoveInterestToSavings = ({ id, fetchData, setOpen, open, savings }) => {
         setTotalAmount(currentAmount - additionAmount);
     }, [shareholderDetails, amountToWithdraw]);
     const handleMaxClick = () => {
-        const maxAmount = savings ? shareholderDetails?.savingsIncrease : shareholderDetails?.amount;
+        const maxAmount = savings ? shareholderDetails?.totalInterest : shareholderDetails?.amount;
         setValue('amountToWithdraw', maxAmount.toString());
     };
     useEffect(() => { console.log(shareholderDetails?.savings); console.log("Component Mounted") }, [shareholderDetails, id])
@@ -154,7 +154,7 @@ const MoveInterestToSavings = ({ id, fetchData, setOpen, open, savings }) => {
                     <TextField
                         id="availableBalance"
                         margin="normal"
-                        value={shareholderDetails?.savingsIncrease}
+                        value={shareholderDetails?.totalInterest}
                         fullWidth
                         label={t('availableBalance')}
                         disabled={true}
@@ -185,7 +185,7 @@ const MoveInterestToSavings = ({ id, fetchData, setOpen, open, savings }) => {
                         margin="normal"
                         fullWidth
                         label={t('amount_after_withdrawal')}
-                        value={Number(shareholderDetails?.savingsIncrease) - Number(amountToWithdraw)}
+                        value={Number(shareholderDetails?.totalInterest) - Number(amountToWithdraw)}
                         disabled
                     />)}
                 <TextField

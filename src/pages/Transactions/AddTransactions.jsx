@@ -7,6 +7,9 @@ import { useForm, Controller } from 'react-hook-form';
 import axiosInstance from '../../constants/axiosInstance';
 import { useTranslation } from 'react-i18next';
 import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
 
 const style = {
     position: 'absolute',
@@ -20,15 +23,20 @@ const style = {
 };
 
 const AddTransactions = ({ fetchData, setOpen, open, building }) => {
-    const { register, handleSubmit, control, reset } = useForm();
+    const { register, handleSubmit, control, reset, watch, setValue } = useForm();
     const { i18n, t } = useTranslation();
     const isRtl = i18n.dir() === 'rtl';
     const [buildings, setBuildings] = useState([]);
+    const [flats, setFlats] = useState([]);
+    const [tenants, setTenants] = useState([]);
+
+    const selectedBuildingId = watch('buildingId');
+    const selectedFlatId = watch('flatId');
 
     useEffect(() => {
         const fetchBuildings = async () => {
             try {
-                const response = await axiosInstance.get('/halls');
+                const response = await axiosInstance.get('/buildingdropdown');
                 setBuildings(response.data.data);
             } catch (error) {
                 console.error('Error fetching buildings:', error);
@@ -36,6 +44,45 @@ const AddTransactions = ({ fetchData, setOpen, open, building }) => {
         };
         fetchBuildings();
     }, []);
+
+    useEffect(() => {
+        const fetchFlats = async () => {
+            if (selectedBuildingId) {
+                try {
+                    const response = await axiosInstance.get(`/flatsbybuildingid/${selectedBuildingId}`);
+                    setFlats(response.data?.data || []);
+                } catch (error) {
+                    console.error('Error fetching flats:', error);
+                    setFlats([]);
+                }
+            } else {
+                setFlats([]);
+            }
+        };
+        fetchFlats();
+    }, [selectedBuildingId]);
+
+    useEffect(() => {
+        const fetchTenants = async () => {
+            if (selectedFlatId) {
+                try {
+                    const response = await axiosInstance.get(`/tenantsbyflatid/${selectedFlatId}`);
+                    const tenantsData = response.data?.data || [];
+                    setTenants(tenantsData);
+                    if (tenantsData.length === 1) {
+                        setValue('tenantId', tenantsData[0].tenant._id);
+                    }
+                } catch (error) {
+                    console.error('Error fetching tenants:', error);
+                    setTenants([]);
+                }
+            } else {
+                setTenants([]);
+                setValue('tenantId', '');
+            }
+        };
+        fetchTenants();
+    }, [selectedFlatId, setValue]);
 
     const handleClose = () => {
         setOpen(false);
@@ -45,14 +92,20 @@ const AddTransactions = ({ fetchData, setOpen, open, building }) => {
 
     const onSubmit = async (data) => {
         try {
+            const selectedBuilding = buildings.find(b => b._id === data.buildingId);
+
             const formData = {
                 buildingId: data.buildingId,
+                flatId: data.flatId,
+                tenantId: data.tenantId,
                 amount: data.amount,
                 date: data.date,
                 type: data.type,
-                transactionFrom: building ? "Flat" : "Hall",
+                transactionFrom: selectedBuilding?.type === "Building" ? "Flat" : "Hall",
                 description: data.description,
             };
+            console.log("Submitting transaction:", formData); // For debugging
+
 
             await axiosInstance.post("createTransaction", formData);
             handleClose();
@@ -76,21 +129,59 @@ const AddTransactions = ({ fetchData, setOpen, open, building }) => {
                     defaultValue=""
                     rules={{ required: true }}
                     render={({ field }) => (
-                        <TextField
-                            {...field}
-                            select
-                            fullWidth
-                            margin="normal"
-                            label={t('buildingId')}
-                        >
-                            {buildings.map((building) => (
-                                <MenuItem key={building._id} value={building._id}>
-                                    {building.name}
-                                </MenuItem>
-                            ))}
-                        </TextField>
+                        <FormControl fullWidth margin="normal">
+                            <InputLabel>{t('buildingId')}</InputLabel>
+                            <Select {...field}>
+                                {buildings.map((building) => (
+                                    <MenuItem key={building._id} value={building._id}>
+                                        {building.name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
                     )}
                 />
+
+                {selectedBuildingId && buildings.find(b => b._id === selectedBuildingId)?.type === "Building" && (
+                    <>
+                        <Controller
+                            name="flatId"
+                            control={control}
+                            defaultValue=""
+                            render={({ field }) => (
+                                <FormControl fullWidth margin="normal">
+                                    <InputLabel>{t('flat')}</InputLabel>
+                                    <Select {...field}>
+                                        {flats.map((flat) => (
+                                            <MenuItem key={flat._id} value={flat._id}>
+                                                {flat.flatNumber}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            )}
+                        />
+
+                        <Controller
+                            name="tenantId"
+                            control={control}
+                            defaultValue=""
+                            render={({ field }) => (
+                                <FormControl fullWidth margin="normal">
+                                    <InputLabel>{t('tenant')}</InputLabel>
+                                    <Select {...field} disabled={tenants.length === 1}>
+                                        {tenants.map((tenant) => (
+                                            <MenuItem key={tenant.tenant._id} value={tenant.tenant._id}>
+                                                {tenant.tenant.name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            )}
+                        />
+                    </>
+                )}
+
                 <TextField
                     id="amount"
                     margin='normal'

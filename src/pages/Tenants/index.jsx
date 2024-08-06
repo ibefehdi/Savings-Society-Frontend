@@ -20,6 +20,7 @@ import axiosInstance from '../../constants/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Link } from '@mui/material';
 import BackButton from '../../components/BackButton';
+import { useFetchTenant } from '../../hooks/useFetchTenant';
 const Tenants = () => {
     const [pageNo, setPageNo] = useState(0)
     const [pageSize, setPageSize] = useState(10)
@@ -66,8 +67,7 @@ const Tenants = () => {
             console.error("Error updating tenant:", error);
         }
     };
-    const { data, fetchData, count } = useFetch(`/active_tenants?sortField=name&sortOrder=asc`, pageNo + 1, pageSize);
-
+    const { data, fetchData, count } = useFetchTenant(`/active_tenants?sortField=name&sortOrder=asc`, pageNo + 1, pageSize);
     useEffect(() => {
         fetchData();
     }, [pageNo, pageSize]);

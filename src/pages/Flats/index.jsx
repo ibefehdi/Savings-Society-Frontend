@@ -15,7 +15,7 @@ import { prefixer } from 'stylis';
 import createCache from '@emotion/cache';
 import { useTranslation } from 'react-i18next';
 import axiosInstance from '../../constants/axiosInstance';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 
 import AddNewFlat from './AddNewFlat';
 import RemoveTenantModal from './RemoveTenantModal';
@@ -47,8 +47,25 @@ const Flats = () => {
         setEditFlatData(flatData);
         setOpenModal(true);
     };
+    const location = useLocation();
     const { data, fetchData, count } = useFetch(`/flatsbybuildingid/${selectedBuilding}`, pageNo + 1, pageSize);
     useEffect(() => { fetchData() }, [selectedBuilding, paginationModel])
+    // Flats.jsx
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        const buildingId = searchParams.get('buildingId');
+        const page = parseInt(searchParams.get('page'), 10);
+        const size = parseInt(searchParams.get('pageSize'), 10);
+
+        if (buildingId) setSelectedBuilding(buildingId);
+        if (!isNaN(page)) setPageNo(page);
+        if (!isNaN(size)) setPageSize(size);
+
+        setPaginationModel({
+            pageSize: !isNaN(size) ? size : 10,
+            page: !isNaN(page) ? page : 0,
+        });
+    }, [location.search]);
     const columns = [
         {
             field: 'flatNumber',
@@ -75,10 +92,10 @@ const Flats = () => {
             valueGetter: (params) => params.row.contract?.expired,
             renderCell: (params) => (
                 <span style={{
-                    color: params.value ? 'red' : 'green',
+                    color: params.value ? 'green' : 'red',
                     fontWeight: 'bold'
                 }}>
-                    {params.value ? 'No' : 'Yes'}
+                    {params.value ? 'Yes' : 'No'}
                 </span>
             ),
         },
@@ -121,7 +138,7 @@ const Flats = () => {
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => navigate(`/rental/flat/${params.row._id}`)}
+                        onClick={() => navigate(`/rental/flat/${params.row._id}?buildingId=${params.row.buildingId}`)}
                     >
                         {t('view')}
                     </Button>

@@ -5,12 +5,16 @@ import Button from '@mui/material/Button';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useTranslation } from 'react-i18next';
 
-const BackButton = () => {
+const BackButton = ({ onClick }) => {
     const navigate = useNavigate();
     const { t } = useTranslation();
 
     const handleBack = () => {
-        navigate(-1);
+        if (onClick) {
+            onClick();
+        } else {
+            navigate(-1);
+        }
     };
 
     return (
