@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Box, Typography, Button, TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { useForm, Controller, } from 'react-hook-form';
 import axiosInstance from '../../constants/axiosInstance';
+
 const AddVoucherModal = ({ open, onClose, fetchData, editingVoucher }) => {
     const { control, handleSubmit, reset, watch, setValue } = useForm();
     const [buildings, setBuildings] = useState([]);
@@ -21,6 +22,7 @@ const AddVoucherModal = ({ open, onClose, fetchData, editingVoucher }) => {
             setValue('pendingDate', editingVoucher.pendingDate?.split('T')[0]);
             setValue('paidDate', editingVoucher.paidDate?.split('T')[0]);
             setValue('status', editingVoucher.status);
+            setValue('voucherNo', editingVoucher.voucherNo);
         } else {
             // Reset form when not editing
             reset();
@@ -74,7 +76,6 @@ const AddVoucherModal = ({ open, onClose, fetchData, editingVoucher }) => {
                         const contract = tenants[0].contract;
                         setValue('tenantId', tenant._id, { shouldValidate: true });
                         setValue('amount', contract.rentAmount, { shouldValidate: true });
-
                     }
                 } else {
                     setTenants([]);
@@ -118,6 +119,14 @@ const AddVoucherModal = ({ open, onClose, fetchData, editingVoucher }) => {
                     {editingVoucher ? 'Edit Voucher' : 'Add Voucher'}
                 </Typography>
                 <form onSubmit={handleSubmit(onSubmit)}>
+                    <Controller
+                        name="voucherNo"
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                            <TextField {...field} label="Voucher No" fullWidth margin="normal" />
+                        )}
+                    />
                     <FormControl fullWidth margin="normal">
                         <InputLabel>Building</InputLabel>
                         <Controller

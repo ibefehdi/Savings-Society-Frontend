@@ -318,26 +318,25 @@ const Shareholders = () => {
       <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0, direction: isRtl ? 'rtl' : 'ltr' }}>
         <FilterListOutlinedIcon /> {t('filter')}
       </Button>
-      {showFilters &&
-        (<Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', marginRight: isRtl ? "2rem" : 0, direction: isRtl ? 'rtl' : 'ltr' }}>
-          <TextField
-            label={t('serial')}
-            variant="outlined"
-            value={filters.membersCode}
-            onChange={(e) => setFilters({ ...filters, membersCode: e.target.value })}
-            fullWidth
-            autoComplete='off'
-          />
-          <TextField
-            label={t('full_name')}
-            variant="outlined"
-            value={filters.fName}
-            onChange={(e) => setFilters({ ...filters, fName: e.target.value })}
-            fullWidth
-            autoComplete='off'
+      {showFilters && (<Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', marginRight: isRtl ? "2rem" : 0 }}>
+        <TextField
+          label={t('serial')}
+          variant="outlined"
+          value={filters.membersCode}
+          onChange={(e) => setFilters({ ...filters, membersCode: e.target.value })}
+          fullWidth
+          autoComplete='off'
+        />
+        <TextField
+          label={t('full_name')}
+          variant="outlined"
+          value={filters.fName}
+          onChange={(e) => setFilters({ ...filters, fName: e.target.value })}
+          fullWidth
+          autoComplete='off'
 
-          />
-          {/* <TextField
+        />
+        {/* <TextField
             label={t('last_name')}
             variant="outlined"
             value={filters.lName}
@@ -346,32 +345,32 @@ const Shareholders = () => {
             autoComplete='off'
 
           /> */}
-          <TextField
-            label={t('civil_id')}
-            variant="outlined"
-            value={filters.civilId}
-            onChange={(e) => setFilters({ ...filters, civilId: e.target.value })}
-            fullWidth
-            autoComplete='off'
+        <TextField
+          label={t('civil_id')}
+          variant="outlined"
+          value={filters.civilId}
+          onChange={(e) => setFilters({ ...filters, civilId: e.target.value })}
+          fullWidth
+          autoComplete='off'
 
-          />
+        />
 
-          <TextField
-            label={t('workplace')}
-            variant="outlined"
-            select
-            onChange={(e) => setFilters({ ...filters, workplace: e.target.value })}
-            fullWidth
-            autoComplete='off'
-            value={filters.workplace}
-          >
-            {workplaces.map((place) => (
-              <MenuItem key={place.description} value={place.description}>
-                {place.description}
-              </MenuItem>
-            ))}
-          </TextField>
-          {/* <TextField
+        <TextField
+          label={t('workplace')}
+          variant="outlined"
+          select
+          onChange={(e) => setFilters({ ...filters, workplace: e.target.value })}
+          fullWidth
+          autoComplete='off'
+          value={filters.workplace}
+        >
+          {workplaces.map((place) => (
+            <MenuItem key={place.description} value={place.description}>
+              {place.description}
+            </MenuItem>
+          ))}
+        </TextField>
+        {/* <TextField
             label={t('membership_status')}
             variant="outlined"
             select
@@ -383,22 +382,22 @@ const Shareholders = () => {
             <MenuItem value={0}>{t('active')}</MenuItem>
             <MenuItem value={1}>{t('inactive')}</MenuItem>
           </TextField> */}
-          <TextField
-            label={t('area')}
-            variant="outlined"
-            select
-            value={filters.area}
-            onChange={(e) => setFilters({ ...filters, area: e.target.value })}
-            fullWidth
-            autoComplete='off'
-          >
-            {AREAS.map((area) => (
-              <MenuItem key={area.value} value={area.value}>
-                {area.description}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Box>)}
+        <TextField
+          label={t('area')}
+          variant="outlined"
+          select
+          value={filters.area}
+          onChange={(e) => setFilters({ ...filters, area: e.target.value })}
+          fullWidth
+          autoComplete='off'
+        >
+          {AREAS.map((area) => (
+            <MenuItem key={area.value} value={area.value}>
+              {area.description}
+            </MenuItem>
+          ))}
+        </TextField>
+      </Box>)}
       <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '1rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
 
 

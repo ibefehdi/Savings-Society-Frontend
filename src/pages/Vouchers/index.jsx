@@ -119,6 +119,15 @@ const Vouchers = () => {
         return moment(params.value).format('DD-MM-YYYY');
       }
     },
+    {
+      field: 'voucherNo',
+      headerName: t('voucherNo'),
+      flex: 1,
+      valueGetter: (params) => {
+        if (!params.value) return '';
+        return params.value
+      }
+    },
     // {
     //   field: 'actions',
     //   headerName: t('Actions'),

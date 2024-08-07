@@ -240,6 +240,6 @@
   "total_buildings": "إجمالي المباني",
   "total_flats": "إجمالي الشقق",
   "view_bookings":"الحجوزات",
-  "hall_bookings":"حجوزات الصالة"
-
+  "hall_bookings":"حجوزات الصالة",
+  "voucherNo":"رقم سند القبض"
 }
