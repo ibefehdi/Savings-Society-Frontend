@@ -80,8 +80,8 @@ const FinancialReporting = () => {
             headerName: t('share_increase'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.shareIncrease
-                    ? params.row.shareIncrease
+                return params.row.shareDetails
+                    ? params.row.shareDetails?.shareIncrease
                     : 'N/A';
             },
         },
@@ -146,7 +146,7 @@ const FinancialReporting = () => {
             headerName: t('total'),
             flex: 1,
             renderCell: (params) =>
-                params.row.savingsCurrentAmount ? params.row.savingsCurrentAmount : 'N/A',
+                params.row.total ? params.row.total : 'N/A',
         },
     ];
 

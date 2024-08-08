@@ -241,5 +241,7 @@
   "total_flats": "إجمالي الشقق",
   "view_bookings":"الحجوزات",
   "hall_bookings":"حجوزات الصالة",
-  "voucherNo":"رقم سند القبض"
+  "voucherNo":"رقم سند القبض",
+  "shareIncrease":"فائدة السهم",
+  "interest":"الاجمالي"
 }

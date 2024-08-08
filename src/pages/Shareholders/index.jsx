@@ -169,20 +169,28 @@ const Shareholders = () => {
       field: 'shareAmountForShareholder',
       headerName: t('share_amount'),
       flex: 2,
-      renderCell: (params) => Math.floor(params?.row.share?.totalShareAmount) || "N/A",
+      renderCell: (params) => Math.floor(params?.row.share?.totalShareAmount?.toFixed(3)) || "N/A",
     },
     {
       field: 'shareValueForShareholder',
       headerName: t('share_initial_amount'),
       flex: 2,
-      renderCell: (params) => Math.floor(params?.row?.share?.totalAmount) || "N/A",
+      renderCell: (params) => Math.floor(params?.row?.share?.totalAmount?.toFixed(3)) || "N/A",
+    },
+    {
+      field: 'shareIncrease',
+      headerName: t('shareIncrease'),
+      flex: 2,
+      renderCell: (params) => {
+        return params.row.share && params.row.share?.shareIncrease?.toFixed(3)
+      }
     },
     {
       field: 'savingsForShareholder',
       headerName: t('savings'),
       flex: 2,
       renderCell: (params) => {
-        return params.row.savings && params.row.savings?.totalAmount
+        return params.row.savings && params.row.savings?.totalAmount?.toFixed(3)
       }
     },
     {
@@ -190,7 +198,15 @@ const Shareholders = () => {
       headerName: t('savingsIncrease'),
       flex: 2,
       renderCell: (params) => {
-        return params.row.savings && params.row.savings?.savingsIncrease
+        return params.row.savings && params.row.savings?.savingsIncrease?.toFixed(3)
+      }
+    },
+    {
+      field: 'total',
+      headerName: t('total'),
+      flex: 2,
+      renderCell: (params) => {
+        return (Number(params.row.savings?.totalAmount) + Number(params?.row?.savings?.savingsIncrease)).toFixed(3)
       }
     },
     ...(permissions?.shareholder?.view ? [{

@@ -42,7 +42,7 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open, flatData }) => {
                 } else if (key === 'contract') {
                     setValue('rentAmount', flatData.contract?.rentAmount);
                     setValue('startDate', flatData.contract?.startDate?.split('T')[0]);
-                    setValue('endDate', flatData.contract?.endDate?.split('T')[0]);
+                    // setValue('endDate', flatData.contract?.endDate?.split('T')[0]);
                     setValue('collectionDay', flatData.contract?.collectionDay);
                 } else {
                     setValue(key, flatData[key]);
@@ -259,7 +259,7 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open, flatData }) => {
                     )}
                 />
 
-                <Controller
+                {/* <Controller
                     name="endDate"
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -276,7 +276,7 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open, flatData }) => {
                             }
                         />
                     )}
-                />
+                /> */}
                 <TextField
                     margin="normal"
                     fullWidth
