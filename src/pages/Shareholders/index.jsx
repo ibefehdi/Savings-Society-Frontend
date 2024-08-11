@@ -206,7 +206,7 @@ const Shareholders = () => {
       headerName: t('total'),
       flex: 2,
       renderCell: (params) => {
-        return (Number(params.row.savings?.totalAmount) + Number(params?.row?.savings?.savingsIncrease)).toFixed(3)
+        return params.row.savings?.totalAmount.toFixed(3)
       }
     },
     ...(permissions?.shareholder?.view ? [{
