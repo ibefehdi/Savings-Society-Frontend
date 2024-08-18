@@ -19,6 +19,8 @@ import { useNavigate } from 'react-router-dom';
 import AddTransactions from './AddTransactions';
 import BackButton from '../../components/BackButton';
 import TransactionDetails from './TransactionDetails';
+import { saveAs } from 'file-saver';
+
 import TransactionDetailsModal from './TransactionDetails';
 const Transactions = () => {
     const [pageNo, setPageNo] = useState(0)
@@ -71,8 +73,8 @@ const Transactions = () => {
             flex: 1,
             valueGetter: (params) => params.row.buildingId?.type || '',
         },
-        
-      
+
+
         {
             field: 'amount',
             headerName: t('income'),
@@ -145,7 +147,15 @@ const Transactions = () => {
         // },
     ];
     const orderedColumns = isRtl ? [...columns].reverse() : columns;
-
+    const downloadCSV = () => {
+        const queryParams = new URLSearchParams({ transactionType: 'Income' }).toString(); // Adjust as needed
+        axiosInstance.get(`/transactionsexport?${queryParams}`, { responseType: 'blob' })
+            .then((response) => {
+                const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
+                saveAs(blob, `transactions_income.csv`);
+            })
+            .catch(error => console.error('Download error!', error));
+    };
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
@@ -170,6 +180,13 @@ const Transactions = () => {
 
                     <Button onClick={() => setOpen(true)} variant="contained">
                         {t('add')}
+                    </Button>
+                    <Button
+                        variant="contained"
+                        onClick={downloadCSV}
+                        sx={{ marginRight: '1rem' }}
+                    >
+                        {t('downloadCSV')}
                     </Button>
                     <BackButton />
 

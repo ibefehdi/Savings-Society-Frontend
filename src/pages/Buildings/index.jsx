@@ -11,6 +11,8 @@ import AddNewBuilding from './AddNewBuilding';
 import EditBuilding from './EditBuilding';
 import { useNavigate } from 'react-router-dom';
 import BackButton from '../../components/BackButton';
+import axiosInstance from '../../constants/axiosInstance';
+import { saveAs } from 'file-saver';
 
 const Buildings = () => {
     const [pageNo, setPageNo] = useState(0);
@@ -103,6 +105,16 @@ const Buildings = () => {
         // },
     ];
     const orderedColumns = isRtl ? [...columns].reverse() : columns;
+    const getCSV = () => {
+        const filterParams = new URLSearchParams().toString();
+        const queryString = `building-export/?${filterParams}`;
+        axiosInstance.get(queryString, { responseType: 'blob' })
+            .then((response) => {
+                const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
+                saveAs(blob, "buildings.csv");
+            })
+            .catch(error => console.error('Download error!', error));
+    };
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
@@ -118,6 +130,8 @@ const Buildings = () => {
                     <Button onClick={() => setOpen(true)} variant="contained">
                         {t('add')}
                     </Button>
+                    <Button variant='contained' onClick={() => { getCSV() }}>{t('export_csv')}</Button>
+
                     <BackButton />
 
                 </Box>

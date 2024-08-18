@@ -9,6 +9,8 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import axiosInstance from '../../constants/axiosInstance';
 import BackButton from '../../components/BackButton';
+import { saveAs } from 'file-saver';
+import { Button } from '@mui/material';
 
 const TotalTransactionsPerFlat = () => {
     const cacheRtl = createCache({
@@ -96,7 +98,14 @@ const TotalTransactionsPerFlat = () => {
         profit: totalProfit,
     });
     const orderedColumns = isRtl ? [...columns].reverse() : columns;
-
+    const downloadCSV = () => {
+        axiosInstance.get('/profit-report-flat/export', { responseType: 'blob' })
+            .then((response) => {
+                const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
+                saveAs(blob, "profit_report_by_flat.csv");
+            })
+            .catch(error => console.error('Download error!', error));
+    };
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Box
@@ -123,6 +132,13 @@ const TotalTransactionsPerFlat = () => {
                 >
                     {t('profit_report_per_flat')}
                 </Typography>
+                <Button
+                    variant="contained"
+                    onClick={downloadCSV}
+                    sx={{ marginRight: '1rem' }}
+                >
+                    {t('export_csv')}
+                </Button>
                 <BackButton />
 
                 <DataGrid

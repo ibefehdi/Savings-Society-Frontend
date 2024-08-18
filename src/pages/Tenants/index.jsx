@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { saveAs } from 'file-saver';
 import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -241,6 +242,16 @@ const Tenants = () => {
             </DialogActions>
         </Dialog>
     );
+    const getCSV = () => {
+        const filterParams = new URLSearchParams().toString();
+        const queryString = `activetenants/export/?${filterParams}`;
+        axiosInstance.get(queryString, { responseType: 'blob' })
+            .then((response) => {
+                const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
+                saveAs(blob, "tenants.csv");
+            })
+            .catch(error => console.error('Download error!', error));
+    };
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
@@ -253,6 +264,8 @@ const Tenants = () => {
                     <Button onClick={() => setOpen(true)} variant="contained">
                         {t('add')}
                     </Button>
+                    <Button variant='contained' onClick={() => { getCSV() }}>{t('export_csv')}</Button>
+
                     <BackButton />
 
                     <Select value={pageSize} onChange={handlePageSizeChange} sx={{ ml: '1rem', mr: '1rem' }}>

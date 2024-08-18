@@ -9,6 +9,9 @@ import rtlPlugin from 'stylis-plugin-rtl';
 import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
+import { saveAs } from 'file-saver';
+import axiosInstance from '../../constants/axiosInstance';
+
 const ViewBookings = () => {
     const { id } = useParams();
     const { t, i18n } = useTranslation();
@@ -60,7 +63,14 @@ const ViewBookings = () => {
 
     ];
     const orderedColumns = isRtl ? [...columns].reverse() : columns;
-
+    const downloadCSV = () => {
+        axiosInstance.get(`/bookings/${id}/export`, { responseType: 'blob' })
+            .then((response) => {
+                const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
+                saveAs(blob, `hall_bookings_${id}.csv`);
+            })
+            .catch(error => console.error('Download error!', error));
+    };
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
 
@@ -75,6 +85,13 @@ const ViewBookings = () => {
                     }}>
                         {t('hall_bookings')}
                     </Typography>
+                    <Button
+                        variant="contained"
+                        onClick={downloadCSV}
+                        sx={{ marginRight: '1rem' }}
+                    >
+                        {t('export_csv')}
+                    </Button>
                     <BackButton />
                 </Box>
                 <DataGrid

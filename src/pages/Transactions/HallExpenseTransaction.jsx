@@ -19,6 +19,8 @@ import { useNavigate } from 'react-router-dom';
 import AddTransactions from './AddTransactions';
 import BackButton from '../../components/BackButton';
 import TransactionDetailsModal from './TransactionDetails';
+import { saveAs } from 'file-saver';
+
 const HallExpenseTransaction = () => {
     const [pageNo, setPageNo] = useState(0)
     const [pageSize, setPageSize] = useState(10)
@@ -154,7 +156,15 @@ const HallExpenseTransaction = () => {
         // },
     ];
     const orderedColumns = isRtl ? [...columns].reverse() : columns;
-
+    const downloadCSV = () => {
+        const queryParams = new URLSearchParams({ transactionType: 'Expense' }).toString(); // Adjust as needed
+        axiosInstance.get(`/transactionsexport?${queryParams}`, { responseType: 'blob' })
+            .then((response) => {
+                const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
+                saveAs(blob, `transactions_expense.csv`);
+            })
+            .catch(error => console.error('Download error!', error));
+    };
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
@@ -180,7 +190,13 @@ const HallExpenseTransaction = () => {
                         {t('add')}
                     </Button>
                     <BackButton />
-
+                    <Button
+                        variant="contained"
+                        onClick={downloadCSV}
+                        sx={{ marginRight: '1rem' }}
+                    >
+                        {t('export_csv')}
+                    </Button>
                     <Select value={pageSize} onChange={handlePageSizeChange} sx={{ ml: '1rem', mr: '1rem' }}>
                         <MenuItem value={10}>10 {t('per_page')}</MenuItem>
                         <MenuItem value={25}>25 {t('per_page')}</MenuItem>

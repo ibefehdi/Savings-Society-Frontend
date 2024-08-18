@@ -187,13 +187,13 @@ const Vouchers = () => {
   });
   const orderedColumns = isRtl ? [...columns].reverse() : columns;
   const [buildings, setBuildings] = useState([]);
-  const getCSV = (format = 'xlsx') => {
+  const getCSV = () => {
     const filterParams = new URLSearchParams(filters).toString();
-    const queryString = `voucher-report/?${filterParams}&format=${format}`;
+    const queryString = `voucher-report/?${filterParams}`;
     axiosInstance.get(queryString, { responseType: 'blob' })
       .then((response) => {
-        const blob = new Blob([response.data], { type: format === 'csv' ? 'text/csv;charset=utf-8' : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8' });
-        saveAs(blob, `voucher-report.${format}`);
+        const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
+        saveAs(blob, "voucher_report.csv");
       })
       .catch(error => console.error('Download error!', error));
   };

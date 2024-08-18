@@ -10,6 +10,8 @@ import createCache from '@emotion/cache';
 import axios from 'axios';
 import axiosInstance from '../../constants/axiosInstance';
 import BackButton from '../../components/BackButton';
+import { saveAs } from 'file-saver';
+import { Button } from '@mui/material';
 
 const ProfitReport = () => {
     const cacheRtl = createCache({
@@ -98,7 +100,14 @@ const ProfitReport = () => {
         profit: totalProfit,
     });
     const orderedColumns = isRtl ? [...columns].reverse() : columns;
-
+    const downloadCSV = () => {
+        axiosInstance.get('/profit-report/export', { responseType: 'blob' })
+            .then((response) => {
+                const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
+                saveAs(blob, "profit_report.csv");
+            })
+            .catch(error => console.error('Download error!', error));
+    };
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Box
@@ -125,6 +134,13 @@ const ProfitReport = () => {
                 >
                     {t('profit_report_per_building')}
                 </Typography>
+                <Button
+                    variant="contained"
+                    onClick={downloadCSV}
+                    sx={{ marginRight: '1rem' }}
+                >
+                    {t('export_csv')}
+                </Button>
                 <BackButton />
 
                 <DataGrid

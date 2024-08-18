@@ -18,6 +18,8 @@ import createCache from '@emotion/cache';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Modal } from '@mui/material';
 import BackButton from '../../components/BackButton';
+import axiosInstance from '../../constants/axiosInstance';
+import { saveAs } from 'file-saver';
 
 const Contracts = () => {
     const cacheRtl = createCache({
@@ -141,7 +143,14 @@ const Contracts = () => {
         fetchData();
     }, [expired, paginationModel]);
     const orderedColumns = isRtl ? [...columns].reverse() : columns;
-
+    const downloadCSV = () => {
+        axiosInstance.get(`/contracts/export?status=${contractStatus}`, { responseType: 'blob' })
+            .then((response) => {
+                const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
+                saveAs(blob, `${contractStatus}_contracts.csv`);
+            })
+            .catch(error => console.error('Download error!', error));
+    };
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
@@ -149,6 +158,13 @@ const Contracts = () => {
                     <Typography variant="h3" component="h2" sx={{ fontStyle: 'normal', fontWeight: 600, lineHeight: '1.875rem', flexGrow: 1, marginLeft: '1.2rem' }}>
                         {t('contracts')}
                     </Typography>
+                    <Button
+                        variant="contained"
+                        onClick={downloadCSV}
+                        sx={{ marginRight: '1rem' }}
+                    >
+                        {t('export_csv')}
+                    </Button>
                     <BackButton />
 
                 </Box>
@@ -259,7 +275,11 @@ const Contracts = () => {
                                         width="100%"
                                         height="500px"
                                         style={{ border: 'none' }}
+                                        title="Contract Document PDF"
+                                        sandbox="allow-scripts allow-same-origin"
+                                        loading="lazy"
                                     />
+
                                 ) : (
                                     <img
                                         src={selectedContract.contractDocument.path}

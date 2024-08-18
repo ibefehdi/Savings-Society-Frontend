@@ -21,7 +21,7 @@ import AddNewFlat from './AddNewFlat';
 import RemoveTenantModal from './RemoveTenantModal';
 import AssignTenantModal from './AssignTenantModal';
 import BackButton from '../../components/BackButton';
-
+import { saveAs } from 'file-saver';
 const Flats = () => {
     const { id } = useParams();
     const [pageNo, setPageNo] = useState(0);
@@ -191,7 +191,19 @@ const Flats = () => {
             ),
         },
     ];
+    const downloadCSV = () => {
+        if (!selectedBuilding) {
+            // Optionally, show an alert or notification that a building must be selected
+            return;
+        }
 
+        axiosInstance.get(`/flatcsv/${selectedBuilding}`, { responseType: 'blob' })
+            .then((response) => {
+                const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
+                saveAs(blob, `flats_building_${selectedBuilding}.csv`);
+            })
+            .catch(error => console.error('Download error!', error));
+    };
     useEffect(() => {
         const fetchBuildings = async () => {
             try {
@@ -276,6 +288,13 @@ const Flats = () => {
                         onClick={() => setOpenModal(true)}
                     >
                         {t('add')}
+                    </Button>
+                    <Button
+                        variant='contained'
+                        onClick={downloadCSV}
+                        disabled={!selectedBuilding}
+                    >
+                        {t('export_csv')}
                     </Button>
                     <BackButton />
 
