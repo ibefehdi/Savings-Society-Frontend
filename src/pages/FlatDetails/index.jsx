@@ -4,9 +4,12 @@ import axiosInstance from '../../constants/axiosInstance';
 import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
 import Typography from '@mui/material/Typography';
-import { Table, TableBody, TableRow, TableCell, Tab, Tabs, Link } from '@mui/material';
+import { Table, TableBody, TableRow, TableCell, Tab, Tabs, Link, TablePagination, TableHead, Button } from '@mui/material';
 import BackButton from '../../components/BackButton';
 import { useNavigate, useLocation } from 'react-router-dom';
+import moment from 'moment';
+import { DataGrid } from '@mui/x-data-grid';
+import { saveAs } from 'file-saver';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -42,6 +45,11 @@ const FlatDetails = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const location = useLocation();
+    const [vouchers, setVouchers] = useState([]);
+    const [voucherPage, setVoucherPage] = useState(0);
+    const [voucherRowsPerPage, setVoucherRowsPerPage] = useState(10);
+    const [voucherCount, setVoucherCount] = useState(0);
+    const [voucherPageSize, setVoucherPageSize] = useState(10);
 
     const handleBackClick = () => {
         const searchParams = new URLSearchParams(location.search);
@@ -50,6 +58,100 @@ const FlatDetails = () => {
         const pageSize = searchParams.get('pageSize') || 10;
 
         navigate(`/rental/flats?buildingId=${buildingId}&page=${page}&pageSize=${pageSize}`);
+    };
+    useEffect(() => {
+        const fetchVouchers = async () => {
+            try {
+                const response = await axiosInstance.get(`/vouchers-flat/${id}`, {
+                    params: {
+                        page: voucherPage + 1,
+                        resultsPerPage: voucherRowsPerPage
+                    }
+                });
+                setVouchers(response.data.data);
+                setVoucherCount(response.data.count);
+            } catch (error) {
+                console.error("Failed to fetch vouchers:", error);
+            }
+        };
+
+        if (value === 4) {
+            fetchVouchers();
+        }
+    }, [id, value, voucherPage, voucherRowsPerPage]);
+    const columns = [
+        {
+            field: 'description',
+            headerName: t('description'),
+            flex: 1,
+            renderCell: (params) => {
+                const buildingInfo = params.row.flatId ? params.row.flatId?.buildingId : params.row.buildingId;
+                const flatNumber = params.row.flatId ? `, Flat Number: ${params.row.flatId?.flatNumber}` : "";
+                return `${buildingInfo.name}${flatNumber}`;
+            }
+        },
+        {
+            field: 'name',
+            headerName: t('tenantName'),
+            flex: 1,
+            valueGetter: (params) => params.row.tenantId?.name
+        },
+        {
+            field: 'amount',
+            headerName: t('rentAmount'),
+            flex: 1,
+            renderCell: (params) => `${params.value} (Status: ${params.row?.status})`
+        },
+        {
+            field: 'pendingDate',
+            headerName: t('pendingDate'),
+            flex: 1,
+            renderCell: (params) => {
+                const pendingDate = params.value ? moment(params.value).format('MMMM') : '';
+                const hasPaidDate = params.row.paidDate;
+                const color = hasPaidDate ? 'black' : 'red';
+                return <span style={{ color }}>{pendingDate}</span>;
+            }
+        },
+        {
+            field: 'paidDate',
+            headerName: t('paidDate'),
+            flex: 1,
+            renderCell: (params) => {
+                if (!params.value) return '';
+                const paidDate = moment(params.value).format('DD-MM-YYYY');
+                return <span style={{ color: 'green' }}>{paidDate}</span>;
+            }
+        },
+        {
+            field: 'voucherNo',
+            headerName: t('voucherNo'),
+            flex: 1,
+            valueGetter: (params) => {
+                if (!params.value) return '';
+                return params.value
+            }
+        },
+    ];
+    const handleChangePage = (event, newPage) => {
+        setVoucherPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setVoucherRowsPerPage(parseInt(event.target.value, 10));
+        setVoucherPage(0);
+    };
+    const getVoucherCSV = () => {
+        const queryString = `voucher-flat-csv/${id}`;
+        axiosInstance.get(queryString, { responseType: 'blob' })
+            .then((response) => {
+                const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
+                saveAs(blob, `voucher_report_flat_${id}.csv`);
+            })
+            .catch(error => {
+                console.error('Download error!', error);
+                // You might want to show an error message to the user here
+            });
     };
     useEffect(() => {
         const fetchFlatDetails = async () => {
@@ -112,10 +214,12 @@ const FlatDetails = () => {
 
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                            <Tab label={t('building')} {...a11yProps(0)} />
-                            <Tab label={t('tenant')} {...a11yProps(1)} />
-                            <Tab label={t('contract')} {...a11yProps(2)} />
-                            <Tab label={t('flat')} {...a11yProps(3)} />
+                            <Tab label={t('buildings')} {...a11yProps(0)} />
+                            <Tab label={t('tenants')} {...a11yProps(1)} />
+                            <Tab label={t('contracts')} {...a11yProps(2)} />
+                            <Tab label={t('flats')} {...a11yProps(3)} />
+                            <Tab label={t('transaction_history')} {...a11yProps(4)} />
+
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
@@ -174,6 +278,30 @@ const FlatDetails = () => {
                                     <DetailRow label={t('vacant')} value={flatDetails.vacant ? 'Yes' : 'No'} />
                                 </TableBody>
                             </Table>
+                        </Box>
+                    </TabPanel>
+                    <TabPanel value={value} index={4}>
+                        <Button
+                            variant="contained"
+                            onClick={getVoucherCSV}
+                            style={{ marginBottom: '2rem' }}
+                        >
+                            {t('export_csv')}
+                        </Button>
+
+                        <Box style={{ height: 400, width: '100%' }}>
+                            <DataGrid
+                                rows={vouchers}
+                                columns={columns}
+                                pageSize={voucherPageSize}
+                                rowCount={voucherCount}
+                                paginationMode="server"
+                                onPageChange={(newPage) => setVoucherPage(newPage)}
+                                onPageSizeChange={(newPageSize) => setVoucherPageSize(newPageSize)}
+                                rowsPerPageOptions={[5, 10, 20]}
+                                pagination
+                                getRowId={(row) => row._id}
+                            />
                         </Box>
                     </TabPanel>
                 </Box>

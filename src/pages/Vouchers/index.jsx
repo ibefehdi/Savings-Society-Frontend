@@ -105,18 +105,21 @@ const Vouchers = () => {
       field: 'pendingDate',
       headerName: t('pendingDate'),
       flex: 1,
-      valueGetter: (params) => {
-        if (!params.value) return '';
-        return moment(params.value).format('MMMM');
+      renderCell: (params) => {
+        const pendingDate = params.value ? moment(params.value).format('MMMM') : '';
+        const hasPaidDate = params.row.paidDate;
+        const color = hasPaidDate ? 'black' : 'red';
+        return <span style={{ color }}>{pendingDate}</span>;
       }
     },
     {
       field: 'paidDate',
       headerName: t('paidDate'),
       flex: 1,
-      valueGetter: (params) => {
+      renderCell: (params) => {
         if (!params.value) return '';
-        return moment(params.value).format('DD-MM-YYYY');
+        const paidDate = moment(params.value).format('DD-MM-YYYY');
+        return <span style={{ color: 'green' }}>{paidDate}</span>;
       }
     },
     {

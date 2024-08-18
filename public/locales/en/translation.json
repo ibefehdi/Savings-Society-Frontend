@@ -226,5 +226,6 @@
   "confirmDeleteFlatText":"Are you sure you want to delete this flat? this will delete the tenant from the system as well",
   "view_bookings":"View Bookings",
   "voucherNo":"Voucher No",
-  "interest":"Interest"
+  "interest":"Interest",
+  "transaction_history":"Transaction History"
 }

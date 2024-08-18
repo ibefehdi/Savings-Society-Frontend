@@ -243,5 +243,6 @@
   "hall_bookings":"حجوزات الصالة",
   "voucherNo":"رقم سند القبض",
   "shareIncrease":"فائدة السهم",
-  "interest":"الاجمالي"
+  "interest":"الاجمالي",
+  "transaction_history":"تاريخ المعاملات"
 }
