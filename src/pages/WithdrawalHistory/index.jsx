@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useFetch } from '../../hooks/useFetch';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { prefixer } from 'stylis';
@@ -9,14 +9,29 @@ import createCache from '@emotion/cache';
 import { DataGrid } from '@mui/x-data-grid';
 import axiosInstance from '../../constants/axiosInstance';
 import BackButton from '../../components/BackButton';
+import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
+
 const WithdrawalHistory = () => {
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, setPageSize] = useState(10);
     const { t, i18n } = useTranslation();
-    const { data, fetchData, count } = useFetch('/withdrawalhistory', pageNo + 1, pageSize);
+    const [filters, setFilters] = useState({
+        membersCode: '',
+        fullName: '',
+        civilId: '',
+        mobileNumber: '',
+        type: '',
+        withdrawalDate: '',
+        newAmount: '',
+        admin: ''
+    });
+    const [showFilters, setShowFilters] = useState(false);
+    const { data, fetchData, count } = useFetch('/withdrawalhistory', pageNo + 1, pageSize, filters);
     useEffect(() => {
         fetchData();
-    }, [pageNo, pageSize]);
+    }, [pageNo, pageSize, filters]);
+    const toggleFilters = () => setShowFilters(!showFilters);
+
     const columns = [
         {
             field: 'membersCode',
@@ -135,9 +150,67 @@ const WithdrawalHistory = () => {
                         <Button variant='contained' onClick={() => handleExport('xlsx')}>{t('export_xlsx')}</Button>
                         <BackButton />
 
+                        <Button onClick={toggleFilters} variant="outlined" sx={{ direction: isRtl ? 'rtl' : 'ltr' }}>
+                            <FilterListOutlinedIcon /> {t('filter')}
+                        </Button>
                     </Box>
                 </Box>
 
+                {showFilters && (
+                    <Box sx={{ display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginBottom: '1rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
+                        <TextField
+                            label={t('serial')}
+                            variant="outlined"
+                            value={filters.membersCode}
+                            onChange={(e) => setFilters({ ...filters, membersCode: e.target.value })}
+                            fullWidth
+                            autoComplete='off'
+                        />
+                        <TextField
+                            label={t('full_name')}
+                            variant="outlined"
+                            value={filters.fullName}
+                            onChange={(e) => setFilters({ ...filters, fullName: e.target.value })}
+                            fullWidth
+                            autoComplete='off'
+                        />
+                        <TextField
+                            label={t('civil_id')}
+                            variant="outlined"
+                            value={filters.civilId}
+                            onChange={(e) => setFilters({ ...filters, civilId: e.target.value })}
+                            fullWidth
+                            autoComplete='off'
+                        />
+                        <TextField
+                            label={t('phone_number')}
+                            variant="outlined"
+                            value={filters.mobileNumber}
+                            onChange={(e) => setFilters({ ...filters, mobileNumber: e.target.value })}
+                            fullWidth
+                            autoComplete='off'
+                        />
+                        <TextField
+                            label={t('type')}
+                            variant="outlined"
+                            value={filters.type}
+                            onChange={(e) => setFilters({ ...filters, type: e.target.value })}
+                            fullWidth
+                            autoComplete='off'
+                        />
+                        <TextField
+                            label={t('withdrawal_date')}
+                            type="date"
+                            variant="outlined"
+                            value={filters.withdrawalDate}
+                            onChange={(e) => setFilters({ ...filters, withdrawalDate: e.target.value })}
+                            fullWidth
+                            InputLabelProps={{ shrink: true }}
+                        />
+                       
+                        
+                    </Box>
+                )}
                 <DataGrid
                     rows={data}
                     columns={orderedColumns.map((column) => ({

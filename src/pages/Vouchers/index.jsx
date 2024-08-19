@@ -90,6 +90,16 @@ const Vouchers = () => {
       }
     },
     {
+      field: 'flatNumber',
+      headerName: t('flatNumber'),
+      flex: 1,
+      renderCell: (params) => {
+
+        const flatNumber = params.row.flatId ? `  ${params.row.flatId?.flatNumber}` : "";
+        return `${flatNumber}`;
+      }
+    },
+    {
       field: 'name',
       headerName: t('tenantName'),
       flex: 1,

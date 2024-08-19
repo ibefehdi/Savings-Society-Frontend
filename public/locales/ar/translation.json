@@ -244,5 +244,6 @@
   "voucherNo":"رقم سند القبض",
   "shareIncrease":"فائدة السهم",
   "interest":"الاجمالي",
-  "transaction_history":"تاريخ المعاملات"
+  "transaction_history":"تاريخ المعاملات",
+  "search":"بحث"
 }

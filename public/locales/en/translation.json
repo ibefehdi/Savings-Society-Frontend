@@ -227,5 +227,6 @@
   "view_bookings":"View Bookings",
   "voucherNo":"Voucher No",
   "interest":"Interest",
-  "transaction_history":"Transaction History"
+  "transaction_history":"Transaction History",
+  "search":"Search"
 }
