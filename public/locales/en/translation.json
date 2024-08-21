@@ -228,5 +228,7 @@
   "voucherNo":"Voucher No",
   "interest":"Interest",
   "transaction_history":"Transaction History",
-  "search":"Search"
+  "search":"Search",
+  "property_evacuation_form":"Property Evacuation Form",
+  "check_disbursement_form":"Check Disbursement Form"
 }
