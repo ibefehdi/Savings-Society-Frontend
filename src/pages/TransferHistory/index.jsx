@@ -32,7 +32,7 @@ const TransferHistory = () => {
     const { data, fetchData, count } = useFetch('/TransferHistory', pageNo + 1, pageSize, filters);
     useEffect(() => {
         fetchData();
-    }, [pageNo, pageSize, filters]);
+    }, [pageNo, pageSize]);
 
     const toggleFilters = () => {
         setShowFilters(!showFilters);
@@ -143,6 +143,10 @@ const TransferHistory = () => {
             // Handle error (e.g., show an error message to the user)
         }
     };
+    const handleSearch = () => {
+        setFilters(filters);
+        fetchData();
+    };
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
 
@@ -213,7 +217,9 @@ const TransferHistory = () => {
                                 shrink: true,
                             }}
                         />
-
+                        <Button variant="contained" onClick={handleSearch}>
+                            {t('search')}
+                        </Button>
 
                     </Box>
                 )}

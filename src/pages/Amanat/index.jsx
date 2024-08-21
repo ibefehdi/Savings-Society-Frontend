@@ -183,7 +183,7 @@ const Amanat = () => {
 
   useEffect(() => {
     fetchData();
-  }, [pageNo, pageSize, filters]);
+  }, [pageNo, pageSize]);
   const [paginationModel, setPaginationModel] = useState({
     pageSize: pageSize,
     page: 0,
@@ -232,6 +232,10 @@ const Amanat = () => {
       console.error(`Error exporting ${format}:`, error);
       // Handle error (e.g., show an error message to the user)
     }
+  };
+  const handleSearch = () => {
+    setFilters(filters);
+    fetchData();
   };
   return (
     <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
@@ -300,6 +304,9 @@ const Amanat = () => {
           <MenuItem value={0}>{t('active')}</MenuItem>
           <MenuItem value={1}>{t('inactive')}</MenuItem>
         </TextField> */}
+        <Button variant="contained" onClick={handleSearch}>
+          {t('search')}
+        </Button>
       </Box>)}
       <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
         <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>

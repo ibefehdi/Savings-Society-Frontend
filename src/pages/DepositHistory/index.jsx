@@ -32,7 +32,7 @@ const DepositHistory = () => {
 
     useEffect(() => {
         fetchData();
-    }, [pageNo, pageSize, filters]);
+    }, [pageNo, pageSize]);
     const columns = [
         {
             field: 'membersCode',
@@ -134,7 +134,10 @@ const DepositHistory = () => {
         }
     };
     const toggleFilters = () => setShowFilters(!showFilters);
-
+    const handleSearch = () => {
+        setFilters(filters);
+        fetchData();
+    };
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
 
@@ -209,8 +212,10 @@ const DepositHistory = () => {
                             fullWidth
                             InputLabelProps={{ shrink: true }}
                         />
-                        
-                       
+
+                        <Button variant="contained" onClick={handleSearch}>
+                            {t('search')}
+                        </Button>
                     </Box>
                 )}
                 <DataGrid

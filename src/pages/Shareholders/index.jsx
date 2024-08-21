@@ -279,7 +279,7 @@ const Shareholders = () => {
   }, [location.search]);
   useEffect(() => {
     fetchData();
-  }, [pageNo, pageSize, filters]);
+  }, [pageNo, pageSize]);
 
   const toggleFilters = () => {
     setShowFilters(!showFilters);
@@ -329,91 +329,76 @@ const Shareholders = () => {
     // Fetch data with cleared filters but same page
     fetchData();
   };
+  const handleSearch = () => {
+    setFilters(filters);
+    fetchData();
+  };
   return (
     <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
-      <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0, direction: isRtl ? 'rtl' : 'ltr' }}>
+      <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '1rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '1rem' : 0, direction: isRtl ? 'rtl' : 'ltr' }}>
         <FilterListOutlinedIcon /> {t('filter')}
       </Button>
-      {showFilters && (<Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', marginRight: isRtl ? "2rem" : 0 }}>
-        <TextField
-          label={t('serial')}
-          variant="outlined"
-          value={filters.membersCode}
-          onChange={(e) => setFilters({ ...filters, membersCode: e.target.value })}
-          fullWidth
-          autoComplete='off'
-        />
-        <TextField
-          label={t('full_name')}
-          variant="outlined"
-          value={filters.fName}
-          onChange={(e) => setFilters({ ...filters, fName: e.target.value })}
-          fullWidth
-          autoComplete='off'
-
-        />
-        {/* <TextField
-            label={t('last_name')}
+      {showFilters && (
+        <Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '1rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', marginRight: isRtl ? "1rem" : 0 }}>
+          <TextField
+            label={t('serial')}
             variant="outlined"
-            value={filters.lName}
-            onChange={(e) => setFilters({ ...filters, lName: e.target.value })}
+            value={filters.membersCode}
+            onChange={(e) => setFilters({ ...filters, membersCode: e.target.value })}
             fullWidth
             autoComplete='off'
-
-          /> */}
-        <TextField
-          label={t('civil_id')}
-          variant="outlined"
-          value={filters.civilId}
-          onChange={(e) => setFilters({ ...filters, civilId: e.target.value })}
-          fullWidth
-          autoComplete='off'
-
-        />
-
-        <TextField
-          label={t('workplace')}
-          variant="outlined"
-          select
-          onChange={(e) => setFilters({ ...filters, workplace: e.target.value })}
-          fullWidth
-          autoComplete='off'
-          value={filters.workplace}
-        >
-          {workplaces.map((place) => (
-            <MenuItem key={place.description} value={place.description}>
-              {place.description}
-            </MenuItem>
-          ))}
-        </TextField>
-        {/* <TextField
-            label={t('membership_status')}
+          />
+          <TextField
+            label={t('full_name')}
+            variant="outlined"
+            value={filters.fName}
+            onChange={(e) => setFilters({ ...filters, fName: e.target.value })}
+            fullWidth
+            autoComplete='off'
+          />
+          <TextField
+            label={t('civil_id')}
+            variant="outlined"
+            value={filters.civilId}
+            onChange={(e) => setFilters({ ...filters, civilId: e.target.value })}
+            fullWidth
+            autoComplete='off'
+          />
+          <TextField
+            label={t('workplace')}
             variant="outlined"
             select
-            value={filters.membershipStatus}
-            onChange={(e) => setFilters({ ...filters, membershipStatus: e.target.value })}
+            onChange={(e) => setFilters({ ...filters, workplace: e.target.value })}
+            fullWidth
+            autoComplete='off'
+            value={filters.workplace}
+          >
+            {workplaces.map((place) => (
+              <MenuItem key={place.description} value={place.description}>
+                {place.description}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            label={t('area')}
+            variant="outlined"
+            select
+            value={filters.area}
+            onChange={(e) => setFilters({ ...filters, area: e.target.value })}
             fullWidth
             autoComplete='off'
           >
-            <MenuItem value={0}>{t('active')}</MenuItem>
-            <MenuItem value={1}>{t('inactive')}</MenuItem>
-          </TextField> */}
-        <TextField
-          label={t('area')}
-          variant="outlined"
-          select
-          value={filters.area}
-          onChange={(e) => setFilters({ ...filters, area: e.target.value })}
-          fullWidth
-          autoComplete='off'
-        >
-          {AREAS.map((area) => (
-            <MenuItem key={area.value} value={area.value}>
-              {area.description}
-            </MenuItem>
-          ))}
-        </TextField>
-      </Box>)}
+            {AREAS.map((area) => (
+              <MenuItem key={area.value} value={area.value}>
+                {area.description}
+              </MenuItem>
+            ))}
+          </TextField>
+          <Button variant="contained" onClick={handleSearch}>
+            {t('search')}
+          </Button>
+        </Box>
+      )}
       <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '1rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
 
 

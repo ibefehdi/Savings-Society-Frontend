@@ -158,7 +158,7 @@ const SavingsWithdrawalPage = () => {
             headerName: t('savings'),
             flex: 1,
             renderCell: (params) => {
-                return params.row.savings && params.row.savings?.totalAmount 
+                return params.row.savings && params.row.savings?.totalAmount
             }
         },
         {
@@ -296,6 +296,10 @@ const SavingsWithdrawalPage = () => {
             })
             .catch(error => console.error('Download error!', error));
     };
+    const handleSearch = () => {
+        setFilters(filters);
+        fetchData();
+    };
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
@@ -364,6 +368,9 @@ const SavingsWithdrawalPage = () => {
                     <MenuItem value={0}>{t('active')}</MenuItem>
                     <MenuItem value={1}>{t('inactive')}</MenuItem>
                 </TextField>
+                <Button variant="contained" onClick={handleSearch}>
+                    {t('search')}
+                </Button>
             </Box>)}
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
                 <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>

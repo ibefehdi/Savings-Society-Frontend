@@ -29,7 +29,7 @@ const WithdrawalHistory = () => {
     const { data, fetchData, count } = useFetch('/withdrawalhistory', pageNo + 1, pageSize, filters);
     useEffect(() => {
         fetchData();
-    }, [pageNo, pageSize, filters]);
+    }, [pageNo, pageSize]);
     const toggleFilters = () => setShowFilters(!showFilters);
 
     const columns = [
@@ -131,6 +131,10 @@ const WithdrawalHistory = () => {
             // Handle error (e.g., show an error message to the user)
         }
     };
+    const handleSearch = () => {
+        setFilters(filters);
+        fetchData();
+    };
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
 
@@ -207,8 +211,10 @@ const WithdrawalHistory = () => {
                             fullWidth
                             InputLabelProps={{ shrink: true }}
                         />
-                       
-                        
+
+                        <Button variant="contained" onClick={handleSearch}>
+                            {t('search')}
+                        </Button>
                     </Box>
                 )}
                 <DataGrid
