@@ -188,7 +188,7 @@ const FinancialReporting = () => {
     });
     const isRtl = i18n.dir() === 'rtl';
     const orderedColumns = isRtl ? [...columns].reverse() : columns;
-    const year = new Date().getFullYear();
+    const year = new Date().getFullYear() - 1;
     const CustomFooter = () => (
         <GridFooterContainer>
             <GridFooter />
