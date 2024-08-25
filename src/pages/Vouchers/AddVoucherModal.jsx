@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Box, Typography, Button, TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { useForm, Controller, } from 'react-hook-form';
 import axiosInstance from '../../constants/axiosInstance';
+import { useTranslation } from 'react-i18next';
 
 const AddVoucherModal = ({ open, onClose, fetchData, editingVoucher }) => {
     const { control, handleSubmit, reset, watch, setValue } = useForm();
     const [buildings, setBuildings] = useState([]);
     const [flats, setFlats] = useState([]);
     const [tenants, setTenants] = useState([]);
-
+    const { t, i18n } = useTranslation()
     const selectedBuildingId = watch('buildingId');
     const selectedFlatId = watch('flatId');
 
@@ -124,11 +125,11 @@ const AddVoucherModal = ({ open, onClose, fetchData, editingVoucher }) => {
                         control={control}
                         defaultValue=""
                         render={({ field }) => (
-                            <TextField {...field} label="Voucher No" fullWidth margin="normal" />
+                            <TextField {...field} label={t('voucherNo')} fullWidth margin="normal" />
                         )}
                     />
                     <FormControl fullWidth margin="normal">
-                        <InputLabel>Building</InputLabel>
+                        <InputLabel>{t('buildings')}</InputLabel>
                         <Controller
                             name="buildingId"
                             control={control}
@@ -144,7 +145,7 @@ const AddVoucherModal = ({ open, onClose, fetchData, editingVoucher }) => {
                         />
                     </FormControl>
                     <FormControl fullWidth margin="normal">
-                        <InputLabel>Flat</InputLabel>
+                        <InputLabel>{t('flats')}</InputLabel>
                         <Controller
                             name="flatId"
                             control={control}
@@ -160,7 +161,7 @@ const AddVoucherModal = ({ open, onClose, fetchData, editingVoucher }) => {
                         />
                     </FormControl>
                     <FormControl fullWidth margin="normal">
-                        <InputLabel>Tenant</InputLabel>
+                        <InputLabel>{t('tenants')}</InputLabel>
                         <Controller
                             name="tenantId"
                             control={control}
@@ -180,7 +181,7 @@ const AddVoucherModal = ({ open, onClose, fetchData, editingVoucher }) => {
                         control={control}
                         defaultValue=""
                         render={({ field }) => (
-                            <TextField {...field} label="Amount" fullWidth margin="normal" disabled={editingVoucher ? false : true} />
+                            <TextField {...field} label={t('amount')} fullWidth margin="normal" disabled={editingVoucher ? false : true} />
                         )}
                     />
                     <Controller
@@ -190,7 +191,7 @@ const AddVoucherModal = ({ open, onClose, fetchData, editingVoucher }) => {
                         render={({ field }) => (
                             <TextField
                                 {...field}
-                                label="Pending Month"
+                                label={t('pendingDate')}
                                 type="month"
                                 fullWidth
                                 margin="normal"
@@ -209,7 +210,7 @@ const AddVoucherModal = ({ open, onClose, fetchData, editingVoucher }) => {
                         control={control}
                         defaultValue=""
                         render={({ field }) => (
-                            <TextField {...field} label="Paid Date" type="date" fullWidth margin="normal" InputLabelProps={{ shrink: true }} />
+                            <TextField {...field} label={t('paidDate')} type="date" fullWidth margin="normal" InputLabelProps={{ shrink: true }} />
                         )}
                     />
                     <Controller
@@ -218,14 +219,15 @@ const AddVoucherModal = ({ open, onClose, fetchData, editingVoucher }) => {
                         defaultValue="Pending"
                         render={({ field }) => (
                             <Select {...field} fullWidth margin="normal">
-                                <MenuItem value="Pending">Pending</MenuItem>
-                                <MenuItem value="Paid">Paid</MenuItem>
+                                <MenuItem value="Pending">{t('pending')}</MenuItem>
+                                <MenuItem value="Paid">{t('paid')}</MenuItem>
                             </Select>
                         )}
                     />
-                    <Button onClick={onClose}>Cancel</Button>
+                    <br />
+                    <Button onClick={onClose}>{t('close')}</Button>
                     <Button type="submit" variant="contained">
-                        {editingVoucher ? 'Update' : 'Save'}
+                        {editingVoucher ? t('edit') : t('add')}
                     </Button>
                 </form>
             </Box>

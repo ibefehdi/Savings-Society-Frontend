@@ -186,7 +186,7 @@ const Transactions = () => {
                         onClick={downloadCSV}
                         sx={{ marginRight: '1rem' }}
                     >
-                        {t('downloadCSV')}
+                        {t('export_csv')}
                     </Button>
                     <BackButton />
 

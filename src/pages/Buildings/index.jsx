@@ -58,7 +58,7 @@ const Buildings = () => {
         },
         {
             field: 'type',
-            headerName: t('type'),
+            headerName: t('building_type'),
             flex: 1,
             valueGetter: (params) => `${params.row.type}`,
         },
