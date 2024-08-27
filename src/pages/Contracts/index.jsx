@@ -48,16 +48,18 @@ const Contracts = () => {
         setOpenModal(false);
         setSelectedContract(null);
     };
-    const [contractStatus, setContractStatus] = useState('active');
+    const [contractStatus, setContractStatus] = useState('all');
     const [paginationModel, setPaginationModel] = useState({
         pageSize: pageSize,
         page: 0,
     });
     const { data, fetchData, count } = useFetch(
-        `/contracts/${contractStatus}`,
+        contractStatus === 'all' ? '/contracts' :
+            contractStatus === 'active' ? '/contracts/active' : '/contracts/inactive',
         paginationModel.page + 1,
         paginationModel.pageSize
     );
+
 
     useEffect(() => {
         fetchData();
@@ -191,10 +193,11 @@ const Contracts = () => {
                             label={t('status')}
                             onChange={(e) => {
                                 setContractStatus(e.target.value);
-                                setPaginationModel({ ...paginationModel, page: 0 }); // Reset to first page on status change
+                                setPaginationModel({ ...paginationModel, page: 0 });
                             }}
                             fullWidth={true}
                         >
+                            <MenuItem value="all">{t('all')}</MenuItem>
                             <MenuItem value="active">{t('active')}</MenuItem>
                             <MenuItem value="inactive">{t('inactive')}</MenuItem>
                         </Select>
