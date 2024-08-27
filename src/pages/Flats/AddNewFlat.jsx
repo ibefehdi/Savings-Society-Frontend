@@ -112,7 +112,7 @@ const AddNewFlat = ({ editMode, setOpen, fetchData, open, flatData }) => {
                             select
                             margin="normal"
                             fullWidth
-                            label={t('building')}
+                            label={t('buildings')}
                             onChange={onChange}
                             value={value}
                             error={!!error}

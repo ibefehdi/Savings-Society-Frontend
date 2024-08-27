@@ -230,5 +230,8 @@
   "transaction_history":"Transaction History",
   "search":"Search",
   "property_evacuation_form":"Property Evacuation Form",
-  "check_disbursement_form":"Check Disbursement Form"
+  "check_disbursement_form":"Check Disbursement Form",
+  "Pending":"Pending",
+  "paid":"Paid",
+  "contract_document":"Contract Document"
 }

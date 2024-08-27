@@ -234,6 +234,8 @@
   "delete_tenant":"حذف المستأجر",
   "are_you_sure_delete_tenant":"هل أنت متأكد أنك تريد حذف هذا المستأجر؟",
   "real_estate":"العقارات",
+  "pending":"الدفع معلق",
+  "paid":"مدفوع",
   "resignation_form":"نموذج الاستقالة",
   "confirmDeleteFlat": "تأكيد حذف الشقة؟",
   "confirmDeleteFlatText": "هل أنت متأكد أنك تريد حذف هذه الشقة؟ سيؤدي هذا أيضًا إلى حذف المستأجر من النظام",
@@ -246,5 +248,6 @@
   "shareIncrease":"فائدة السهم",
   "interest":"الاجمالي",
   "transaction_history":"تاريخ المعاملات",
-  "search":"بحث"
+  "search":"بحث",
+  "contract_document":"مستند للعقد"
 }

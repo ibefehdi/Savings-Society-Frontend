@@ -105,7 +105,7 @@ const Contracts = () => {
                     color: params.value ? 'red' : 'green',
                     fontWeight: 'bold'
                 }}>
-                    {params.value ? 'Inactive' : 'Active'}
+                    {params.value ? t('inactive') : t('active')}
                 </span>
             ),
         },
