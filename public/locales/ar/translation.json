@@ -252,5 +252,9 @@
   "contract_document":"مستند للعقد",
   "move_current_savings_to_amanat":"تعديل ارصدة",
   "data_of_tenants":"بيانات المستأجرين",
-  "confirm_delete_booking":"هل أنت متأكد أنك تريد حذف هذا الحجز؟"
+  "confirm_delete_booking":"هل أنت متأكد أنك تريد حذف هذا الحجز؟",
+  "change_balance":"تغيير الرصيد",
+  "new_balance":"الرصيد الجديد",
+  "invalid_balance": "رصيد غير صالح",
+  "balance_change_failed": "فشل تغيير الرصيد"
 }

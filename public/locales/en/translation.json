@@ -235,5 +235,10 @@
   "paid":"Paid",
   "contract_document":"Contract Document",
   "move_current_savings_to_amanat":"Move Current Savings To Amanat",
-  "confirm_delete_booking":"Are you sure you want to delete this booking?"
+  "confirm_delete_booking":"Are you sure you want to delete this booking?",
+  "change_balance": "Change Balance",
+  "new_balance": "New Balance",
+  "cancel": "Cancel",
+  "invalid_balance": "Invalid Balance",
+  "balance_change_failed": "Balance Change Failed"
 }

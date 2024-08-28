@@ -12,6 +12,7 @@ import MoveInterestToSavings from '../Withdrawals/MoveInterestToSavings';
 import { t } from 'i18next';
 import MoveSavingsToAmanatModal from '../Withdrawals/MoveSavingsToAmanatModal';
 import { useFetchNoPagination } from '../../hooks/useFetchNoPagination';
+import ChangeBalanceModal from '../Withdrawals/ChangeBalanceModal';
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -70,20 +71,25 @@ const ShareholderDetails = () => {
 
     // const savingsOfYear = shareholderDetails?.savings?.filter(s => parseInt(s.year, 10) === selectedYear);
     // const sharesOfYear = shareholderDetails?.share?.filter(s => s.year === selectedYear);
-    useEffect(() => {
-        const fetchShareholderDetails = async () => {
-            try {
-                const response = await axiosInstance.get(`shareholder/${id}`);
-                setShareholderDetails(response.data.shareholder);
-                if (response.data.shareholder.share.length > 0) {
-                    setSelectedYear(response.data.shareholder.share[0].year);
-                }
-            } catch (error) {
-                console.error("Failed to fetch shareholder details:", error);
+    const fetchShareholderDetails = async () => {
+        try {
+            const response = await axiosInstance.get(`shareholder/${id}`);
+            setShareholderDetails(response.data.shareholder);
+            if (response.data.shareholder.share.length > 0) {
+                setSelectedYear(response.data.shareholder.share[0].year);
             }
-        };
+        } catch (error) {
+            console.error("Failed to fetch shareholder details:", error);
+        }
+    };
+    useEffect(() => {
+
         fetchShareholderDetails();
     }, [id]);
+    const [changeBalanceOpen, setChangeBalanceOpen] = useState(false);
+    const [newBalance, setNewBalance] = useState('');
+
+
     // useEffect(() => {
     //     console.log("Shares", sharesOfYear);
     // }, [sharesOfYear]);
@@ -199,7 +205,19 @@ const ShareholderDetails = () => {
                                     <TableCell>{t('savings_increase')}</TableCell>
                                     <TableCell>{shareholderDetails?.savings?.savingsIncrease ? shareholderDetails?.savings?.savingsIncrease : "N/A"}</TableCell>
                                 </TableRow>
-
+                                <TableRow>
+                                    <TableCell>{t('total')}</TableCell>
+                                    <TableCell>{shareholderDetails?.savings?.alraseed ? shareholderDetails?.savings?.alraseed : "N/A"}</TableCell>
+                                    <TableCell>
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={() => setChangeBalanceOpen(true)}
+                                        >
+                                            {t('change_balance')}
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
                                 <TableRow>
                                     <TableCell colSpan={4}>
                                         <Button
@@ -282,6 +300,13 @@ const ShareholderDetails = () => {
                 setOpen={setMoveToAmanatOpen}
                 fetchData={() => { window.location.reload(); }}
 
+            />
+            <ChangeBalanceModal
+                open={changeBalanceOpen}
+                setOpen={setChangeBalanceOpen}
+                currentBalance={shareholderDetails?.savings?.alraseed || 0}
+                shareholderId={shareholderDetails._id}
+                onSuccess={fetchShareholderDetails}
             />
         </React.Fragment>
     );
