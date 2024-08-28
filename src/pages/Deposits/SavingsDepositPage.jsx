@@ -24,6 +24,8 @@ import WithdrawalModal from "../Withdrawals/WithdrawalModal"
 import MoveInterestToSavings from '../Withdrawals/MoveInterestToSavings';
 import MoveSavingsToAmanatModal from '../Withdrawals/MoveSavingsToAmanatModal';
 import BackButton from '../../components/BackButton';
+import MoveCurrentSavingsToAmanatModal from '../Withdrawals/MoveCurrentSavingsToAmanatModal';
+
 
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
     const { i18n, t } = useTranslation();
@@ -84,6 +86,20 @@ const InterestToSavings = ({ id, fetchData, setOpen, open, setSelectedShareholde
         </Button>
     );
 };
+const MoveCurrentSavingsToAmanatButton = ({ id, fetchData, setOpen, setSelectedShareholderId }) => {
+    const { t } = useTranslation();
+
+    const handleClick = () => {
+        setSelectedShareholderId(id);
+        setOpen(true);
+    };
+
+    return (
+        <Button onClick={handleClick} variant="outlined">
+            {t("move_current_savings_to_amanat")}
+        </Button>
+    );
+};
 const SavingsDepositPage = () => {
     const cacheRtl = createCache({
         key: 'muirtl',
@@ -114,6 +130,9 @@ const SavingsDepositPage = () => {
     const [withdrawalOpen, setWithdrawalOpen] = useState(false);
     const [moveToAmanat, setMoveToAmanat] = useState(false);
     const [interestToSavings, setInterestToSavings] = useState(false);
+    const [moveCurrentSavingsToAmanatOpen, setMoveCurrentSavingsToAmanatOpen] = useState(false);
+
+
     const [moveInterestToSavings, setMoveInterestToSavings] = useState(false);
     const toggleFilters = () => {
         setShowFilters(!showFilters);
@@ -325,7 +344,23 @@ const SavingsDepositPage = () => {
                     open={moveInterestToSavings}  // Change this line
                 />
             },
-        }] : []),
+
+        }]
+
+            : []), ...(admin ? [{
+                field: 'moveCurrentSavingsToAmanat',
+                headerName: t('move_current_savings_to_amanat'),
+                sortable: false,
+                flex: 2.5,
+                renderCell: (params) => {
+                    return <MoveCurrentSavingsToAmanatButton
+                        id={params.id}
+                        fetchData={fetchData}
+                        setOpen={setMoveCurrentSavingsToAmanatOpen}
+                        setSelectedShareholderId={setSelectedShareholderId}
+                    />;
+                },
+            }] : []),
 
     ];
 
@@ -514,6 +549,12 @@ const SavingsDepositPage = () => {
                 fetchData={fetchData}
                 open={moveToAmanat}
                 setOpen={setMoveToAmanat}
+            />
+            <MoveCurrentSavingsToAmanatModal
+                id={selectedShareholderId}
+                fetchData={fetchData}
+                open={moveCurrentSavingsToAmanatOpen}
+                setOpen={setMoveCurrentSavingsToAmanatOpen}
             />
         </CacheProvider>
 

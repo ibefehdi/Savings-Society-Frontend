@@ -150,16 +150,16 @@ const MoveInterestToSavings = ({ id, fetchData, setOpen, open, savings }) => {
                         </MenuItem>
                     ))}
                 </TextField>)} */}
-                {savings && (
-                    <TextField
-                        id="availableBalance"
-                        margin="normal"
-                        value={shareholderDetails?.totalInterest}
-                        fullWidth
-                        label={t('availableBalance')}
-                        disabled={true}
-                    />
-                )}
+
+                <TextField
+                    id="availableBalance"
+                    margin="normal"
+                    value={shareholderDetails?.totalInterest}
+                    fullWidth
+                    label={t('availableBalance')}
+                    disabled={true}
+                />
+
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                     <TextField
                         id="amountToWithdraw"

@@ -23,6 +23,7 @@ import createCache from '@emotion/cache';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import MoveInterestToSavings from './MoveInterestToSavings';
 import BackButton from '../../components/BackButton';
+import MoveCurrentSavingsToAmanatModal from './MoveCurrentSavingsToAmanatModal';
 const ViewButton = ({ id, edit, setEditOpen, setSelectedShareholderId }) => {
 
     const handleEditClick = () => {
@@ -51,6 +52,18 @@ const MoveToAmanatButton = ({ id, setMoveToAmanatOpen, setSelectedShareholderId 
         </IconButton>
     );
 };
+const MoveCurrentSavingsToAmanatButton = ({ id, setMoveCurrentSavingsToAmanatOpen, setSelectedShareholderId }) => {
+    const handleClick = () => {
+        setSelectedShareholderId(id);
+        setMoveCurrentSavingsToAmanatOpen(true);
+    };
+
+    return (
+        <IconButton onClick={handleClick}>
+            <CompareArrowsIcon />
+        </IconButton>
+    );
+};
 const SavingsWithdrawalPage = () => {
     const cacheRtl = createCache({
         key: 'muirtl',
@@ -63,6 +76,7 @@ const SavingsWithdrawalPage = () => {
     const [pageSize, setPageSize] = useState(10)
     const [selectedShareholderId, setSelectedShareholderId] = useState(null);
     const [moveToAmanatOpen, setMoveToAmanatOpen] = useState(false);
+    const [moveCurrentSavingsToAmanatOpen, setMoveCurrentSavingsToAmanatOpen] = useState(false)
     const [filters, setFilters] = useState({
         fName: '',
         lName: '',
@@ -231,6 +245,19 @@ const SavingsWithdrawalPage = () => {
                 width: 55,
                 renderCell: (params) => {
                     return <MoveToAmanatButton id={params.id} setMoveToAmanatOpen={setMoveToAmanatOpen} setSelectedShareholderId={setSelectedShareholderId} />;
+                },
+            },
+            {
+                field: 'transfer_saving_amount_to_amanat',
+                headerName: t('transfer_saving_amount_to_amanat'),
+                sortable: false,
+                width: 55,
+                renderCell: (params) => {
+                    return <MoveCurrentSavingsToAmanatButton
+                        id={params.id}
+                        setMoveCurrentSavingsToAmanatOpen={setMoveCurrentSavingsToAmanatOpen}
+                        setSelectedShareholderId={setSelectedShareholderId}
+                    />;
                 },
             }
         ] : []),
@@ -449,6 +476,12 @@ const SavingsWithdrawalPage = () => {
                 open={moveToAmanatOpen}
                 setOpen={setMoveToAmanatOpen}
                 fetchData={fetchData}
+            />
+            <MoveCurrentSavingsToAmanatModal
+                fetchData={fetchData}
+                id={selectedShareholderId}
+                open={moveCurrentSavingsToAmanatOpen}
+                setOpen={setMoveCurrentSavingsToAmanatOpen}
             />
         </CacheProvider>
 

@@ -249,5 +249,6 @@
   "interest":"الاجمالي",
   "transaction_history":"تاريخ المعاملات",
   "search":"بحث",
-  "contract_document":"مستند للعقد"
+  "contract_document":"مستند للعقد",
+  "move_current_savings_to_amanat":"تعديل ارصدة"
 }

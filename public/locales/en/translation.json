@@ -233,5 +233,6 @@
   "check_disbursement_form":"Check Disbursement Form",
   "Pending":"Pending",
   "paid":"Paid",
-  "contract_document":"Contract Document"
+  "contract_document":"Contract Document",
+  "move_current_savings_to_amanat":"Move Current Savings To Amanat"
 }

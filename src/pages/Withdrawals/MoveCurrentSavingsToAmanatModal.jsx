@@ -20,7 +20,7 @@ const style = {
     pb: 3,
 };
 
-const MoveSavingsToAmanatModal = ({ id, fetchData, setOpen, open }) => {
+const MoveCurrentSavingsToAmanatModal = ({ id, fetchData, setOpen, open }) => {
     const [shareholderDetails, setShareholderDetails] = useState();
     const adminData = JSON.parse(sessionStorage.getItem('userDetails') || '{}');
     const { i18n, t } = useTranslation();
@@ -53,7 +53,7 @@ const MoveSavingsToAmanatModal = ({ id, fetchData, setOpen, open }) => {
         fetchData();
     }
 
-    const url = `/shareholder/movesavingstoamanat/${id}`
+    const url = `/shareholder/movecurrentsavingstoamanat/${id}`
     const onSubmit = async (data) => {
         console.log("Submitting form", data);
 
@@ -69,7 +69,7 @@ const MoveSavingsToAmanatModal = ({ id, fetchData, setOpen, open }) => {
 
     const amountToMove = watch('amountToMove');
     const handleMaxClick = () => {
-        const maxAmount = shareholderDetails?.totalInterest || 0;
+        const maxAmount = shareholderDetails?.savings || 0;
         setValue('amountToMove', maxAmount.toString());
     };
     return (
@@ -90,7 +90,7 @@ const MoveSavingsToAmanatModal = ({ id, fetchData, setOpen, open }) => {
                 <TextField
                     id="availableBalance"
                     margin="normal"
-                    value={shareholderDetails?.totalInterest || 0}
+                    value={shareholderDetails?.savings || 0}
                     fullWidth
                     label={t('availableBalance')}
                     disabled={true}
@@ -103,7 +103,7 @@ const MoveSavingsToAmanatModal = ({ id, fetchData, setOpen, open }) => {
                         label={t('amount_to_move')}
                         {...register('amountToMove', {
                             required: true,
-                            max: shareholderDetails?.totalInterest || 0
+                            max: shareholderDetails?.savings || 0
                         })}
                         error={!!errors.amountToMove}
                         helperText={errors.amountToMove ?
@@ -122,7 +122,7 @@ const MoveSavingsToAmanatModal = ({ id, fetchData, setOpen, open }) => {
                     margin="normal"
                     fullWidth
                     label={t('amount_after_transfer')}
-                    value={(shareholderDetails?.totalInterest || 0) - Number(amountToMove)}
+                    value={(shareholderDetails?.savings || 0) - Number(amountToMove)}
                     disabled
                 />
                 <TextField
@@ -144,4 +144,4 @@ const MoveSavingsToAmanatModal = ({ id, fetchData, setOpen, open }) => {
     );
 }
 
-export default MoveSavingsToAmanatModal;
+export default MoveCurrentSavingsToAmanatModal;
