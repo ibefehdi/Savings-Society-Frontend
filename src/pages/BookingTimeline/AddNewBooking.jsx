@@ -24,12 +24,18 @@ const AddNewBooking = ({ editMode, setOpen, fetchData, open, hallId, booking, on
 
     useEffect(() => {
         if (editMode && booking) {
-            reset(booking);
+            reset({
+                date: booking.date,
+                dateOfEvent: booking.dateOfEvent,
+                rate: booking.rent,
+                tenantName: booking.name,
+                tenantCivilId: booking.civilId,
+                tenantContactNumber: booking.phoneNumber,
+            });
         } else {
             reset();
         }
     }, [editMode, booking, reset]);
-
     const handleClose = () => {
         setOpen(false);
         fetchData();
@@ -56,8 +62,8 @@ const AddNewBooking = ({ editMode, setOpen, fetchData, open, hallId, booking, on
             formData.append('hallId', hallId);
 
             if (editMode) {
-                await axiosInstance.put('/editbooking', formData, {
-                    headers: { 'Content-Type': 'multipart/form-data' }
+                await axiosInstance.put(`/editbooking/${booking.bookingId}`, formData, {
+                    headers: { 'Content-Type': 'application/json' }
                 });
             } else {
                 await axiosInstance.post('/createbooking', formData, {
@@ -161,7 +167,7 @@ const AddNewBooking = ({ editMode, setOpen, fetchData, open, hallId, booking, on
                     error={!!errors.tenantContactNumber}
                     helperText={errors.tenantContactNumber ? 'Tenant Contact Number is required' : ''}
                 />
-                <Controller
+                {!editMode && (<Controller
                     name="civilIdDocument"
                     control={control}
                     defaultValue=""
@@ -181,7 +187,7 @@ const AddNewBooking = ({ editMode, setOpen, fetchData, open, hallId, booking, on
                             }}
                         />
                     )}
-                />
+                />)}
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
                     {editMode ? 'Update' : 'Submit'}
                 </Button>

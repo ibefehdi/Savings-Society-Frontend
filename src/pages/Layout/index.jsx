@@ -118,7 +118,7 @@ const Layout = () => {
             subMenus: [
                 { name: t('buildings'), path: "/rental/buildings" },
                 { name: t('flats'), path: "/rental/flats" },
-                { name: t('tenants'), path: "/rental/tenants" },
+                { name: t('data_of_tenants'), path: "/rental/tenants" },
                 { name: t('bookings'), path: "/rental/booking" }
             ]
         },

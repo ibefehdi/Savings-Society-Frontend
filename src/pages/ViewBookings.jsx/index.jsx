@@ -11,6 +11,8 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { saveAs } from 'file-saver';
 import axiosInstance from '../../constants/axiosInstance';
+import AddNewBooking from '../BookingTimeline/AddNewBooking';
+import EditBooking from '../BookingTimeline/EditBooking';
 
 const ViewBookings = () => {
     const { id } = useParams();
@@ -22,6 +24,9 @@ const ViewBookings = () => {
         pageSize: 10,
         page: 0,
     });
+    const [openModal, setOpenModal] = useState(false);
+    const [openEditModal, setOpenEditModal] = useState(false);
+    const [editingBooking, setEditingBooking] = useState(null);
     const cacheRtl = createCache({
         key: 'muirtl',
         stylisPlugins: [prefixer, rtlPlugin],
@@ -32,7 +37,33 @@ const ViewBookings = () => {
     useEffect(() => {
         fetchData();
     }, []);
-    useEffect(() => { console.log('Mounted') })
+    const handleAddClick = () => {
+        setEditingBooking(null);
+        setOpenModal(true);
+    };
+
+    const handleEditClick = (booking) => {
+        setEditingBooking(booking);
+        setOpenEditModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+        setEditingBooking(null);
+    };
+    const handleCloseEditModal = () => {
+        setOpenEditModal(false);
+        setEditingBooking(null);
+    };
+    const handleDeleteClick = (bookingId) => {
+        if (window.confirm(t('confirm_delete_booking'))) {
+            axiosInstance.delete(`/bookings/${bookingId}`)
+                .then(() => {
+                    fetchData();
+                })
+                .catch(error => console.error('Delete error!', error));
+        }
+    };
     const columns = [
         {
             field: 'dateOfEvent',
@@ -59,7 +90,31 @@ const ViewBookings = () => {
             flex: 1,
             valueGetter: (params) => params.row.customer?.name || ''
         },
-
+        {
+            field: 'actions',
+            headerName: t('actions'),
+            flex: 1,
+            renderCell: (params) => (
+                <Box>
+                    <Button
+                        onClick={() => handleEditClick(params.row)}
+                        variant="contained"
+                        size="small"
+                        sx={{ marginRight: '0.5rem' }}
+                    >
+                        {t('edit')}
+                    </Button>
+                    <Button
+                        onClick={() => handleDeleteClick(params.row._id)}
+                        variant="contained"
+                        color="error"
+                        size="small"
+                    >
+                        {t('delete')}
+                    </Button>
+                </Box>
+            ),
+        },
 
     ];
     const orderedColumns = isRtl ? [...columns].reverse() : columns;
@@ -85,6 +140,13 @@ const ViewBookings = () => {
                     }}>
                         {t('hall_bookings')}
                     </Typography>
+                    <Button
+                        variant="contained"
+                        onClick={handleAddClick}
+                        sx={{ marginRight: '1rem' }}
+                    >
+                        {t('add')}
+                    </Button>
                     <Button
                         variant="contained"
                         onClick={downloadCSV}
@@ -136,6 +198,22 @@ const ViewBookings = () => {
                             fontWeight: 'bold',
                         },
                     }}
+                />
+                <AddNewBooking
+                    editMode={editingBooking !== null}
+                    setOpen={handleCloseModal}
+                    fetchData={fetchData}
+                    open={openModal}
+                    hallId={id}
+                    booking={editingBooking}
+                    onDelete={() => {/* Implement delete functionality if needed */ }}
+                />
+                <EditBooking
+                    open={openEditModal}
+                    handleClose={handleCloseEditModal}
+                    booking={editingBooking}
+                    fetchData={fetchData}
+                    hallId={id}
                 />
             </Box>
         </CacheProvider>

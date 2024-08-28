@@ -4,6 +4,8 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { saveAs } from 'file-saver';
+import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
+
 import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -68,10 +70,23 @@ const Tenants = () => {
             console.error("Error updating tenant:", error);
         }
     };
-    const { data, fetchData, count } = useFetchTenant(`/active_tenants?sortField=name&sortOrder=asc`, pageNo + 1, pageSize);
+    const [searchCivilId, setSearchCivilId] = useState('');
+    const [filters, setFilters] = useState({});
+    const { data, fetchData, count, loading } = useFetchTenant(
+        `/active_tenants?sortField=name&sortOrder=asc`,
+        pageNo + 1,
+        pageSize,
+        { ...filters, searchCivilId }
+    );
     useEffect(() => {
         fetchData();
-    }, [pageNo, pageSize]);
+    }, [pageNo, pageSize, filters,]);
+
+    const handleSearchChange = (event) => {
+        setSearchCivilId(event.target.value);
+        setPageNo(0);
+        setFilters(prevFilters => ({ ...prevFilters, searchCivilId: event.target.value }));
+    };
     const [paginationModel, setPaginationModel] = useState({
         pageSize: pageSize,
         page: 0,
@@ -107,12 +122,12 @@ const Tenants = () => {
             flex: 1,
             valueGetter: (params) => params.row.civilId || '',
         },
-        {
-            field: 'tenantFrom',
-            headerName: t('tenant_from'),
-            flex: 1,
-            valueGetter: (params) => params.row.tenantFrom || '',
-        },
+        // {
+        //     field: 'tenantFrom',
+        //     headerName: t('tenant_from'),
+        //     flex: 1,
+        //     valueGetter: (params) => params.row.tenantFrom || '',
+        // },
 
         {
             field: 'flatId.number',
@@ -152,6 +167,19 @@ const Tenants = () => {
     const handleDeleteClick = (tenant) => {
         setDeletingTenant(tenant);
         setDeleteModalOpen(true);
+    };
+    const [showFilters, setShowFilters] = useState(false);
+    const toggleFilters = () => {
+        setShowFilters(!showFilters);
+    };
+    const handleSearch = () => {
+        fetchData();
+    };
+
+    const handleClearFilters = () => {
+        setSearchCivilId('');
+        setFilters({});
+        fetchData();
     };
     const handleDeleteSubmit = async () => {
         try {
@@ -252,14 +280,44 @@ const Tenants = () => {
             })
             .catch(error => console.error('Download error!', error));
     };
+    const handleSearchInputChange = (event) => {
+        setSearchCivilId(event.target.value);
+    };
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
+            <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
+                <FilterListOutlinedIcon /> {t('filter')}
+            </Button>
+            {showFilters && (
+                <Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', marginRight: isRtl ? "2rem" : 0 }}>
+
+                    <TextField
+                        label={t('civil_id')}
+                        variant="outlined"
+                        value={searchCivilId}
+                        onChange={handleSearchInputChange}
+
+                        fullWidth
+                    />
+                    <Button
+                        variant="contained"
+                        onClick={handleSearch}
+                    >
+                        {t('search')}
+                    </Button>
+
+                </Box>
+            )}
+
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
 
                 <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
+
                     <Typography variant="h3" component="h2" sx={{ fontStyle: 'normal', fontWeight: 600, lineHeight: '1.875rem', flexGrow: 1, marginLeft: '1.2rem' }}>
                         {t('tenants')}
                     </Typography>
+
+
 
                     <Button onClick={() => setOpen(true)} variant="contained">
                         {t('add')}
