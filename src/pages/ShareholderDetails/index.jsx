@@ -13,6 +13,7 @@ import { t } from 'i18next';
 import MoveSavingsToAmanatModal from '../Withdrawals/MoveSavingsToAmanatModal';
 import { useFetchNoPagination } from '../../hooks/useFetchNoPagination';
 import ChangeBalanceModal from '../Withdrawals/ChangeBalanceModal';
+import PrintDataGridIndividual from '../../printablePages/PrintDataGridIndividual';
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -149,7 +150,7 @@ const ShareholderDetails = () => {
                 <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0, display: 'none' }}>
 
 
-                    <PrintDataGrid ref={componentRef} data={data} grandTotal={grandTotal} filters={filters} />
+                    <PrintDataGridIndividual ref={componentRef} data={data} grandTotal={grandTotal} filters={filters} />
                 </Box>
 
                 <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>

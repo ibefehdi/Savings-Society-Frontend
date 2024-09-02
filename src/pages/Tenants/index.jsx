@@ -51,7 +51,7 @@ const Tenants = () => {
             formData.append('name', editingTenant.name);
             formData.append('contactNumber', editingTenant.contactNumber);
             formData.append('civilId', editingTenant.civilId);
-            formData.append('flatId', editingTenant.flatId._id); // Assuming flatId is an object with _id
+            formData.append('flatId', editingTenant.flatId._id);
 
             if (civilIdFile) {
                 formData.append('civilIdDocument', civilIdFile);
@@ -128,7 +128,12 @@ const Tenants = () => {
         //     flex: 1,
         //     valueGetter: (params) => params.row.tenantFrom || '',
         // },
-
+        {
+            field: "flatId.buildingId.name",
+            headerName: t('building_name'),
+            flex: 1,
+            valueGetter: (params) => params.row.flatId?.buildingId?.name
+        },
         {
             field: 'flatId.number',
             headerName: t('flat_number'),
@@ -140,11 +145,10 @@ const Tenants = () => {
             headerName: t('civil_id_document'),
             flex: 1,
             renderCell: (params) => {
-                if (params.row.civilIdDocument) {
+                if (params.row.civilIdDocument && Object.keys(params.row.civilIdDocument).length > 0) {
                     return <Link href={params.row.civilIdDocument?.path} target="_blank" rel="noopener noreferrer">{t('civil_id')}</Link>
-
                 }
-                return '';
+                return null; // Return null instead of an empty string
             },
         },
         {
@@ -214,6 +218,15 @@ const Tenants = () => {
                     <TextField
                         fullWidth
                         margin="normal"
+                        label={t('building_name')}
+                        value={editingTenant?.flatId?.buildingId?.name || ''}
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                    />
+                    <TextField
+                        fullWidth
+                        margin="normal"
                         label={t('tenant_name')}
                         value={editingTenant?.name || ''}
                         onChange={(e) => setEditingTenant({ ...editingTenant, name: e.target.value })}
@@ -249,7 +262,7 @@ const Tenants = () => {
                         />
                         <label htmlFor="civilIdDocument">
                             <Button variant="contained" component="span">
-                                {t('upload_civil_id_document')}
+                                {t('civil_id_document')}
                             </Button>
                         </label>
                         {civilIdFile && <Typography variant="body2">{civilIdFile.name}</Typography>}

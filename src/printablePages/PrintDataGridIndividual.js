@@ -42,7 +42,7 @@ const GrandTotalRow = styled.tr`
   font-weight: bold;
 `;
 
-const PrintDataGrid = React.forwardRef(({ data, filters, grandTotal }, ref) => {
+const PrintDataGridIndividual = React.forwardRef(({ data, filters, grandTotal }, ref) => {
     const keyTranslations = {
         serial: 'رقم العضو',
         fName: 'اسم',
@@ -51,7 +51,7 @@ const PrintDataGrid = React.forwardRef(({ data, filters, grandTotal }, ref) => {
         workplace: "مكان العمل",
         year: "السنة"
     };
-
+    console.log(data)
     // Function to create filter string
     const createFilterString = (filters) => {
         return Object.entries(filters)
@@ -100,7 +100,7 @@ const PrintDataGrid = React.forwardRef(({ data, filters, grandTotal }, ref) => {
                                 <StyledTd>{row?.membersCode}</StyledTd>
                                 <StyledTd>{row?.fullName}</StyledTd>
                                 <StyledTd>{row?.shareDetails?.totalAmount}</StyledTd>
-                                <StyledTd>{row?.savingsCurrentAmount ? row.savingsCurrentAmount : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.savingsDetails.totalAmount ? row.savingsDetails.totalAmount : 'N/A'}</StyledTd>
                                 <StyledTd>{row?.totalShareIncrease ? row.totalShareIncrease : 'N/A'}</StyledTd>
                                 <StyledTd>{row?.savingsIncrease ? row.savingsIncrease : 'N/A'}</StyledTd>
                                 <StyledTd>
@@ -113,7 +113,7 @@ const PrintDataGrid = React.forwardRef(({ data, filters, grandTotal }, ref) => {
                                 </StyledTd>
                                 <StyledTd>{row?.amanatAmount ? row.amanatAmount : 'N/A'}</StyledTd>
                                 <StyledTd>{row?.transferSavings ? row.transferSavings : 'N/A'}</StyledTd>
-                                <StyledTd>{row?.alraseed ? row.alraseed : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.savingsDetails.alraseed ? row.savingsDetails.alraseed : 'N/A'}</StyledTd>
                             </TableRow>
                         ))}
                     </tbody>
@@ -131,4 +131,4 @@ const PrintDataGrid = React.forwardRef(({ data, filters, grandTotal }, ref) => {
     );
 });
 
-export default PrintDataGrid;
+export default PrintDataGridIndividual;
