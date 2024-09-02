@@ -5,7 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { saveAs } from 'file-saver';
 import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
-
+import GetAppIcon from '@mui/icons-material/GetApp';
 import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -146,9 +146,16 @@ const Tenants = () => {
             flex: 1,
             renderCell: (params) => {
                 if (params.row.civilIdDocument && Object.keys(params.row.civilIdDocument).length > 0) {
-                    return <Link href={params.row.civilIdDocument?.path} target="_blank" rel="noopener noreferrer">{t('civil_id')}</Link>
+                    return <IconButton
+                        component="a"
+                        href={params.row.civilIdDocument.path}
+                        download
+                        title={t('download_civil_id')}
+                    >
+                        <GetAppIcon />
+                    </IconButton>
                 }
-                return null; // Return null instead of an empty string
+                return null;
             },
         },
         {
