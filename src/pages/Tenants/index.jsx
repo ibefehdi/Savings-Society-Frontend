@@ -39,7 +39,8 @@ const Tenants = () => {
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [editingTenant, setEditingTenant] = useState(null);
     const [civilIdFile, setCivilIdFile] = useState(null);
-
+    const [searchName, setSearchName] = useState('');
+    const [searchContactNumber, setSearchContactNumber] = useState('');
     const handleEditClick = (tenant) => {
         setEditingTenant(tenant);
         setEditModalOpen(true);
@@ -72,21 +73,50 @@ const Tenants = () => {
     };
     const [searchCivilId, setSearchCivilId] = useState('');
     const [filters, setFilters] = useState({});
+    const [buildings, setBuildings] = useState([]);
+    const [selectedBuilding, setSelectedBuilding] = useState('');
     const { data, fetchData, count, loading } = useFetchTenant(
         `/active_tenants?sortField=name&sortOrder=asc`,
         pageNo + 1,
         pageSize,
-        { ...filters, searchCivilId }
+        { ...filters, searchCivilId, searchName, searchContactNumber, buildingId: selectedBuilding }
     );
     useEffect(() => {
         fetchData();
-    }, [pageNo, pageSize, filters,]);
+    }, [pageNo, pageSize]);
+    useEffect(() => {
+        const fetchBuildings = async () => {
+            try {
+                const response = await axiosInstance.get('/buildingdropdown');
+                setBuildings(response?.data?.data);
+            } catch (error) {
+                console.error('Error fetching buildings:', error);
+            }
+        };
 
+        fetchBuildings();
+    }, []);
     const handleSearchChange = (event) => {
         setSearchCivilId(event.target.value);
         setPageNo(0);
         setFilters(prevFilters => ({ ...prevFilters, searchCivilId: event.target.value }));
     };
+
+    const handleNameSearchChange = (event) => {
+        setSearchName(event.target.value);
+        setPageNo(0);
+        setFilters(prevFilters => ({ ...prevFilters, searchName: event.target.value }));
+    };
+
+    const handleContactNumberSearchChange = (event) => {
+        setSearchContactNumber(event.target.value);
+        setPageNo(0);
+        setFilters(prevFilters => ({ ...prevFilters, searchContactNumber: event.target.value }));
+    };
+
+    // const handleSearch = () => {
+    //     fetchData();
+    // };
     const [paginationModel, setPaginationModel] = useState({
         pageSize: pageSize,
         page: 0,
@@ -102,6 +132,11 @@ const Tenants = () => {
     };
     const handleViewDocument = (url) => {
         window.open(url, '_blank', 'noopener,noreferrer');
+    };
+
+    const handleBuildingChange = (event) => {
+        setSelectedBuilding(event.target.value);
+        setPageNo(0);
     };
     const columns = [
         {
@@ -122,12 +157,20 @@ const Tenants = () => {
             flex: 1,
             valueGetter: (params) => params.row.civilId || '',
         },
-        // {
-        //     field: 'tenantFrom',
-        //     headerName: t('tenant_from'),
-        //     flex: 1,
-        //     valueGetter: (params) => params.row.tenantFrom || '',
-        // },
+        {
+            field: 'tenantFrom',
+            headerName: t('tenant_from'),
+            flex: 1,
+            valueGetter: (params) => {
+                const tenantFrom = params.row.tenantFrom || '';
+                if (tenantFrom === 'Hall') {
+                    return t('halls');
+                } else if (tenantFrom === 'Flat') {
+                    return t('flats');
+                }
+                return tenantFrom;
+            },
+        },
         {
             field: "flatId.buildingId.name",
             headerName: t('building_name'),
@@ -189,9 +232,13 @@ const Tenants = () => {
 
     const handleClearFilters = () => {
         setSearchCivilId('');
+        setSearchName('');
+        setSearchContactNumber('');
+        setSelectedBuilding('');
         setFilters({});
         fetchData();
     };
+
     const handleDeleteSubmit = async () => {
         try {
             await axiosInstance.delete(`/deleteTenant/${deletingTenant._id}`);
@@ -310,22 +357,58 @@ const Tenants = () => {
             </Button>
             {showFilters && (
                 <Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', marginRight: isRtl ? "2rem" : 0 }}>
-
                     <TextField
                         label={t('civil_id')}
                         variant="outlined"
                         value={searchCivilId}
-                        onChange={handleSearchInputChange}
-
+                        onChange={handleSearchChange}
                         fullWidth
                     />
+                    <TextField
+                        label={t('tenant_name')}
+                        variant="outlined"
+                        value={searchName}
+                        onChange={handleNameSearchChange}
+                        fullWidth
+                    />
+                    <TextField
+                        label={t('contact_number')}
+                        variant="outlined"
+                        value={searchContactNumber}
+                        onChange={handleContactNumberSearchChange}
+                        fullWidth
+                    />
+                    <Select
+                        label={t('building')}
+                        variant="outlined"
+                        fullWidth
+                        value={selectedBuilding || ""}
+                        onChange={handleBuildingChange}
+                        displayEmpty
+                    >
+                        <MenuItem value="" disabled>
+                            ----{t('select_building')}----
+                        </MenuItem>
+                        {buildings
+                            .filter(building => building.type === "Building")
+                            .map((building) => (
+                                <MenuItem key={building._id} value={building._id}>
+                                    {building.name}
+                                </MenuItem>
+                            ))}
+                    </Select>
                     <Button
                         variant="contained"
                         onClick={handleSearch}
                     >
                         {t('search')}
                     </Button>
-
+                    <Button
+                        variant="outlined"
+                        onClick={handleClearFilters}
+                    >
+                        {t('clear_filters')}
+                    </Button>
                 </Box>
             )}
 
@@ -339,9 +422,9 @@ const Tenants = () => {
 
 
 
-                    <Button onClick={() => setOpen(true)} variant="contained">
+                    {/* <Button onClick={() => setOpen(true)} variant="contained">
                         {t('add')}
-                    </Button>
+                    </Button> */}
                     <Button variant='contained' onClick={() => { getCSV() }}>{t('export_csv')}</Button>
 
                     <BackButton />
