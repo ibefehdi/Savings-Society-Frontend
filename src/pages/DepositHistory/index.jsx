@@ -87,7 +87,7 @@ const DepositHistory = () => {
             flex: 1,
             valueGetter: (params) => {
                 const newAmount = Number(params.row?.newAmount);
-                return !isNaN(newAmount) ? newAmount : 'N/A';
+                return !isNaN(newAmount) ? newAmount.toFixed(3) : 'N/A';
             }
         },
         {
