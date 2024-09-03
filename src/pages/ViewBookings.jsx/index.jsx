@@ -91,6 +91,17 @@ const ViewBookings = () => {
             valueGetter: (params) => params.row.customer?.name || ''
         },
         {
+            field: 'voucher',
+            headerName: t('voucherNo'),
+            flex: 1,
+            renderCell: (params) => {
+                if (params.row.voucher && params.row.voucher.voucherNo) {
+                    return params.row.voucher.voucherNo;
+                }
+                return '';
+            }
+        },
+        {
             field: 'actions',
             headerName: t('actions'),
             flex: 1,

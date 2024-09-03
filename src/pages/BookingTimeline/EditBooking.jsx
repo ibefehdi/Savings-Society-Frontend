@@ -27,6 +27,7 @@ const EditBooking = ({ open, handleClose, booking, fetchData, hallId }) => {
                 date: new Date(booking.date).toISOString().split('T')[0],
                 rate: booking.rate,
                 tenantName: booking.customer?.name || '',
+                voucherNo: booking.voucher?.voucherNo || '',
             });
         }
     }, [booking, reset]);
@@ -95,6 +96,14 @@ const EditBooking = ({ open, handleClose, booking, fetchData, hallId }) => {
                     {...register('tenantName', { required: true })}
                     error={!!errors.customerName}
                     helperText={errors.customerName ? t('tenant_name_required') : ''}
+                />
+                <TextField
+                    margin="normal"
+                    fullWidth
+                    label={t('voucher_number')}
+                    {...register('voucherNo', { required: true })}
+                    error={!!errors.voucherNo}
+                    helperText={errors.voucherNo ? t('voucher_number_required') : ''}
                 />
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
                     {t('update')}

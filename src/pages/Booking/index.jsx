@@ -48,6 +48,7 @@ const Booking = () => {
                 return `Block ${block}, Street ${street}, House ${house}, Avenue ${avenue}, City ${city}`;
             }
         },
+
         {
             field: 'actions',
             headerName: t('actions'),

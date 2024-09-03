@@ -31,6 +31,7 @@ const AddNewBooking = ({ editMode, setOpen, fetchData, open, hallId, booking, on
                 tenantName: booking.name,
                 tenantCivilId: booking.civilId,
                 tenantContactNumber: booking.phoneNumber,
+                voucherNo: booking.voucherNo,
             });
         } else {
             reset();
@@ -167,6 +168,14 @@ const AddNewBooking = ({ editMode, setOpen, fetchData, open, hallId, booking, on
                     error={!!errors.tenantContactNumber}
                     helperText={errors.tenantContactNumber ? 'Tenant Contact Number is required' : ''}
                 />
+                <TextField
+                    margin="normal"
+                    fullWidth
+                    label={t('voucherNo')}
+                    {...register('voucherNo', { required: true })}
+                    error={!!errors.voucherNo}
+                    helperText={errors.voucherNo ? 'Voucher Number is required' : ''}
+                />
                 {!editMode && (<Controller
                     name="civilIdDocument"
                     control={control}
@@ -188,6 +197,7 @@ const AddNewBooking = ({ editMode, setOpen, fetchData, open, hallId, booking, on
                         />
                     )}
                 />)}
+
                 <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
                     {editMode ? 'Update' : 'Submit'}
                 </Button>
