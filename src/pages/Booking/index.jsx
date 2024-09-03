@@ -55,19 +55,19 @@ const Booking = () => {
             flex: 1,
             renderCell: (params) => (
                 <Box>
-                    <Button
+                    {/* <Button
                         variant="contained"
                         color="primary"
                         onClick={() => navigate(`/rental/bookhall/${params.row._id}`)}
                         sx={{ marginRight: 1 }}
                     >
                         {t('book')}
-                    </Button>
+                    </Button> */}
                     <Button
                         variant="contained"
                         color="secondary"
                         onClick={() => navigate(`/rental/bookings/${params.row._id}`)}
-                        startIcon={<VisibilityIcon />}
+                        endIcon={<VisibilityIcon />}
                     >
                         {t('view_bookings')}
                     </Button>

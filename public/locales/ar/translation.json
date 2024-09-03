@@ -123,7 +123,7 @@
   "availableBalance": "الرصيد المتاح",
   "buildings": "مباني",
   "flats": "شقق",
-  "halls": "قاعات",
+  "halls": "عةقا",
   "bookings": "حجوزات",
   "hall_transactions": "الايرادات والمصروفات",
   "vouchers": "سند قبض",
@@ -258,5 +258,6 @@
   "change_balance":"تغيير الرصيد",
   "new_balance":"الرصيد الجديد",
   "invalid_balance": "رصيد غير صالح",
-  "balance_change_failed": "فشل تغيير الرصيد"
+  "balance_change_failed": "فشل تغيير الرصيد",
+  "confirm_delete_contract":"هل تريد إلغاء هذا العقد"
 }

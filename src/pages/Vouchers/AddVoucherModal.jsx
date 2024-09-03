@@ -106,7 +106,7 @@ const AddVoucherModal = ({ open, onClose, fetchData, editingVoucher }) => {
     };
 
     return (
-        <Modal open={open} onClose={onClose}>
+        <Modal open={open} onClose={onClose} style={{ width: '500px' }}>
             <Box sx={{
                 position: 'absolute',
                 top: '50%',

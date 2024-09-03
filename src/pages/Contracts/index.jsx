@@ -10,6 +10,7 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { useFetch } from '../../hooks/useFetch';
 import { DataGrid } from '@mui/x-data-grid';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useTranslation } from 'react-i18next';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { prefixer } from 'stylis';
@@ -126,6 +127,16 @@ const Contracts = () => {
                 ) : null
             ),
         },
+        {
+            field: 'delete',
+            headerName: t('delete'),
+            flex: 1,
+            renderCell: (params) => (
+                <IconButton onClick={() => handleDeleteContract(params.row._id)}>
+                    <DeleteIcon />
+                </IconButton>
+            ),
+        },
         // {
         //     field: 'edit',
         //     headerName: t('edit'),
@@ -152,6 +163,18 @@ const Contracts = () => {
                 saveAs(blob, `${contractStatus}_contracts.csv`);
             })
             .catch(error => console.error('Download error!', error));
+    };
+    const handleDeleteContract = (id) => {
+        if (window.confirm(t('confirm_delete_contract'))) {
+            axiosInstance.delete(`/contract/${id}`)
+                .then(() => {
+                    fetchData(); // Refresh the data after deletion
+                })
+                .catch((error) => {
+                    console.error('Error deleting contract:', error);
+                    // You might want to show an error message to the user here
+                });
+        }
     };
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>

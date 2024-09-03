@@ -288,7 +288,7 @@ const Tenants = () => {
                     <TextField
                         fullWidth
                         margin="normal"
-                        label={t('contact_number')}
+                        label={t('phone_number')}
                         value={editingTenant?.contactNumber || ''}
                         onChange={(e) => setEditingTenant({ ...editingTenant, contactNumber: e.target.value })}
                     />
@@ -372,7 +372,7 @@ const Tenants = () => {
                         fullWidth
                     />
                     <TextField
-                        label={t('contact_number')}
+                        label={t('phone_number  ')}
                         variant="outlined"
                         value={searchContactNumber}
                         onChange={handleContactNumberSearchChange}
