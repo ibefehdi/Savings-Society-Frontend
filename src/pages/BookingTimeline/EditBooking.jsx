@@ -100,7 +100,7 @@ const EditBooking = ({ open, handleClose, booking, fetchData, hallId }) => {
                 <TextField
                     margin="normal"
                     fullWidth
-                    label={t('voucher_number')}
+                    label={t('voucherNo')}
                     {...register('voucherNo', { required: true })}
                     error={!!errors.voucherNo}
                     helperText={errors.voucherNo ? t('voucher_number_required') : ''}
