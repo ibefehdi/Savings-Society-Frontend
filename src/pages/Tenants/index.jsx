@@ -183,24 +183,24 @@ const Tenants = () => {
             flex: 1,
             valueGetter: (params) => params.row.flatId?.flatNumber || '',
         },
-        {
-            field: 'civilIdDocument',
-            headerName: t('civil_id_document'),
-            flex: 1,
-            renderCell: (params) => {
-                if (params.row.civilIdDocument && Object.keys(params.row.civilIdDocument).length > 0) {
-                    return <IconButton
-                        component="a"
-                        href={params.row.civilIdDocument.path}
-                        download
-                        title={t('download_civil_id')}
-                    >
-                        <GetAppIcon />
-                    </IconButton>
-                }
-                return null;
-            },
-        },
+        // {
+        //     field: 'civilIdDocument',
+        //     headerName: t('civil_id_document'),
+        //     flex: 1,
+        //     renderCell: (params) => {
+        //         if (params.row.civilIdDocument && Object.keys(params.row.civilIdDocument).length > 0) {
+        //             return <IconButton
+        //                 component="a"
+        //                 href={params.row.civilIdDocument.path}
+        //                 download
+        //                 title={t('download_civil_id')}
+        //             >
+        //                 <GetAppIcon />
+        //             </IconButton>
+        //         }
+        //         return null;
+        //     },
+        // },
         {
             field: 'actions',
             headerName: t('actions'),
