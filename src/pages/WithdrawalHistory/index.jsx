@@ -85,7 +85,7 @@ const WithdrawalHistory = () => {
             field: 'newAmount',
             headerName: t('new_amount'),
             flex: 1,
-            valueGetter: (params) => params.row.newAmount ?? 'N/A'
+            valueGetter: (params) => params.row.newAmount.toFixed(3) ?? 'N/A'
         },
         {
             field: 'admin',

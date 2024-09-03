@@ -86,7 +86,7 @@ const TransferHistory = () => {
             field: 'amount',
             headerName: t('amount'),
             flex: 1,
-            valueGetter: (params) => params.row.amount || 'N/A'
+            valueGetter: (params) => params.row.amount.toFixed(3)  || 'N/A'
         },
         {
             field: 'admin',
@@ -102,13 +102,13 @@ const TransferHistory = () => {
             field: 'fromSavings',
             headerName: t('from_savings'),
             flex: 1,
-            valueGetter: (params) => params.row.fromSavings?.totalAmount || 'N/A'
+            valueGetter: (params) => params.row.fromSavings?.totalAmount.toFixed(3)  || 'N/A'
         },
         {
             field: 'toAmanat',
             headerName: t('to_amanat'),
             flex: 1,
-            valueGetter: (params) => params.row.toAmanat?.amount || 'N/A'
+            valueGetter: (params) => params.row.toAmanat?.amount.toFixed(3)  || 'N/A'
         }
     ];
     const isRtl = i18n.dir() === 'rtl';
