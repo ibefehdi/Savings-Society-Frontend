@@ -122,7 +122,7 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
                         margin="normal"
                         fullWidth
                         label={t('current_amount')}
-                        value={shareholderDetails?.savings}
+                        value={shareholderDetails?.alraseed}
                         disabled
                     />
                 )}
