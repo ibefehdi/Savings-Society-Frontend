@@ -13,17 +13,35 @@ import { saveAs } from 'file-saver';
 import axiosInstance from '../../constants/axiosInstance';
 import AddNewBooking from '../BookingTimeline/AddNewBooking';
 import EditBooking from '../BookingTimeline/EditBooking';
+import { TextField, Select, MenuItem } from '@mui/material';
+import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
 
 const ViewBookings = () => {
     const { id } = useParams();
+    const [searchCivilId, setSearchCivilId] = useState('');
+
+
     const { t, i18n } = useTranslation();
     const isRtl = i18n.dir() === 'rtl';
-
-    const { data, fetchData, count } = useFetch(`/bookingbyhall/${id}`, 1, 10);
     const [paginationModel, setPaginationModel] = useState({
         pageSize: 10,
         page: 0,
     });
+    // Modify this line
+    const { data, fetchData, count } = useFetch(
+        `/bookingbyhall/${id}`,
+        paginationModel.page + 1,
+        paginationModel.pageSize,
+        { searchCivilId }
+    );
+    const handleSearchChange = (event) => {
+        setSearchCivilId(event.target.value);
+        setPaginationModel({ ...paginationModel, page: 0 });
+    };
+
+    const handleSearch = () => {
+        fetchData();
+    };
     const [openModal, setOpenModal] = useState(false);
     const [openEditModal, setOpenEditModal] = useState(false);
     const [editingBooking, setEditingBooking] = useState(null);
@@ -36,7 +54,7 @@ const ViewBookings = () => {
     });
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [paginationModel]);
     const handleAddClick = () => {
         setEditingBooking(null);
         setOpenModal(true);
@@ -137,11 +155,28 @@ const ViewBookings = () => {
             })
             .catch(error => console.error('Download error!', error));
     };
+    const handlePaginationModelChange = (newModel) => {
+        setPaginationModel(newModel);
+    };
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
 
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
                 <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
+                    <Box sx={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+                        <TextField
+                            label={t('civil_id')}
+                            variant="outlined"
+                            value={searchCivilId}
+                            onChange={handleSearchChange}
+                        />
+                        <Button
+                            variant="contained"
+                            onClick={handleSearch}
+                        >
+                            {t('search')}
+                        </Button>
+                    </Box>
                     <Typography variant="h3" component="h2" sx={{
                         fontStyle: 'normal',
                         fontWeight: 600,
@@ -174,7 +209,7 @@ const ViewBookings = () => {
                         disableColumnMenu: true,
                     }))}
                     paginationModel={paginationModel}
-                    onPaginationModelChange={setPaginationModel}
+                    onPaginationModelChange={handlePaginationModelChange}
                     getRowId={(row) => row._id}
                     rowCount={count}
                     paginationMode="server"
