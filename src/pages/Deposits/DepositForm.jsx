@@ -66,7 +66,7 @@ const DepositForm = ({ savings, shares, id, fetchData, setOpen, open }) => {
 
     useEffect(() => {
         if (shareholderDetails) {
-            const currentAmount = Number(shareholderDetails.savings) || 0;
+            const currentAmount = Number(shareholderDetails.alraseed) || 0;
             const additionAmount = parseFloat(newAmount) || 0;
             setTotalAmount((currentAmount + additionAmount));
         }
