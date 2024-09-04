@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useFetch } from '../../hooks/useFetch';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, FormControl, InputLabel } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { DataGrid } from '@mui/x-data-grid';
 import BackButton from '../../components/BackButton';
@@ -20,6 +20,7 @@ const ViewBookings = () => {
     const { id } = useParams();
     const [searchCivilId, setSearchCivilId] = useState('');
 
+    const [searchRate, setSearchRate] = useState('');
 
     const { t, i18n } = useTranslation();
     const isRtl = i18n.dir() === 'rtl';
@@ -32,10 +33,14 @@ const ViewBookings = () => {
         `/bookingbyhall/${id}`,
         paginationModel.page + 1,
         paginationModel.pageSize,
-        { searchCivilId }
+        { searchCivilId, searchRate }
     );
     const handleSearchChange = (event) => {
         setSearchCivilId(event.target.value);
+        setPaginationModel({ ...paginationModel, page: 0 });
+    };
+    const handleRateSearchChange = (event) => {
+        setSearchRate(event.target.value);
         setPaginationModel({ ...paginationModel, page: 0 });
     };
 
@@ -170,6 +175,21 @@ const ViewBookings = () => {
                             value={searchCivilId}
                             onChange={handleSearchChange}
                         />
+                        <FormControl variant="outlined" sx={{ minWidth: 120 }}>
+                            <InputLabel id="rate-select-label">{t('rate')}</InputLabel>
+                            <Select
+                                labelId="rate-select-label"
+                                value={searchRate}
+                                onChange={handleRateSearchChange}
+                                label={t('rate')}
+                            >
+                                <MenuItem value="">
+                                    <em>{t('none')}</em>
+                                </MenuItem>
+                                <MenuItem value={110}>110</MenuItem>
+                                <MenuItem value={120}>120</MenuItem>
+                            </Select>
+                        </FormControl>
                         <Button
                             variant="contained"
                             onClick={handleSearch}

@@ -49,7 +49,7 @@ const Contracts = () => {
         setOpenModal(false);
         setSelectedContract(null);
     };
-    const [contractStatus, setContractStatus] = useState('all');
+    const [contractStatus, setContractStatus] = useState('active');
     const [paginationModel, setPaginationModel] = useState({
         pageSize: pageSize,
         page: 0,
