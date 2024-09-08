@@ -13,13 +13,18 @@ const TransactionDetailsModal = ({ transaction, open, onClose }) => {
 
     if (!transaction) return null;
 
+    const isHallTransaction = transaction.buildingId?.type === 'Hall';
+
     const details = [
         { label: t('building_name'), value: transaction.buildingId?.name },
         { label: t('building_type'), value: transaction.buildingId?.type },
-        { label: t('booking_date'), value: formatDate(transaction.bookingId?.date) },
-        { label: t('start_date'), value: transaction.bookingId?.startTime },
-        { label: t('end_date'), value: transaction.bookingId?.endTime },
-        { label: t('booking_rate'), value: transaction.bookingId?.rate },
+        // Only include bookingId items if it's not a hall transaction
+        ...(!isHallTransaction ? [] : [
+            { label: t('booking_date'), value: formatDate(transaction.bookingId?.date) },
+            { label: t('start_date'), value: transaction.bookingId?.startTime },
+            { label: t('end_date'), value: transaction.bookingId?.endTime },
+            { label: t('booking_rate'), value: transaction.bookingId?.rate },
+        ]),
         { label: t('amount'), value: transaction.amount },
         { label: t('date'), value: formatDate(transaction.date) },
         { label: t('type'), value: transaction.type },
@@ -44,7 +49,7 @@ const TransactionDetailsModal = ({ transaction, open, onClose }) => {
                     overflowY: 'auto',
                     direction: isRtl ? "rtl" : "ltr"
                 }}>
-                    <Typography variant="h6" component="h2" gutterBottom>
+                    <Typography variant="h5" component="h2" gutterBottom>
                         {t('transaction_details')}
                     </Typography>
                     <TableContainer component={Paper}>
@@ -54,17 +59,17 @@ const TransactionDetailsModal = ({ transaction, open, onClose }) => {
                                     <TableRow key={index}>
                                         {isRtl ? (
                                             <>
-                                                <TableCell>{detail.value || '-'}</TableCell>
-                                                <TableCell component="th" scope="row" sx={{ fontWeight: 'bold', textAlign: 'right' }}>
+                                                <TableCell sx={{ fontSize: '1.1rem' }}>{detail.value || '-'}</TableCell>
+                                                <TableCell component="th" scope="row" sx={{ fontWeight: 'bold', textAlign: 'right', fontSize: '1.1rem' }}>
                                                     {detail.label}
                                                 </TableCell>
                                             </>
                                         ) : (
                                             <>
-                                                <TableCell component="th" scope="row" sx={{ fontWeight: 'bold' }}>
+                                                <TableCell component="th" scope="row" sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
                                                     {detail.label}
                                                 </TableCell>
-                                                <TableCell>{detail.value || '-'}</TableCell>
+                                                <TableCell sx={{ fontSize: '1.1rem' }}>{detail.value || '-'}</TableCell>
                                             </>
                                         )}
                                     </TableRow>

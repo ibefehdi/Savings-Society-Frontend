@@ -74,6 +74,7 @@ const Vouchers = () => {
     tenantName: '',
     civilId: '',
     contactNumber: '',
+    amount: ''
   });
 
   const { data, fetchData, count } = useFetch('/vouchers', pageNo + 1, pageSize, filters);
@@ -252,6 +253,15 @@ const Vouchers = () => {
               </MenuItem>
             ))}
           </TextField>
+          <TextField
+            label={t('amount')}
+            variant="outlined"
+
+            value={filters.amount}
+            onChange={(e) => setFilters({ ...filters, amount: e.target.value })}
+            fullWidth
+            autoComplete='off'
+          ></TextField>
           {/* <TextField
             label={t('tenant_name')}
             variant="outlined"
