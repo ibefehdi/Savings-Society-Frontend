@@ -62,6 +62,7 @@ import PropertyEvacuationFormPage from './pages/PropertyEvacuationForm/index.jsx
 import ResignationFormPage from './pages/ResignationFormPage';
 import CheckDisbursementFormPage from './pages/CheckDisbursementFormPage.jsx';
 import ViewBookings from './pages/ViewBookings.jsx/index.jsx';
+import ShareholderWithdraw from './pages/ShareholderWithdraw/index.jsx';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -156,6 +157,8 @@ function App() {
         { path: 'Users', element: <Users /> },
         { path: 'Shareholders', element: <Shareholders /> },
         { path: 'DisabledShareholders', element: <DisabledShareholders /> },
+        { path: 'withdraw', element: <ShareholderWithdraw /> },
+
         { path: "Financialreporting", element: <FinancialReporting /> },
         { path: "Financialreporting/year", element: <FinancialReportingYear /> },
         { path: "FinancialReporting/quityear", element: <FinancialReportsByQuitYear /> },
@@ -196,6 +199,7 @@ function App() {
         { index: true, element: <Home /> },
         { path: 'Shareholders', element: <Shareholders /> },
         { path: 'DisabledShareholders', element: <DisabledShareholders /> },
+        { path: 'withdraw', element: <ShareholderWithdraw /> },
 
         { path: 'Shareholders/:id', element: <ShareholderDetails /> },
         { path: 'Financial/Share', element: <ShareConfiguration /> },

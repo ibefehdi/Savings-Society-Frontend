@@ -240,5 +240,13 @@
   "new_balance": "New Balance",
   "cancel": "Cancel",
   "invalid_balance": "Invalid Balance",
-  "balance_change_failed": "Balance Change Failed"
+  "balance_change_failed": "Balance Change Failed",
+  "potential_increment_for": "Potential Increment for",
+  "current_values": "Current Values",
+  "potential_values": "Potential Values",
+  "total_amount": "Total Amount",
+  "withdrawn": "Withdrawn",
+  "yes": "Yes",
+  "no": "No",
+  "potential_increment_amount": "Potential Increment Amount"
 }

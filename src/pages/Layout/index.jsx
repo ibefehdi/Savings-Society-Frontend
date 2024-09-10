@@ -69,7 +69,8 @@ const Layout = () => {
             icon: <LocalAtmIcon />,
             subMenus: [
                 { name: t('share'), path: "/shareholder/Deposit/Shares" },
-                { name: t('savings'), path: "/shareholder/Deposit/Savings" }
+                { name: t('savings'), path: "/shareholder/Deposit/Savings" },
+                { name: t('shareholder_withdrawal'), path: "/shareholder/withdraw/" }
             ]
         },
         { name: t('amanat'), nameKey: 'amanat', icon: <HandshakeOutlinedIcon />, path: "/shareholder/Amanat" },
