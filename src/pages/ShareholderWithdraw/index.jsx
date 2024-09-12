@@ -215,7 +215,9 @@ const ShareholderWithdraw = () => {
     const handleCloseModal = () => {
         setModalOpen(false);
     };
-
+    const handleWithdrawalSuccess = (data) => {
+        fetchData();
+    };
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
             <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
@@ -296,7 +298,7 @@ const ShareholderWithdraw = () => {
                         lineHeight: '1.875rem', flexGrow: 1,
                         marginLeft: '1.2rem'
                     }}>
-                        {t('savings_withdrawal')}
+                        {t('shareholder_withdrawal')}
                     </Typography>
                     <Box sx={{ visibility: 'hidden', position: 'absolute', width: 0, height: 0, display: 'none' }}>
                         <WithdrawalForm ref={componentRef} />
@@ -361,6 +363,8 @@ const ShareholderWithdraw = () => {
                 open={modalOpen}
                 handleClose={handleCloseModal}
                 data={modalData}
+                onWithdrawalSuccess={handleWithdrawalSuccess}
+
             />
         </CacheProvider>
 

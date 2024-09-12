@@ -207,7 +207,7 @@ const Vouchers = () => {
     axiosInstance.get(queryString, { responseType: 'blob' })
       .then((response) => {
         const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
-        saveAs(blob, "voucher_report.csv");
+        saveAs(blob, "voucher_report.xlsx");
       })
       .catch(error => console.error('Download error!', error));
   };

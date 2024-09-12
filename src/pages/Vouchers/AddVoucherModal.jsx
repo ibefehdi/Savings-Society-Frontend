@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Box, Typography, Button, TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { Modal, Box, Typography, Button, TextField, Select, MenuItem, FormControl, InputLabel, Alert } from '@mui/material';
 import { useForm, Controller, } from 'react-hook-form';
 import axiosInstance from '../../constants/axiosInstance';
 import { useTranslation } from 'react-i18next';
 
 const AddVoucherModal = ({ open, onClose, fetchData, editingVoucher }) => {
-    const { control, handleSubmit, reset, watch, setValue } = useForm();
+    const { control, handleSubmit, reset, watch, setValue, setError, formState: { errors } } = useForm();
     const [buildings, setBuildings] = useState([]);
     const [flats, setFlats] = useState([]);
+    const [apiError, setApiError] = useState('');
     const [tenants, setTenants] = useState([]);
     const { t, i18n } = useTranslation()
     const selectedBuildingId = watch('buildingId');
@@ -91,22 +92,41 @@ const AddVoucherModal = ({ open, onClose, fetchData, editingVoucher }) => {
     }, [selectedFlatId, setValue]);
 
     const onSubmit = async (data) => {
+        setApiError(''); // Reset API error on new submission
         try {
             if (editingVoucher) {
                 await axiosInstance.put(`/updatevoucher/${editingVoucher._id}`, data);
             } else {
-                await axiosInstance.post('/createvoucher', data);
+                const response = await axiosInstance.post('/createvoucher', data);
+                if (response.data.existingVoucher) {
+                    setApiError(t('existingVoucherMessage', { month: new Date(response.data.existingVoucher.pendingDate).toLocaleString('default', { month: 'long' }) }));
+                    return;
+                }
             }
             reset();
             onClose();
             fetchData();
         } catch (error) {
             console.error('Error saving voucher:', error);
+            if (error.response && error.response.data) {
+                const { errors: validationErrors, error: errorMessage } = error.response.data;
+                if (validationErrors) {
+                    // Handle validation errors
+                    Object.keys(validationErrors).forEach(key => {
+                        setError(key, { type: 'manual', message: validationErrors[key] });
+                    });
+                } else if (errorMessage) {
+                    // Handle other errors
+                    setApiError(t('errorSavingVoucher', { message: errorMessage }));
+                }
+            } else {
+                setApiError(t('unknownError'));
+            }
         }
     };
 
     return (
-        <Modal open={open} onClose={onClose} style={{ width: '500px' }}>
+        <Modal open={open} onClose={onClose}>
             <Box sx={{
                 position: 'absolute',
                 top: '50%',
@@ -115,24 +135,38 @@ const AddVoucherModal = ({ open, onClose, fetchData, editingVoucher }) => {
                 backgroundColor: 'white',
                 padding: '2rem',
                 outline: 'none',
+                maxWidth: '90%',
+                maxHeight: '90%',
+                overflow: 'auto',
+                width: '500px',
             }}>
                 <Typography variant="h6" component="h2">
-                    {editingVoucher ? 'Edit Voucher' : 'Add Voucher'}
+                    {editingVoucher ? t('editVoucher') : t('addVoucher')}
                 </Typography>
+                {apiError && <Alert severity="error" sx={{ mt: 2, mb: 2 }}>{apiError}</Alert>}
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Controller
                         name="voucherNo"
                         control={control}
                         defaultValue=""
+                        rules={{ required: t('voucherNoRequired') }}
                         render={({ field }) => (
-                            <TextField {...field} label={t('voucherNo')} fullWidth margin="normal" />
+                            <TextField
+                                {...field}
+                                label={t('voucherNo')}
+                                fullWidth
+                                margin="normal"
+                                error={!!errors.voucherNo}
+                                helperText={errors.voucherNo?.message}
+                            />
                         )}
                     />
-                    <FormControl fullWidth margin="normal">
+                    <FormControl fullWidth margin="normal" error={!!errors.buildingId}>
                         <InputLabel>{t('buildings')}</InputLabel>
                         <Controller
                             name="buildingId"
                             control={control}
+                            rules={{ required: t('buildingRequired') }}
                             render={({ field }) => (
                                 <Select {...field}>
                                     {buildings.map((building) => (
@@ -143,12 +177,14 @@ const AddVoucherModal = ({ open, onClose, fetchData, editingVoucher }) => {
                                 </Select>
                             )}
                         />
+                        {errors.buildingId && <Typography color="error">{errors.buildingId.message}</Typography>}
                     </FormControl>
-                    <FormControl fullWidth margin="normal">
+                    <FormControl fullWidth margin="normal" error={!!errors.flatId}>
                         <InputLabel>{t('flats')}</InputLabel>
                         <Controller
                             name="flatId"
                             control={control}
+                            rules={{ required: t('flatRequired') }}
                             render={({ field }) => (
                                 <Select {...field} disabled={!selectedBuildingId}>
                                     {flats.map((flat) => (
@@ -159,12 +195,14 @@ const AddVoucherModal = ({ open, onClose, fetchData, editingVoucher }) => {
                                 </Select>
                             )}
                         />
+                        {errors.flatId && <Typography color="error">{errors.flatId.message}</Typography>}
                     </FormControl>
-                    <FormControl fullWidth margin="normal">
+                    <FormControl fullWidth margin="normal" error={!!errors.tenantId}>
                         <InputLabel>{t('tenants')}</InputLabel>
                         <Controller
                             name="tenantId"
                             control={control}
+                            rules={{ required: t('tenantRequired') }}
                             render={({ field }) => (
                                 <Select {...field} disabled={!selectedFlatId || tenants.length === 1}>
                                     {tenants.map((tenant) => (
@@ -175,19 +213,30 @@ const AddVoucherModal = ({ open, onClose, fetchData, editingVoucher }) => {
                                 </Select>
                             )}
                         />
+                        {errors.tenantId && <Typography color="error">{errors.tenantId.message}</Typography>}
                     </FormControl>
                     <Controller
                         name="amount"
                         control={control}
                         defaultValue=""
+                        rules={{ required: t('amountRequired') }}
                         render={({ field }) => (
-                            <TextField {...field} label={t('amount')} fullWidth margin="normal" disabled={editingVoucher ? false : true} />
+                            <TextField
+                                {...field}
+                                label={t('amount')}
+                                fullWidth
+                                margin="normal"
+                                disabled={editingVoucher ? false : true}
+                                error={!!errors.amount}
+                                helperText={errors.amount?.message}
+                            />
                         )}
                     />
                     <Controller
                         name="pendingDate"
                         control={control}
                         defaultValue=""
+                        rules={{ required: t('pendingDateRequired') }}
                         render={({ field }) => (
                             <TextField
                                 {...field}
@@ -196,12 +245,14 @@ const AddVoucherModal = ({ open, onClose, fetchData, editingVoucher }) => {
                                 fullWidth
                                 margin="normal"
                                 InputLabelProps={{ shrink: true }}
-                                value={field.value ? field.value.substring(0, 7) : ''} // Only use YYYY-MM part
+                                value={field.value ? field.value.substring(0, 7) : ''}
                                 onChange={(e) => {
-                                    const selectedMonth = e.target.value; // Format: "YYYY-MM"
-                                    const formattedDate = `${selectedMonth}-05`; // Set to 5th of the selected month
+                                    const selectedMonth = e.target.value;
+                                    const formattedDate = `${selectedMonth}-05`;
                                     field.onChange(formattedDate);
                                 }}
+                                error={!!errors.pendingDate}
+                                helperText={errors.pendingDate?.message}
                             />
                         )}
                     />
@@ -210,29 +261,45 @@ const AddVoucherModal = ({ open, onClose, fetchData, editingVoucher }) => {
                         control={control}
                         defaultValue=""
                         render={({ field }) => (
-                            <TextField {...field} label={t('paidDate')} type="date" fullWidth margin="normal" InputLabelProps={{ shrink: true }} />
+                            <TextField
+                                {...field}
+                                label={t('paidDate')}
+                                type="date"
+                                fullWidth
+                                margin="normal"
+                                InputLabelProps={{ shrink: true }}
+                                error={!!errors.paidDate}
+                                helperText={errors.paidDate?.message}
+                            />
                         )}
                     />
-                    <Controller
-                        name="status"
-                        control={control}
-                        defaultValue="Pending"
-                        render={({ field }) => (
-                            <Select {...field} fullWidth margin="normal">
-                                <MenuItem value="Pending">{t('pending')}</MenuItem>
-                                <MenuItem value="Paid">{t('paid')}</MenuItem>
-                            </Select>
-                        )}
-                    />
-                    <br />
-                    <Button onClick={onClose}>{t('close')}</Button>
-                    <Button type="submit" variant="contained">
-                        {editingVoucher ? t('edit') : t('add')}
-                    </Button>
+                    <FormControl fullWidth margin="normal" error={!!errors.status}>
+                        <InputLabel>{t('status')}</InputLabel>
+                        <Controller
+                            name="status"
+                            control={control}
+                            defaultValue="Pending"
+                            rules={{ required: t('statusRequired') }}
+                            render={({ field }) => (
+                                <Select {...field}>
+                                    <MenuItem value="Pending">{t('pending')}</MenuItem>
+                                    <MenuItem value="Paid">{t('paid')}</MenuItem>
+                                </Select>
+                            )}
+                        />
+                        {errors.status && <Typography color="error">{errors.status.message}</Typography>}
+                    </FormControl>
+                    <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
+                        <Button onClick={onClose} sx={{ mr: 1 }}>{t('close')}</Button>
+                        <Button type="submit" variant="contained">
+                            {editingVoucher ? t('edit') : t('add')}
+                        </Button>
+                    </Box>
                 </form>
             </Box>
         </Modal>
     );
 };
+
 
 export default AddVoucherModal;

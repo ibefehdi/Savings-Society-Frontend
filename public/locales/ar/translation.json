@@ -138,7 +138,7 @@
   "withdrawal_date": "تاريخ السحب",
   "building_transactions": "ايرادات ومصروفات العمارة",
   "building_transaction": "ايرادات ومصروفات العمارة",
-  "savings_increase":"أرباح المدخر",
+  "savings_increase":"أرباح المدخرات",
   "description": "الوصف",
   "tenantName": "إسم المستأجر",
   "rentAmount": "قيمة الايجار",
@@ -268,5 +268,12 @@
   "new_balance":"الرصيد الجديد",
   "invalid_balance": "رصيد غير صالح",
   "balance_change_failed": "فشل تغيير الرصيد",
-  "confirm_delete_contract":"هل تريد إلغاء هذا العقد"
+  "confirm_delete_contract":"هل تريد إلغاء هذا العقد",
+  "shareholder_withdrawal":" إلغاء عضوية مساهم",
+  "view_potential":"إالغاء",
+  "full_withdrawal_for":"عملية إلغاء المساهم:",
+  "potential_increment":"المبلغ المضاف",
+  "total_withdrawal_amount":"المجموع",
+  "full_withdrawal_warning":"! ملاحظة: هل انت اكبد من عملية السحب؟ لا يمكن إعادة المبلغ المسحوب ",
+  "confirm":"تأكيد"
 }

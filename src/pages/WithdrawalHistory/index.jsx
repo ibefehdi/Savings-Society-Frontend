@@ -82,6 +82,15 @@ const WithdrawalHistory = () => {
             }
         },
         {
+            field: 'previousAmount',
+            headerName: t('previous_amount'),
+            flex: 1,
+            valueGetter: (params) => {
+                const previousAmount = Number(params.row?.previousAmount);
+                return !isNaN(previousAmount) ? previousAmount.toFixed(3) : 'N/A';
+            }
+        },
+        {
             field: 'newAmount',
             headerName: t('new_amount'),
             flex: 1,
