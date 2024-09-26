@@ -120,7 +120,8 @@ const Layout = () => {
                 { name: t('buildings'), path: "/rental/buildings" },
                 { name: t('flats'), path: "/rental/flats" },
                 { name: t('data_of_tenants'), path: "/rental/tenants" },
-                { name: t('bookings'), path: "/rental/booking" }
+                { name: t('bookings'), path: "/rental/booking" },
+                { name: t('tenant_history'), path: "/rental/tenantshistory" }
             ]
         },
         {

@@ -63,6 +63,7 @@ import ResignationFormPage from './pages/ResignationFormPage';
 import CheckDisbursementFormPage from './pages/CheckDisbursementFormPage.jsx';
 import ViewBookings from './pages/ViewBookings.jsx/index.jsx';
 import ShareholderWithdraw from './pages/ShareholderWithdraw/index.jsx';
+import TenantHistory from './pages/TenantHistory/index.jsx';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -101,6 +102,7 @@ function App() {
         { path: "flatIncome", element: <BuildingTransactions /> },
         { path: "flatExpenses", element: <BuildingExpenseTransactions /> },
         { path: "tenants", element: <Tenants /> },
+        { path: 'tenantshistory/', element: <TenantHistory /> },
         { path: 'vouchers', element: <Vouchers /> },
         { path: 'buildingtransactions', element: <BuildingTransactions /> },
         { path: 'contracts', element: <Contracts /> },
@@ -131,6 +133,7 @@ function App() {
         { path: "hallExpenses", element: <HallExpenseTransaction /> },
         { path: "flatIncome", element: <BuildingTransactions /> },
         { path: "tenants", element: <Tenants /> },
+        { path: 'tenantshistory/', element: <TenantHistory /> },
         { path: "flatExpenses", element: <BuildingExpenseTransactions /> },
         { path: 'vouchers', element: <Vouchers /> },
         { path: 'buildingtransactions', element: <BuildingTransactions /> },

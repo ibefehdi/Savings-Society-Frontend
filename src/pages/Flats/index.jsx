@@ -88,7 +88,7 @@ const Flats = () => {
         {
             field: 'contract.expired',
             headerName: t('expired'),
-            flex: 0.5,
+            flex: 0.25,
             valueGetter: (params) => params.row.contract?.expired,
             renderCell: (params) => (
                 <span style={{

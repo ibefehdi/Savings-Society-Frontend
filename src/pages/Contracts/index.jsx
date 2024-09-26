@@ -77,7 +77,7 @@ const Contracts = () => {
         {
             field: 'tenantName',
             headerName: t('tenant_name'),
-            flex: 1,
+            flex: 2,
             valueGetter: (params) => params.row.tenantId?.name,
         },
         {
@@ -110,23 +110,7 @@ const Contracts = () => {
                 </span>
             ),
         },
-        {
-            field: 'collectionDay',
-            headerName: t('collection_day'),
-            flex: 1,
-        },
-        {
-            field: 'view',
-            headerName: t('view'),
-            flex: 1,
-            renderCell: (params) => (
-                params.row.contractDocument ? (
-                    <IconButton onClick={() => handleOpenModal(params.row)}>
-                        <VisibilityIcon />
-                    </IconButton>
-                ) : null
-            ),
-        },
+        
         {
             field: 'delete',
             headerName: t('delete'),

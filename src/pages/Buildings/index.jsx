@@ -47,7 +47,7 @@ const Buildings = () => {
         {
             field: 'name',
             headerName: t('name'),
-            flex: 1,
+            flex: 2,
             valueGetter: (params) => `${params.row.name}`,
         },
         {

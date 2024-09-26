@@ -34,7 +34,7 @@ const Booking = () => {
         {
             field: 'name',
             headerName: t('hall_name'),
-            flex: 1,
+            flex: 2,
             valueGetter: (params) => `${params.row.name}`
 
         },
