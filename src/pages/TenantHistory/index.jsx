@@ -171,6 +171,40 @@ const TenantHistory = () => {
             flex: 1,
             valueGetter: (params) => params.row.flatId?.buildingId?.name || '',
         },
+        {
+            field: 'startDate',
+            headerName: t('start_date'),
+            flex: 1,
+            valueGetter: (params) => {
+                if (!params.row.startDate) return '';
+                const date = new Date(params.row.startDate);
+                return date.toLocaleDateString('en-GB', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                }).replace(/\//g, '-');
+            },
+        },
+        {
+            field: 'endDate',
+            headerName: t('end_date'),
+            flex: 1,
+            valueGetter: (params) => {
+                if (!params.row.endDate) return '';
+                const date = new Date(params.row.endDate);
+                return date.toLocaleDateString('en-GB', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                }).replace(/\//g, '-');
+            },
+        },
+        {
+            field: 'rentAmount',
+            headerName: t('amount'),
+            flex: 1,
+            valueGetter: (params) => params.row.rentAmount || '',
+        },
         // {
         //     field: 'createdAt',
         //     headerName: t('date'),
@@ -249,7 +283,10 @@ const TenantHistory = () => {
                     name: data.name,
                     contactNumber: data.contactNumber,
                     civilId: data.civilId,
-                    flatId: data.flatId
+                    flatId: data.flatId,
+                    startDate: data.startDate,
+                    endDate: data.endDate,
+                    rentAmount: data.rentAmount
                 };
 
                 const response = await axiosInstance.post('/createTenantAndHistory', payload);
@@ -442,64 +479,102 @@ const TenantHistory = () => {
                             {errors.flatId && <Typography color="error">{errors.flatId.message}</Typography>}
                         </FormControl>
 
-                        {!editingHistory && (
-                            <FormControlLabel
-                                control={<Switch checked={isNewTenant} onChange={(e) => setIsNewTenant(e.target.checked)} />}
-                                label={t('create_new_tenant')}
-                            />
-                        )}
 
-                        
-                            <>
-                                <Controller
-                                    name="name"
-                                    control={control}
-                                    rules={{ required: t('nameRequired') }}
-                                    render={({ field }) => (
-                                        <TextField
-                                            {...field}
-                                            label={t('tenant_name')}
-                                            fullWidth
-                                            margin="normal"
-                                            error={!!errors.name}
-                                            helperText={errors.name?.message}
-                                        />
-                                    )}
-                                />
-                                <Controller
-                                    name="contactNumber"
-                                    control={control}
-                                    rules={{ required: t('contactNumberRequired') }}
-                                    render={({ field }) => (
-                                        <TextField
-                                            {...field}
-                                            label={t('contact_number')}
-                                            fullWidth
-                                            margin="normal"
-                                            error={!!errors.contactNumber}
-                                            helperText={errors.contactNumber?.message}
-                                        />
-                                    )}
-                                />
-                                <Controller
-                                    name="civilId"
-                                    control={control}
-                                    rules={{ required: t('civilIdRequired') }}
-                                    render={({ field }) => (
-                                        <TextField
-                                            {...field}
-                                            label={t('civil_id')}
-                                            fullWidth
-                                            margin="normal"
-                                            error={!!errors.civilId}
-                                            helperText={errors.civilId?.message}
-                                        />
-                                    )}
-                                />
-                               
-                                
-                            </>
-                        
+                        <>
+                            <Controller
+                                name="name"
+                                control={control}
+                                rules={{ required: t('nameRequired') }}
+                                render={({ field }) => (
+                                    <TextField
+                                        {...field}
+                                        label={t('tenant_name')}
+                                        fullWidth
+                                        margin="normal"
+                                        error={!!errors.name}
+                                        helperText={errors.name?.message}
+                                    />
+                                )}
+                            />
+                            <Controller
+                                name="contactNumber"
+                                control={control}
+                                rules={{ required: t('contactNumberRequired') }}
+                                render={({ field }) => (
+                                    <TextField
+                                        {...field}
+                                        label={t('contact_number')}
+                                        fullWidth
+                                        margin="normal"
+                                        error={!!errors.contactNumber}
+                                        helperText={errors.contactNumber?.message}
+                                    />
+                                )}
+                            />
+                            <Controller
+                                name="civilId"
+                                control={control}
+                                rules={{ required: t('civilIdRequired') }}
+                                render={({ field }) => (
+                                    <TextField
+                                        {...field}
+                                        label={t('civil_id')}
+                                        fullWidth
+                                        margin="normal"
+                                        error={!!errors.civilId}
+                                        helperText={errors.civilId?.message}
+                                    />
+                                )}
+                            />
+                            <Controller
+                                name="startDate"
+                                control={control}
+                                rules={{ required: t('startDateRequired') }}
+                                render={({ field }) => (
+                                    <TextField
+                                        {...field}
+                                        label={t('startDate')}
+                                        fullWidth
+                                        margin="normal"
+                                        type='date'
+                                        error={!!errors.startDate}
+                                        helperText={errors.startDate?.message}
+                                    />
+                                )}
+                            />
+                            <Controller
+                                name="endDate"
+                                control={control}
+                                rules={{ required: t('endDateRequired') }}
+                                render={({ field }) => (
+                                    <TextField
+                                        {...field}
+                                        label={t('endDate')}
+                                        fullWidth
+                                        margin="normal"
+                                        type='date'
+                                        error={!!errors.endDate}
+                                        helperText={errors.endDate?.message}
+                                    />
+                                )}
+                            />
+                            <Controller
+                                name="rentAmount"
+                                control={control}
+                                rules={{ required: t('rentAmount') }}
+                                render={({ field }) => (
+                                    <TextField
+                                        {...field}
+                                        label={t('amount')}
+                                        fullWidth
+                                        margin="normal"
+                                        error={!!errors.rentAmount}
+                                        helperText={errors.rentAmount?.message}
+                                    />
+                                )}
+                            />
+                        </>
+
 
                         <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
                             <Button onClick={() => setModalOpen(false)} sx={{ mr: 1 }}>{t('cancel')}</Button>

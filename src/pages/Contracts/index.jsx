@@ -17,7 +17,7 @@ import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Modal } from '@mui/material';
+import { Modal, TextField } from '@mui/material';
 import BackButton from '../../components/BackButton';
 import axiosInstance from '../../constants/axiosInstance';
 import { saveAs } from 'file-saver';
@@ -30,7 +30,13 @@ const Contracts = () => {
     const cacheLtr = createCache({
         key: 'muilt',
     });
-
+    const [filters, setFilters] = useState({
+        flatId: '',
+        tenantId: '',
+        startDate: '',
+        endDate: '',
+        rentAmount: '',
+    });
     const [expired, setExpired] = useState(false);
     const [pageNo, setPageNo] = useState(0)
     const [pageSize, setPageSize] = useState(10)
@@ -58,15 +64,22 @@ const Contracts = () => {
         contractStatus === 'all' ? '/contracts' :
             contractStatus === 'active' ? '/contracts/active' : '/contracts/inactive',
         paginationModel.page + 1,
-        paginationModel.pageSize
+        paginationModel.pageSize,
+        filters
     );
 
 
     useEffect(() => {
         fetchData();
-    }, [contractStatus, paginationModel]);
+    }, [contractStatus, paginationModel, filters]);
     const isRtl = i18n.dir() === 'rtl';
-
+    const handleFilterChange = (event) => {
+        const { name, value } = event.target;
+        setFilters(prevFilters => ({
+            ...prevFilters,
+            [name]: value
+        }));
+    };
     const columns = [
         {
             field: 'flatNumber',
@@ -110,7 +123,7 @@ const Contracts = () => {
                 </span>
             ),
         },
-        
+
         {
             field: 'delete',
             headerName: t('delete'),
@@ -177,21 +190,43 @@ const Contracts = () => {
                     <BackButton />
 
                 </Box>
-                <Box
-                    sx={{
-                        width: '90%',
-                        display: 'flex',
-                        gap: '1rem',
-                        backgroundColor: '#FFF',
-                        marginLeft: '2rem',
-                        marginTop: '2rem',
-                        padding: '1rem',
-                        borderRadius: '0.5rem',
-                        overflowX: 'auto',
-                        marginRight: isRtl ? "2rem" : 0
-                    }}
-                >
-                    <FormControl sx={{ width: '100%' }}>
+                <Box sx={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+                    <TextField
+                        name="flatId"
+                        label={t('flat_number')}
+                        value={filters.flatId}
+                        onChange={handleFilterChange}
+                    />
+                    <TextField
+                        name="tenantId"
+                        label={t('tenant_name')}
+                        value={filters.tenantId}
+                        onChange={handleFilterChange}
+                    />
+                    <TextField
+                        name="startDate"
+                        label={t('start_date')}
+                        type="date"
+                        value={filters.startDate}
+                        onChange={handleFilterChange}
+                        InputLabelProps={{ shrink: true }}
+                    />
+                    <TextField
+                        name="endDate"
+                        label={t('end_date')}
+                        type="date"
+                        value={filters.endDate}
+                        onChange={handleFilterChange}
+                        InputLabelProps={{ shrink: true }}
+                    />
+                    <TextField
+                        name="rentAmount"
+                        label={t('rent_amount')}
+                        type="number"
+                        value={filters.rentAmount}
+                        onChange={handleFilterChange}
+                    />
+                    <FormControl sx={{ minWidth: 120 }}>
                         <InputLabel id="contract-status-select-label">{t('status')}</InputLabel>
                         <Select
                             labelId="contract-status-select-label"
@@ -202,7 +237,6 @@ const Contracts = () => {
                                 setContractStatus(e.target.value);
                                 setPaginationModel({ ...paginationModel, page: 0 });
                             }}
-                            fullWidth={true}
                         >
                             <MenuItem value="all">{t('all')}</MenuItem>
                             <MenuItem value="active">{t('active')}</MenuItem>
