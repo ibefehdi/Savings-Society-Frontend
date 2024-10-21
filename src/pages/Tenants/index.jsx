@@ -342,8 +342,8 @@ const Tenants = () => {
         const queryString = `activetenants/export/?${filterParams}`;
         axiosInstance.get(queryString, { responseType: 'blob' })
             .then((response) => {
-                const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
-                saveAs(blob, "tenants.csv");
+                const blob = new Blob([response.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+                saveAs(blob, "active_tenants.xlsx");
             })
             .catch(error => console.error('Download error!', error));
     };
@@ -425,7 +425,7 @@ const Tenants = () => {
                     {/* <Button onClick={() => setOpen(true)} variant="contained">
                         {t('add')}
                     </Button> */}
-                    <Button variant='contained' onClick={() => { getCSV() }}>{t('export_csv')}</Button>
+                    <Button variant='contained' onClick={() => { getCSV() }}>{t('export_xlsx')}</Button>
 
                     <BackButton />
 

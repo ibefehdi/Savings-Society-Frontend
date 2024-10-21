@@ -101,8 +101,8 @@ const TotalTransactionsPerFlat = () => {
     const downloadCSV = () => {
         axiosInstance.get('/profit-report-flat/export', { responseType: 'blob' })
             .then((response) => {
-                const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
-                saveAs(blob, "profit_report_by_flat.csv");
+                const blob = new Blob([response.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+                saveAs(blob, "profit_report_by_flat.xlsx");
             })
             .catch(error => console.error('Download error!', error));
     };
@@ -137,7 +137,7 @@ const TotalTransactionsPerFlat = () => {
                     onClick={downloadCSV}
                     sx={{ marginRight: '1rem' }}
                 >
-                    {t('export_csv')}
+                    {t('export_xlsx')}
                 </Button>
                 <BackButton />
 

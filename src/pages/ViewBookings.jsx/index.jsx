@@ -155,8 +155,8 @@ const ViewBookings = () => {
     const downloadCSV = () => {
         axiosInstance.get(`/bookings/${id}/export`, { responseType: 'blob' })
             .then((response) => {
-                const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
-                saveAs(blob, `hall_bookings_${id}.csv`);
+                const blob = new Blob([response.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+                saveAs(blob, `hall_bookings_${id}.xlsx`);
             })
             .catch(error => console.error('Download error!', error));
     };
@@ -218,7 +218,7 @@ const ViewBookings = () => {
                         onClick={downloadCSV}
                         sx={{ marginRight: '1rem' }}
                     >
-                        {t('export_csv')}
+                        {t('export_xlsx')}
                     </Button>
                     <BackButton />
                 </Box>

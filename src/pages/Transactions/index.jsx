@@ -151,8 +151,8 @@ const Transactions = () => {
         const queryParams = new URLSearchParams({ transactionType: 'Income' }).toString(); // Adjust as needed
         axiosInstance.get(`/transactionsexport?${queryParams}`, { responseType: 'blob' })
             .then((response) => {
-                const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
-                saveAs(blob, `transactions_income.csv`);
+                const blob = new Blob([response.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+                saveAs(blob, `transactions_income.xlsx`);
             })
             .catch(error => console.error('Download error!', error));
     };
@@ -186,7 +186,7 @@ const Transactions = () => {
                         onClick={downloadCSV}
                         sx={{ marginRight: '1rem' }}
                     >
-                        {t('export_csv')}
+                        {t('export_xlsx')}
                     </Button>
                     <BackButton />
 

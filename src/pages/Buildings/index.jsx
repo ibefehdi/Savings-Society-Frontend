@@ -110,8 +110,8 @@ const Buildings = () => {
         const queryString = `building-export/?${filterParams}`;
         axiosInstance.get(queryString, { responseType: 'blob' })
             .then((response) => {
-                const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
-                saveAs(blob, "buildings.csv");
+                const blob = new Blob([response.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+                saveAs(blob, "buildings.xlsx");
             })
             .catch(error => console.error('Download error!', error));
     };
@@ -120,7 +120,7 @@ const Buildings = () => {
             <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
                 <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
                     <Typography variant="h3" component="h2" sx={{
-                        fontStyle: 'normal', 
+                        fontStyle: 'normal',
                         fontWeight: 600,
                         lineHeight: '1.875rem', flexGrow: 1,
                         marginLeft: '1.2rem'
@@ -130,7 +130,7 @@ const Buildings = () => {
                     <Button onClick={() => setOpen(true)} variant="contained">
                         {t('add')}
                     </Button>
-                    <Button variant='contained' onClick={() => { getCSV() }}>{t('export_csv')}</Button>
+                    <Button variant='contained' onClick={() => { getCSV() }}>{t('export_xlsx')}</Button>
 
                     <BackButton />
 

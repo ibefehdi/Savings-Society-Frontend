@@ -103,8 +103,8 @@ const ProfitReport = () => {
     const downloadCSV = () => {
         axiosInstance.get('/profit-report/export', { responseType: 'blob' })
             .then((response) => {
-                const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
-                saveAs(blob, "profit_report.csv");
+                const blob = new Blob([response.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+                saveAs(blob, "profit_report.xlsx");
             })
             .catch(error => console.error('Download error!', error));
     };
@@ -139,7 +139,7 @@ const ProfitReport = () => {
                     onClick={downloadCSV}
                     sx={{ marginRight: '1rem' }}
                 >
-                    {t('export_csv')}
+                    {t('export_xlsx')}
                 </Button>
                 <BackButton />
 

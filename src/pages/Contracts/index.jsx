@@ -156,8 +156,8 @@ const Contracts = () => {
     const downloadCSV = () => {
         axiosInstance.get(`/contracts/export?status=${contractStatus}`, { responseType: 'blob' })
             .then((response) => {
-                const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
-                saveAs(blob, `${contractStatus}_contracts.csv`);
+                const blob = new Blob([response.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+                saveAs(blob, `${contractStatus}_contracts.xlsx`);
             })
             .catch(error => console.error('Download error!', error));
     };
@@ -185,7 +185,7 @@ const Contracts = () => {
                         onClick={downloadCSV}
                         sx={{ marginRight: '1rem' }}
                     >
-                        {t('export_csv')}
+                        {t('export_xlsx')}
                     </Button>
                     <BackButton />
 

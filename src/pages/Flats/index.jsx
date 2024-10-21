@@ -199,8 +199,8 @@ const Flats = () => {
 
         axiosInstance.get(`/flatcsv/${selectedBuilding}`, { responseType: 'blob' })
             .then((response) => {
-                const blob = new Blob([response.data], { type: "text/csv;charset=utf-8" });
-                saveAs(blob, `flats_building_${selectedBuilding}.csv`);
+                const blob = new Blob([response.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+                saveAs(blob, `flats_building_${selectedBuilding}.xlsx`);
             })
             .catch(error => console.error('Download error!', error));
     };
@@ -294,7 +294,7 @@ const Flats = () => {
                         onClick={downloadCSV}
                         disabled={!selectedBuilding}
                     >
-                        {t('export_csv')}
+                        {t('export_xlsx')}
                     </Button>
                     <BackButton />
 
