@@ -289,7 +289,7 @@ const Vouchers = () => {
           /> */}
         </Box>
       )}
-      <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
+      <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto'   }}>
         <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
           <Typography variant="h3" component="h2" sx={{
             fontStyle: 'normal',

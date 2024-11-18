@@ -113,7 +113,7 @@ const PrintDataGrid = React.forwardRef(({ data, filters, grandTotal }, ref) => {
                                 </StyledTd>
                                 <StyledTd>{row?.amanatAmount ? row.amanatAmount : 'N/A'}</StyledTd>
                                 <StyledTd>{row?.transferSavings ? row.transferSavings : 'N/A'}</StyledTd>
-                                <StyledTd>{row?.alraseed ? row.alraseed : 'N/A'}</StyledTd>
+                                <StyledTd>{row?.savingsCurrentAmount ? row.savingsCurrentAmount : 'N/A'}</StyledTd>
                             </TableRow>
                         ))}
                     </tbody>
