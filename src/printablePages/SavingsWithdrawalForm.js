@@ -3,10 +3,23 @@ import logo from '../assets/logo1.png';
 
 const SavingsWithdrawalForm = React.forwardRef((props, ref) => {
     const { shareholder } = props;
-    const currentDate = new Date().toLocaleDateString();
+
+    const formatDate = (date) => {
+        if (!date) return null;
+        const d = new Date(date);
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const year = d.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
+
+    const currentDate = formatDate(new Date());
+    const savingsAmount = shareholder?.savings?.totalAmount;
+    const joinDate = formatDate(shareholder?.joinDate);
+    const lastUpdateDate = formatDate(shareholder?.savings?.lastUpdateDate);
+
     return (
         <div ref={ref} style={{ fontFamily: 'Arial, sans-serif', width: '100%', margin: 'auto', padding: '20px', border: "1px solid black", direction: 'rtl' }}>
-            {/* Header Section */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', paddingBottom: 10, borderBottom: '1px solid black', direction: 'ltr' }}>
                 <div style={{ flex: 1 }}>
                     <h1 style={{ margin: '0', textAlign: 'center' }}>Co-operative Society of Savings</h1>
@@ -24,22 +37,20 @@ const SavingsWithdrawalForm = React.forwardRef((props, ref) => {
             <div style={{ fontFamily: 'Arial, sans-serif', fontSize: '14px', textAlign: 'right', width: '100%', margin: 'auto', padding: '5px', direction: 'rtl' }}>
                 <h1 style={{ fontSize: '28px', textAlign: 'center', fontWeight: 'bolder' }}>طلب صرف رصيد المدخرات ( كل / جزء )</h1>
 
-                {/* Addressing */}
-                <h1>السيد الفاضل رئيس مجلس الإدارة <span style={{ borderBottom: "1px solid black", paddingRight: '400px', }}>&nbsp;</span>المحترم</h1>
+                <h1>السيد الفاضل رئيس مجلس الإدارة <span style={{ borderBottom: "1px solid black", paddingRight: '400px' }}>&nbsp;</span>المحترم</h1>
                 <h3>تحية طيبة وبعد،،،</h3>
 
-                {/* Main Content */}
                 <p>
                     يرجى التفضل بالموافقة على صرف مبلغ{' '}
-                    {shareholder?.savings?.totalAmount ? (
+                    {savingsAmount ? (
                         <>
-                            <span>{shareholder.savings.totalAmount}</span>/<span>{shareholder.savings.totalAmount}</span> د.ك ( فقط
-                            <span>{shareholder.savings.totalAmount}</span>)
+                            <span>{savingsAmount}</span>/<span>{savingsAmount}</span> د.ك ( فقط{' '}
+                            <span>{savingsAmount}</span>)
                         </>
                     ) : (
                         <>
                             <span style={{ borderBottom: "1px solid black", paddingRight: '50px' }}>&nbsp;</span>/
-                            <span style={{ borderBottom: "1px solid black", paddingRight: '50px' }}>&nbsp;</span> د.ك ( فقط
+                            <span style={{ borderBottom: "1px solid black", paddingRight: '50px' }}>&nbsp;</span> د.ك ( فقط{' '}
                             <span style={{ borderBottom: "1px solid black", paddingRight: '150px' }}>&nbsp;</span>)
                         </>
                     )}
@@ -55,34 +66,22 @@ const SavingsWithdrawalForm = React.forwardRef((props, ref) => {
 
                 <p>وتفضلوا بقبول خالص التحية،،،</p>
 
-                {/* Details */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', margin: '20px 0' }}>
                     <div>
                         <p>
                             اسم العضو:{' '}
-                            {shareholder?.fName ? (
-                                <span style={{ fontWeight: "bold" }}>{shareholder.fName}</span>
-                            ) : (
-                                <span style={{ borderBottom: "1px solid black", paddingRight: '150px' }}>&nbsp;</span>
-                            )}
+                            <span style={{ fontWeight: "bold" }}>{shareholder?.fName || <span style={{ borderBottom: "1px solid black", paddingRight: '150px' }}>&nbsp;</span>}</span>
                         </p>
                         <p>التوقيع: <span style={{ borderBottom: "1px solid black", paddingRight: '150px' }}>&nbsp;</span></p>
                     </div>
                 </div>
-                {/* Association Details */}
+
                 <div style={{ borderTop: '1px solid #000', paddingTop: '10px' }}>
                     <p>بيانات من واقع سجلات الجمعية</p>
                     <p>
-                        رقم العضوية:{' '}
-                        {shareholder?.membersCode ? (
-                            <span>{shareholder.membersCode}</span>
-                        ) : (
-                            <span style={{ borderBottom: "1px solid black", paddingRight: '50px' }}>&nbsp;</span>
-                        )}{' '}
-                        نوع الحساب: (<span style={{ borderBottom: "1px solid black", paddingRight: '100px' }}>&nbsp;</span>) تاريخ الانتساب:{' '}
-                        {shareholder?.joinDate ? (
-                            <span>{new Date(shareholder.joinDate).toLocaleDateString()}</span>
-                        ) : (
+                        رقم العضوية: {shareholder?.membersCode || <span style={{ borderBottom: "1px solid black", paddingRight: '50px' }}>&nbsp;</span>}{' '}
+                        نوع الحساب: (<span style={{ borderBottom: "1px solid black", paddingRight: '100px' }}>&nbsp;</span>)
+                        تاريخ الانتساب: {joinDate || (
                             <>
                                 <span style={{ borderBottom: "1px solid black", paddingRight: '50px' }}>&nbsp;</span>/
                                 <span style={{ borderBottom: "1px solid black", paddingRight: '50px' }}>&nbsp;</span>/
@@ -90,76 +89,44 @@ const SavingsWithdrawalForm = React.forwardRef((props, ref) => {
                             </>
                         )}
                     </p>
-                    {/* Financial Details */}
+
                     <table style={{ width: '100%', textAlign: 'right', direction: 'rtl', marginBottom: '0' }}>
                         <thead>
                             <tr>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}>
-                                    1. رصيد المدخرات في{' '}
-                                    {shareholder?.savings?.lastUpdateDate ? (
-                                        <span>{new Date(shareholder.savings.lastUpdateDate).toLocaleDateString()}</span>
-                                    ) : (
+                                <td style={{ padding: '5px', border: '1px solid #000' }}>
+                                    1. رصيد المدخرات في {lastUpdateDate || (
                                         <>
                                             <span style={{ borderBottom: "1px solid black", paddingRight: '50px' }}>&nbsp;</span>/
                                             <span style={{ borderBottom: "1px solid black", paddingRight: '50px' }}>&nbsp;</span>
                                         </>
                                     )}
                                 </td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}>
-                                    {shareholder?.savings?.currentAmount ?? ''}
+                                <td style={{ padding: '5px', border: '1px solid #000' }}>
+                                    {shareholder?.savings?.currentAmount || ''}
                                 </td>
-                                <td style={{ border: '1px solid #000', fontWeight: 'bold', padding: '2px' }}>دينار</td>
-                                <td style={{ border: '1px solid #000', fontWeight: 'bold', padding: '2px' }}>ملاحظات</td>
+                                <td style={{ padding: '5px', border: '1px solid #000', fontWeight: 'bold' }}>دينار</td>
+                                <td style={{ padding: '5px', border: '1px solid #000', fontWeight: 'bold' }}>ملاحظات</td>
                             </tr>
                         </thead>
                         <tbody>
+                            {[2013, 2014, 2015, 2016, 2017].map((year, index) => (
+                                <tr key={year}>
+                                    <td style={{ padding: '5px', border: '1px solid #000' }}>{index + 2}. أرباح عام {year}</td>
+                                    <td style={{ padding: '5px', border: '1px solid #000' }}></td>
+                                    <td style={{ padding: '5px', border: '1px solid #000' }}></td>
+                                    <td style={{ padding: '5px', border: '1px solid #000' }}></td>
+                                </tr>
+                            ))}
                             <tr>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}>1. رصيد المدخرات في <span style={{ borderBottom: "1px solid black", paddingRight: '50px', }}>&nbsp;</span>/<span style={{ borderBottom: "1px solid black", paddingRight: '50px', }}>&nbsp;</span></td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
-                            </tr>
-                            <tr>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}>2. أرباح عام 2013</td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
-                            </tr>
-                            <tr>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}>3. أرباح عام 2014</td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
-                            </tr>
-                            <tr>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}>4. أرباح عام 2015</td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
-                            </tr>
-                            <tr>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}>5. أرباح عام 2016</td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
-                            </tr>
-                            <tr>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}>6. أرباح عام 2017</td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
-                            </tr>
-                            <tr>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}>الاجمالي</td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
-                                <td style={{ padding: '2px', border: '1px solid #000' }}></td>
+                                <td style={{ padding: '5px', border: '1px solid #000' }}>الاجمالي</td>
+                                <td style={{ padding: '5px', border: '1px solid #000' }}></td>
+                                <td style={{ padding: '5px', border: '1px solid #000' }}>{savingsAmount || ''}</td>
+                                <td style={{ padding: '5px', border: '1px solid #000' }}></td>
                             </tr>
                         </tbody>
                     </table>
 
-                    {/* Footer */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
                         <p>الموظف المختص:<br /> .............................</p>
                         <p>رئيس المحاسبة:<br /> .............................</p>
                         <p>مسئول الشئون الإدارية والمالية:<br /> .....................................</p>
@@ -167,7 +134,12 @@ const SavingsWithdrawalForm = React.forwardRef((props, ref) => {
                     </div>
                     <p>المراقب المالي /وزارة الشئون الاجتماعية والعمل</p>
                     <p style={{ textAlign: 'left' }}>رئيس مجلس الإدارة</p>
-                    <p>حرر له الشبك رقم (<span style={{ borderBottom: "1px solid black", paddingRight: '100px', }}>&nbsp;</span>) بتاريخ: <span style={{ borderBottom: "1px solid black", paddingRight: '50px', }}>&nbsp;</span>/<span style={{ borderBottom: "1px solid black", paddingRight: '50px', }}>&nbsp;</span>/<span style={{ borderBottom: "1px solid black", paddingRight: '50px', }}>&nbsp;</span> على بيت التمويل</p>
+                    <p>
+                        حرر له الشبك رقم (<span style={{ borderBottom: "1px solid black", paddingRight: '100px' }}>&nbsp;</span>)
+                        بتاريخ: <span style={{ borderBottom: "1px solid black", paddingRight: '50px' }}>&nbsp;</span>/
+                        <span style={{ borderBottom: "1px solid black", paddingRight: '50px' }}>&nbsp;</span>/
+                        <span style={{ borderBottom: "1px solid black", paddingRight: '50px' }}>&nbsp;</span> على بيت التمويل
+                    </p>
                 </div>
             </div>
         </div>

@@ -277,5 +277,7 @@
   "full_withdrawal_warning":"! ملاحظة: هل انت اكبد من عملية السحب؟ لا يمكن إعادة المبلغ المسحوب ",
   "confirm":"تأكيد",
   "tenant_history":"سجل المستأجر",
-  "add_tenant_history":"إضافة سجل المستأجر"
+  "add_tenant_history":"إضافة سجل المستأجر",
+  "last_member_code": "آخر رقم عضوية",
+    "loading": "جاري التحميل"
 }

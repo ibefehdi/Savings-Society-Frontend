@@ -249,5 +249,8 @@
   "yes": "Yes",
   "no": "No",
   "potential_increment_amount": "Expected Increment Amount",
-  "shareholder_withdrawal":"Shareholder Withdrawal"
+  "shareholder_withdrawal":"Shareholder Withdrawal",
+  "last_member_code": "Last Code",
+  "loading": "Loading"
+  
 }

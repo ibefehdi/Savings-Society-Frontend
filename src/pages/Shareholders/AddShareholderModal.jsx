@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import { useForm, Controller } from 'react-hook-form';
 import axiosInstance from '../../constants/axiosInstance';
-import { MenuItem, FormControl, Select, FormHelperText, InputLabel } from '@mui/material';
+import { MenuItem, FormControl, Select, FormHelperText, InputLabel, Paper } from '@mui/material';
 import MoneyForm from '../../printablePages/MoneyForm';
 import { useReactToPrint } from 'react-to-print';
 import { useTranslation } from 'react-i18next';
@@ -31,6 +31,9 @@ const style = {
 };
 const AddShareholderModal = ({ open, setOpen, fetchData }) => {
     const userData = JSON.parse(sessionStorage.getItem('userDetails') || '{}');
+    const [lastMemberCode, setLastMemberCode] = useState(null);
+    const [loading, setLoading] = useState(false);
+
     const [workplaces, setWorkplaces] = useState();
     const { register, handleSubmit, setValue, control, watch, formState: { errors } } = useForm({
         defaultValues: {
@@ -38,6 +41,23 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
             shareInitialPrice: '',
         }
     });
+    useEffect(() => {
+        const fetchLastMemberCode = async () => {
+            if (open) {  // Only fetch when modal is open
+                setLoading(true);
+                try {
+                    const response = await axiosInstance.get('/lastshareholder');
+                    setLastMemberCode(response.data.lastMembersCode);
+                } catch (error) {
+                    console.error('Error fetching last member code:', error);
+                } finally {
+                    setLoading(false);
+                }
+            }
+        };
+
+        fetchLastMemberCode();
+    }, [open]);
     const shareAmount = watch('shareAmount');
     useEffect(() => {
         // Set the adminId from userData if available
@@ -97,6 +117,52 @@ const AddShareholderModal = ({ open, setOpen, fetchData }) => {
                     width: '80rem',
                 }}
                     component="form" onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off">
+                    <Paper
+                        elevation={2}
+                        sx={{
+                            p: 1.5,
+                            backgroundColor: '#f5f5f5',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 2,
+                            minWidth: '200px'
+                        }}
+                    >
+                        <Box>
+                            <Typography
+                                variant="body2"
+                                color="primary"
+                                sx={{ fontWeight: 500 }}
+                            >
+                                {t('last_member_code')}:
+                            </Typography>
+                            <Typography
+                                variant="caption"
+                                color="textSecondary"
+                                display="block"
+                            >
+                                {t('next')}: {lastMemberCode ? Number(lastMemberCode) + 1 : '1'}
+                            </Typography>
+                        </Box>
+                        {loading ? (
+                            <Typography variant="body2" color="textSecondary">
+                                {t('loading')}...
+                            </Typography>
+                        ) : (
+                            <Typography
+                                variant="h6"
+                                sx={{
+                                    fontWeight: 'bold',
+                                    color: '#1976d2',
+                                    fontFamily: 'monospace',
+                                    minWidth: '60px',
+                                    textAlign: 'center'
+                                }}
+                            >
+                                {lastMemberCode || '0'}
+                            </Typography>
+                        )}
+                    </Paper>
                     <Grid container spacing={2}>
                         {/* Column 1 */}
                         <Grid item xs={12} sm={6} md={4}>

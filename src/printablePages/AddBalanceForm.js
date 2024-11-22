@@ -3,8 +3,13 @@ import logo from '../assets/logo1.png';
 
 const AddBalanceForm = React.forwardRef((props, ref) => {
     const { shareholder } = props;
-
     const year = new Date().getFullYear().toString();
+
+    // Calculate total amount
+    const shareAmount = shareholder?.share?.purchases?.[0]?.currentAmount || 0;
+    const savingsAmount = shareholder?.savings?.totalAmount || 0;
+    const totalAmount = shareAmount + savingsAmount;
+
     return (
         <div ref={ref} style={formStyles}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px', paddingBottom: 10, borderBottom: '1px solid black', direction: 'ltr' }}>
@@ -17,8 +22,7 @@ const AddBalanceForm = React.forwardRef((props, ref) => {
                     <img src={logo} alt='logo' style={{ height: '100px', width: '100px' }} />
                 </div>
                 <div style={{ flex: 1, textAlign: 'right' }}>
-                    {/* <h1 style={{ margin: '0' }}>الجمعية التعاونية للادخار</h1> */}
-                    <h1 style={{ margin: '0', textAlign: 'center' }}>الجمعية التعاونية لموظفي الحكومة الكويتيين (للادخار)</h1>
+                    <h1 style={{ margin: '0', textAlign: 'center' }}>الجمعية التعاونية لموظفي الحكومة الكويتيين (للادخار)</h1>
                 </div>
             </div>
             <h2 style={headingStyles}>طلب زيادة رصيد الأسهم – المدخرات</h2>
@@ -26,13 +30,13 @@ const AddBalanceForm = React.forwardRef((props, ref) => {
                 السيد الفاضل/ رئيس مجلس الإدارة المحترم<br />
                 تحية طيبة وبعد،،،<br />
                 أتقدم لسيادتكم حيث أنني عضو بالجمعية تحت رقم (&nbsp;
-                {shareholder?.membersCode ? shareholder.membersCode : '__________'}
+                {shareholder?.membersCode || '__________'}
                 &nbsp;) وأرغب في زيادة عدد الأسهم وإيداع مبلغ في حسابي بالمدخرات طرفكم وهي كالتالي:<br /><br />
-                1 - الأسهم بعدد 
-                &nbsp;{shareholder?.share?.[0]?.amount ? shareholder.share[0].amount : '__________'}&nbsp;
-                 سهم بمبلغ: &nbsp; {shareholder?.share?.[0]?.currentAmount ? shareholder.share[0].currentAmount : '__________'} &nbsp; دينار <br /><br />
-                2 - المدخرات بمبلغ: {shareholder?.savings?.totalAmount ? shareholder.savings.totalAmount : '__________'} دينار <br /><br />
-                الإجمالي: {shareholder?.share?.[0]?.currentAmount && shareholder?.savings?.currentAmount ? shareholder.share[0].currentAmount + shareholder.savings.totalAmount : '__________'} دينار <br /><br /><br />
+                1 - الأسهم بعدد
+                &nbsp;{shareholder?.share?.purchases?.[0]?.amount || '__________'}&nbsp;
+                سهم بمبلغ: &nbsp;{shareAmount || '__________'}&nbsp; دينار <br /><br />
+                2 - المدخرات بمبلغ: {savingsAmount || '__________'} دينار <br /><br />
+                الإجمالي: {totalAmount || '__________'} دينار <br /><br /><br />
                 لذا يرجى الموافقة على قبول المبلغ الموضح أعلاه وتزويدي بإيصال بالاستلام.<br />
                 وتفضلوا بقبول خالص التحية،،،
             </p>
@@ -58,36 +62,36 @@ const AddBalanceForm = React.forwardRef((props, ref) => {
             <table style={tableStyles}>
                 <thead>
                     <tr>
-                        <th>تفاصيل المبالغ المستحقة من واقع السجلات</th>
-                        <th>فلس</th>
-                        <th>دينار</th>
-                        <th>ملاحظات</th>
+                        <th style={{ border: '1px solid #ddd', padding: '8px' }}>تفاصيل المبالغ المستحقة من واقع السجلات</th>
+                        <th style={{ border: '1px solid #ddd', padding: '8px' }}>فلس</th>
+                        <th style={{ border: '1px solid #ddd', padding: '8px' }}>دينار</th>
+                        <th style={{ border: '1px solid #ddd', padding: '8px' }}>ملاحظات</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>ملاحظات</td>
-                        <td>__________</td>
-                        <td>__________</td>
-                        <td>__________</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>ملاحظات</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>__________</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>__________</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>__________</td>
                     </tr>
                     <tr>
-                        <td>رصيد الأسهم في 31/12/{year}</td>
-                        <td>__________</td>
-                        <td>{shareholder?.share?.[0]?.currentAmount ? shareholder.share[0].currentAmount : '__________'}</td>
-                        <td>__________</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>رصيد الأسهم في 31/12/{year}</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>__________</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>{shareAmount || '__________'}</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>__________</td>
                     </tr>
                     <tr>
-                        <td>رصيد الأسهم في 31/12/{year}</td>
-                        <td>__________</td>
-                        <td>{shareholder?.savings?.currentAmount ? shareholder.savings.currentAmount : '__________'}</td>
-                        <td>__________</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>رصيد المدخرات في 31/12/{year}</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>__________</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>{savingsAmount || '__________'}</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>__________</td>
                     </tr>
                     <tr>
-                        <td>أجمالي رصيد الأسهم والمدخرات</td>
-                        <td>__________</td>
-                        <td>__________</td>
-                        <td>__________</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>أجمالي رصيد الأسهم والمدخرات</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>__________</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>{totalAmount || '__________'}</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>__________</td>
                     </tr>
                 </tbody>
             </table>
@@ -112,19 +116,17 @@ const AddBalanceForm = React.forwardRef((props, ref) => {
             </div>
             <br />
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-
                 <p style={paragraphStyles}>
                     تم استلام المبلغ بسند قبض رقم (__________) بتاريخ ________/ نقدا<br />
-
                 </p>
-                <p className="">ئيس مجلس الإدارة
-                    __________</p>
+                <p>
+                    رئيس مجلس الإدارة
+                    __________
+                </p>
             </div>
-
         </div>
     );
 });
-
 
 const formStyles = {
     fontFamily: "Arial, sans-serif",
@@ -142,12 +144,13 @@ const headingStyles = {
 const paragraphStyles = {
     textAlign: "justify",
 };
+
 const tableStyles = {
     borderCollapse: "collapse",
     width: "100%",
     margin: "auto",
     marginTop: "20px",
-    border: "1px solid #ddd", // Add this line
+    border: "1px solid #ddd",
     textAlign: "right",
 };
 
@@ -167,6 +170,5 @@ const signaturesStyles = {
     justifyContent: "space-between",
     marginTop: "40px",
 };
-
 
 export default AddBalanceForm;

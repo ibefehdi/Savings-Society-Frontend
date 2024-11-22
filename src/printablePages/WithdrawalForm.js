@@ -4,6 +4,11 @@ import logo from '../assets/logo1.png';
 const WithdrawalForm = React.forwardRef((props, ref) => {
     const { shareholder } = props;
     const year = new Date().getFullYear().toString();
+
+    // Calculate total share amount
+    const totalShareAmount = shareholder?.share?.purchases?.reduce((total, purchase) =>
+        total + (purchase.currentAmount || 0), 0) || 0;
+
     return (
         <div ref={ref} style={formStyles}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px', paddingBottom: 10, borderBottom: '1px solid black', direction: 'ltr' }}>
@@ -16,8 +21,7 @@ const WithdrawalForm = React.forwardRef((props, ref) => {
                     <img src={logo} alt='logo' style={{ height: '100px', width: '100px' }} />
                 </div>
                 <div style={{ flex: 1, textAlign: 'right' }}>
-                    {/* <h1 style={{ margin: '0' }}>الجمعية التعاونية للادخار</h1> */}
-                    <h1 style={{ margin: '0', textAlign: 'center' }}>الجمعية التعاونية لموظفي الحكومة الكويتيين (للادخار)</h1>
+                    <h1 style={{ margin: '0', textAlign: 'center' }}>الجمعية التعاونية لموظفي الحكومة الكويتيين (للادخار)</h1>
                 </div>
             </div>
             <h2 style={headingStyles}>طلب صرف جزء من الاسهم</h2>
@@ -25,8 +29,8 @@ const WithdrawalForm = React.forwardRef((props, ref) => {
                 السيد الفاضل/ رئيس مجلس الإدارة المحترم<br />
                 تحية طيبة وبعد،،،<br />
                 يرجى التفضل بالموافقة على صرف عدد (&nbsp;
-                {shareholder?.share?.[0]?.amount ? shareholder.share[0].amount : '__________'}
-                &nbsp;) سهم بمبلغ {shareholder?.share?.[0]?.currentAmount ? shareholder.share[0].currentAmount : '__________'} دينار (فقط __________ لا غير) وذلك من رصيد الأسهم طبقاً للسجلات المحاسبية طرفكم حتى نهاية السنة المالية المنتهية في 31/12/{year}.<br /><br />
+                {shareholder?.share?.purchases?.[0]?.amount || '__________'}
+                &nbsp;) سهم بمبلغ {shareholder?.share?.purchases?.[0]?.currentAmount || '__________'} دينار (فقط __________ لا غير) وذلك من رصيد الأسهم طبقاً للسجلات المحاسبية طرفكم حتى نهاية السنة المالية المنتهية في 31/12/{year}.<br /><br />
                 مع تحويل صافي أرباحي السنوية لحساب المدخرات علماً بأنني اطلعت على حسابي طرفكم ووجدته صحيح.<br /><br />
                 وتفضلوا بقبول خالص التحية،،،
             </p>
@@ -40,7 +44,7 @@ const WithdrawalForm = React.forwardRef((props, ref) => {
                 <div>التاريخ: <br /><br /> ________</div>
                 <div>
                     اسم العضو:<br /><br />
-                    {shareholder?.fName ? <span style={{ fontWeight: "bold" }}>{shareholder.fName} </span> : '__________'}
+                    {shareholder?.fName ? <span style={{ fontWeight: "bold" }}>{shareholder.fName}</span> : '__________'}
                 </div>
                 <div>
                     توقيع موقع الطلب:<br /><br />
@@ -51,30 +55,30 @@ const WithdrawalForm = React.forwardRef((props, ref) => {
             <table style={tableStyles}>
                 <thead>
                     <tr>
-                        <th>تفاصيل المبالغ المستحقة من واقع السجلات</th>
-                        <th>فلس</th>
-                        <th>دينار</th>
-                        <th>ملاحظات</th>
+                        <th style={{ border: '1px solid #ddd', padding: '8px' }}>تفاصيل المبالغ المستحقة من واقع السجلات</th>
+                        <th style={{ border: '1px solid #ddd', padding: '8px' }}>فلس</th>
+                        <th style={{ border: '1px solid #ddd', padding: '8px' }}>دينار</th>
+                        <th style={{ border: '1px solid #ddd', padding: '8px' }}>ملاحظات</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>رقم العضوية {shareholder?.membersCode ? shareholder.membersCode : '__________'} تاريخ الانتساب: {shareholder?.joinDate ? new Date(shareholder.joinDate).toLocaleDateString() : '__/__/____'}</td>
-                        <td>__________</td>
-                        <td>__________</td>
-                        <td>__________</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>رقم العضوية {shareholder?.membersCode || '__________'} تاريخ الانتساب: {shareholder?.joinDate ? new Date(shareholder.joinDate).toLocaleDateString('ar-KW') : '__/__/____'}</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>__________</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>__________</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>__________</td>
                     </tr>
                     <tr>
-                        <td>رصيد الأسهم في 31/12/{year}</td>
-                        <td>__________</td>
-                        <td>{shareholder?.share?.[0]?.currentAmount ? shareholder.share[0].currentAmount : '__________'}</td>
-                        <td>__________</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>رصيد الأسهم في 31/12/{year}</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>__________</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>{shareholder?.share?.purchases?.[0]?.currentAmount || '__________'}</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>__________</td>
                     </tr>
                     <tr>
-                        <td>أجمالي</td>
-                        <td>__________</td>
-                        <td>{shareholder?.share ? shareholder.share.reduce((total, share) => total + (share.currentAmount || 0), 0) : '__________'}</td>
-                        <td>__________</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>أجمالي</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>__________</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>{totalShareAmount || '__________'}</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>__________</td>
                     </tr>
                 </tbody>
             </table>
@@ -93,6 +97,7 @@ const WithdrawalForm = React.forwardRef((props, ref) => {
         </div>
     );
 });
+
 const formStyles = {
     fontFamily: "Arial, sans-serif",
     direction: "rtl",
@@ -109,12 +114,13 @@ const headingStyles = {
 const paragraphStyles = {
     textAlign: "justify",
 };
+
 const tableStyles = {
     borderCollapse: "collapse",
     width: "100%",
     margin: "auto",
     marginTop: "20px",
-    border: "1px solid #ddd", // Add this line
+    border: "1px solid #ddd",
     textAlign: "right",
 };
 
@@ -135,4 +141,4 @@ const signaturesStyles = {
     marginTop: "40px",
 };
 
-export default WithdrawalForm
+export default WithdrawalForm;
