@@ -100,7 +100,7 @@ const TotalTransactionsPerFlat = () => {
 
     const downloadCSV = () => {
         const buildingQuery = selectedBuilding ? `?buildingId=${selectedBuilding}` : '';
-        axiosInstance.get(`/income-report-flat/export${buildingQuery}`, { responseType: 'blob' })
+        axiosInstance.get(`/income-report-flat/export/${selectedBuilding}`, { responseType: 'blob' })
             .then((response) => {
                 const blob = new Blob([response.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
                 saveAs(blob, "income_report_by_flat.xlsx");
