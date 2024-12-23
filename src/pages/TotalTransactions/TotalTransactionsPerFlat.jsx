@@ -183,7 +183,7 @@ const TotalTransactionsPerFlat = () => {
                             marginLeft: '1.2rem',
                         }}
                     >
-                        {t('income_report_per_flat')}
+                        {t('profit_report_per_flat')}
                     </Typography>
                     <Button
                         variant="contained"
