@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useFetch } from '../../hooks/useFetch';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography, IconButton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { prefixer } from 'stylis';
@@ -10,11 +10,19 @@ import { DataGrid } from '@mui/x-data-grid';
 import axiosInstance from '../../constants/axiosInstance';
 import BackButton from '../../components/BackButton';
 import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
-
+import DeleteIcon from '@mui/icons-material/Delete';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 const WithdrawalHistory = () => {
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, setPageSize] = useState(10);
     const { t, i18n } = useTranslation();
+    const [openDialog, setOpenDialog] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
+
     const [filters, setFilters] = useState({
         membersCode: '',
         fullName: '',
@@ -31,7 +39,26 @@ const WithdrawalHistory = () => {
         fetchData();
     }, [pageNo, pageSize]);
     const toggleFilters = () => setShowFilters(!showFilters);
+    const handleDelete = async (id) => {
+        try {
+            await axiosInstance.delete(`/withdrawalhistory/${id}`);
+            fetchData(); // Refresh the data after deletion
+            setOpenDialog(false);
+        } catch (error) {
+            console.error('Error deleting record:', error);
+            // Handle error (e.g., show error message to user)
+        }
+    };
 
+    const handleOpenDialog = (id) => {
+        setSelectedId(id);
+        setOpenDialog(true);
+    };
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+        setSelectedId(null);
+    };
     const columns = [
         {
             field: 'membersCode',
@@ -108,6 +135,20 @@ const WithdrawalHistory = () => {
                 const lName = params.row.admin?.lName;
                 return (fName && lName) ? `${fName} ${lName}`.trim() : 'N/A';
             }
+        },
+        {
+            field: 'actions',
+            headerName: t('actions'),
+            flex: 1,
+            renderCell: (params) => (
+                <IconButton
+                    onClick={() => handleOpenDialog(params.row._id)}
+                    color="error"
+                    size="small"
+                >
+                    <DeleteIcon />
+                </IconButton>
+            ),
         }
     ];
 
@@ -275,6 +316,27 @@ const WithdrawalHistory = () => {
                         },
                     }}
                 />
+                <Dialog
+                    open={openDialog}
+                    onClose={handleCloseDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        {t('confirm_delete')}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {t('delete_confirmation_message')}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleCloseDialog}>{t('cancel')}</Button>
+                        <Button onClick={() => handleDelete(selectedId)} color="error" autoFocus>
+                            {t('delete')}
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </Box>
         </CacheProvider>
 

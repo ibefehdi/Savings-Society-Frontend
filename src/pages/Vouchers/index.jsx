@@ -31,7 +31,19 @@ const Vouchers = () => {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedVoucherId, setSelectedVoucherId] = useState(null);
-
+  const [flats, setFlats] = useState([]);
+  const fetchFlats = async (buildingId) => {
+    if (!buildingId) {
+      setFlats([]);
+      return;
+    }
+    try {
+      const response = await axiosInstance.get(`/flatsbybuildingid/${buildingId}`);
+      setFlats(response?.data?.data || []);
+    } catch (error) {
+      console.error('Error fetching flats:', error);
+    }
+  };
   const handleOpenAddModal = () => setAddModalOpen(true);
   const handleCloseAddModal = () => {
     setAddModalOpen(false);
@@ -74,7 +86,7 @@ const Vouchers = () => {
     tenantName: '',
     civilId: '',
     contactNumber: '',
-    amount: ''
+    voucherNo: ''
   });
 
   const { data, fetchData, count } = useFetch('/vouchers', pageNo + 1, pageSize, filters);
@@ -243,7 +255,15 @@ const Vouchers = () => {
             variant="outlined"
             select
             value={filters.buildingId}
-            onChange={(e) => setFilters({ ...filters, buildingId: e.target.value })}
+            onChange={(e) => {
+              const newBuildingId = e.target.value;
+              setFilters({
+                ...filters,
+                buildingId: newBuildingId,
+                flatId: '' // Reset flat when building changes
+              });
+              fetchFlats(newBuildingId);
+            }}
             fullWidth
             autoComplete='off'
           >
@@ -254,11 +274,27 @@ const Vouchers = () => {
             ))}
           </TextField>
           <TextField
-            label={t('amount')}
+            label={t('flat')}
+            variant="outlined"
+            select
+            value={filters.flatId}
+            onChange={(e) => setFilters({ ...filters, flatId: e.target.value })}
+            fullWidth
+            disabled={!filters.buildingId}
+            autoComplete='off'
+          >
+            {flats.map((flat) => (
+              <MenuItem key={flat._id} value={flat._id}>
+                {flat.flatNumber}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            label={t('voucherNo')}
             variant="outlined"
 
-            value={filters.amount}
-            onChange={(e) => setFilters({ ...filters, amount: e.target.value })}
+            value={filters.voucherNo}
+            onChange={(e) => setFilters({ ...filters, voucherNo: e.target.value })}
             fullWidth
             autoComplete='off'
           ></TextField>
@@ -289,7 +325,7 @@ const Vouchers = () => {
           /> */}
         </Box>
       )}
-      <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto'   }}>
+      <Box sx={{ width: '90%', backgroundColor: '#FFF', margin: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }}>
         <Box sx={{ display: 'flex', alignContent: 'flex-end', justifyContent: 'space-between', marginBottom: '1rem', width: "100%", }}>
           <Typography variant="h3" component="h2" sx={{
             fontStyle: 'normal',
