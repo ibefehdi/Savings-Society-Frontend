@@ -45,6 +45,34 @@ const Tenants = () => {
         setEditingTenant(tenant);
         setEditModalOpen(true);
     };
+    const buttonSx = {
+        fontSize: '1.1rem',
+        fontWeight: 600
+    };
+
+    // Updated styles for text fields
+    const textFieldSx = {
+        '& .MuiInputLabel-root': {
+            fontSize: '1.1rem',
+            fontWeight: 500
+        },
+        '& .MuiInputBase-input': {
+            fontSize: '1.1rem',
+            fontWeight: 500
+        }
+    };
+
+    // Updated styles for select
+    const selectSx = {
+        '& .MuiSelect-select': {
+            fontSize: '1.1rem',
+            fontWeight: 500
+        },
+        '& .MuiMenuItem-root': {
+            fontSize: '1.1rem',
+            fontWeight: 500
+        }
+    };
     const handleEditSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -259,8 +287,14 @@ const Tenants = () => {
                 <Typography>{t('are_you_sure_delete_tenant')}</Typography>
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => setDeleteModalOpen(false)}>{t('cancel')}</Button>
-                <Button onClick={handleDeleteSubmit} variant="contained" color="error">{t('delete')}</Button>
+                <Button sx={{
+                    ...buttonSx,
+
+                }} onClick={() => setDeleteModalOpen(false)}>{t('cancel')}</Button>
+                <Button sx={{
+                    ...buttonSx,
+
+                }} onClick={handleDeleteSubmit} variant="contained" color="error">{t('delete')}</Button>
             </DialogActions>
         </Dialog>
     );
@@ -315,7 +349,10 @@ const Tenants = () => {
                             onChange={handleFileChange}
                         />
                         <label htmlFor="civilIdDocument">
-                            <Button variant="contained" component="span">
+                            <Button sx={{
+                                ...buttonSx,
+
+                            }} variant="contained" component="span">
                                 {t('civil_id_document')}
                             </Button>
                         </label>
@@ -332,8 +369,14 @@ const Tenants = () => {
                 </form>
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => setEditModalOpen(false)}>{t('cancel')}</Button>
-                <Button onClick={handleEditSubmit} variant="contained">{t('save')}</Button>
+                <Button sx={{
+                    ...buttonSx,
+
+                }} onClick={() => setEditModalOpen(false)}>{t('cancel')}</Button>
+                <Button sx={{
+                    ...buttonSx,
+
+                }} onClick={handleEditSubmit} variant="contained">{t('save')}</Button>
             </DialogActions>
         </Dialog>
     );
@@ -352,7 +395,7 @@ const Tenants = () => {
     };
     return (
         <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
-            <Button onClick={toggleFilters} variant="outlined" sx={{ backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
+            <Button onClick={toggleFilters} variant="outlined" sx={{ ...buttonSx, backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', overflowX: 'auto', marginRight: isRtl ? '2rem' : 0 }}>
                 <FilterListOutlinedIcon /> {t('filter')}
             </Button>
             {showFilters && (
@@ -400,12 +443,20 @@ const Tenants = () => {
                     <Button
                         variant="contained"
                         onClick={handleSearch}
+                        sx={{
+                            ...buttonSx,
+
+                        }}
                     >
                         {t('search')}
                     </Button>
                     <Button
                         variant="outlined"
                         onClick={handleClearFilters}
+                        sx={{
+                            ...buttonSx,
+
+                        }}
                     >
                         {t('clear_filters')}
                     </Button>
@@ -425,7 +476,10 @@ const Tenants = () => {
                     {/* <Button onClick={() => setOpen(true)} variant="contained">
                         {t('add')}
                     </Button> */}
-                    <Button variant='contained' onClick={() => { getCSV() }}>{t('export_xlsx')}</Button>
+                    <Button sx={{
+                        ...buttonSx,
+
+                    }} variant='contained' onClick={() => { getCSV() }}>{t('export_xlsx')}</Button>
 
                     <BackButton />
 

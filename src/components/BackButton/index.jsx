@@ -22,7 +22,10 @@ const BackButton = ({ onClick }) => {
             variant="outlined"
             startIcon={<ArrowBackIcon />}
             onClick={handleBack}
-            sx={{ marginLeft: 2, marginRight: 2 }}
+            sx={{
+                fontSize: '1.3rem',
+                fontWeight: 800, marginLeft: 2, marginRight: 2
+            }}
         >
             {t('back')}
         </Button>

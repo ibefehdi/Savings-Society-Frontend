@@ -81,7 +81,7 @@ const FinancialReporting = () => {
             flex: 1,
             renderCell: (params) => {
                 return params.row.shareDetails
-                    ? params.row.shareDetails?.shareIncrease.toFixed(3)
+                    ? params.row.shareDetails?.shareIncrease?.toFixed(3)
                     : 'N/A';
             },
         },
@@ -111,7 +111,7 @@ const FinancialReporting = () => {
                 const shareIncrease = params.row.totalShareIncrease || 0;
                 const savingsIncrease = params.row.savingsIncrease || 0;
                 const total = shareIncrease + savingsIncrease;
-                return total !== 0 ? total : 'N/A';
+                return total !== 0 ? total.toFixed(3) : 'N/A';
             },
         },
         // {
