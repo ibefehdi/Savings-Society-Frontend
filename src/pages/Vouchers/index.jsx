@@ -48,7 +48,8 @@ const Vouchers = () => {
   const handleCloseAddModal = () => {
     setAddModalOpen(false);
     setEditingVoucher(null);
-  }; const handleOpen = () => setModalOpen(true);
+  };
+  const handleOpen = () => setModalOpen(true);
   const handleClose = () => setModalOpen(false);
 
   const handlePayVoucher = (voucherId) => {
@@ -81,12 +82,21 @@ const Vouchers = () => {
     setDeleteModalOpen(false);
   };
 
+  // Updated filters state with new filter fields
   const [filters, setFilters] = useState({
     buildingId: '',
+    flatId: '',
     tenantName: '',
     civilId: '',
     contactNumber: '',
-    voucherNo: ''
+    voucherNo: '',
+    amountMin: '',
+    amountMax: '',
+    status: '',
+    pendingDateFrom: '',
+    pendingDateTo: '',
+    paidDateFrom: '',
+    paidDateTo: ''
   });
 
   const { data, fetchData, count } = useFetch('/vouchers', pageNo + 1, pageSize, filters);
@@ -249,7 +259,8 @@ const Vouchers = () => {
         <FilterListOutlinedIcon /> {t('filter')}
       </Button>
       {showFilters && (
-        <Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', marginRight: isRtl ? "2rem" : 0 }}>
+        <Box sx={{ width: '90%', display: 'flex', gap: '1rem', backgroundColor: '#FFF', marginLeft: '2rem', marginTop: '2rem', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto', marginRight: isRtl ? "2rem" : 0, flexWrap: 'wrap' }}>
+          {/* Existing filters */}
           <TextField
             label={t('building')}
             variant="outlined"
@@ -292,17 +303,100 @@ const Vouchers = () => {
           <TextField
             label={t('voucherNo')}
             variant="outlined"
-
             value={filters.voucherNo}
             onChange={(e) => setFilters({ ...filters, voucherNo: e.target.value })}
             fullWidth
             autoComplete='off'
-          ></TextField>
+          />
+
+          {/* New filters for amount, status, pending date, and paid date */}
+          <TextField
+            label={t('amountMin')}
+            variant="outlined"
+            type="number"
+            value={filters.amountMin}
+            onChange={(e) => setFilters({ ...filters, amountMin: e.target.value })}
+            fullWidth
+            autoComplete='off'
+          />
+          <TextField
+            label={t('amountMax')}
+            variant="outlined"
+            type="number"
+            value={filters.amountMax}
+            onChange={(e) => setFilters({ ...filters, amountMax: e.target.value })}
+            fullWidth
+            autoComplete='off'
+          />
+          <TextField
+            label={t('status')}
+            variant="outlined"
+            select
+            value={filters.status}
+            onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+            fullWidth
+            autoComplete='off'
+          >
+            <MenuItem value="">
+              <em>{t('all')}</em>
+            </MenuItem>
+            <MenuItem value="Pending">{t('pending')}</MenuItem>
+            <MenuItem value="Paid">{t('paid')}</MenuItem>
+          </TextField>
+          <TextField
+            label={t('pendingDateFrom')}
+            variant="outlined"
+            type="date"
+            value={filters.pendingDateFrom}
+            onChange={(e) => setFilters({ ...filters, pendingDateFrom: e.target.value })}
+            fullWidth
+            InputLabelProps={{
+              shrink: true,
+            }}
+            autoComplete='off'
+          />
+          <TextField
+            label={t('pendingDateTo')}
+            variant="outlined"
+            type="date"
+            value={filters.pendingDateTo}
+            onChange={(e) => setFilters({ ...filters, pendingDateTo: e.target.value })}
+            fullWidth
+            InputLabelProps={{
+              shrink: true,
+            }}
+            autoComplete='off'
+          />
+          <TextField
+            label={t('paidDateFrom')}
+            variant="outlined"
+            type="date"
+            value={filters.paidDateFrom}
+            onChange={(e) => setFilters({ ...filters, paidDateFrom: e.target.value })}
+            fullWidth
+            InputLabelProps={{
+              shrink: true,
+            }}
+            autoComplete='off'
+          />
+          <TextField
+            label={t('paidDateTo')}
+            variant="outlined"
+            type="date"
+            value={filters.paidDateTo}
+            onChange={(e) => setFilters({ ...filters, paidDateTo: e.target.value })}
+            fullWidth
+            InputLabelProps={{
+              shrink: true,
+            }}
+            autoComplete='off'
+          />
+
+          {/* These were commented out in the original code */}
           {/* <TextField
             label={t('tenant_name')}
             variant="outlined"
             value={filters.tenantName}
-
             onChange={(e) => setFilters({ ...filters, tenantName: e.target.value })}
             fullWidth
             autoComplete='off'
