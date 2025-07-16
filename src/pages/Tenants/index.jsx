@@ -381,8 +381,15 @@ const Tenants = () => {
         </Dialog>
     );
     const getCSV = () => {
-        const filterParams = new URLSearchParams().toString();
-        const queryString = `activetenants/export/?${filterParams}`;
+        const filterParams = new URLSearchParams();
+        
+        // Add all current filter parameters to the export request
+        if (searchCivilId) filterParams.append('searchCivilId', searchCivilId);
+        if (searchName) filterParams.append('searchName', searchName);
+        if (searchContactNumber) filterParams.append('searchContactNumber', searchContactNumber);
+        if (selectedBuilding) filterParams.append('buildingId', selectedBuilding);
+        
+        const queryString = `activetenants/export/?${filterParams.toString()}`;
         axiosInstance.get(queryString, { responseType: 'blob' })
             .then((response) => {
                 const blob = new Blob([response.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
