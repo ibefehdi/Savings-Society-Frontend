@@ -24,6 +24,34 @@ import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Link } from '@mui/material';
 import BackButton from '../../components/BackButton';
 import { useFetchTenant } from '../../hooks/useFetchTenant';
+
+// Helper function to construct proper document URL
+const getDocumentUrl = (documentPath) => {
+    if (!documentPath) return null;
+    
+    // If it's already a full URL, extract the path and use the API base URL
+    try {
+        const url = new URL(documentPath);
+        // Extract the path starting from /uploads
+        const uploadsIndex = url.pathname.indexOf('/uploads');
+        if (uploadsIndex !== -1) {
+            const relativePath = url.pathname.substring(uploadsIndex);
+            const apiBaseUrl = process.env.REACT_APP_DEVELOPMENT_ENVIRONMENT_API_URL || '';
+            // Remove /api/v1 from base URL if present and append the uploads path
+            const baseUrl = apiBaseUrl.replace(/\/api\/v1\/?$/, '');
+            return `${baseUrl}${relativePath}`;
+        }
+        return documentPath;
+    } catch (e) {
+        // If it's not a valid URL, treat it as a relative path
+        if (documentPath.startsWith('/uploads')) {
+            const apiBaseUrl = process.env.REACT_APP_DEVELOPMENT_ENVIRONMENT_API_URL || '';
+            const baseUrl = apiBaseUrl.replace(/\/api\/v1\/?$/, '');
+            return `${baseUrl}${documentPath}`;
+        }
+        return documentPath;
+    }
+};
 const Tenants = () => {
     const [pageNo, setPageNo] = useState(0)
     const [pageSize, setPageSize] = useState(10)
@@ -361,7 +389,7 @@ const Tenants = () => {
                     {editingTenant?.civilIdDocument?.path && (
                         <Box sx={{ mt: 1 }}>
                             <Typography variant="body2">{t('current_document')}:</Typography>
-                            <Link href={editingTenant.civilIdDocument.path} target="_blank" rel="noopener noreferrer">
+                            <Link href={getDocumentUrl(editingTenant.civilIdDocument.path)} target="_blank" rel="noopener noreferrer">
                                 {t('view_current_document')}
                             </Link>
                         </Box>

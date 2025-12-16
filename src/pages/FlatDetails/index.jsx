@@ -11,6 +11,34 @@ import moment from 'moment';
 import { DataGrid } from '@mui/x-data-grid';
 import { saveAs } from 'file-saver';
 
+// Helper function to construct proper document URL
+const getDocumentUrl = (documentPath) => {
+    if (!documentPath) return null;
+    
+    // If it's already a full URL, extract the path and use the API base URL
+    try {
+        const url = new URL(documentPath);
+        // Extract the path starting from /uploads
+        const uploadsIndex = url.pathname.indexOf('/uploads');
+        if (uploadsIndex !== -1) {
+            const relativePath = url.pathname.substring(uploadsIndex);
+            const apiBaseUrl = process.env.REACT_APP_DEVELOPMENT_ENVIRONMENT_API_URL || '';
+            // Remove /api/v1 from base URL if present and append the uploads path
+            const baseUrl = apiBaseUrl.replace(/\/api\/v1\/?$/, '');
+            return `${baseUrl}${relativePath}`;
+        }
+        return documentPath;
+    } catch (e) {
+        // If it's not a valid URL, treat it as a relative path
+        if (documentPath.startsWith('/uploads')) {
+            const apiBaseUrl = process.env.REACT_APP_DEVELOPMENT_ENVIRONMENT_API_URL || '';
+            const baseUrl = apiBaseUrl.replace(/\/api\/v1\/?$/, '');
+            return `${baseUrl}${documentPath}`;
+        }
+        return documentPath;
+    }
+};
+
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -196,7 +224,10 @@ const FlatDetails = () => {
         </TableRow>
     );
     const DocumentRow = ({ label, document }) => {
-        if (!document) return null;
+        if (!document || !document.path) return null;
+
+        const documentUrl = getDocumentUrl(document.path);
+        if (!documentUrl) return null;
 
         return (
             <TableRow>
@@ -204,10 +235,9 @@ const FlatDetails = () => {
                     {label}
                 </TableCell>
                 <TableCell>
-                    <Link href={document.path} target="_blank" rel="noopener noreferrer">
+                    <Link href={documentUrl} target="_blank" rel="noopener noreferrer">
                         {t('view')}
                     </Link>
-
                 </TableCell>
             </TableRow>
         );

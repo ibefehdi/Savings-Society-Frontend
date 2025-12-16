@@ -22,6 +22,34 @@ import BackButton from '../../components/BackButton';
 import axiosInstance from '../../constants/axiosInstance';
 import { saveAs } from 'file-saver';
 
+// Helper function to construct proper document URL
+const getDocumentUrl = (documentPath) => {
+    if (!documentPath) return null;
+    
+    // If it's already a full URL, extract the path and use the API base URL
+    try {
+        const url = new URL(documentPath);
+        // Extract the path starting from /uploads
+        const uploadsIndex = url.pathname.indexOf('/uploads');
+        if (uploadsIndex !== -1) {
+            const relativePath = url.pathname.substring(uploadsIndex);
+            const apiBaseUrl = process.env.REACT_APP_DEVELOPMENT_ENVIRONMENT_API_URL || '';
+            // Remove /api/v1 from base URL if present and append the uploads path
+            const baseUrl = apiBaseUrl.replace(/\/api\/v1\/?$/, '');
+            return `${baseUrl}${relativePath}`;
+        }
+        return documentPath;
+    } catch (e) {
+        // If it's not a valid URL, treat it as a relative path
+        if (documentPath.startsWith('/uploads')) {
+            const apiBaseUrl = process.env.REACT_APP_DEVELOPMENT_ENVIRONMENT_API_URL || '';
+            const baseUrl = apiBaseUrl.replace(/\/api\/v1\/?$/, '');
+            return `${baseUrl}${documentPath}`;
+        }
+        return documentPath;
+    }
+};
+
 const Contracts = () => {
     const cacheRtl = createCache({
         key: 'muirtl',
@@ -315,7 +343,7 @@ const Contracts = () => {
                             <Box sx={{ mt: 2 }}>
                                 {selectedContract.contractDocument.fileType === 'pdf' ? (
                                     <iframe
-                                        src={selectedContract.contractDocument.path}
+                                        src={getDocumentUrl(selectedContract.contractDocument.path)}
                                         width="100%"
                                         height="500px"
                                         style={{ border: 'none' }}
@@ -326,7 +354,7 @@ const Contracts = () => {
 
                                 ) : (
                                     <img
-                                        src={selectedContract.contractDocument.path}
+                                        src={getDocumentUrl(selectedContract.contractDocument.path)}
                                         alt="Contract Document"
                                         style={{ maxWidth: '100%', maxHeight: '500px' }}
                                     />
